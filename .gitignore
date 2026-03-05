@@ -22,3 +22,7 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# Docker secrets (never commit)
+secrets/
+*.secret

@@ -1,0 +1,115 @@
+services:
+  traefik:
+    image: traefik:v3.1
+    container_name: finis-traefik-local
+    restart: unless-stopped
+    command:
+      - --api.dashboard=true
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --entrypoints.web.address=:80
+      - --log.level=INFO
+    ports:
+      - "8088:80"
+      - "8090:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - traefik
+
+  web:
+    image: node:22-alpine
+    container_name: finis-web-local
+    working_dir: /app
+    volumes:
+      - ./:/app
+      - finis_node_modules:/app/node_modules
+      - finis_astro_cache:/app/.astro
+    env_file:
+      - .env.local
+    command: sh -lc "npm install && npm run dev -- --host 0.0.0.0 --port 4321"
+    networks:
+      - traefik
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.finis-web.rule=PathPrefix(`/`)
+      - traefik.http.routers.finis-web.entrypoints=web
+      - traefik.http.routers.finis-web.priority=1
+      - traefik.http.services.finis-web.loadbalancer.server.port=4321
+
+  enquiry:
+    build:
+      context: ./services/enquiry
+      dockerfile: Dockerfile
+    image: finis-enquiry:local
+    container_name: finis-enquiry-local
+    restart: unless-stopped
+    env_file:
+      - .env.local
+    environment:
+      SMTP_USER_FILE: /run/secrets/finis_smtp_user
+      SMTP_PASS_FILE: /run/secrets/finis_smtp_pass
+      INTERNAL_ENQUIRY_SECRET_FILE: /run/secrets/finis_internal_enquiry_secret
+    secrets:
+      - source: finis_smtp_user
+        target: finis_smtp_user
+        mode: 0444
+      - source: finis_smtp_pass
+        target: finis_smtp_pass
+        mode: 0444
+      - source: finis_internal_enquiry_secret
+        target: finis_internal_enquiry_secret
+        mode: 0444
+    networks:
+      - internal
+
+  enquiry-proxy:
+    build:
+      context: ./services/enquiry-proxy
+      dockerfile: Dockerfile
+    image: finis-enquiry-proxy:local
+    container_name: finis-enquiry-proxy-local
+    restart: unless-stopped
+    depends_on:
+      - enquiry
+    env_file:
+      - .env.local
+    environment:
+      TURNSTILE_SECRET_FILE: /run/secrets/finis_turnstile_secret
+      INTERNAL_ENQUIRY_SECRET_FILE: /run/secrets/finis_internal_enquiry_secret
+    secrets:
+      - source: finis_turnstile_secret
+        target: finis_turnstile_secret
+        mode: 0444
+      - source: finis_internal_enquiry_secret
+        target: finis_internal_enquiry_secret
+        mode: 0444
+    networks:
+      - traefik
+      - internal
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.finis-enquiry.rule=Path(`/api/enquiry`)
+      - traefik.http.routers.finis-enquiry.entrypoints=web
+      - traefik.http.routers.finis-enquiry.priority=100
+      - traefik.http.services.finis-enquiry.loadbalancer.server.port=8080
+
+networks:
+  traefik:
+    name: finis-traefik-local
+  internal:
+    name: finis-internal-local
+
+volumes:
+  finis_node_modules:
+  finis_astro_cache:
+
+secrets:
+  finis_turnstile_secret:
+    file: ./secrets/turnstile_secret.txt
+  finis_smtp_user:
+    file: ./secrets/smtp_user.txt
+  finis_smtp_pass:
+    file: ./secrets/smtp_pass.txt
+  finis_internal_enquiry_secret:
+    file: ./secrets/internal_enquiry_secret.txt

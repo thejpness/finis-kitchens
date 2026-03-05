@@ -2,6 +2,8 @@
 // src/pages/contact.astro
 import PageLayout from "../layouts/PageLayout.astro";
 import WhatsAppButton from "../components/WhatsAppButton.astro";
+
+const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
 ---
 
 <PageLayout
@@ -33,7 +35,8 @@ import WhatsAppButton from "../components/WhatsAppButton.astro";
           </header>
 
           <div class="panel contact-panel">
-            <div class="grid grid--2 contact-cards">
+            <!-- Stack cards to avoid overflow in the left column -->
+            <div class="contact-cards stack stack--loose">
               <div class="card card--surface contact-card">
                 <h3>Call or email</h3>
                 <p class="muted contact-card__links">
@@ -96,8 +99,12 @@ import WhatsAppButton from "../components/WhatsAppButton.astro";
               </p>
             </header>
 
-            <form name="contact" method="POST" data-netlify="true">
-              <input type="hidden" name="form-name" value="contact" />
+            <form id="enquiryForm" class="stack stack--tight" novalidate>
+              <!-- Honeypot: bots will fill this, humans won't see it -->
+              <div class="hp" aria-hidden="true">
+                <label for="company">Company</label>
+                <input type="text" id="company" name="company" tabindex="-1" autocomplete="off" />
+              </div>
 
               <div class="form-row">
                 <div class="form-group">
@@ -118,24 +125,66 @@ import WhatsAppButton from "../components/WhatsAppButton.astro";
               </div>
 
               <div class="form-group">
-                <label for="project">Tell us about your project</label>
+                <label for="message">Tell us about your project</label>
                 <textarea
-                  id="project"
-                  name="project"
+                  id="message"
+                  name="message"
                   rows="6"
                   required
                   placeholder="Where are you based? What style do you like? Any must-haves or challenges?"
                 ></textarea>
               </div>
 
-              <button type="submit" class="btn btn--primary btn--large form-submit">
+              <div class="form-group form-consent">
+                <label class="check">
+                  <input type="checkbox" id="consent" name="consent" />
+                  <span>
+                    You can contact me about this enquiry.
+                    <span class="faint">No spam. Just kitchen stuff.</span>
+                  </span>
+                </label>
+              </div>
+
+              <!-- Turnstile -->
+              <div class="form-group">
+                <div
+                  class="cf-turnstile"
+                  data-sitekey={TURNSTILE_SITE_KEY}
+                  data-callback="finisTurnstileOk"
+                  data-expired-callback="finisTurnstileExpired"
+                  data-error-callback="finisTurnstileError"
+                ></div>
+
+                <!-- We store token here and send it as captchaToken -->
+                <input type="hidden" id="captchaToken" name="captchaToken" value="" />
+                <p class="faint turnstile-help" id="turnstileHelp" role="status" aria-live="polite"></p>
+              </div>
+
+              <button type="submit" class="btn btn--primary btn--large form-submit" id="submitBtn">
                 Send message
               </button>
 
+              <div class="form-status" id="formStatus" role="status" aria-live="polite"></div>
+
               <p class="faint contact-form__fineprint">
                 Prefer WhatsApp?
-                <a class="link" href="https://wa.me/447581390107?text=Hi!%20I%E2%80%99d%20like%20to%20chat%20about%20a%20kitchen%20project.">Message us</a>.
+                <a
+                  class="link"
+                  href="https://wa.me/447581390107?text=Hi!%20I%E2%80%99d%20like%20to%20chat%20about%20a%20kitchen%20project."
+                  target="_blank"
+                  rel="noopener"
+                >
+                  Message us
+                </a>.
               </p>
+
+              <noscript>
+                <p class="faint">
+                  This form needs JavaScript enabled to send securely. If you prefer, email
+                  <a class="link" href="mailto:oli.wyatt@thefinigroup.co.uk">oli.wyatt@thefinigroup.co.uk</a>
+                  or use WhatsApp above.
+                </p>
+              </noscript>
             </form>
           </div>
         </div>
@@ -180,6 +229,135 @@ import WhatsAppButton from "../components/WhatsAppButton.astro";
   </section>
 </PageLayout>
 
+<!-- Turnstile loader -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+<script is:inline>
+  // Cloudflare Turnstile callbacks (must be global)
+  window.finisTurnstileOk = (token) => {
+    const input = document.getElementById("captchaToken");
+    const help = document.getElementById("turnstileHelp");
+    if (input) input.value = token || "";
+    if (help) help.textContent = "";
+  };
+
+  window.finisTurnstileExpired = () => {
+    const input = document.getElementById("captchaToken");
+    const help = document.getElementById("turnstileHelp");
+    if (input) input.value = "";
+    if (help) help.textContent = "Security check expired — please try again.";
+  };
+
+  window.finisTurnstileError = () => {
+    const input = document.getElementById("captchaToken");
+    const help = document.getElementById("turnstileHelp");
+    if (input) input.value = "";
+    if (help) help.textContent = "Security check failed to load. Please refresh and try again.";
+  };
+
+  const $ = (id) => document.getElementById(id);
+
+  const setStatus = (msg, type = "info") => {
+    const el = $("formStatus");
+    if (!el) return;
+    el.className = `form-status form-status--${type}`;
+    el.textContent = msg || "";
+  };
+
+  const setBusy = (busy) => {
+    const btn = $("submitBtn");
+    if (!btn) return;
+    btn.disabled = !!busy;
+    btn.setAttribute("aria-busy", busy ? "true" : "false");
+    btn.textContent = busy ? "Sending…" : "Send message";
+  };
+
+  const getUTMSource = () => {
+    try {
+      const url = new URL(window.location.href);
+      return (
+        url.searchParams.get("utm_source") ||
+        url.searchParams.get("utm_medium") ||
+        url.searchParams.get("utm_campaign") ||
+        ""
+      );
+    } catch {
+      return "";
+    }
+  };
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const form = $("enquiryForm");
+    if (!form) return;
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      setStatus("");
+
+      const name = (form.querySelector("#name")?.value || "").trim();
+      const email = (form.querySelector("#email")?.value || "").trim();
+      const phone = (form.querySelector("#phone")?.value || "").trim();
+      const message = (form.querySelector("#message")?.value || "").trim();
+      const company = (form.querySelector("#company")?.value || "").trim(); // honeypot
+      const consent = !!form.querySelector("#consent")?.checked;
+      const captchaToken = (form.querySelector("#captchaToken")?.value || "").trim();
+
+      // Basic client-side checks (server remains source-of-truth)
+      if (!name || name.length < 2) return setStatus("Please enter your name.", "error");
+      if (!email || !email.includes("@")) return setStatus("Please enter a valid email.", "error");
+      if (!message || message.length < 10) return setStatus("Please add a little more detail.", "error");
+      if (!captchaToken) return setStatus("Please complete the security check.", "error");
+
+      const payload = {
+        name,
+        email,
+        phone: phone || undefined,
+        message,
+        page: window.location.href,
+        source: getUTMSource(),
+        consent,
+        company, // honeypot; empty for humans
+        captchaToken,
+        channel: "marketing",
+      };
+
+      setBusy(true);
+
+      try {
+        const res = await fetch("/api/enquiry", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        const data = await res.json().catch(() => ({}));
+
+        if (!res.ok) {
+          const msg = data?.error || "Something went wrong. Please try again.";
+          setStatus(msg, "error");
+          // Reset token so a fresh one is used next submit
+          $("captchaToken").value = "";
+          if (window.turnstile && typeof window.turnstile.reset === "function") {
+            try { window.turnstile.reset(); } catch {}
+          }
+          return;
+        }
+
+        setStatus("Thanks — message sent. We’ll be in touch shortly.", "success");
+        form.reset();
+        $("captchaToken").value = "";
+        if (window.turnstile && typeof window.turnstile.reset === "function") {
+          try { window.turnstile.reset(); } catch {}
+        }
+      } catch (err) {
+        setStatus("Network issue — please try again in a moment.", "error");
+      } finally {
+        setBusy(false);
+      }
+    });
+  });
+</script>
+
 <style>
   /* Three-column layout (desktop), then 2-col, then 1-col */
   .contact-layout {
@@ -194,7 +372,7 @@ import WhatsAppButton from "../components/WhatsAppButton.astro";
   .contact-form-wrap { grid-area: form; }
   .next-steps { grid-area: steps; }
 
-  /* Better top rhythm (PageLayout hero is now tight, this is the main spacing) */
+  /* Better top rhythm */
   .contact-head__title {
     font-size: clamp(1.35rem, 1.2vw + 1.1rem, 1.9rem);
     line-height: 1.15;
@@ -213,8 +391,8 @@ import WhatsAppButton from "../components/WhatsAppButton.astro";
     padding: var(--space-7);
   }
 
+  /* Stack the left-side cards to avoid overflow in narrow left column */
   .contact-cards { gap: var(--space-6); }
-
   .contact-card h3 { margin: 0 0 var(--space-2); }
 
   .contact-card__actions {
@@ -292,6 +470,44 @@ import WhatsAppButton from "../components/WhatsAppButton.astro";
   .form-submit { width: 100%; margin-top: var(--space-7); }
 
   .contact-form__fineprint { margin-top: var(--space-4); font-size: 0.9rem; }
+
+  .form-consent .check {
+    display: flex;
+    gap: var(--space-3);
+    align-items: flex-start;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .form-consent input[type="checkbox"] {
+    margin-top: .2rem;
+    width: 1.05rem;
+    height: 1.05rem;
+    accent-color: var(--c-accent);
+  }
+
+  .turnstile-help { margin-top: var(--space-2); }
+
+  .form-status {
+    margin-top: var(--space-4);
+    padding: .85rem 1rem;
+    border-radius: var(--radius-m);
+    border: var(--border-1) solid var(--c-border-strong);
+    background: color-mix(in srgb, var(--c-surface) 86%, var(--c-border) 14%);
+  }
+  .form-status:empty { display: none; }
+  .form-status--success { border-color: color-mix(in srgb, var(--c-accent) 45%, var(--c-border-strong)); }
+  .form-status--error { border-color: color-mix(in srgb, #d44 45%, var(--c-border-strong)); }
+
+  /* Honeypot: visually hidden but still in DOM */
+  .hp {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
 
   /* Next steps */
   .next-steps { padding: var(--space-7); }
