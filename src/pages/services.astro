@@ -1,0 +1,377 @@
+---
+// src/pages/services.astro
+import PageLayout from "../layouts/PageLayout.astro";
+import WhatsAppButton from "../components/WhatsAppButton.astro";
+---
+
+<PageLayout
+  title="Kitchen services"
+  metaTitle="Kitchen services | Fini's Kitchens"
+  description="Full-service kitchen design, supply and installation. A calm, coordinated process from concept to completion."
+  eyebrow="Our services"
+  heroSize="tight"
+>
+  <!-- Intro + service cards -->
+  <section class="section section--tight">
+    <div class="container stack stack--loose">
+      <header class="services-head">
+        <div class="services-head__copy stack stack--tight">
+          <h2 class="services-head__title">Everything you need. Calmly handled.</h2>
+          <p class="muted text-measure">
+            We take care of design, supply, installation and the moving parts in between - so you get a beautiful,
+            practical kitchen without the stress.
+          </p>
+
+          <div class="services-head__cta">
+            <a href="/contact" class="btn btn--primary btn--large">Book a consultation</a>
+            <WhatsAppButton class="btn btn--accent btn--large" label="WhatsApp us" />
+          </div>
+
+          <div class="services-head__badges" aria-label="Key highlights">
+            <span class="badge">Design • Supply • Install</span>
+            <span class="badge">Single point of contact</span>
+            <span class="badge badge--quiet">Typical timeline ~3 months</span>
+          </div>
+        </div>
+
+        <div class="panel services-head__panel">
+          <h3 class="services-head__panel-title">What you can expect</h3>
+          <ul class="services-points">
+            <li><strong>Clear steps</strong> - you’ll always know what’s next.</li>
+            <li><strong>Real-life layouts</strong> - storage and flow designed around your home.</li>
+            <li><strong>Honest spec</strong> - transparent decisions, no fluff.</li>
+            <li><strong>Clean finish</strong> - quality checks and tidy handover.</li>
+          </ul>
+        </div>
+      </header>
+
+      <div class="grid grid--2 services-grid">
+        <article class="card card--surface service">
+          <div class="service__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
+              <path d="M4 20h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M7 17l10-10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M9 7l8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M7.5 6.5 6 8l2 2 1.5-1.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3>Kitchen design</h3>
+          <p class="muted">
+            A layout that fits your space and your routine - cooking, kids, hosting, the lot. We refine until it feels
+            obvious and right.
+          </p>
+          <ul class="service__features">
+            <li>Measured survey and brief</li>
+            <li>3D visuals and options</li>
+            <li>Refinements as needed</li>
+          </ul>
+        </article>
+
+        <article class="card card--surface service">
+          <div class="service__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
+              <path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1v-9.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3>Supply & installation</h3>
+          <p class="muted">
+            From prep to final fit, we keep the project moving smoothly. Clear spec, tidy execution, and a finish that
+            feels built-in - not “bolted on”.
+          </p>
+          <ul class="service__features">
+            <li>Clear spec & pricing</li>
+            <li>Installation coordination</li>
+            <li>Careful finishing touches</li>
+          </ul>
+        </article>
+
+        <article class="card card--surface service">
+          <div class="service__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
+              <path d="M12 3v3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M12 18v3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M4.5 7.5l2.1 2.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M17.4 14.4l2.1 2.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M3 12h3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M18 12h3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M4.5 16.5l2.1-2.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M17.4 9.6l2.1-2.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M12 8.2a3.8 3.8 0 1 0 0 7.6 3.8 3.8 0 0 0 0-7.6Z" stroke="currentColor" stroke-width="1.8"/>
+            </svg>
+          </div>
+          <h3>Project management</h3>
+          <p class="muted">
+            We coordinate the trades and timing - appliances, electrics, plumbing, building work - so you don’t have to
+            chase anyone.
+          </p>
+          <ul class="service__features">
+            <li>Trade coordination</li>
+            <li>Appliance integration</li>
+            <li>Quality checks throughout</li>
+          </ul>
+        </article>
+
+        <article class="card card--surface service">
+          <div class="service__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
+              <path d="M20 12a8 8 0 1 1-4-6.9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="m20 6-8.5 8.5L8 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3>Aftercare</h3>
+          <p class="muted">
+            Once it’s installed, we’re still here. Any snags are handled quickly, and you’ll know exactly what’s covered.
+          </p>
+          <ul class="service__features">
+            <li>Snagging support</li>
+            <li>Installation warranty</li>
+            <li>Supplier warranties</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Process strip -->
+  <section class="section section--tight">
+    <div class="container">
+      <div class="panel process">
+        <header class="process__head">
+          <h2 class="process__title">A simple process</h2>
+          <p class="muted text-measure">
+            A calm, structured approach that keeps the project predictable.
+          </p>
+        </header>
+
+        <ol class="process__steps">
+          <li class="process-step">
+            <p class="eyebrow">Step 1</p>
+            <h3>Survey & brief</h3>
+            <p class="muted">We measure, listen, and agree what “great” looks like for your home.</p>
+          </li>
+          <li class="process-step">
+            <p class="eyebrow">Step 2</p>
+            <h3>Design & refine</h3>
+            <p class="muted">Layout, storage, finishes - we iterate until it feels right.</p>
+          </li>
+          <li class="process-step">
+            <p class="eyebrow">Step 3</p>
+            <h3>Deliver & install</h3>
+            <p class="muted">We coordinate the moving parts and complete the installation cleanly.</p>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section section--tight">
+    <div class="container">
+      <div class="panel services-cta">
+        <div class="stack stack--tight">
+          <h2>Ready to start?</h2>
+          <p class="muted">Share a few details and we’ll arrange your free design consultation.</p>
+        </div>
+        <div class="services-cta__actions">
+          <a href="/contact" class="btn btn--primary btn--large">Get started</a>
+          <WhatsAppButton class="btn btn--accent btn--large" label="WhatsApp us" />
+        </div>
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  /* Head layout */
+  .services-head {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: var(--space-7);
+    align-items: start;
+  }
+
+  .services-head__title {
+    font-size: clamp(1.6rem, 1.6vw + 1.1rem, 2.3rem);
+    line-height: 1.12;
+    margin: 0;
+  }
+
+  .services-head__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-2);
+  }
+
+  .services-head__badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+  }
+
+  .services-head__panel {
+    padding: var(--space-7);
+  }
+
+  .services-head__panel-title {
+    margin: 0 0 var(--space-4);
+    letter-spacing: var(--ls-tight);
+    font-size: 1.05rem;
+  }
+
+  .services-points {
+    margin: 0;
+    padding-left: 1.15em;
+    color: var(--c-text-muted);
+    line-height: var(--lh-base);
+  }
+  .services-points li + li { margin-top: var(--space-3); }
+
+  /* Services grid */
+  .services-grid { align-items: start; }
+
+  .service {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .service::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(600px 220px at 20% 0%, rgba(142, 182, 220, 0.20), transparent 60%),
+      radial-gradient(520px 240px at 110% 110%, rgba(0, 0, 0, 0.04), transparent 60%);
+    pointer-events: none;
+    opacity: 0.7;
+  }
+
+  .service > * { position: relative; }
+
+  .service__icon {
+    width: 52px;
+    height: 52px;
+    border-radius: var(--radius-s);
+    display: grid;
+    place-items: center;
+    color: var(--c-on-accent);
+    background: linear-gradient(135deg, var(--c-accent), var(--c-accent-strong));
+    box-shadow: var(--shadow-1);
+    margin-bottom: var(--space-4);
+  }
+
+  .service h3 { margin-top: var(--space-2); }
+
+  .service__features {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-5) 0 0;
+    font-size: 0.9rem;
+    color: var(--c-text-muted);
+  }
+
+  .service__features li {
+    position: relative;
+    padding-left: 1.25rem;
+    margin-top: var(--space-2);
+  }
+
+  .service__features li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--c-accent);
+    font-weight: 800;
+  }
+
+  /* Process strip */
+  .process {
+    padding: var(--space-8);
+  }
+
+  .process__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: var(--space-6);
+    margin-bottom: var(--space-6);
+  }
+
+  .process__title {
+    margin: 0;
+    letter-spacing: var(--ls-tight);
+  }
+
+  .process__steps {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-6);
+  }
+
+  .process-step {
+    border-radius: var(--radius-m);
+    background: color-mix(in srgb, var(--c-surface) 78%, transparent);
+    border: 1px solid color-mix(in srgb, var(--c-border) 75%, transparent);
+    padding: var(--space-6);
+  }
+
+  .process-step h3 { margin-top: var(--space-2); }
+
+  /* CTA */
+  .services-cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-6);
+  }
+
+  .services-cta__actions {
+    display: inline-flex;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  /* Responsive */
+  @media (max-width: 980px) {
+    .services-head {
+      grid-template-columns: 1fr;
+    }
+    .services-head__panel {
+      order: 2;
+    }
+    .process__steps {
+      grid-template-columns: 1fr;
+    }
+    .process__head {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .services-cta {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .services-cta__actions {
+      justify-content: flex-start;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .services-head__cta .btn {
+      width: 100%;
+      justify-content: center;
+    }
+    .services-cta__actions .btn {
+      width: 100%;
+      justify-content: center;
+    }
+    .process {
+      padding: var(--space-7);
+    }
+  }
+</style>

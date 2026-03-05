@@ -1,0 +1,387 @@
+---
+// src/components/HeroCarousel.astro
+import { Picture } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+type Slide = {
+  src: ImageMetadata;
+  alt: string;
+  caption?: string;
+};
+
+interface Props {
+  id?: string;
+  slides: Slide[];
+  intervalMs?: number;
+  ariaLabel?: string;
+}
+
+const {
+  id = "hero-carousel",
+  slides,
+  intervalMs = 7000,
+  ariaLabel = "Kitchen showcase",
+} = Astro.props as Props;
+
+// DEV optimisation: avoid AVIF + reduce derivative count while hot reloading
+const FORMATS = import.meta.env.DEV ? ["webp"] : ["avif", "webp"];
+const WIDTHS = import.meta.env.DEV ? [768, 1024] : [640, 768, 1024, 1280, 1600, 1920];
+
+const safeSlides = Array.isArray(slides) ? slides.filter(Boolean) : [];
+const hasMultiple = safeSlides.length > 1;
+---
+
+<section class="hero-carousel" aria-label={ariaLabel} data-carousel id={id} data-interval={intervalMs} tabindex="0">
+  <div class="hero-carousel__viewport" data-viewport aria-live="polite">
+    {safeSlides.map((s, i) => (
+      <figure class="hero-carousel__slide" data-slide aria-hidden={i === 0 ? "false" : "true"}>
+        <Picture
+          src={s.src}
+          alt={s.alt}
+          formats={FORMATS}
+          widths={WIDTHS}
+          sizes="100vw"
+          loading={i === 0 ? "eager" : "lazy"}
+          fetchpriority={i === 0 ? "high" : undefined}
+          decoding="async"
+        />
+        {s.caption && <figcaption class="hero-carousel__caption faint">{s.caption}</figcaption>}
+      </figure>
+    ))}
+  </div>
+
+  <!-- Overlay content -->
+  <div class="hero-carousel__overlay">
+    <div class="container hero-carousel__overlay-inner">
+      <div class="hero-carousel__card">
+        <slot />
+      </div>
+    </div>
+  </div>
+
+  {hasMultiple && (
+    <div class="hero-carousel__controls" aria-label="Carousel controls">
+      <button class="hero-carousel__btn" type="button" data-prev aria-label="Previous image">
+        <span aria-hidden="true">‹</span>
+      </button>
+
+      <div class="hero-carousel__dots" role="tablist" aria-label="Select image">
+        {safeSlides.map((_, i) => (
+          <button
+            class="hero-carousel__dot"
+            type="button"
+            data-dot
+            data-index={i}
+            role="tab"
+            aria-label={`Show image ${i + 1} of ${safeSlides.length}`}
+            aria-current={i === 0 ? "true" : "false"}
+          />
+        ))}
+      </div>
+
+      <button class="hero-carousel__btn" type="button" data-next aria-label="Next image">
+        <span aria-hidden="true">›</span>
+      </button>
+    </div>
+  )}
+
+  <script is:inline>
+    (() => {
+      const root = document.currentScript?.closest("[data-carousel]");
+      if (!root) return;
+
+      const viewport = root.querySelector("[data-viewport]");
+      const slides = Array.from(root.querySelectorAll("[data-slide]"));
+      const dots = Array.from(root.querySelectorAll("[data-dot]"));
+      const prevBtn = root.querySelector("[data-prev]");
+      const nextBtn = root.querySelector("[data-next]");
+
+      if (!viewport || slides.length < 2) return;
+
+      const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+      const interval = Number(root.getAttribute("data-interval") || "7000");
+
+      let index = 0;
+      let timer = null;
+      let paused = false;
+      let raf = null;
+
+      const clampIndex = (i) => (i + slides.length) % slides.length;
+
+      const setA11yState = () => {
+        slides.forEach((s, i) => s.setAttribute("aria-hidden", i === index ? "false" : "true"));
+        dots.forEach((d, i) => d.setAttribute("aria-current", i === index ? "true" : "false"));
+      };
+
+      const goTo = (i, behavior = "smooth") => {
+        index = clampIndex(i);
+        const left = index * viewport.clientWidth;
+        viewport.scrollTo({ left, behavior });
+        setA11yState();
+      };
+
+      const stop = () => {
+        if (timer) window.clearInterval(timer);
+        timer = null;
+      };
+
+      const start = () => {
+        if (prefersReduced) return;
+        stop();
+        timer = window.setInterval(() => {
+          if (paused) return;
+          goTo(index + 1);
+        }, interval);
+      };
+
+      const onScroll = () => {
+        if (raf) return;
+        raf = window.requestAnimationFrame(() => {
+          raf = null;
+          const nextIndex = Math.round(viewport.scrollLeft / viewport.clientWidth);
+          if (nextIndex !== index) {
+            index = clampIndex(nextIndex);
+            setA11yState();
+          }
+        });
+      };
+
+      viewport.addEventListener("scroll", onScroll, { passive: true });
+
+      prevBtn?.addEventListener("click", () => goTo(index - 1));
+      nextBtn?.addEventListener("click", () => goTo(index + 1));
+
+      dots.forEach((d) => {
+        d.addEventListener("click", () => {
+          const i = Number(d.getAttribute("data-index") || "0");
+          goTo(i);
+        });
+      });
+
+      const pause = () => { paused = true; };
+      const resume = () => { paused = false; };
+
+      root.addEventListener("pointerenter", pause);
+      root.addEventListener("pointerleave", resume);
+      root.addEventListener("focusin", pause);
+      root.addEventListener("focusout", resume);
+
+      root.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowLeft") goTo(index - 1);
+        if (e.key === "ArrowRight") goTo(index + 1);
+      });
+
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) stop();
+        else start();
+      });
+
+      window.addEventListener("load", () => goTo(0, "auto"), { once: true });
+      window.addEventListener("resize", () => goTo(index, "auto"));
+
+      setA11yState();
+      start();
+    })();
+  </script>
+</section>
+
+<style>
+  /* Option A: “magazine cover” framing via local tokens */
+  .hero-carousel {
+    --hero-h: clamp(32rem, 68svh, 44rem);
+    --card-w: min(42rem, 46vw);
+    --card-pad: clamp(1.1rem, 1.4vw, 1.6rem);
+    --card-bottom: var(--space-7);
+    --controls-gap: var(--space-3);
+    --controls-pad: 0.42rem 0.62rem;
+
+    position: relative;
+    width: 100%;
+    min-height: var(--hero-h);
+    overflow: hidden;
+    background: var(--c-surface-2);
+    border-bottom: var(--border-1) solid var(--c-border);
+  }
+
+  /* Scroll-snap carousel */
+  .hero-carousel__viewport {
+    height: 100%;
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .hero-carousel__viewport::-webkit-scrollbar { display: none; }
+
+  .hero-carousel__slide {
+    flex: 0 0 100%;
+    height: var(--hero-h);
+    margin: 0;
+    position: relative;
+    scroll-snap-align: start;
+  }
+
+  .hero-carousel__slide :where(img, picture) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Premium readability: subtle vignette + bottom lift */
+  .hero-carousel::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 15% 20%, rgba(15, 23, 42, 0.32), transparent 58%),
+      radial-gradient(circle at 80% 15%, rgba(15, 23, 42, 0.18), transparent 55%),
+      linear-gradient(to top, rgba(15, 23, 42, 0.30), transparent 62%);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .hero-carousel__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    display: grid;
+    align-items: end; /* anchor low */
+    padding-block: var(--space-8);
+  }
+
+  .hero-carousel__overlay-inner {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start; /* anchor left */
+  }
+
+  .hero-carousel__card {
+    width: var(--card-w);
+    max-width: 100%;
+    padding: var(--card-pad);
+    margin-bottom: var(--card-bottom);
+    border-radius: var(--radius-xl);
+    background: color-mix(in srgb, var(--c-bg) 86%, transparent);
+    border: var(--border-1) solid color-mix(in srgb, var(--c-border) 70%, transparent);
+    box-shadow: 0 18px 60px rgba(15, 23, 42, 0.30);
+    backdrop-filter: blur(12px);
+  }
+
+  /* Caption stays subtle and out of the way */
+  .hero-carousel__caption {
+    position: absolute;
+    left: var(--space-5);
+    bottom: var(--space-4);
+    z-index: 3;
+    font-size: 0.85rem;
+    padding: 0.35rem 0.6rem;
+    border-radius: var(--radius-pill);
+    background: color-mix(in srgb, var(--c-bg) 78%, transparent);
+    border: 1px solid color-mix(in srgb, var(--c-border) 70%, transparent);
+    backdrop-filter: blur(10px);
+  }
+
+  /* Controls: desktop bottom-right, mobile top-right (dots only) */
+  .hero-carousel__controls {
+    position: absolute;
+    z-index: 4;
+    right: var(--space-6);
+    bottom: var(--space-6);
+    display: grid;
+    grid-auto-flow: column;
+    align-items: center;
+    gap: var(--controls-gap);
+    padding: var(--controls-pad);
+    border-radius: var(--radius-pill);
+    background: color-mix(in srgb, var(--c-bg) 78%, transparent);
+    border: var(--border-1) solid color-mix(in srgb, var(--c-border) 70%, transparent);
+    backdrop-filter: blur(10px);
+  }
+
+  .hero-carousel__btn {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-pill);
+    border: 1px solid color-mix(in srgb, var(--c-border) 70%, transparent);
+    background: var(--c-surface);
+    color: var(--c-text);
+    cursor: pointer;
+    box-shadow: var(--shadow-1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+  }
+
+  .hero-carousel__btn:focus-visible {
+    outline: 2px solid var(--c-focus);
+    outline-offset: 3px;
+  }
+
+  .hero-carousel__dots {
+    display: inline-flex;
+    gap: 0.35rem;
+    padding-inline: 0.25rem;
+  }
+
+  .hero-carousel__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: var(--radius-pill);
+    border: 1px solid color-mix(in srgb, var(--c-border) 85%, transparent);
+    background: color-mix(in srgb, var(--c-text) 18%, transparent);
+    cursor: pointer;
+  }
+
+  .hero-carousel__dot[aria-current="true"] {
+    background: var(--c-accent);
+    border-color: var(--c-accent);
+  }
+
+  /* Tablet: slightly wider card, slightly shorter hero */
+  @media (max-width: 980px) {
+    .hero-carousel {
+      --hero-h: clamp(30rem, 70svh, 42rem);
+      --card-w: min(40rem, 64vw);
+      --card-bottom: var(--space-6);
+    }
+  }
+
+  /* Mobile: bottom sheet card, controls become dots-only and move to top-right */
+  @media (max-width: 640px) {
+    .hero-carousel {
+      --hero-h: min(82svh, 46rem);
+      --card-w: min(36rem, 92vw);
+      --card-pad: 1.05rem;
+      --card-bottom: var(--space-5);
+    }
+
+    .hero-carousel__overlay-inner {
+      justify-content: center;
+    }
+
+    .hero-carousel__card {
+      margin-bottom: var(--card-bottom);
+    }
+
+    .hero-carousel__controls {
+      top: var(--space-5);
+      bottom: auto;
+      right: var(--space-5);
+      padding: 0.35rem 0.5rem;
+      gap: var(--space-2);
+    }
+
+    .hero-carousel__btn {
+      display: none; /* swipe-first on mobile */
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-carousel__viewport {
+      scroll-behavior: auto;
+    }
+  }
+</style>

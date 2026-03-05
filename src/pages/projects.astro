@@ -1,0 +1,30 @@
+---
+import PageLayout from "../layouts/PageLayout.astro";
+import ProjectGrid from "../components/ProjectGrid.astro";
+import { getCollection } from "astro:content";
+
+const projects = await getCollection("projects", ({ data }) => data.featured ?? true);
+projects.sort((a, b) => (b.data.order ?? 0) - (a.data.order ?? 0));
+---
+
+<PageLayout
+  title="Kitchen projects | Fini's Kitchens"
+  description="Real homes we’ve helped transform into calm, practical kitchens that work day to day."
+  eyebrow="Projects"
+>
+  <section class="section section--tight">
+    <div class="container stack stack--loose">
+      <header class="section-head">
+        <div class="section-head__copy">
+          <h2 class="section-head__title">Recent installations</h2>
+          <p class="section-head__desc">
+            A few highlights from kitchens we’ve designed and installed across Horsham and surrounding areas.
+          </p>
+        </div>
+        <a class="btn btn--primary" href="/contact">Book a consultation</a>
+      </header>
+
+      <ProjectGrid projects={projects} />
+    </div>
+  </section>
+</PageLayout>

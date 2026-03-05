@@ -1,0 +1,230 @@
+/* src/styles/components.css */
+@layer components {
+  /* Layout primitives */
+  .container {
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding-inline: var(--container-pad);
+  }
+
+  .section {
+    padding-block: var(--space-10);
+  }
+  .section--tight { padding-block: var(--space-8); }
+  .section--loose { padding-block: var(--space-11); }
+
+  .divider {
+    border: 0;
+    border-top: var(--border-1) solid var(--c-border);
+    margin: 0;
+  }
+
+  .stack > * + * { margin-top: var(--space-4); }
+  .stack--tight > * + * { margin-top: var(--space-3); }
+  .stack--loose > * + * { margin-top: var(--space-6); }
+
+  .grid {
+    display: grid;
+    gap: var(--space-6);
+  }
+  .grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+  @media (max-width: 880px) {
+    .grid--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 640px) {
+    .grid--2, .grid--3 { grid-template-columns: 1fr; }
+  }
+
+  .text-measure { max-width: 60ch; }
+  .text-measure--wide { max-width: 72ch; }
+
+  /* Text helpers */
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: var(--ls-wide);
+    font-size: 0.72rem;
+    color: var(--c-text-faint);
+  }
+  .muted { color: var(--c-text-muted); }
+  .faint { color: var(--c-text-faint); }
+  .lead { font-size: var(--fs-2); line-height: var(--lh-loose); color: var(--c-text-muted); }
+
+  /* Section header pattern */
+  .section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: var(--space-6);
+  }
+
+  .section-head__copy { max-width: 46rem; }
+  .section-head__desc { margin-top: var(--space-2); color: var(--c-text-muted); }
+  .section-head__link { flex: 0 0 auto; }
+
+  @media (max-width: 880px) {
+    .section-head {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  /* Media wrapper */
+  .media {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-l);
+    background: var(--c-surface-2);
+  }
+  .media--4x3 { aspect-ratio: 4 / 3; }
+  .media--16x9 { aspect-ratio: 16 / 9; }
+  .media--1x1 { aspect-ratio: 1 / 1; }
+
+  .media :where(img, picture, video) {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
+
+  /* Cards */
+  .card {
+    border-radius: var(--radius-m);
+    background: var(--c-surface-2);
+    border: var(--border-1) solid var(--c-border);
+    box-shadow: var(--shadow-1);
+    padding: var(--space-6);
+  }
+  .card--surface {
+    background: var(--c-surface);
+  }
+
+  /* Badges (quiet metadata) */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 0.22rem 0.55rem;
+    border-radius: var(--radius-pill);
+    border: var(--border-1) solid color-mix(in srgb, var(--c-border) 75%, transparent);
+    background: color-mix(in srgb, var(--c-surface) 92%, transparent);
+    color: var(--c-text-muted);
+    font-size: 0.76rem;
+    line-height: var(--lh-snug);
+    white-space: nowrap;
+  }
+
+  /* Extra-quiet badge variant (e.g., year) */
+  .badge--quiet {
+    color: var(--c-text-faint);
+    border-color: color-mix(in srgb, var(--c-border) 65%, transparent);
+    background: color-mix(in srgb, var(--c-bg) 86%, transparent);
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    border-radius: var(--radius-pill);
+    padding: 0.6rem 1.4rem;
+    font-size: 0.9rem;
+    font-weight: 550;
+    border: var(--border-1) solid transparent;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+      background var(--dur-2) var(--ease-out),
+      color var(--dur-2) var(--ease-out),
+      border-color var(--dur-2) var(--ease-out),
+      transform var(--dur-1) var(--ease-out),
+      box-shadow var(--dur-1) var(--ease-out);
+  }
+
+  .btn--primary {
+    background: var(--c-text);
+    color: var(--c-on-accent);
+    box-shadow: var(--shadow-2);
+  }
+  .btn--primary:hover {
+    background: #020617;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-3);
+  }
+
+  .btn--ghost {
+    background: transparent;
+    color: var(--c-text);
+    border-color: var(--c-border-strong);
+  }
+  .btn--ghost:hover {
+    background: var(--c-surface-2);
+  }
+
+  .btn--accent {
+    background: var(--c-accent);
+    color: var(--c-on-accent);
+    box-shadow: var(--shadow-2);
+  }
+  .btn--accent:hover {
+    background: var(--c-accent-strong);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-3);
+  }
+
+  .btn--large {
+    padding-inline: 1.8rem;
+    padding-block: 0.75rem;
+    font-size: 0.95rem;
+  }
+
+  /* Links that should look “designed” (nav, section link) */
+  .link {
+    text-decoration: none;
+    position: relative;
+    padding-bottom: 0.15rem;
+  }
+  .link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 1px;
+    background: currentColor;
+    transition: width var(--dur-2) var(--ease-out);
+  }
+  .link:hover::after { width: 100%; }
+
+  /* “Glass” surface (great for sticky header) */
+  .surface-glass {
+    backdrop-filter: blur(12px);
+    background: color-mix(in srgb, var(--c-bg) 92%, transparent);
+    border-bottom: var(--border-1) solid color-mix(in srgb, var(--c-border) 80%, transparent);
+  }
+
+  /* A premium CTA panel background */
+  .panel {
+    border-radius: var(--radius-xl);
+    background: var(--grad-soft);
+    border: var(--border-1) solid var(--c-border);
+    box-shadow: var(--shadow-1);
+    padding: var(--space-8);
+  }
+
+  /* A11y */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+}

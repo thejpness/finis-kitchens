@@ -1,0 +1,164 @@
+---
+import PageLayout from "../layouts/PageLayout.astro";
+---
+
+<PageLayout
+  title="About Fini's Kitchens"
+  description="Part of the Fini Group. Kitchen design and installation born from love, loss, and a commitment to make dreams come true."
+  eyebrow="Who we are"
+>
+  <section class="section">
+    <div class="container">
+      <header class="section-head">
+        <div class="section-head__copy">
+          <h2 class="section-head__title">Part of the Fini Group</h2>
+          <p class="section-head__desc">
+            We’re part of the wider Fini Group, offering services to support and improve clients’ lives through our
+            professional passions: Kitchen Renovations, Cleaning Services & Software.
+          </p>
+        </div>
+      </header>
+
+      <div class="grid grid--2 about-grid">
+        <div class="stack">
+          <p class="muted">
+            From design to installation, we handle every detail so you can focus on the joy of your new kitchen.
+          </p>
+          <p class="muted">
+            We care about layouts, materials and the little details that make the space feel easy to live in.
+          </p>
+        </div>
+
+        <div class="media media--1x1 about-media">
+          <div class="about-placeholder">Team photo</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="container">
+      <header class="section-head">
+        <div class="section-head__copy">
+          <h2 class="section-head__title">Fini’s story</h2>
+          <p class="section-head__desc">
+            The forming idea of Fini’s Kitchens stems from the tragic and sudden loss of our Co-Owners’ 20-month-old son
+            Finan “Fini” Wyatt to a very rare condition in January 2024.
+          </p>
+        </div>
+      </header>
+
+      <div class="grid grid--2 about-grid about-grid--reverse">
+        <div class="media media--16x9 about-media">
+          <div class="video-placeholder">
+            <span class="video-placeholder__play" aria-hidden="true">▶</span>
+            <span class="video-placeholder__label">Fini’s Story (Video)</span>
+          </div>
+        </div>
+
+        <div class="stack">
+          <p class="muted">
+            Since then we’ve only wanted to use business as a force for good and make dreams come true.
+            Every kitchen we design carries his name and spirit.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="container">
+      <header class="section-head">
+        <div class="section-head__copy">
+          <h2 class="section-head__title">The team</h2>
+          <p class="section-head__desc">A small team with a big obsession: kitchens that work beautifully in real life.</p>
+        </div>
+      </header>
+
+      <div class="grid grid--3 team-grid">
+        <article class="card card--surface team">
+          <div class="team__avatar" aria-hidden="true">OW</div>
+          <h3>Oli Wyatt</h3>
+          <p class="faint team__role">CEO & Designer</p>
+          <p class="muted">The Designer</p>
+        </article>
+
+        <article class="card card--surface team">
+          <div class="team__avatar" aria-hidden="true">VN</div>
+          <h3>Viki Nasch</h3>
+          <p class="faint team__role">COO</p>
+          <p class="muted">The Brains</p>
+        </article>
+
+        <article class="card card--surface team">
+          <div class="team__avatar" aria-hidden="true">JP</div>
+          <h3>Jason Peters</h3>
+          <p class="faint team__role">CTO</p>
+          <p class="muted">The Magician</p>
+        </article>
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .about-grid { margin-top: var(--space-8); align-items: center; }
+  .about-grid--reverse { direction: rtl; }
+  .about-grid--reverse > * { direction: ltr; }
+
+  .about-media {
+    border-radius: var(--radius-l);
+    box-shadow: var(--shadow-2);
+  }
+
+  .about-placeholder {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    color: var(--c-text-faint);
+    border: 1px dashed var(--c-border-strong);
+    background: var(--c-surface-2);
+  }
+
+  .video-placeholder {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    gap: var(--space-3);
+    color: var(--c-text);
+    background: var(--c-surface-2);
+  }
+
+  .video-placeholder__play {
+    width: 64px;
+    height: 64px;
+    border-radius: var(--radius-pill);
+    display: grid;
+    place-items: center;
+    background: #ef4444;
+    color: white;
+    font-weight: 800;
+  }
+
+  .video-placeholder__label {
+    color: var(--c-text-faint);
+    font-weight: 600;
+  }
+
+  .team { text-align: center; }
+  .team__avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: var(--radius-pill);
+    margin: 0 auto var(--space-4);
+    display: grid;
+    place-items: center;
+    color: var(--c-on-accent);
+    background: linear-gradient(135deg, var(--c-accent), var(--c-accent-strong));
+    box-shadow: var(--shadow-1);
+    font-weight: 700;
+  }
+  .team__role { margin-top: var(--space-2); }
+</style>

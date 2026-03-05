@@ -1,0 +1,127 @@
+---
+// src/components/ProjectCard.astro
+import { Picture } from "astro:assets";
+
+import phWide from "../assets/images/placeholders/kitchen-placeholder-wide-island.png";
+import phDetail from "../assets/images/placeholders/kitchen-placeholder-detail-sink.png";
+import phEvening from "../assets/images/placeholders/kitchen-placeholder-evening-teal.png";
+
+const project = Astro.props.project;
+const slug = project?.slug ?? "";
+const data = project?.data ?? {};
+
+// DEV optimisation: avoid AVIF + reduce derivative count while hot reloading
+const FORMATS = import.meta.env.DEV ? ["webp"] : ["avif", "webp"];
+const WIDTHS = import.meta.env.DEV ? [480, 768] : [480, 768, 1024, 1280];
+
+const placeholders = [phWide, phDetail, phEvening];
+const pickIndex = (s = "") =>
+  [...s].reduce((acc, ch) => acc + ch.charCodeAt(0), 0) % placeholders.length;
+
+const fallback = placeholders[pickIndex(slug)];
+const hero = data?.heroImage ?? fallback;
+const alt = data?.title ? `Kitchen project: ${data.title}` : "Kitchen project";
+
+const metaLine = [data.location, data.completedAt].filter(Boolean).join(" · ");
+
+const norm = (v = "") =>
+  String(v)
+    .toLowerCase()
+    .trim()
+    .replace(/&/g, " and ")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+
+const locationKey = norm(data.location);
+const styleKey = norm(data.style);
+
+// For lightweight search filter (client-side only)
+const searchText = [data.title, data.location, data.style, data.completedAt]
+  .filter(Boolean)
+  .join(" ")
+  .toLowerCase();
+---
+
+{project && (
+  <a
+    href={`/projects/${slug}/`}
+    class="project-card card card--surface"
+    data-location={locationKey}
+    data-style={styleKey}
+    data-search={searchText}
+  >
+    <div class="project-card__media media media--4x3">
+      <Picture
+        src={hero}
+        alt={alt}
+        formats={FORMATS}
+        widths={WIDTHS}
+        sizes="(max-width: 640px) 86vw, (max-width: 980px) 42vw, (max-width: 880px) 50vw, 33vw"
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+
+    <div class="project-card__body">
+      <div class="project-card__top">
+        <h3 class="project-card__title">{data.title ?? "Untitled project"}</h3>
+
+        {(data.style || data.completedAt) && (
+          <div class="project-card__badges" aria-label="Project details">
+            {data.style && <span class="badge">{data.style}</span>}
+            {data.completedAt && <span class="badge badge--quiet">{data.completedAt}</span>}
+          </div>
+        )}
+      </div>
+
+      {metaLine && <p class="project-card__meta faint">{metaLine}</p>}
+    </div>
+  </a>
+)}
+
+<style>
+  .project-card {
+    display: block;
+    padding: 0;
+    overflow: hidden;
+    text-decoration: none;
+    transition:
+      transform var(--dur-2) var(--ease-out),
+      box-shadow var(--dur-2) var(--ease-out),
+      border-color var(--dur-2) var(--ease-out);
+  }
+
+  .project-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-3);
+  }
+
+  .project-card__body {
+    padding: var(--space-6);
+    padding-top: var(--space-5);
+  }
+
+  .project-card__top {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .project-card__title {
+    font-size: 0.98rem;
+    font-weight: 650;
+    margin: 0;
+    max-width: 44ch;
+  }
+
+  .project-card__badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .project-card__meta {
+    margin-top: var(--space-3);
+    font-size: 0.82rem;
+  }
+</style>

@@ -1,0 +1,150 @@
+---
+// src/components/ProjectRail.astro
+import type { CollectionEntry } from "astro:content";
+import ProjectGrid from "./ProjectGrid.astro";
+
+type ProjectEntry = CollectionEntry<"projects">;
+
+const {
+  title = "Featured projects",
+  description,
+  projects = [],
+  ctaHref,
+  ctaLabel = "View all projects",
+} = Astro.props as {
+  title?: string;
+  description?: string;
+  projects?: ProjectEntry[];
+  ctaHref?: string;
+  ctaLabel?: string;
+};
+
+const safe = (projects ?? []).filter(Boolean);
+---
+
+{safe.length > 0 && (
+  <section class="project-rail">
+    <div class="container stack stack--loose">
+      <header class="section-head">
+        <div class="section-head__copy">
+          <h2 class="section-head__title">{title}</h2>
+          {description && <p class="section-head__desc text-measure">{description}</p>}
+        </div>
+
+        {ctaHref && (
+          <a class="link section-head__link" href={ctaHref}>
+            {ctaLabel} →
+          </a>
+        )}
+      </header>
+
+      <div class="project-rail__wrap" data-rail>
+        <div class="project-rail__fade project-rail__fade--left" aria-hidden="true"></div>
+        <div class="project-rail__fade project-rail__fade--right" aria-hidden="true"></div>
+
+        <div class="project-rail__controls" aria-label="Featured projects controls">
+          <button class="project-rail__btn" type="button" data-prev aria-label="Scroll left">
+            <span aria-hidden="true">‹</span>
+          </button>
+          <button class="project-rail__btn" type="button" data-next aria-label="Scroll right">
+            <span aria-hidden="true">›</span>
+          </button>
+        </div>
+
+        <ProjectGrid projects={safe} variant="reel" ariaLabel="Featured projects" />
+      </div>
+    </div>
+
+    <script is:inline>
+      (() => {
+        const root = document.currentScript?.closest(".project-rail");
+        if (!root) return;
+
+        const grid = root.querySelector('[data-project-grid="reel"]');
+        const prev = root.querySelector("[data-prev]");
+        const next = root.querySelector("[data-next]");
+        if (!grid || !prev || !next) return;
+
+        const getStep = () => {
+          const first = grid.querySelector(":scope > *");
+          if (!first) return Math.max(240, Math.round(grid.clientWidth * 0.8));
+          const w = first.getBoundingClientRect().width;
+          return Math.max(240, Math.round(w + 16));
+        };
+
+        const scrollBy = (dir) => grid.scrollBy({ left: getStep() * dir, behavior: "smooth" });
+
+        prev.addEventListener("click", () => scrollBy(-1));
+        next.addEventListener("click", () => scrollBy(1));
+
+        const sync = () => {
+          const overflow = grid.scrollWidth > grid.clientWidth + 4;
+          root.classList.toggle("project-rail--overflow", overflow);
+        };
+
+        sync();
+        window.addEventListener("resize", sync, { passive: true });
+      })();
+    </script>
+  </section>
+)}
+
+<style>
+  .project-rail__wrap { position: relative; }
+
+  .project-rail__controls {
+    position: absolute;
+    top: var(--space-3);
+    right: var(--space-3);
+    z-index: 2;
+    display: none;
+    gap: var(--space-2);
+  }
+
+  .project-rail--overflow .project-rail__controls {
+    display: inline-flex;
+  }
+
+  .project-rail__btn {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-pill);
+    border: 1px solid color-mix(in srgb, var(--c-border) 70%, transparent);
+    background: color-mix(in srgb, var(--c-bg) 86%, transparent);
+    backdrop-filter: blur(10px);
+    color: var(--c-text);
+    cursor: pointer;
+    box-shadow: var(--shadow-1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+  }
+
+  .project-rail__btn:focus-visible {
+    outline: 2px solid var(--c-focus);
+    outline-offset: 3px;
+  }
+
+  .project-rail__fade {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 64px;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity var(--dur-2) var(--ease-out);
+  }
+
+  .project-rail__fade--right { left: auto; right: 0; }
+  .project-rail__fade--left  { background: linear-gradient(to right, var(--c-bg), transparent); }
+  .project-rail__fade--right { background: linear-gradient(to left, var(--c-bg), transparent); }
+
+  @media (min-width: 640px) {
+    .project-rail--overflow .project-rail__fade { opacity: 1; }
+  }
+
+  @media (max-width: 640px) {
+    .project-rail__controls { display: none !important; }
+  }
+</style>

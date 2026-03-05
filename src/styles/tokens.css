@@ -1,0 +1,173 @@
+/* src/styles/tokens.css */
+@layer tokens, base, components, utilities;
+
+@layer tokens {
+  :root {
+    /* -----------------------------
+      Brand palette (Fini Blue)
+      Base: rgb(142, 182, 220) => #8EB6DC
+      Use darker steps for accessible accents.
+    ------------------------------ */
+    --c-brand-50:  #eef6fc;
+    --c-brand-100: #dcecf8;
+    --c-brand-200: #c2ddf1;
+    --c-brand-300: #a7cde8;
+    --c-brand-400: #8eb6dc; /* Fini blue (base/mid) */
+    --c-brand-500: #6f9fcf;
+    --c-brand-600: #4f87be;
+    --c-brand-700: #2f6fa6; /* good for primary buttons */
+    --c-brand-800: #245783;
+    --c-brand-900: #173a59;
+
+    /* -----------------------------
+      Color system (semantic)
+    ------------------------------ */
+    --c-bg: #f7faff;
+    --c-surface: #ffffff;
+    --c-surface-2: #f1f6fb;
+    --c-surface-3: #eaf1f8;
+
+    --c-text: #0f172a;
+    --c-text-muted: #475569;
+    --c-text-faint: #64748b;
+
+    --c-border: #d9e3ee;
+    --c-border-strong: #c7d4e2;
+
+    /* Accent surfaces */
+    --c-accent: var(--c-brand-700);
+    --c-accent-strong: var(--c-brand-800);
+    --c-on-accent: #ffffff;
+
+    /* Links */
+    --c-link: var(--c-brand-700);
+    --c-link-hover: var(--c-brand-800);
+
+    /* Focus ring */
+    --c-focus: var(--c-brand-600);
+
+    /* Subtle page tint */
+    --c-tint: var(--c-brand-100);
+
+    /* Status */
+    --c-success: #15803d;
+    --c-warning: #b45309;
+    --c-danger:  #b91c1c;
+
+    /* -----------------------------
+      Typography
+    ------------------------------ */
+    --font-sans: "Inter",
+      system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+
+    --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+      "Courier New", monospace;
+
+    /* Type scale */
+    --fs-0: 0.875rem;
+    --fs-1: 1rem;
+    --fs-2: 1.125rem;
+    --fs-3: 1.25rem;
+    --fs-4: 1.5rem;
+    --fs-5: 2rem;
+    --fs-display: clamp(2.1rem, 2.7vw + 1.6rem, 3rem);
+
+    --lh-tight: 1.15;
+    --lh-snug: 1.35;
+    --lh-base: 1.6;
+    --lh-loose: 1.75;
+
+    --ls-tight: -0.02em;
+    --ls-wide: 0.14em;
+
+    /* -----------------------------
+      Spacing scale
+    ------------------------------ */
+    --space-0: 0;
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.25rem;
+    --space-6: 1.5rem;
+    --space-7: 2rem;
+    --space-8: 2.5rem;
+    --space-9: 3rem;
+    --space-10: 3.5rem;
+    --space-11: 4rem;
+
+    /* -----------------------------
+      Layout
+    ------------------------------ */
+    --container-max: 70rem;
+    --container-pad: clamp(1rem, 3.5vw, 1.5rem);
+
+    /* -----------------------------
+      Radius + shadow
+    ------------------------------ */
+    --radius-s: 0.6rem;
+    --radius-m: 1rem;
+    --radius-l: 1.25rem;
+    --radius-xl: 1.5rem;
+    --radius-pill: 999px;
+
+    --shadow-1: 0 1px 2px rgba(15, 23, 42, 0.06);
+    --shadow-2: 0 10px 30px rgba(15, 23, 42, 0.12);
+    --shadow-3: 0 18px 45px rgba(15, 23, 42, 0.22);
+
+    /* -----------------------------
+      Borders + motion
+    ------------------------------ */
+    --border-1: 1px;
+    --dur-1: 120ms;
+    --dur-2: 180ms;
+    --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+    /* -----------------------------
+      Gradients
+    ------------------------------ */
+    --grad-soft: radial-gradient(
+      circle at top left,
+      var(--c-tint) 0,
+      var(--c-bg) 45%,
+      #f1f5f9 100%
+    );
+  }
+
+  :root[data-theme="dark"] {
+    --c-bg: #070d14;
+    --c-surface: #0b1624;
+    --c-surface-2: #0f1d30;
+    --c-surface-3: #12243a;
+
+    --c-text: #e6edf6;
+    --c-text-muted: #c7d2e1;
+    --c-text-faint: #97a6bb;
+
+    --c-border: rgba(199, 210, 225, 0.18);
+    --c-border-strong: rgba(199, 210, 225, 0.30);
+
+    --c-accent: var(--c-brand-400);
+    --c-accent-strong: var(--c-brand-300);
+    --c-on-accent: #07131f;
+
+    --c-link: var(--c-brand-300);
+    --c-link-hover: var(--c-brand-200);
+
+    --c-focus: var(--c-brand-300);
+    --c-tint: rgba(142, 182, 220, 0.12);
+
+    --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.35);
+    --shadow-2: 0 10px 30px rgba(0, 0, 0, 0.45);
+    --shadow-3: 0 18px 45px rgba(0, 0, 0, 0.55);
+
+    --grad-soft: radial-gradient(
+      circle at top left,
+      rgba(142, 182, 220, 0.18) 0,
+      var(--c-bg) 55%,
+      #050a10 100%
+    );
+  }
+}

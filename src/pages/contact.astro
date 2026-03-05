@@ -1,0 +1,360 @@
+---
+// src/pages/contact.astro
+import PageLayout from "../layouts/PageLayout.astro";
+import WhatsAppButton from "../components/WhatsAppButton.astro";
+---
+
+<PageLayout
+  title="Contact Fini's Kitchens"
+  metaTitle="Contact | Fini's Kitchens"
+  description="Get in touch for a free kitchen design consultation. Serving Horsham, Lewes, and surrounding areas."
+  eyebrow="Get in touch"
+  heroSize="tight"
+>
+  <section class="section section--tight">
+    <div class="container">
+      <div class="contact-layout">
+        <!-- LEFT -->
+        <div class="contact-left stack stack--loose">
+          <header class="contact-head stack stack--tight">
+            <h2 class="contact-head__title">Tell us about your kitchen</h2>
+            <p class="muted text-measure">
+              A quick message is enough to get started. We’ll come back with sensible next steps and a calm plan.
+            </p>
+
+            <div class="contact-head__cta">
+              <WhatsAppButton
+                class="btn btn--accent btn--large"
+                label="Message on WhatsApp"
+                text="Hi! I’d like to chat about a kitchen project."
+              />
+              <a class="btn btn--ghost btn--large" href="#contact-form">Send an enquiry</a>
+            </div>
+          </header>
+
+          <div class="panel contact-panel">
+            <div class="grid grid--2 contact-cards">
+              <div class="card card--surface contact-card">
+                <h3>Call or email</h3>
+                <p class="muted contact-card__links">
+                  <a class="link" href="tel:+447581390107">+44 7581 390 107</a><br />
+                  <a class="link" href="mailto:oli.wyatt@thefinigroup.co.uk">oli.wyatt@thefinigroup.co.uk</a>
+                </p>
+
+                <div class="contact-card__actions">
+                  <WhatsAppButton class="btn btn--accent" label="WhatsApp" />
+                  <a class="btn btn--ghost" href="tel:+447581390107">Call</a>
+                </div>
+
+                <p class="faint contact-card__fineprint">
+                  Prefer a call? Add a rough time window in your message.
+                </p>
+              </div>
+
+              <div class="card card--surface contact-card">
+                <h3>Visit</h3>
+                <p class="muted contact-card__links">
+                  <a
+                    class="link"
+                    href="https://maps.google.com/maps?ll=50.897175,0.074706&z=14&t=m&hl=en&gl=GB&mapclient=apiv3"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    Laughton Rd, Ringmer<br />
+                    Lewes BN8 5SY
+                  </a>
+                  <br />
+                  <span class="faint">By appointment</span>
+                </p>
+
+                <div class="contact-card__actions">
+                  <a
+                    class="btn btn--ghost"
+                    href="https://maps.google.com/maps?ll=50.897175,0.074706&z=14&t=m&hl=en&gl=GB&mapclient=apiv3"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    Open in Maps
+                  </a>
+                </div>
+
+                <p class="faint contact-card__fineprint">
+                  If you’d like to visit, tell us what days usually work for you.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MIDDLE -->
+        <div class="contact-form-wrap" id="contact-form">
+          <div class="card card--surface contact-form">
+            <header class="stack stack--tight contact-form__head">
+              <h2 class="contact-form__title">Send a quick enquiry</h2>
+              <p class="muted contact-form__desc">
+                A few details helps us come prepared with sensible ideas and timings.
+              </p>
+            </header>
+
+            <form name="contact" method="POST" data-netlify="true">
+              <input type="hidden" name="form-name" value="contact" />
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="name">Your name</label>
+                  <input type="text" id="name" name="name" autocomplete="name" required />
+                </div>
+
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input type="email" id="email" name="email" autocomplete="email" required />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="phone">Phone (optional)</label>
+                <input type="tel" id="phone" name="phone" autocomplete="tel" />
+                <p class="field-help faint">Useful if you’d prefer a quick call back.</p>
+              </div>
+
+              <div class="form-group">
+                <label for="project">Tell us about your project</label>
+                <textarea
+                  id="project"
+                  name="project"
+                  rows="6"
+                  required
+                  placeholder="Where are you based? What style do you like? Any must-haves or challenges?"
+                ></textarea>
+              </div>
+
+              <button type="submit" class="btn btn--primary btn--large form-submit">
+                Send message
+              </button>
+
+              <p class="faint contact-form__fineprint">
+                Prefer WhatsApp?
+                <a class="link" href="https://wa.me/447581390107?text=Hi!%20I%E2%80%99d%20like%20to%20chat%20about%20a%20kitchen%20project.">Message us</a>.
+              </p>
+            </form>
+          </div>
+        </div>
+
+        <!-- RIGHT -->
+        <aside class="next-steps panel">
+          <div class="next-steps__head stack stack--tight">
+            <h2 class="next-steps__title">What happens next</h2>
+            <p class="muted">
+              Simple, calm steps - so you always know what’s happening and when.
+            </p>
+          </div>
+
+          <ol class="next-steps__list">
+            <li class="next-step card card--surface">
+              <p class="eyebrow next-step__kicker">Step 1</p>
+              <h3 class="next-step__title">Quick chat</h3>
+              <p class="muted">
+                We’ll talk through your space, what you want from the kitchen, and your rough timing.
+              </p>
+            </li>
+
+            <li class="next-step card card--surface">
+              <p class="eyebrow next-step__kicker">Step 2</p>
+              <h3 class="next-step__title">Ideas & direction</h3>
+              <p class="muted">
+                We’ll suggest layout options and practical considerations - with clear next steps.
+              </p>
+            </li>
+
+            <li class="next-step card card--surface">
+              <p class="eyebrow next-step__kicker">Step 3</p>
+              <h3 class="next-step__title">Survey & design</h3>
+              <p class="muted">
+                If it’s a fit, we’ll arrange a site visit and start shaping a design that works day to day.
+              </p>
+            </li>
+          </ol>
+        </aside>
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  /* Three-column layout (desktop), then 2-col, then 1-col */
+  .contact-layout {
+    display: grid;
+    gap: var(--space-6);
+    grid-template-columns: minmax(18rem, 1.05fr) minmax(22rem, 1.25fr) minmax(18rem, 0.95fr);
+    grid-template-areas: "left form steps";
+    align-items: start;
+  }
+
+  .contact-left { grid-area: left; }
+  .contact-form-wrap { grid-area: form; }
+  .next-steps { grid-area: steps; }
+
+  /* Better top rhythm (PageLayout hero is now tight, this is the main spacing) */
+  .contact-head__title {
+    font-size: clamp(1.35rem, 1.2vw + 1.1rem, 1.9rem);
+    line-height: 1.15;
+    letter-spacing: var(--ls-tight);
+    margin: 0;
+  }
+
+  .contact-head__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-2);
+  }
+
+  .contact-panel {
+    padding: var(--space-7);
+  }
+
+  .contact-cards { gap: var(--space-6); }
+
+  .contact-card h3 { margin: 0 0 var(--space-2); }
+
+  .contact-card__actions {
+    margin-top: var(--space-4);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .contact-card__fineprint {
+    margin-top: var(--space-4);
+    font-size: 0.9rem;
+  }
+
+  /* Fix overflow for long email / links */
+  .contact-card__links a,
+  .contact-form__fineprint a {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  /* Form */
+  .contact-form { padding: var(--space-8); }
+
+  .contact-form__title {
+    margin: 0;
+    font-size: 1.15rem;
+    letter-spacing: var(--ls-tight);
+  }
+
+  .contact-form__desc { margin: 0; }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-5);
+  }
+
+  .form-group { margin-top: var(--space-6); }
+
+  .form-group label {
+    display: block;
+    margin-bottom: var(--space-2);
+    font-weight: 650;
+    color: var(--c-text);
+    font-size: 0.92rem;
+  }
+
+  .field-help { margin-top: var(--space-2); font-size: 0.88rem; }
+
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border: var(--border-1) solid var(--c-border-strong);
+    border-radius: var(--radius-m);
+    font-size: 0.98rem;
+    background: var(--c-surface);
+    transition: border-color var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out);
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: var(--c-accent);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--c-accent) 18%, transparent);
+  }
+
+  .form-group textarea {
+    resize: vertical;
+    font-family: inherit;
+    min-height: 10rem;
+  }
+
+  .form-submit { width: 100%; margin-top: var(--space-7); }
+
+  .contact-form__fineprint { margin-top: var(--space-4); font-size: 0.9rem; }
+
+  /* Next steps */
+  .next-steps { padding: var(--space-7); }
+
+  .next-steps__title {
+    margin: 0;
+    letter-spacing: var(--ls-tight);
+    font-size: 1.15rem;
+  }
+
+  .next-steps__list {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-6) 0 0;
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .next-step { padding: var(--space-6); }
+
+  .next-step__kicker { margin: 0 0 var(--space-2); }
+
+  .next-step__title { margin: 0; font-size: 1.02rem; }
+
+  .next-step p { margin-top: var(--space-3); max-width: 65ch; }
+
+  /* Tablet: 2 columns + steps below */
+  @media (max-width: 980px) {
+    .contact-layout {
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas:
+        "left form"
+        "steps steps";
+    }
+  }
+
+  /* Mobile: stack */
+  @media (max-width: 640px) {
+    .contact-layout {
+      grid-template-columns: 1fr;
+      grid-template-areas:
+        "left"
+        "form"
+        "steps";
+    }
+
+    .contact-head__cta {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .contact-head__cta .btn {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .contact-panel { padding: var(--space-6); }
+    .contact-form { padding: var(--space-7); }
+    .next-steps { padding: var(--space-6); }
+
+    .form-row {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+  }
+</style>

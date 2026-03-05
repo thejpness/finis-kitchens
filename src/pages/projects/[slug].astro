@@ -1,0 +1,101 @@
+---
+// src/pages/projects/[slug].astro
+import PageLayout from "../../layouts/PageLayout.astro";
+import { getCollection } from "astro:content";
+import { Picture } from "astro:assets";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("projects");
+  return entries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props as any;
+const data = entry?.data ?? {};
+const { Content } = await entry.render();
+
+const title = data.title ?? "Kitchen project";
+const metaTitle = `${title} | Fini's Kitchens`;
+const description =
+  data.description ??
+  "A real kitchen project designed and installed by Fini’s Kitchens.";
+
+const ogImage = data?.heroImage?.src ?? "/images/hero/default-hero.jpg";
+---
+
+<PageLayout
+  title={title}
+  metaTitle={metaTitle}
+  description={description}
+  eyebrow={data.location ? `Project · ${data.location}` : "Project"}
+  ogImage={ogImage}
+>
+  <section class="section section--tight">
+    <div class="container stack stack--loose">
+      {data.heroImage && (
+        <div class="media media--16x9 project-hero">
+          <Picture
+            src={data.heroImage}
+            alt={title}
+            formats={["avif", "webp"]}
+            widths={[768, 1024, 1280, 1600, 1920]}
+            sizes="(max-width: 900px) 100vw, 900px"
+            loading="eager"
+            decoding="async"
+          />
+        </div>
+      )}
+
+      {(data.style || data.completedAt) && (
+        <div class="project-meta" aria-label="Project details">
+          {data.style && <span class="badge">{data.style}</span>}
+          {data.completedAt && <span class="badge badge--quiet">{data.completedAt}</span>}
+        </div>
+      )}
+
+      <article class="prose">
+        <Content />
+      </article>
+
+      <div class="project-next panel">
+        <div class="stack stack--tight">
+          <h2>Want something like this?</h2>
+          <p class="muted text-measure">
+            Tell us a little about your space and what you want from the kitchen - we’ll suggest a sensible next step.
+          </p>
+        </div>
+        <a class="btn btn--primary" href="/contact">Book a consultation</a>
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .project-hero {
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+  }
+
+  .project-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .project-next {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-6);
+    margin-top: var(--space-10);
+  }
+
+  @media (max-width: 880px) {
+    .project-next {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

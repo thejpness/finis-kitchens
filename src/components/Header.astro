@@ -1,0 +1,499 @@
+---
+// src/components/Header.astro
+
+const navItems = [
+  { href: "/services", label: "Services" },
+  { href: "/projects", label: "Projects" },
+  { href: "/about", label: "About" },
+];
+
+const pathname = Astro.url?.pathname ?? "/";
+
+const isActive = (href: string) => {
+  if (href === "/") return pathname === "/";
+  return pathname === href || pathname.startsWith(href + "/");
+};
+---
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header" data-header>
+  <div class="site-header__inner container">
+    <a href="/" class="site-header__brand" aria-label="Fini's Kitchens home">
+      <span class="site-header__logo-mark" aria-hidden="true">
+        <img
+          class="site-header__logo-img"
+          src="/images/finis-kitchens-icon-64.png"
+          srcset="/images/finis-kitchens-icon-64.png 1x, /images/finis-kitchens-icon-128.png 2x"
+          alt=""
+          width="28"
+          height="28"
+          decoding="async"
+        />
+      </span>
+
+      <span class="site-header__brand-text">
+        <span class="site-header__name">Fini's Kitchens</span>
+        <span class="site-header__tagline">Thoughtful kitchens for real homes</span>
+      </span>
+    </a>
+
+    <button
+      class="site-nav__toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="primary-nav"
+      data-nav-toggle
+    >
+      <span class="sr-only">Open menu</span>
+      <svg class="icon" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+        <path
+          d="M4 6h16M4 12h16M4 18h16"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        />
+      </svg>
+    </button>
+
+    <nav id="primary-nav" class="site-nav" aria-label="Primary navigation" hidden data-nav>
+      <ul class="site-nav__list">
+        {navItems.map((item) => {
+          const active = isActive(item.href);
+          return (
+            <li class="site-nav__item">
+              <a
+                href={item.href}
+                class:list={["site-nav__link", "link", active && "is-active"]}
+                aria-current={active ? "page" : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+
+      <a
+        href="/contact"
+        class:list={["btn", "btn--primary", "site-nav__cta", isActive("/contact") && "is-active"]}
+        aria-current={isActive("/contact") ? "page" : undefined}
+      >
+        Grab a coffee – let’s talk
+      </a>
+    </nav>
+  </div>
+
+  <script is:inline>
+    (() => {
+      const header = document.querySelector("[data-header]");
+      if (!header) return;
+
+      const nav = header.querySelector("[data-nav]");
+      const btn = header.querySelector("[data-nav-toggle]");
+
+      const onScroll = () => {
+        const y = window.scrollY || 0;
+
+        // Always keep a visible container; top state is just “lighter”
+        header.classList.toggle("is-top", y < 8);
+        header.classList.toggle("is-scrolled", y >= 8);
+
+        // Compact behaviour
+        header.classList.toggle("is-compact", y > 12);
+      };
+
+      onScroll();
+      window.addEventListener("scroll", onScroll, { passive: true });
+
+      if (!nav || !btn) return;
+
+      const closeNav = () => {
+        nav.hidden = true;
+        btn.setAttribute("aria-expanded", "false");
+        header.classList.remove("nav-open");
+      };
+
+      const openNav = () => {
+        nav.hidden = false;
+        btn.setAttribute("aria-expanded", "true");
+        header.classList.add("nav-open");
+      };
+
+      const toggleNav = () => {
+        const expanded = btn.getAttribute("aria-expanded") === "true";
+        expanded ? closeNav() : openNav();
+      };
+
+      btn.addEventListener("click", toggleNav);
+
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeNav();
+      });
+
+      nav.addEventListener("click", (e) => {
+        const a = e.target.closest("a");
+        if (a) closeNav();
+      });
+
+      window.addEventListener("click", (e) => {
+        if (!header.classList.contains("nav-open")) return;
+        if (!header.contains(e.target)) closeNav();
+      });
+
+      const mq = window.matchMedia("(min-width: 860px)");
+      const sync = () => {
+        if (mq.matches) {
+          nav.hidden = false;
+          btn.setAttribute("aria-expanded", "false");
+          header.classList.remove("nav-open");
+        } else {
+          closeNav();
+        }
+      };
+      mq.addEventListener?.("change", sync);
+      sync();
+    })();
+  </script>
+</header>
+
+<style>
+  /* A11y: skip link */
+  .skip-link {
+    position: absolute;
+    left: var(--space-4);
+    top: var(--space-4);
+    z-index: 1000;
+    padding: 0.55rem 0.9rem;
+    border-radius: var(--radius-pill);
+    background: var(--c-text);
+    color: var(--c-on-accent);
+    box-shadow: var(--shadow-2);
+    transform: translateY(-160%);
+    transition: transform var(--dur-2) var(--ease-out);
+  }
+  .skip-link:focus-visible {
+    transform: translateY(0);
+    outline: 2px solid var(--c-focus);
+    outline-offset: 4px;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* Header shell */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 60;
+
+    /* Always visible container: never “disappears” */
+    backdrop-filter: blur(12px);
+    background: rgba(247, 250, 255, 0.78);
+    border-bottom: 1px solid rgba(217, 227, 238, 0.55);
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+
+    transition:
+      background var(--dur-2) var(--ease-out),
+      border-color var(--dur-2) var(--ease-out),
+      box-shadow var(--dur-2) var(--ease-out);
+  }
+
+  /* iOS-style hairlines (make glass feel “real”) */
+  .site-header::before,
+  .site-header::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--dur-2) var(--ease-out);
+  }
+
+  /* Top highlight */
+  .site-header::before {
+    top: 0;
+    background: linear-gradient(
+      to right,
+      transparent,
+      rgba(255, 255, 255, 0.72),
+      transparent
+    );
+  }
+
+  /* Bottom hairline shadow (subtle separator) */
+  .site-header::after {
+    bottom: -1px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      rgba(15, 23, 42, 0.08),
+      transparent
+    );
+  }
+
+  /* Top-of-page: lighter, more “magazine” */
+  .site-header.is-top {
+    background: rgba(247, 250, 255, 0.52);
+    border-bottom-color: rgba(217, 227, 238, 0.35);
+    box-shadow: none;
+  }
+
+  /* Scrolled: stronger glass + depth */
+  .site-header.is-scrolled {
+    background: rgba(247, 250, 255, 0.90);
+    border-bottom-color: rgba(217, 227, 238, 0.75);
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.10);
+  }
+
+  /* Turn on hairlines only when scrolled */
+  .site-header.is-scrolled::before,
+  .site-header.is-scrolled::after {
+    opacity: 1;
+  }
+
+  /* If backdrop-filter isn’t supported, still looks fine */
+  @supports not ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
+    .site-header {
+      background: rgba(247, 250, 255, 0.94);
+    }
+    .site-header.is-top {
+      background: rgba(247, 250, 255, 0.86);
+    }
+  }
+
+  .site-header__inner {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: var(--space-4);
+    padding-block: var(--space-4);
+    transition: padding var(--dur-2) var(--ease-out);
+  }
+
+  .site-header.is-compact .site-header__inner {
+    padding-block: calc(var(--space-4) - 0.45rem);
+  }
+
+  .site-header__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    text-decoration: none;
+    min-width: 0;
+  }
+
+  .site-header__logo-mark {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-pill);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--c-brand-100);
+    border: 1px solid var(--c-border);
+    box-shadow: var(--shadow-1);
+    flex: 0 0 auto;
+
+    transition: transform var(--dur-2) var(--ease-out);
+  }
+
+  .site-header.is-compact .site-header__logo-mark {
+    transform: scale(0.96);
+  }
+
+  .site-header__logo-img {
+    width: 28px;
+    height: 28px;
+    display: block;
+  }
+
+  .site-header__brand-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .site-header__name {
+    font-weight: 680;
+    letter-spacing: 0.01em;
+    color: var(--c-text);
+    line-height: 1.1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .site-header__tagline {
+    font-weight: 450;
+    font-size: 0.78rem;
+    color: var(--c-text-faint);
+    letter-spacing: 0.01em;
+    line-height: 1.2;
+  }
+
+  /* Toggle button (mobile) */
+  .site-nav__toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--c-border);
+    background: var(--c-surface);
+    color: var(--c-text);
+    box-shadow: var(--shadow-1);
+    cursor: pointer;
+  }
+
+  .site-nav__toggle:focus-visible {
+    outline: 2px solid var(--c-focus);
+    outline-offset: 3px;
+  }
+
+  /* Nav */
+  .site-nav {
+    justify-self: end;
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+    font-size: 0.95rem;
+  }
+
+  .site-nav__list {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+    padding: 0;
+    margin: 0;
+  }
+
+  .site-nav__link {
+    color: var(--c-text);
+    padding: var(--space-2) var(--space-2);
+    border-radius: var(--radius-pill);
+    text-decoration: none;
+    position: relative;
+  }
+
+  .site-nav__link.is-active,
+  .site-nav__link[aria-current="page"] {
+    color: var(--c-accent);
+    background: var(--c-brand-100);
+    border: 1px solid var(--c-border);
+  }
+
+  .site-nav__link:focus-visible {
+    outline: 2px solid var(--c-focus);
+    outline-offset: 2px;
+  }
+
+  .site-nav__cta {
+    margin-left: var(--space-2);
+    white-space: nowrap;
+  }
+
+  .site-nav__cta.is-active,
+  .site-nav__cta[aria-current="page"] {
+    box-shadow: var(--shadow-1);
+    filter: saturate(1.05);
+  }
+
+  @media (pointer: coarse) {
+    .site-nav__link { padding: var(--space-3) var(--space-3); }
+  }
+
+  /* Mobile: dropdown panel */
+  @media (max-width: 859px) {
+    .site-header__inner {
+      grid-template-columns: 1fr auto;
+      padding-block: var(--space-3);
+    }
+
+    .site-nav__toggle {
+      display: inline-flex;
+    }
+
+    .site-header__tagline {
+      display: none;
+    }
+
+    .site-nav {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 100%;
+      padding: var(--space-4);
+      background: var(--c-surface);
+      border-bottom: 1px solid var(--c-border);
+      box-shadow: var(--shadow-2);
+      display: grid;
+      gap: var(--space-3);
+      transform: translateY(-6px);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform var(--dur-2) var(--ease-out), opacity var(--dur-2) var(--ease-out);
+    }
+
+    .site-header.nav-open .site-nav {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .site-nav__list {
+      flex-direction: column;
+      align-items: stretch;
+      gap: var(--space-2);
+    }
+
+    .site-nav__link {
+      display: block;
+      width: 100%;
+      padding: var(--space-3) var(--space-3);
+      border-radius: var(--radius-m);
+      background: var(--c-surface-2);
+      border: 1px solid transparent;
+    }
+
+    .site-nav__link.is-active,
+    .site-nav__link[aria-current="page"] {
+      background: var(--c-brand-100);
+      border-color: var(--c-border);
+    }
+
+    .site-nav__cta {
+      width: 100%;
+      justify-content: center;
+      margin-left: 0;
+      margin-top: var(--space-2);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .site-header,
+    .site-header__inner,
+    .site-header__logo-mark,
+    .site-nav,
+    .site-nav__toggle,
+    .site-header::before,
+    .site-header::after {
+      transition: none !important;
+    }
+  }
+</style>

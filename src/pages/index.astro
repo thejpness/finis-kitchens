@@ -1,17 +1,292 @@
 ---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HeroCarousel from "../components/HeroCarousel.astro";
+import ProjectRail from "../components/ProjectRail.astro";
+import { getCollection } from "astro:content";
 
+import phWide from "../assets/images/placeholders/kitchen-placeholder-wide-island.png";
+import phDetail from "../assets/images/placeholders/kitchen-placeholder-detail-sink.png";
+import phEvening from "../assets/images/placeholders/kitchen-placeholder-evening-teal.png";
+
+const pageTitle = "Kitchens with Love and Ease | Fini's Kitchens";
+const pageDescription =
+  "Thoughtful kitchen design and installation for real homes in and around Horsham, from first sketch to that first cup of tea in your new kitchen.";
+
+const projects = await getCollection("projects", ({ data }) => data.featured ?? true);
+projects.sort((a, b) => (b.data.order ?? 0) - (a.data.order ?? 0));
+
+const featuredProjects = projects.slice(0, 6);
+
+const placeholders = [phWide, phDetail, phEvening];
+
+const pickIndex = (s = "") =>
+  [...s].reduce((acc, ch) => acc + ch.charCodeAt(0), 0) % placeholders.length;
+
+const fallbackFor = (slug = "") => placeholders[pickIndex(slug)];
+
+const heroFromProjects = featuredProjects.slice(0, 3).map((p) => {
+  const d: any = p?.data ?? {};
+  const slug = p?.slug ?? "";
+  const hero = d?.heroImage ?? fallbackFor(slug);
+  const caption = [d.location, d.style].filter(Boolean).join(" · ");
+
+  return {
+    src: hero,
+    alt: d.title ? `${d.title} - kitchen project by Fini’s Kitchens` : "Kitchen project by Fini’s Kitchens",
+    caption: caption || "Recent installation",
+  };
+});
+
+const heroSlides =
+  heroFromProjects.length > 0
+    ? [
+        ...heroFromProjects,
+        ...placeholders
+          .slice(heroFromProjects.length, 3)
+          .map((img, i) => ({
+            src: img,
+            alt: `Kitchen inspiration image ${heroFromProjects.length + i + 1} - Fini’s Kitchens`,
+            caption: "Recent installation",
+          })),
+      ].slice(0, 3)
+    : placeholders.map((img, i) => ({
+        src: img,
+        alt: `Kitchen inspiration image ${i + 1} - Fini’s Kitchens`,
+        caption: "Recent installation",
+      }));
+
+const ogImage = heroSlides?.[0]?.src?.src ?? phWide.src;
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title={pageTitle} description={pageDescription} ogImage={ogImage}>
+  <HeroCarousel id="home-hero" slides={heroSlides} intervalMs={7500} ariaLabel="Fini's Kitchens hero carousel">
+    <div class="home-hero__copy stack stack--tight">
+      <p class="eyebrow">Fini's Kitchens · Horsham</p>
+
+      <h1 class="home-hero__title">
+        Kitchens for <span class="home-hero__accent">real life</span>, not showrooms.
+      </h1>
+
+      <p class="lead home-hero__lead">
+        Calm, considered kitchens designed around how you actually live - cooking, kids, coffee, chaos, hosting.
+        We handle design, supply and installation end-to-end.
+      </p>
+
+      <div class="home-hero__actions">
+        <a href="/contact" class="btn btn--primary">Book a design consultation</a>
+        <a href="/projects" class="btn btn--ghost">Explore projects</a>
+      </div>
+
+      <div class="home-hero__badges" aria-label="Key details">
+        <span class="badge">Typical timeline: ~3 months</span>
+        <span class="badge">Design • Supply • Install</span>
+        <span class="badge">Horsham & nearby</span>
+      </div>
+
+      <p class="home-hero__note">
+        Thoughtful layouts. Honest materials. Details that quietly make every day easier.
+      </p>
+    </div>
+  </HeroCarousel>
+
+  <section class="home-why section section--tight">
+    <div class="container home-why__inner stack stack--loose">
+      <header class="section-head">
+        <div class="section-head__copy">
+          <h2 class="section-head__title">Design that starts with you.</h2>
+          <p class="section-head__desc text-measure">
+            We don’t begin with a range or a trend. We begin with the way you move through the room -
+            the morning rush, the midweek meals, the weekend hosting.
+          </p>
+        </div>
+        <a class="link section-head__link" href="/services">How we work →</a>
+      </header>
+
+      <div class="grid grid--3">
+        <article class="card card--surface home-card">
+          <h3>Layouts with intent</h3>
+          <p class="muted text-measure">
+            Storage where you reach, prep where you need it, and a flow that feels natural every day.
+          </p>
+        </article>
+
+        <article class="card card--surface home-card">
+          <h3>Materials that wear well</h3>
+          <p class="muted text-measure">
+            Finishes chosen for real life - touch, durability, and the way they age over years.
+          </p>
+        </article>
+
+        <article class="card card--surface home-card">
+          <h3>One team, end-to-end</h3>
+          <p class="muted text-measure">
+            Design, specification and installation coordinated for you - less chasing, more clarity.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="home-process section section--tight">
+    <div class="container stack stack--loose">
+      <header class="section-head">
+        <div class="section-head__copy">
+          <h2 class="section-head__title">A simple process. No drama.</h2>
+          <p class="section-head__desc text-measure">
+            Clear steps, clear communication, and a plan you can trust. Most projects complete in around three months.
+          </p>
+        </div>
+        <a class="btn btn--ghost" href="/contact">Check availability</a>
+      </header>
+
+      <div class="grid grid--3">
+        <article class="card home-step">
+          <p class="home-step__kicker eyebrow">Step 1</p>
+          <h3>Survey & brief</h3>
+          <p class="muted text-measure">
+            We measure, listen, and agree what “great” looks like - lifestyle, budget, priorities.
+          </p>
+        </article>
+
+        <article class="card home-step">
+          <p class="home-step__kicker eyebrow">Step 2</p>
+          <h3>Design & refine</h3>
+          <p class="muted text-measure">
+            Layout, storage, finishes - we iterate until it feels obvious and right.
+          </p>
+        </article>
+
+        <article class="card home-step">
+          <p class="home-step__kicker eyebrow">Step 3</p>
+          <h3>Deliver & install</h3>
+          <p class="muted text-measure">
+            We coordinate the moving parts so installation is smooth and predictable.
+          </p>
+        </article>
+      </div>
+
+      <div class="home-process__fineprint faint">
+        Want the full breakdown? <a class="link" href="/services">View services →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="home-projects section section--tight">
+    <ProjectRail
+      title="Recent kitchen projects"
+      description="Swipe through a few real homes - then dive into the details."
+      projects={featuredProjects}
+      ctaHref="/projects"
+      ctaLabel="View all projects"
+    />
+  </section>
+
+  <section class="home-cta section section--tight">
+    <div class="container">
+      <div class="panel home-cta__panel">
+        <div class="home-cta__content stack stack--tight">
+          <h2>Ready to talk about your kitchen?</h2>
+          <p class="muted text-measure">
+            Share a few details and we’ll arrange a relaxed, no-pressure call to explore ideas and timings.
+          </p>
+        </div>
+        <a href="/contact" class="btn btn--primary btn--large">Start your project</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .home-hero__accent { color: var(--c-accent); }
+
+  /* Hero-specific typography tuning */
+  .home-hero__title {
+    font-size: clamp(1.75rem, 2.2vw + 1.25rem, 3rem);
+    letter-spacing: var(--ls-tight);
+    line-height: 1.08;
+    margin: 0;
+  }
+
+  .home-hero__lead {
+    max-width: 56ch;
+  }
+
+  /* Button row: desktop inline, mobile stacked */
+  .home-hero__actions {
+    margin-top: var(--space-5);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    align-items: center;
+  }
+
+  .home-hero__badges {
+    margin-top: var(--space-4);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .home-hero__note {
+    margin-top: var(--space-3);
+    font-size: var(--fs-0);
+    color: var(--c-text-faint);
+    max-width: 58ch;
+  }
+
+  /* Make mobile feel “intentional”, not cramped */
+  @media (max-width: 640px) {
+    .home-hero__actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .home-hero__actions .btn {
+      width: 100%;
+      justify-content: center;
+    }
+
+    /* Clamp lead text a bit so the image still gets to exist */
+    .home-hero__lead {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 4;
+      overflow: hidden;
+    }
+
+    /* Hide the final note on very small screens (keeps the card shorter) */
+    .home-hero__note {
+      display: none;
+    }
+
+    /* Badges become calmer and avoid wrapping into chaos */
+    .home-hero__badges .badge:nth-child(3) {
+      display: none;
+    }
+  }
+
+  .home-why__inner {
+    border-top: var(--border-1) solid var(--c-border);
+    padding-top: var(--space-10);
+  }
+
+  .home-card p { margin-top: var(--space-3); }
+
+  .home-step { position: relative; overflow: hidden; }
+  .home-step__kicker { margin-bottom: var(--space-3); color: color-mix(in srgb, var(--c-text-faint) 85%, transparent); }
+  .home-process__fineprint { font-size: 0.9rem; }
+
+  .home-cta__panel {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-6);
+    align-items: center;
+  }
+
+  @media (max-width: 880px) {
+    .home-cta__panel {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

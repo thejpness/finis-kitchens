@@ -1,0 +1,42 @@
+---
+// src/layouts/PageLayout.astro
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  title: string;
+  metaTitle?: string;
+  description?: string;
+  ogImage?: string;
+  noindex?: boolean;
+  eyebrow?: string;
+  heroSize?: "tight" | "loose";
+}
+
+const {
+  title,
+  metaTitle = title,
+  description,
+  ogImage,
+  noindex,
+  eyebrow,
+  heroSize = "loose",
+} = Astro.props as Props;
+---
+
+<BaseLayout title={metaTitle} description={description} ogImage={ogImage} noindex={noindex}>
+  <section class:list={["page-hero", "section", heroSize === "tight" ? "section--tight" : "section--loose"]}>
+    <div class="container page-hero__inner stack stack--tight">
+      {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+      <h1 class="page-hero__title">{title}</h1>
+      {description && <p class="lead page-hero__desc">{description}</p>}
+    </div>
+  </section>
+
+  <slot />
+</BaseLayout>
+
+<style>
+  .page-hero__inner { max-width: 55rem; }
+  .page-hero__title { letter-spacing: var(--ls-tight); }
+  .page-hero__desc { max-width: 52rem; }
+</style>
