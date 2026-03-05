@@ -3,7 +3,7 @@
 import PageLayout from "../layouts/PageLayout.astro";
 import WhatsAppButton from "../components/WhatsAppButton.astro";
 
-const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
+const TURNSTILE_SITE_KEY = Astro.env.get("PUBLIC_TURNSTILE_SITE_KEY") ?? "";
 ---
 
 <PageLayout
@@ -56,10 +56,11 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
 
               <div class="card card--surface contact-card">
                 <h3>Visit</h3>
+
                 <p class="muted contact-card__links">
                   <a
                     class="link"
-                    href="https://maps.google.com/maps?ll=50.897175,0.074706&z=14&t=m&hl=en&gl=GB&mapclient=apiv3"
+                    href="https://www.google.com/maps/search/?api=1&query=Laughton%20Rd%2C%20Ringmer%2C%20Lewes%20BN8%205SY"
                     target="_blank"
                     rel="noopener"
                   >
@@ -73,11 +74,20 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
                 <div class="contact-card__actions">
                   <a
                     class="btn btn--ghost"
-                    href="https://maps.google.com/maps?ll=50.897175,0.074706&z=14&t=m&hl=en&gl=GB&mapclient=apiv3"
+                    href="https://www.google.com/maps/search/?api=1&query=Laughton%20Rd%2C%20Ringmer%2C%20Lewes%20BN8%205SY"
                     target="_blank"
                     rel="noopener"
                   >
                     Open in Maps
+                  </a>
+
+                  <a
+                    class="btn btn--ghost"
+                    href="https://www.google.com/maps/dir/?api=1&destination=Laughton%20Rd%2C%20Ringmer%2C%20Lewes%20BN8%205SY"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    Get directions
                   </a>
                 </div>
 

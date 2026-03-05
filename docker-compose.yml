@@ -1,0 +1,103 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.prod
+      args:
+        PUBLIC_TURNSTILE_SITE_KEY: ${PUBLIC_TURNSTILE_SITE_KEY}
+    image: finis-web:latest
+    restart: unless-stopped
+    networks:
+      - traefik
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=${TRAEFIK_NETWORK}
+
+      - traefik.http.routers.finis-web.rule=(Host(`${DOMAIN}`))
+      - traefik.http.routers.finis-web.entrypoints=websecure
+      - traefik.http.routers.finis-web.tls.certresolver=myresolver
+      - traefik.http.routers.finis-web.tls.options=modern@file
+      - traefik.http.routers.finis-web.priority=10
+      - traefik.http.routers.finis-web.middlewares=sca-chain@docker
+      - traefik.http.services.finis-web.loadbalancer.server.port=80
+
+  # Internal mail pipeline (NOT exposed via Traefik)
+  # Needs egress to resolve DNS + reach SMTP, so it joins BOTH networks.
+  enquiry:
+    build:
+      context: ./services/enquiry
+      dockerfile: Dockerfile
+    image: finis-enquiry:latest
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      SMTP_USER_FILE: /run/secrets/finis_smtp_user
+      SMTP_PASS_FILE: /run/secrets/finis_smtp_pass
+      INTERNAL_ENQUIRY_SECRET_FILE: /run/secrets/finis_internal_enquiry_secret
+    secrets:
+      - finis_smtp_user
+      - finis_smtp_pass
+      - finis_internal_enquiry_secret
+    networks:
+      - internal
+      - egress
+
+  # Public edge: Turnstile + forward to enquiry (exposed via Traefik)
+  enquiry-proxy:
+    build:
+      context: ./services/enquiry-proxy
+      dockerfile: Dockerfile
+    image: finis-enquiry-proxy:latest
+    restart: unless-stopped
+    depends_on:
+      - enquiry
+    env_file:
+      - .env
+    environment:
+      TURNSTILE_SECRET_FILE: /run/secrets/finis_turnstile_secret
+      INTERNAL_ENQUIRY_SECRET_FILE: /run/secrets/finis_internal_enquiry_secret
+    secrets:
+      - finis_turnstile_secret
+      - finis_internal_enquiry_secret
+    networks:
+      - traefik
+      - internal
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=${TRAEFIK_NETWORK}
+
+      - traefik.http.routers.finis-enquiry.rule=(Host(`${DOMAIN}`)) && Path(`/api/enquiry`)
+      - traefik.http.routers.finis-enquiry.entrypoints=websecure
+      - traefik.http.routers.finis-enquiry.tls.certresolver=myresolver
+      - traefik.http.routers.finis-enquiry.tls.options=modern@file
+      - traefik.http.routers.finis-enquiry.priority=100
+      - traefik.http.services.finis-enquiry.loadbalancer.server.port=8080
+
+      - traefik.http.middlewares.finis-enquiry-ratelimit.ratelimit.average=10
+      - traefik.http.middlewares.finis-enquiry-ratelimit.ratelimit.burst=20
+      - traefik.http.routers.finis-enquiry.middlewares=finis-enquiry-ratelimit@docker,sca-chain@docker
+
+networks:
+  traefik:
+    external: true
+    name: ${TRAEFIK_NETWORK}
+
+  # Keep proxy <-> enquiry private. Do NOT mark this as internal:true
+  # because the enquiry service needs outbound DNS/SMTP.
+  internal:
+    name: finis-internal
+
+  # Explicit egress network for services that must reach the internet (SMTP/DNS).
+  egress:
+    name: finis-egress
+
+secrets:
+  finis_turnstile_secret:
+    file: ./secrets/turnstile_secret.txt
+  finis_smtp_user:
+    file: ./secrets/smtp_user.txt
+  finis_smtp_pass:
+    file: ./secrets/smtp_pass.txt
+  finis_internal_enquiry_secret:
+    file: ./secrets/internal_enquiry_secret.txt
