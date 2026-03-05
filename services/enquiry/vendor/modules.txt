@@ -1,0 +1,4 @@
+# github.com/thejpness/SouthCoastApps/services/_shared/mailer v0.0.0 => ../_shared/mailer
+## explicit; go 1.25
+github.com/thejpness/SouthCoastApps/services/_shared/mailer
+# github.com/thejpness/SouthCoastApps/services/_shared/mailer => ../_shared/mailer
