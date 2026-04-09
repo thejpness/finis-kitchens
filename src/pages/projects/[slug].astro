@@ -1,20 +1,24 @@
 ---
 // src/pages/projects/[slug].astro
 import PageLayout from "../../layouts/PageLayout.astro";
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 import { Picture } from "astro:assets";
 
 export async function getStaticPaths() {
   const entries = await getCollection("projects");
+
   return entries.map((entry) => ({
-    params: { slug: entry.slug },
+    params: { slug: entry.id },
     props: { entry },
   }));
 }
 
-const { entry } = Astro.props as any;
+const { entry } = Astro.props as {
+  entry: Awaited<ReturnType<typeof getCollection<"projects">>>[number];
+};
+
 const data = entry?.data ?? {};
-const { Content } = await entry.render();
+const { Content } = await render(entry);
 
 const title = data.title ?? "Kitchen project";
 const metaTitle = `${title} | Fini's Kitchens`;
@@ -23,6 +27,16 @@ const description =
   "A real kitchen project designed and installed by Fini’s Kitchens.";
 
 const ogImage = data?.heroImage?.src ?? "/images/hero/default-hero.jpg";
+
+const badges = [data.style, data.completedAt].filter(Boolean);
+const gallery = Array.isArray(data.gallery) ? data.gallery : [];
+const hasGallery = gallery.length > 0;
+
+const summaryPoints: { label: string; value: string }[] = [];
+
+if (data.location) summaryPoints.push({ label: "Location", value: data.location });
+if (data.style) summaryPoints.push({ label: "Style", value: data.style });
+if (data.completedAt) summaryPoints.push({ label: "Completed", value: data.completedAt });
 ---
 
 <PageLayout
@@ -34,6 +48,42 @@ const ogImage = data?.heroImage?.src ?? "/images/hero/default-hero.jpg";
 >
   <section class="section section--tight">
     <div class="container stack stack--loose">
+      <header class="project-header">
+        <div class="project-header__content stack stack--loose">
+          <div class="stack stack--tight">
+            <p class="eyebrow">Real home transformation</p>
+            <h1 class="display-title project-header__title">{title}</h1>
+            <p class="lead text-measure--wide">
+              A closer look at a kitchen shaped around everyday life, practical flow and a calmer design process.
+            </p>
+          </div>
+
+          {badges.length > 0 && (
+            <div class="project-meta" aria-label="Project details">
+              {data.style && <span class="badge">{data.style}</span>}
+              {data.completedAt && <span class="badge badge--quiet">{data.completedAt}</span>}
+            </div>
+          )}
+        </div>
+
+        {summaryPoints.length > 0 && (
+          <aside class="project-summary" aria-label="Project summary">
+            <div class="stack stack--tight">
+              <p class="eyebrow">Project summary</p>
+
+              <dl class="project-summary__list">
+                {summaryPoints.map((item) => (
+                  <div class="project-summary__row">
+                    <dt>{item.label}</dt>
+                    <dd>{item.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </aside>
+        )}
+      </header>
+
       {data.heroImage && (
         <div class="media media--16x9 project-hero">
           <Picture
@@ -41,41 +91,116 @@ const ogImage = data?.heroImage?.src ?? "/images/hero/default-hero.jpg";
             alt={title}
             formats={["avif", "webp"]}
             widths={[768, 1024, 1280, 1600, 1920]}
-            sizes="(max-width: 900px) 100vw, 900px"
+            sizes="(min-width: 80rem) 76rem, (min-width: 48rem) calc(100vw - 3.5rem), calc(100vw - 2rem)"
             loading="eager"
             decoding="async"
           />
+          <div class="project-hero__overlay" aria-hidden="true"></div>
         </div>
       )}
 
-      {(data.style || data.completedAt) && (
-        <div class="project-meta" aria-label="Project details">
-          {data.style && <span class="badge">{data.style}</span>}
-          {data.completedAt && <span class="badge badge--quiet">{data.completedAt}</span>}
+      <section class="project-story section-frame">
+        <div class="project-story__grid">
+          <article class="prose project-prose">
+            <Content />
+          </article>
+
+          <aside class="project-sidecard">
+            <div class="stack stack--tight">
+              <p class="eyebrow">Thinking about your own kitchen?</p>
+              <h2>Start with clarity, not pressure.</h2>
+              <p class="muted">
+                Whether you are reworking layout, storage, finishes or the whole feel of the room, the first step is
+                understanding what needs to work better day to day.
+              </p>
+            </div>
+
+            <ul class="check-list" role="list">
+              <li>Practical advice grounded in real homes</li>
+              <li>Early guidance on fit, flow and feasibility</li>
+              <li>A calmer route from design to installation</li>
+            </ul>
+
+            <div class="cta-row">
+              <a class="btn btn--primary" href="/contact">Book a consultation</a>
+              <a class="text-link" href="/projects">Browse more projects</a>
+            </div>
+          </aside>
         </div>
+      </section>
+
+      {hasGallery && (
+        <section class="section section--tight">
+          <div class="project-gallery-wrap stack stack--loose">
+            <header class="section-intro">
+              <div class="stack stack--tight">
+                <p class="eyebrow">Gallery</p>
+                <h2>More views from this project</h2>
+              </div>
+              <p class="muted text-measure">
+                Extra details, materials and angles that help show how the room comes together in real life.
+              </p>
+            </header>
+
+            <div class="project-gallery">
+              {gallery.map((image, index) => (
+                <figure class:list={["project-gallery__item", index === 0 && "project-gallery__item--featured"]}>
+                  <div class="media media--4x3 project-gallery__media">
+                    <Picture
+                      src={image}
+                      alt={`${title} gallery image ${index + 1}`}
+                      formats={["avif", "webp"]}
+                      widths={[480, 768, 1024, 1280]}
+                      sizes={
+                        index === 0
+                          ? "(min-width: 64rem) 50vw, 100vw"
+                          : "(min-width: 64rem) 25vw, (min-width: 42rem) 50vw, 100vw"
+                      }
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                </figure>
+              ))}
+            </div>
+          </div>
+        </section>
       )}
 
-      <article class="prose">
-        <Content />
-      </article>
+      <section class="section section--tight">
+        <div class="project-next">
+          <div class="stack stack--tight">
+            <p class="eyebrow">Next step</p>
+            <h2>Want something like this, but shaped around your home?</h2>
+            <p class="muted text-measure">
+              Tell Fini’s Kitchens a little about your space, priorities and budget, and the next step will be clear and grounded.
+            </p>
+          </div>
 
-      <div class="project-next panel">
-        <div class="stack stack--tight">
-          <h2>Want something like this?</h2>
-          <p class="muted text-measure">
-            Tell us a little about your space and what you want from the kitchen - we’ll suggest a sensible next step.
-          </p>
+          <div class="cta-row">
+            <a class="btn btn--primary btn--large" href="/contact">Book a calm design call</a>
+            <a class="btn btn--secondary btn--large" href="/pricing">See pricing guidance</a>
+          </div>
         </div>
-        <a class="btn btn--primary" href="/contact">Book a consultation</a>
-      </div>
+      </section>
     </div>
   </section>
 </PageLayout>
 
 <style>
-  .project-hero {
-    border-radius: var(--radius-xl);
-    overflow: hidden;
+  .project-header,
+  .project-story__grid,
+  .project-gallery {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .project-header {
+    align-items: start;
+  }
+
+  .project-header__title {
+    max-width: 12ch;
   }
 
   .project-meta {
@@ -84,18 +209,158 @@ const ogImage = data?.heroImage?.src ?? "/images/hero/default-hero.jpg";
     gap: var(--space-2);
   }
 
-  .project-next {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: var(--space-6);
-    margin-top: var(--space-10);
+  .project-summary {
+    padding: var(--space-6);
+    border: var(--border-1) solid var(--c-border);
+    border-radius: var(--radius-xl);
+    background:
+      radial-gradient(circle at top left, rgba(157, 184, 233, 0.14) 0%, rgba(157, 184, 233, 0) 42%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(246, 241, 234, 0.94) 100%);
+    box-shadow: var(--shadow-1);
   }
 
-  @media (max-width: 880px) {
+  .project-summary__list {
+    display: grid;
+    gap: var(--space-4);
+    margin: var(--space-3) 0 0;
+  }
+
+  .project-summary__row {
+    display: grid;
+    gap: var(--space-1);
+  }
+
+  .project-summary__row dt {
+    font-size: 0.76rem;
+    letter-spacing: var(--ls-wide);
+    text-transform: uppercase;
+    color: var(--c-text-faint);
+  }
+
+  .project-summary__row dd {
+    margin: 0;
+    color: var(--c-text);
+    font-weight: 600;
+    line-height: var(--lh-snug);
+  }
+
+  .project-hero {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-2);
+  }
+
+  .project-hero__overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(180deg, rgba(18, 28, 40, 0.03) 0%, rgba(18, 28, 40, 0) 35%),
+      linear-gradient(0deg, rgba(18, 28, 40, 0.12) 0%, rgba(18, 28, 40, 0) 34%);
+  }
+
+  .project-story {
+    padding-top: var(--space-8);
+  }
+
+  .project-prose {
+    min-width: 0;
+  }
+
+  .project-sidecard {
+    display: grid;
+    gap: var(--space-6);
+    align-content: start;
+    padding: var(--space-6);
+    border: var(--border-1) solid var(--c-border);
+    border-radius: var(--radius-xl);
+    background:
+      radial-gradient(circle at top left, rgba(157, 184, 233, 0.16) 0%, rgba(157, 184, 233, 0) 40%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(246, 241, 234, 0.94) 100%);
+    box-shadow: var(--shadow-1);
+  }
+
+  .project-gallery-wrap {
+    padding: var(--space-8);
+    border: var(--border-1) solid var(--c-border);
+    border-radius: var(--radius-xl);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(246, 241, 234, 0.94) 100%);
+    box-shadow: var(--shadow-1);
+  }
+
+  .project-gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .project-gallery__item,
+  .project-gallery__media {
+    height: 100%;
+  }
+
+  .project-gallery__media {
+    overflow: hidden;
+    border-radius: var(--radius-l);
+    box-shadow: var(--shadow-1);
+  }
+
+  .project-next {
+    display: grid;
+    gap: var(--space-6);
+    padding: var(--space-8);
+    border-radius: var(--radius-xl);
+    border: var(--border-1) solid var(--c-border);
+    background:
+      radial-gradient(circle at top left, rgba(157, 184, 233, 0.16) 0%, rgba(157, 184, 233, 0) 42%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(246, 241, 234, 0.94) 100%);
+    box-shadow: var(--shadow-2);
+  }
+
+  @media (min-width: 48rem) {
+    .project-header {
+      grid-template-columns: minmax(0, 1.2fr) minmax(18rem, 0.8fr);
+    }
+
+    .project-story__grid {
+      grid-template-columns: minmax(0, 1.25fr) minmax(18rem, 0.75fr);
+      align-items: start;
+    }
+
     .project-next {
-      flex-direction: column;
-      align-items: flex-start;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+    }
+
+    .project-gallery {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .project-gallery__item--featured {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (min-width: 72rem) {
+    .project-gallery {
+      grid-template-columns: 1.2fr 0.8fr 0.8fr;
+    }
+
+    .project-gallery__item--featured {
+      grid-column: 1 / 2;
+      grid-row: 1 / span 2;
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .project-summary,
+    .project-sidecard,
+    .project-gallery-wrap,
+    .project-next {
+      padding: var(--space-6);
+    }
+
+    .project-header__title {
+      max-width: 100%;
     }
   }
 </style>

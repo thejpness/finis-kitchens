@@ -1,292 +1,343 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import HeroCarousel from "../components/HeroCarousel.astro";
-import ProjectRail from "../components/ProjectRail.astro";
+import HomeHero from "../components/sections/HomeHero.astro";
+import ProofStrip from "../components/sections/ProofStrip.astro";
+import BudgetGuide from "../components/sections/BudgetGuide.astro";
+import ProcessSteps from "../components/sections/ProcessSteps.astro";
+import ProjectPreviewGrid from "../components/sections/ProjectPreviewGrid.astro";
+import FAQList from "../components/sections/FAQList.astro";
 import { getCollection } from "astro:content";
 
 import phWide from "../assets/images/placeholders/kitchen-placeholder-wide-island.png";
-import phDetail from "../assets/images/placeholders/kitchen-placeholder-detail-sink.png";
-import phEvening from "../assets/images/placeholders/kitchen-placeholder-evening-teal.png";
 
-const pageTitle = "Kitchens with Love and Ease | Fini's Kitchens";
-const pageDescription =
-  "Thoughtful kitchen design and installation for real homes in and around Horsham, from first sketch to that first cup of tea in your new kitchen.";
+const allProjects = await getCollection("projects");
+const featuredProjects = allProjects
+  .filter((project) => project.data.featured === true)
+  .sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999))
+  .slice(0, 3);
 
-const projects = await getCollection("projects", ({ data }) => data.featured ?? true);
-projects.sort((a, b) => (b.data.order ?? 0) - (a.data.order ?? 0));
+const heroImage = featuredProjects[0]?.data.heroImage ?? phWide;
 
-const featuredProjects = projects.slice(0, 6);
+const proofItems = [
+  {
+    title: "Designed around real routines",
+    text: "Storage, prep space, movement and everyday family life considered from the start.",
+  },
+  {
+    title: "A calmer process",
+    text: "Clear communication, practical guidance and a more straightforward way to buy a kitchen.",
+  },
+  {
+    title: "Budget guidance early",
+    text: "Useful cost direction upfront, so you can plan with more confidence.",
+  },
+  {
+    title: "Real homes, real results",
+    text: "Kitchens created for lived-in spaces, not showroom theatre.",
+  },
+];
 
-const placeholders = [phWide, phDetail, phEvening];
+const steps = [
+  {
+    title: "Home survey and brief",
+    body: "We start by understanding your room, your routines and what you want the kitchen to do better every day.",
+  },
+  {
+    title: "Layout and design direction",
+    body: "We shape the layout around flow, storage, appliances and the details that make the space feel easier to use.",
+  },
+  {
+    title: "Specification and sign-off",
+    body: "Cabinetry, finishes, worktops and practical details are refined until everything feels considered and right.",
+  },
+  {
+    title: "Supply and installation",
+    body: "Your project moves through to delivery and fitting with a clear plan and less chasing from you.",
+  },
+];
 
-const pickIndex = (s = "") =>
-  [...s].reduce((acc, ch) => acc + ch.charCodeAt(0), 0) % placeholders.length;
-
-const fallbackFor = (slug = "") => placeholders[pickIndex(slug)];
-
-const heroFromProjects = featuredProjects.slice(0, 3).map((p) => {
-  const d: any = p?.data ?? {};
-  const slug = p?.slug ?? "";
-  const hero = d?.heroImage ?? fallbackFor(slug);
-  const caption = [d.location, d.style].filter(Boolean).join(" · ");
-
-  return {
-    src: hero,
-    alt: d.title ? `${d.title} - kitchen project by Fini’s Kitchens` : "Kitchen project by Fini’s Kitchens",
-    caption: caption || "Recent installation",
-  };
-});
-
-const heroSlides =
-  heroFromProjects.length > 0
-    ? [
-        ...heroFromProjects,
-        ...placeholders
-          .slice(heroFromProjects.length, 3)
-          .map((img, i) => ({
-            src: img,
-            alt: `Kitchen inspiration image ${heroFromProjects.length + i + 1} - Fini’s Kitchens`,
-            caption: "Recent installation",
-          })),
-      ].slice(0, 3)
-    : placeholders.map((img, i) => ({
-        src: img,
-        alt: `Kitchen inspiration image ${i + 1} - Fini’s Kitchens`,
-        caption: "Recent installation",
-      }));
-
-const ogImage = heroSlides?.[0]?.src?.src ?? phWide.src;
+const faqs = [
+  {
+    question: "How much should we budget for a new kitchen?",
+    answer:
+      "That depends on the size of the room, your cabinetry choices, worktops, appliances and whether any building work sits around the kitchen itself. We aim to give you useful cost guidance early, so you can make decisions with confidence.",
+  },
+  {
+    question: "How long does a typical project take?",
+    answer:
+      "Many projects take around three months from initial design through to installation. Exact timings depend on the scope of work, product choices and the room itself.",
+  },
+  {
+    question: "Do you handle installation as well as design?",
+    answer:
+      "Yes. Fini’s Kitchens offers a joined-up service covering design, supply and installation, so the process feels clearer and better coordinated.",
+  },
+  {
+    question: "Will the process feel very sales-led?",
+    answer:
+      "No. The approach is designed to feel calm, clear and low pressure, with practical advice and straightforward conversations rather than pushy selling.",
+  },
+  {
+    question: "Do you only work on large, high-end projects?",
+    answer:
+      "Not at all. The focus is on thoughtful, well-planned kitchens for real homes - with quality and care in the details, without unnecessary showroom drama.",
+  },
+];
 ---
 
-<BaseLayout title={pageTitle} description={pageDescription} ogImage={ogImage}>
-  <HeroCarousel id="home-hero" slides={heroSlides} intervalMs={7500} ariaLabel="Fini's Kitchens hero carousel">
-    <div class="home-hero__copy stack stack--tight">
-      <p class="eyebrow">Fini's Kitchens · Horsham</p>
+<BaseLayout
+  title="Calm, real-life kitchens | Fini’s Kitchens"
+  description="Thoughtful kitchen design, supply and installation for real homes. Clear process, practical guidance and premium results without the showroom pressure."
+  ogImage={heroImage.src}
+>
+  <HomeHero image={heroImage} />
 
-      <h1 class="home-hero__title">
-        Kitchens for <span class="home-hero__accent">real life</span>, not showrooms.
-      </h1>
+  <ProofStrip items={proofItems} />
 
-      <p class="lead home-hero__lead">
-        Calm, considered kitchens designed around how you actually live - cooking, kids, coffee, chaos, hosting.
-        We handle design, supply and installation end-to-end.
-      </p>
-
-      <div class="home-hero__actions">
-        <a href="/contact" class="btn btn--primary">Book a design consultation</a>
-        <a href="/projects" class="btn btn--ghost">Explore projects</a>
-      </div>
-
-      <div class="home-hero__badges" aria-label="Key details">
-        <span class="badge">Typical timeline: ~3 months</span>
-        <span class="badge">Design • Supply • Install</span>
-        <span class="badge">Horsham & nearby</span>
-      </div>
-
-      <p class="home-hero__note">
-        Thoughtful layouts. Honest materials. Details that quietly make every day easier.
-      </p>
-    </div>
-  </HeroCarousel>
-
-  <section class="home-why section section--tight">
-    <div class="container home-why__inner stack stack--loose">
-      <header class="section-head">
-        <div class="section-head__copy">
-          <h2 class="section-head__title">Design that starts with you.</h2>
-          <p class="section-head__desc text-measure">
-            We don’t begin with a range or a trend. We begin with the way you move through the room -
-            the morning rush, the midweek meals, the weekend hosting.
-          </p>
+  <section class="section section--tight">
+    <div class="container section-frame stack stack--loose">
+      <header class="section-intro">
+        <div class="stack stack--tight">
+          <p class="eyebrow">Designed for real life</p>
+          <h2>A calm kitchen is rarely about more units. It is about better decisions.</h2>
         </div>
-        <a class="link section-head__link" href="/services">How we work →</a>
+        <p class="muted text-measure">
+          Good kitchen design starts with everyday life - weekday breakfasts, school bags, quiet evenings,
+          hosting friends, finding space for everything, and making the room feel easier to use.
+        </p>
       </header>
 
-      <div class="grid grid--3">
-        <article class="card card--surface home-card">
-          <h3>Layouts with intent</h3>
-          <p class="muted text-measure">
-            Storage where you reach, prep where you need it, and a flow that feels natural every day.
+      <div class="home-value__grid">
+        <article class="card card--surface home-value__card">
+          <h3>Flow before features</h3>
+          <p class="muted">
+            Prep space, routes through the room, bin placement, appliance positioning and everyday reach matter
+            just as much as the final look.
           </p>
         </article>
 
-        <article class="card card--surface home-card">
-          <h3>Materials that wear well</h3>
-          <p class="muted text-measure">
-            Finishes chosen for real life - touch, durability, and the way they age over years.
+        <article class="card card--surface home-value__card">
+          <h3>Premium without the theatre</h3>
+          <p class="muted">
+            Quality comes through in the fit, finish and thought behind the design - not in vague luxury language.
           </p>
         </article>
 
-        <article class="card card--surface home-card">
-          <h3>One team, end-to-end</h3>
-          <p class="muted text-measure">
-            Design, specification and installation coordinated for you - less chasing, more clarity.
+        <article class="card card--surface home-value__card">
+          <h3>Clarity builds confidence</h3>
+          <p class="muted">
+            Understanding likely budgets, timings and installation scope early makes the whole project feel more settled.
           </p>
         </article>
       </div>
     </div>
   </section>
 
-  <section class="home-process section section--tight">
-    <div class="container stack stack--loose">
-      <header class="section-head">
-        <div class="section-head__copy">
-          <h2 class="section-head__title">A simple process. No drama.</h2>
-          <p class="section-head__desc text-measure">
-            Clear steps, clear communication, and a plan you can trust. Most projects complete in around three months.
-          </p>
+  <BudgetGuide />
+
+  <ProcessSteps steps={steps} />
+
+  <section class="section section--tight">
+    <div class="container section-frame stack stack--loose">
+      <header class="section-intro">
+        <div class="stack stack--tight">
+          <p class="eyebrow">Why it matters</p>
+          <h2>The kitchen should work better on a normal day, not just look good in photographs.</h2>
         </div>
-        <a class="btn btn--ghost" href="/contact">Check availability</a>
+        <p class="muted text-measure">
+          A well-planned kitchen should feel easier, calmer and more natural to live with from the moment you start using it.
+        </p>
       </header>
 
-      <div class="grid grid--3">
-        <article class="card home-step">
-          <p class="home-step__kicker eyebrow">Step 1</p>
-          <h3>Survey & brief</h3>
-          <p class="muted text-measure">
-            We measure, listen, and agree what “great” looks like - lifestyle, budget, priorities.
+      <div class="home-lifestyle__grid">
+        <article class="home-lifestyle__feature home-lifestyle__feature--large">
+          <p class="eyebrow">For busy families</p>
+          <h3>Better flow. Better storage. Less friction.</h3>
+          <p class="muted">
+            Create space for packed lunches, homework spillover, family dinners and the half-chaos of ordinary evenings
+            without the room feeling overloaded.
           </p>
         </article>
 
-        <article class="card home-step">
-          <p class="home-step__kicker eyebrow">Step 2</p>
-          <h3>Design & refine</h3>
-          <p class="muted text-measure">
-            Layout, storage, finishes - we iterate until it feels obvious and right.
+        <article class="home-lifestyle__feature">
+          <p class="eyebrow">For long-term homeowners</p>
+          <h3>A kitchen you can live with for years</h3>
+          <p class="muted">
+            Thoughtful choices in layout, materials and finish help the room feel right now and still feel right later.
           </p>
         </article>
 
-        <article class="card home-step">
-          <p class="home-step__kicker eyebrow">Step 3</p>
-          <h3>Deliver & install</h3>
-          <p class="muted text-measure">
-            We coordinate the moving parts so installation is smooth and predictable.
+        <article class="home-lifestyle__feature">
+          <p class="eyebrow">For downsizers or renovators</p>
+          <h3>Make every inch work harder</h3>
+          <p class="muted">
+            Smaller rooms and reworked spaces need sharper planning, smart storage and careful use of every corner.
           </p>
         </article>
-      </div>
-
-      <div class="home-process__fineprint faint">
-        Want the full breakdown? <a class="link" href="/services">View services →</a>
       </div>
     </div>
   </section>
 
-  <section class="home-projects section section--tight">
-    <ProjectRail
-      title="Recent kitchen projects"
-      description="Swipe through a few real homes - then dive into the details."
-      projects={featuredProjects}
-      ctaHref="/projects"
-      ctaLabel="View all projects"
-    />
-  </section>
+  <ProjectPreviewGrid projects={featuredProjects} />
 
-  <section class="home-cta section section--tight">
+  <section class="section section--tight">
     <div class="container">
-      <div class="panel home-cta__panel">
-        <div class="home-cta__content stack stack--tight">
-          <h2>Ready to talk about your kitchen?</h2>
+      <div class="founder-panel">
+        <div class="stack stack--tight">
+          <p class="eyebrow">A calmer way to buy</p>
+          <h2>Low pressure is not just a tone of voice. It is built into the process.</h2>
+        </div>
+
+        <div class="founder-panel__body stack stack--tight">
           <p class="muted text-measure">
-            Share a few details and we’ll arrange a relaxed, no-pressure call to explore ideas and timings.
+            From the first conversation to the finished kitchen, the aim is to make the process feel clear,
+            grounded and easier to trust - with practical advice, honest guidance and attention to how the room will really be used.
+          </p>
+
+          <ul class="check-list" role="list">
+            <li>Clear next steps from the outset</li>
+            <li>Budget and feasibility discussed early</li>
+            <li>Design decisions grounded in daily life</li>
+            <li>A joined-up supply and installation journey</li>
+          </ul>
+
+          <div class="cta-row">
+            <a class="btn btn--primary" href="/contact">Book a calm design call</a>
+            <a class="text-link" href="/about">Read more about Fini’s Kitchens</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="container section-frame stack stack--loose">
+      <header class="section-intro">
+        <div class="stack stack--tight">
+          <p class="eyebrow">Reassurance</p>
+          <h2>The questions most people want answered early.</h2>
+        </div>
+      </header>
+
+      <div class="trust-grid">
+        <article class="card card--surface trust-card">
+          <h3>What kind of budget is realistic?</h3>
+          <p class="muted">
+            Early cost guidance helps you understand what is possible and plan with more confidence.
+          </p>
+        </article>
+
+        <article class="card card--surface trust-card">
+          <h3>How long is this likely to take?</h3>
+          <p class="muted">
+            Clear expectations around timings make the whole experience feel calmer and easier to manage.
+          </p>
+        </article>
+
+        <article class="card card--surface trust-card">
+          <h3>Who is handling installation?</h3>
+          <p class="muted">
+            Knowing how the project is coordinated gives you more confidence from the outset.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <FAQList items={faqs} />
+
+  <section class="section">
+    <div class="container">
+      <div class="final-cta">
+        <div class="stack stack--tight">
+          <p class="eyebrow">Start simply</p>
+          <h2>Start with a conversation, not a sales script.</h2>
+          <p class="muted text-measure">
+            If you are planning a new kitchen and want clear, grounded advice, the first step is a calm conversation about your home, your priorities and your budget.
           </p>
         </div>
-        <a href="/contact" class="btn btn--primary btn--large">Start your project</a>
+
+        <div class="cta-row">
+          <a class="btn btn--primary btn--large" href="/contact">Book a calm design call</a>
+          <a class="btn btn--secondary btn--large" href="#budgets">See typical project budgets</a>
+        </div>
       </div>
     </div>
   </section>
 </BaseLayout>
 
 <style>
-  .home-hero__accent { color: var(--c-accent); }
-
-  /* Hero-specific typography tuning */
-  .home-hero__title {
-    font-size: clamp(1.75rem, 2.2vw + 1.25rem, 3rem);
-    letter-spacing: var(--ls-tight);
-    line-height: 1.08;
-    margin: 0;
+  .home-value__grid,
+  .home-lifestyle__grid,
+  .trust-grid {
+    display: grid;
+    gap: var(--space-6);
   }
 
-  .home-hero__lead {
-    max-width: 56ch;
+  .home-value__card h3,
+  .trust-card h3 {
+    margin-bottom: var(--space-3);
   }
 
-  /* Button row: desktop inline, mobile stacked */
-  .home-hero__actions {
-    margin-top: var(--space-5);
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-3);
-    align-items: center;
+  .home-lifestyle__feature {
+    padding: var(--space-7);
+    border: var(--border-1) solid var(--c-border);
+    border-radius: var(--radius-xl);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(246, 241, 234, 0.92) 100%);
+    box-shadow: var(--shadow-1);
   }
 
-  .home-hero__badges {
-    margin-top: var(--space-4);
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
+  .home-lifestyle__feature h3 {
+    margin-top: var(--space-2);
+    margin-bottom: var(--space-3);
   }
 
-  .home-hero__note {
-    margin-top: var(--space-3);
-    font-size: var(--fs-0);
-    color: var(--c-text-faint);
-    max-width: 58ch;
+  .founder-panel {
+    display: grid;
+    gap: var(--space-7);
+    padding: var(--space-8);
+    border: var(--border-1) solid var(--c-border);
+    border-radius: var(--radius-xl);
+    background:
+      radial-gradient(circle at top left, rgba(157, 184, 233, 0.18) 0%, rgba(157, 184, 233, 0) 42%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.94) 0%, rgba(246, 241, 234, 0.94) 100%);
+    box-shadow: var(--shadow-2);
   }
 
-  /* Make mobile feel “intentional”, not cramped */
-  @media (max-width: 640px) {
-    .home-hero__actions {
-      flex-direction: column;
+  .final-cta {
+    display: grid;
+    gap: var(--space-6);
+    padding: var(--space-8);
+    border-radius: var(--radius-xl);
+    border: var(--border-1) solid var(--c-border);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(246, 241, 234, 0.94) 100%);
+    box-shadow: var(--shadow-1);
+  }
+
+  @media (min-width: 48rem) {
+    .home-value__grid,
+    .trust-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .home-lifestyle__grid {
+      grid-template-columns: 1.4fr 1fr 1fr;
       align-items: stretch;
     }
 
-    .home-hero__actions .btn {
-      width: 100%;
-      justify-content: center;
+    .home-lifestyle__feature--large {
+      grid-row: 1 / span 2;
     }
 
-    /* Clamp lead text a bit so the image still gets to exist */
-    .home-hero__lead {
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 4;
-      overflow: hidden;
+    .founder-panel {
+      grid-template-columns: 0.9fr 1.1fr;
+      align-items: start;
     }
 
-    /* Hide the final note on very small screens (keeps the card shorter) */
-    .home-hero__note {
-      display: none;
-    }
-
-    /* Badges become calmer and avoid wrapping into chaos */
-    .home-hero__badges .badge:nth-child(3) {
-      display: none;
-    }
-  }
-
-  .home-why__inner {
-    border-top: var(--border-1) solid var(--c-border);
-    padding-top: var(--space-10);
-  }
-
-  .home-card p { margin-top: var(--space-3); }
-
-  .home-step { position: relative; overflow: hidden; }
-  .home-step__kicker { margin-bottom: var(--space-3); color: color-mix(in srgb, var(--c-text-faint) 85%, transparent); }
-  .home-process__fineprint { font-size: 0.9rem; }
-
-  .home-cta__panel {
-    display: flex;
-    justify-content: space-between;
-    gap: var(--space-6);
-    align-items: center;
-  }
-
-  @media (max-width: 880px) {
-    .home-cta__panel {
-      flex-direction: column;
-      align-items: flex-start;
+    .final-cta {
+      grid-template-columns: 1fr auto;
+      align-items: center;
     }
   }
 </style>

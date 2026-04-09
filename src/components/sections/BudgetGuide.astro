@@ -1,0 +1,92 @@
+<section id="budgets" class="section section--tight">
+  <div class="container">
+    <div class="budget-guide">
+      <div class="budget-guide__intro stack stack--tight">
+        <p class="eyebrow">Typical project budgets</p>
+        <h2>Useful budget guidance, early in the process.</h2>
+        <p class="muted text-measure">
+          Every kitchen is different, but a clear starting range can make planning much easier. These guide figures help
+          give you a sense of what is realistic based on room size, specification and overall scope.
+        </p>
+
+        <ul class="check-list" role="list">
+          <li>Room size and layout affect the overall spend</li>
+          <li>Cabinetry, worktops and appliances shift the budget up or down</li>
+          <li>Building work and structural changes can increase the project cost</li>
+        </ul>
+      </div>
+
+      <div class="budget-guide__bands">
+        <article class="budget-band">
+          <p class="budget-band__range">£15k–£25k</p>
+          <h3>Smaller rooms or simpler refresh projects</h3>
+          <p class="muted">
+            Often suited to more compact kitchens, lighter structural complexity and carefully chosen finishes.
+          </p>
+        </article>
+
+        <article class="budget-band">
+          <p class="budget-band__range">£25k–£40k</p>
+          <h3>Many full kitchen projects</h3>
+          <p class="muted">
+            A common range for homeowners looking for a strong balance of design quality, cabinetry, practicality and finish.
+          </p>
+        </article>
+
+        <article class="budget-band">
+          <p class="budget-band__range">£40k+</p>
+          <h3>Larger rooms or more bespoke scope</h3>
+          <p class="muted">
+            Usually where room size, premium specification, structural work or more detailed requirements start to move the spend higher.
+          </p>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .budget-guide {
+    display: grid;
+    gap: var(--space-7);
+    padding: var(--space-8);
+    border: var(--border-1) solid var(--c-border);
+    border-radius: var(--radius-xl);
+    background:
+      radial-gradient(circle at top left, rgba(157, 184, 233, 0.14) 0%, rgba(157, 184, 233, 0) 45%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(246, 241, 234, 0.94) 100%);
+    box-shadow: var(--shadow-2);
+  }
+
+  .budget-guide__bands {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .budget-band {
+    padding: var(--space-5);
+    border-radius: var(--radius-l);
+    border: var(--border-1) solid var(--c-border);
+    background: rgba(255, 255, 255, 0.92);
+  }
+
+  .budget-band__range {
+    margin-bottom: var(--space-2);
+    font-size: clamp(1.5rem, 2vw, 2rem);
+    line-height: 1;
+    letter-spacing: var(--ls-tight);
+    font-weight: 700;
+    color: var(--c-accent);
+  }
+
+  .budget-band h3 {
+    margin-bottom: var(--space-3);
+  }
+
+  @media (min-width: 64rem) {
+    .budget-guide {
+      grid-template-columns: 1fr 1.1fr;
+      align-items: start;
+    }
+  }
+</style>

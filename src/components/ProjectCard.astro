@@ -7,7 +7,7 @@ import phDetail from "../assets/images/placeholders/kitchen-placeholder-detail-s
 import phEvening from "../assets/images/placeholders/kitchen-placeholder-evening-teal.png";
 
 const project = Astro.props.project;
-const slug = project?.slug ?? "";
+const slug = project?.id ?? "";
 const data = project?.data ?? {};
 
 // DEV optimisation: avoid AVIF + reduce derivative count while hot reloading
@@ -40,12 +40,16 @@ const searchText = [data.title, data.location, data.style, data.completedAt]
   .filter(Boolean)
   .join(" ")
   .toLowerCase();
+
+const href = `/projects/${slug}/`;
+const title = data.title ?? "Untitled project";
 ---
 
 {project && (
   <a
-    href={`/projects/${slug}/`}
+    href={href}
     class="project-card card card--surface"
+    aria-label={`View project: ${title}`}
     data-location={locationKey}
     data-style={styleKey}
     data-search={searchText}
@@ -56,15 +60,27 @@ const searchText = [data.title, data.location, data.style, data.completedAt]
         alt={alt}
         formats={FORMATS}
         widths={WIDTHS}
-        sizes="(max-width: 640px) 86vw, (max-width: 980px) 42vw, (max-width: 880px) 50vw, 33vw"
+        sizes="(min-width: 70rem) 33vw, (min-width: 42rem) 50vw, 100vw"
         loading="lazy"
         decoding="async"
       />
+
+      <div class="project-card__media-overlay" aria-hidden="true"></div>
+
+      {data.location && (
+        <div class="project-card__media-meta">
+          <span class="badge project-card__media-badge">{data.location}</span>
+        </div>
+      )}
     </div>
 
     <div class="project-card__body">
-      <div class="project-card__top">
-        <h3 class="project-card__title">{data.title ?? "Untitled project"}</h3>
+      <div class="project-card__content stack stack--tight">
+        <div class="stack stack--tight">
+          <h3 class="project-card__title">{title}</h3>
+
+          {metaLine && <p class="project-card__meta faint">{metaLine}</p>}
+        </div>
 
         {(data.style || data.completedAt) && (
           <div class="project-card__badges" aria-label="Project details">
@@ -74,44 +90,108 @@ const searchText = [data.title, data.location, data.style, data.completedAt]
         )}
       </div>
 
-      {metaLine && <p class="project-card__meta faint">{metaLine}</p>}
+      <div class="project-card__footer">
+        <span class="project-card__cta">
+          View project
+          <span class="project-card__arrow" aria-hidden="true">→</span>
+        </span>
+      </div>
     </div>
   </a>
 )}
 
 <style>
   .project-card {
-    display: block;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    height: 100%;
     padding: 0;
     overflow: hidden;
     text-decoration: none;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(246, 241, 234, 0.96) 100%);
     transition:
       transform var(--dur-2) var(--ease-out),
       box-shadow var(--dur-2) var(--ease-out),
-      border-color var(--dur-2) var(--ease-out);
+      border-color var(--dur-2) var(--ease-out),
+      background var(--dur-2) var(--ease-out);
   }
 
   .project-card:hover {
-    transform: translateY(-3px);
+    transform: translateY(-4px);
     box-shadow: var(--shadow-3);
+    border-color: color-mix(in srgb, var(--c-brand-300) 48%, var(--c-border));
+  }
+
+  .project-card:focus-visible {
+    box-shadow:
+      0 0 0 3px rgba(157, 184, 233, 0.24),
+      var(--shadow-3);
+    border-color: var(--c-brand-400);
+  }
+
+  .project-card__media {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0;
+    background: var(--c-surface-2);
+  }
+
+  .project-card__media :global(img),
+  .project-card__media :global(picture) {
+    transition:
+      transform 420ms var(--ease-out),
+      filter 220ms var(--ease-out);
+  }
+
+  .project-card:hover .project-card__media :global(img),
+  .project-card:hover .project-card__media :global(picture) {
+    transform: scale(1.03);
+  }
+
+  .project-card__media-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(180deg, rgba(18, 28, 40, 0.02) 0%, rgba(18, 28, 40, 0) 35%),
+      linear-gradient(0deg, rgba(18, 28, 40, 0.16) 0%, rgba(18, 28, 40, 0) 38%);
+  }
+
+  .project-card__media-meta {
+    position: absolute;
+    inset: var(--space-4) var(--space-4) auto auto;
+    z-index: 1;
+  }
+
+  .project-card__media-badge {
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--c-text);
+    border-color: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(8px);
   }
 
   .project-card__body {
+    display: grid;
+    grid-template-rows: 1fr auto;
+    gap: var(--space-5);
     padding: var(--space-6);
-    padding-top: var(--space-5);
   }
 
-  .project-card__top {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
+  .project-card__content {
+    min-width: 0;
   }
 
   .project-card__title {
-    font-size: 0.98rem;
-    font-weight: 650;
+    font-size: clamp(1.05rem, 1rem + 0.35vw, 1.3rem);
+    line-height: 1.16;
     margin: 0;
-    max-width: 44ch;
+    max-width: 22ch;
+  }
+
+  .project-card__meta {
+    font-size: 0.88rem;
+    line-height: 1.55;
   }
 
   .project-card__badges {
@@ -120,8 +200,47 @@ const searchText = [data.title, data.location, data.style, data.completedAt]
     gap: var(--space-2);
   }
 
-  .project-card__meta {
-    margin-top: var(--space-3);
-    font-size: 0.82rem;
+  .project-card__footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: var(--space-1);
+    border-top: var(--border-1) solid color-mix(in srgb, var(--c-border) 78%, transparent);
+  }
+
+  .project-card__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.94rem;
+    font-weight: 600;
+    color: var(--c-link);
+    transition:
+      color var(--dur-2) var(--ease-out),
+      gap var(--dur-2) var(--ease-out);
+  }
+
+  .project-card:hover .project-card__cta {
+    color: var(--c-link-hover);
+    gap: 0.65rem;
+  }
+
+  .project-card__arrow {
+    transition: transform var(--dur-2) var(--ease-out);
+  }
+
+  .project-card:hover .project-card__arrow {
+    transform: translateX(2px);
+  }
+
+  @media (max-width: 40rem) {
+    .project-card__body {
+      padding: var(--space-5);
+      gap: var(--space-4);
+    }
+
+    .project-card__media-meta {
+      inset: var(--space-3) var(--space-3) auto auto;
+    }
   }
 </style>

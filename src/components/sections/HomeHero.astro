@@ -1,0 +1,144 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  image: ImageMetadata;
+}
+
+const { image } = Astro.props;
+---
+
+<section class="home-hero section">
+  <div class="container home-hero__grid">
+    <div class="home-hero__content stack stack--loose">
+      <div class="stack stack--tight">
+        <p class="eyebrow">Calm, real-life kitchens</p>
+        <h1 class="display-title home-hero__title">
+          A kitchen that feels better on an ordinary Tuesday.
+        </h1>
+        <p class="lead text-measure--wide">
+          Fini’s Kitchens designs and installs warm, hard-working kitchens for real homes - shaped around routines,
+          flow, storage, hosting and the way your household actually moves.
+        </p>
+      </div>
+
+      <div class="home-hero__actions">
+        <div class="cta-row home-hero__cta-row">
+          <a class="btn btn--primary btn--large" href="/contact">Book a calm design call</a>
+          <a class="btn btn--secondary btn--large" href="#budgets">See typical project budgets</a>
+        </div>
+
+        <a class="text-link home-hero__browse-link" href="#projects">See real-life kitchens</a>
+
+        <ul class="home-hero__meta" role="list">
+          <li>Clear process</li>
+          <li>Budget guidance early</li>
+          <li>Design, supply and installation</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="home-hero__media">
+      <div class="media media--4x3 home-hero__frame">
+        <Image
+          src={image}
+          alt="A finished Fini’s Kitchens project in a real family home."
+          widths={[720, 960, 1280]}
+          sizes="(min-width: 64rem) 42rem, 100vw"
+          priority
+        />
+      </div>
+
+      <p class="home-hero__caption">
+        Thoughtful layouts, practical details and a calmer way to create a kitchen that works beautifully every day.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .home-hero {
+    padding-top: clamp(2.5rem, 5vw, 5rem);
+  }
+
+  .home-hero__grid {
+    display: grid;
+    gap: var(--space-7);
+    align-items: center;
+  }
+
+  .home-hero__title {
+    max-width: 13ch;
+  }
+
+  .home-hero__actions {
+    display: grid;
+    gap: var(--space-3);
+    align-items: start;
+  }
+
+  .home-hero__cta-row {
+    align-items: center;
+  }
+
+  .home-hero__browse-link {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    line-height: 1.2;
+    text-underline-offset: 0.18em;
+  }
+
+  .home-hero__frame {
+    border-radius: var(--radius-xl);
+    border: var(--border-1) solid var(--c-border);
+    box-shadow: var(--shadow-2);
+    background: var(--c-surface-2);
+  }
+
+  .home-hero__caption {
+    margin-top: var(--space-3);
+    color: var(--c-text-faint);
+    font-size: var(--fs-0);
+  }
+
+  .home-hero__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .home-hero__meta li {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: var(--radius-pill);
+    background: rgba(255, 255, 255, 0.86);
+    border: var(--border-1) solid var(--c-border);
+    color: var(--c-text-muted);
+    font-size: var(--fs-0);
+  }
+
+  @media (max-width: 47.99rem) {
+    .home-hero__cta-row {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+
+    .home-hero__cta-row .btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .home-hero__grid {
+      grid-template-columns: minmax(0, 1fr) minmax(22rem, 42rem);
+    }
+  }
+</style>

@@ -1,0 +1,44 @@
+---
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  items: FAQItem[];
+}
+
+const { items = [] } = Astro.props;
+---
+
+<section class="section section--tight">
+  <div class="container section-frame stack stack--loose">
+    <header class="section-intro">
+      <div class="stack stack--tight">
+        <p class="eyebrow">FAQ</p>
+        <h2>Common questions, answered clearly.</h2>
+      </div>
+      <p class="muted text-measure">
+        A few of the things people usually want to understand before starting a kitchen project.
+      </p>
+    </header>
+
+    <div class="faq-list">
+      {items.map((item) => (
+        <details class="details-card">
+          <summary>{item.question}</summary>
+          <div class="details-card__content">
+            <p class="muted">{item.answer}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq-list {
+    display: grid;
+    gap: var(--space-3);
+  }
+</style>

@@ -5,26 +5,214 @@ import { getCollection } from "astro:content";
 
 const projects = await getCollection("projects", ({ data }) => data.featured ?? true);
 projects.sort((a, b) => (b.data.order ?? 0) - (a.data.order ?? 0));
+
+const projectCount = projects.length;
+const projectLabel = projectCount === 1 ? "project" : "projects";
 ---
 
 <PageLayout
-  title="Kitchen projects | Fini's Kitchens"
-  description="Real homes we’ve helped transform into calm, practical kitchens that work day to day."
+  title="Kitchen projects"
+  metaTitle="Kitchen projects | Fini's Kitchens"
+  description="Real homes we’ve helped transform into calm, practical kitchens that work beautifully day to day."
   eyebrow="Projects"
+  heroSize="tight"
 >
-  <section class="section section--tight">
-    <div class="container stack stack--loose">
+  <section class="section section--tight projects-top">
+    <div class="container">
+      <div class="projects-intro">
+        <div class="projects-intro__main stack stack--loose">
+          <header class="projects-head stack stack--tight">
+            <h2 class="projects-head__title">A closer look at real kitchens</h2>
+            <p class="muted text-measure">
+              A closer look at real kitchens designed around flow, storage, everyday routines and rooms that feel easier to live in.
+            </p>
+          </header>
+
+          <div class="projects-head__cta">
+            <a class="btn btn--primary btn--large" href="/contact">Book a calm design call</a>
+            <a class="btn btn--ghost btn--large" href="/pricing">See pricing guidance</a>
+          </div>
+        </div>
+
+        <aside class="projects-summary panel" aria-label="Projects summary">
+          <div class="projects-summary__meta">
+            <span class="badge">{projectCount} featured {projectLabel}</span>
+            <span class="badge badge--quiet">Design, supply & installation</span>
+            <span class="badge badge--quiet">Horsham & surrounding areas</span>
+          </div>
+
+          <div class="card card--surface projects-summary__card">
+            <p class="eyebrow">What to notice</p>
+            <ul class="check-list" role="list">
+              <li>How the layout handles movement and prep</li>
+              <li>Where storage removes everyday friction</li>
+              <li>How materials and tone calm the room down</li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section id="project-grid" class="section section--tight">
+    <div class="container section-frame stack stack--loose">
       <header class="section-head">
         <div class="section-head__copy">
-          <h2 class="section-head__title">Recent installations</h2>
-          <p class="section-head__desc">
-            A few highlights from kitchens we’ve designed and installed across Horsham and surrounding areas.
+          <p class="eyebrow">Recent installations</p>
+          <h2>Explore recent kitchen transformations</h2>
+          <p class="section-head__desc text-measure">
+            A closer look at kitchens we’ve designed and installed for real homes - with an emphasis on flow,
+            practical beauty and rooms that are easier to live in every day.
           </p>
         </div>
-        <a class="btn btn--primary" href="/contact">Book a consultation</a>
+
+        <a class="btn btn--primary section-head__link" href="/contact">Talk about your project</a>
       </header>
 
       <ProjectGrid projects={projects} />
     </div>
   </section>
+
+  <section class="section section--tight">
+    <div class="container">
+      <div class="panel projects-panel">
+        <div class="projects-panel__intro stack stack--tight">
+          <p class="eyebrow">Why this page matters</p>
+          <h2 class="projects-panel__title">Use the projects to judge fit, not just style.</h2>
+          <p class="muted text-measure">
+            The goal is not to push you toward a single look. It is to help you understand what feels calm, practical
+            and right for your own home - and what that might look like when done properly.
+          </p>
+        </div>
+
+        <div class="projects-panel__body stack stack--loose">
+          <div class="projects-panel__grid">
+            <article class="card card--surface projects-panel__item">
+              <h3>See how real rooms were solved</h3>
+              <p class="muted">
+                Look beyond the finishes and notice the spacing, storage, sightlines and balance of the room.
+              </p>
+            </article>
+
+            <article class="card card--surface projects-panel__item">
+              <h3>Spot what feels calm to you</h3>
+              <p class="muted">
+                Materials matter, but so do openness, clutter control and how naturally the space supports daily life.
+              </p>
+            </article>
+
+            <article class="card card--surface projects-panel__item">
+              <h3>Start your own brief more clearly</h3>
+              <p class="muted">
+                By the time you enquire, you should have a better sense of what you want the kitchen to do better.
+              </p>
+            </article>
+          </div>
+
+          <div class="cta-row">
+            <a class="btn btn--primary" href="/contact">Book a consultation</a>
+            <a class="text-link" href="/about">Read more about Fini’s Kitchens</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </PageLayout>
+
+<style>
+  .projects-top {
+    padding-top: 0;
+  }
+
+  .projects-intro,
+  .projects-panel__grid {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .projects-intro {
+    align-items: start;
+  }
+
+  .projects-head__title {
+    font-size: clamp(1.35rem, 1.2vw + 1.1rem, 1.9rem);
+    line-height: 1.15;
+    letter-spacing: var(--ls-tight);
+    margin: 0;
+  }
+
+  .projects-head__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-2);
+  }
+
+  .projects-summary {
+    display: grid;
+    gap: var(--space-5);
+    padding: var(--space-7);
+  }
+
+  .projects-summary__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .projects-summary__card {
+    padding: var(--space-6);
+  }
+
+  .projects-summary__card .check-list {
+    margin-top: var(--space-4);
+  }
+
+  .projects-panel {
+    display: grid;
+    gap: var(--space-7);
+    padding: var(--space-7);
+  }
+
+  .projects-panel__title {
+    margin: 0;
+    font-size: 1.15rem;
+    letter-spacing: var(--ls-tight);
+  }
+
+  .projects-panel__item h3 {
+    margin: 0 0 var(--space-3);
+  }
+
+  @media (min-width: 48rem) {
+    .projects-intro {
+      grid-template-columns: minmax(20rem, 1.08fr) minmax(18rem, 0.92fr);
+    }
+
+    .projects-panel__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .projects-panel {
+      grid-template-columns: minmax(18rem, 0.9fr) minmax(0, 1.1fr);
+      align-items: start;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .projects-head__cta {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .projects-head__cta .btn {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .projects-summary,
+    .projects-panel {
+      padding: var(--space-6);
+    }
+  }
+</style>

@@ -1,0 +1,69 @@
+---
+interface Item {
+  title: string;
+  text: string;
+}
+
+interface Props {
+  items: Item[];
+}
+
+const { items = [] } = Astro.props;
+---
+
+<section class="proof-strip" aria-label="Why homeowners choose Fini’s Kitchens">
+  <div class="container">
+    <ul class="proof-strip__list" role="list">
+      {items.map((item) => (
+        <li class="proof-strip__item">
+          <p class="proof-strip__title">{item.title}</p>
+          <p class="proof-strip__text">{item.text}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .proof-strip {
+    padding-bottom: var(--space-5);
+  }
+
+  .proof-strip__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .proof-strip__item {
+    padding: var(--space-5);
+    border-radius: var(--radius-l);
+    border: var(--border-1) solid var(--c-border);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(246, 241, 234, 0.92) 100%);
+    box-shadow: var(--shadow-1);
+  }
+
+  .proof-strip__title {
+    font-weight: 650;
+    margin-bottom: var(--space-2);
+  }
+
+  .proof-strip__text {
+    color: var(--c-text-muted);
+    max-width: 32ch;
+  }
+
+  @media (min-width: 48rem) {
+    .proof-strip__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 72rem) {
+    .proof-strip__list {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+</style>

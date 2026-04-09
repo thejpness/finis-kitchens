@@ -1,0 +1,70 @@
+---
+interface Step {
+  title: string;
+  body: string;
+}
+
+interface Props {
+  steps: Step[];
+}
+
+const { steps = [] } = Astro.props;
+---
+
+<section class="section section--tight">
+  <div class="container section-frame stack stack--loose">
+    <header class="section-intro">
+      <div class="stack stack--tight">
+        <p class="eyebrow">How it works</p>
+        <h2>A clear process from first ideas to finished kitchen.</h2>
+      </div>
+      <p class="muted text-measure">
+        From the first visit to final installation, each stage is designed to feel straightforward, well-planned and easier to follow.
+      </p>
+    </header>
+
+    <ol class="process-grid" role="list">
+      {steps.map((step, index) => (
+        <li class="card card--surface process-card">
+          <p class="process-card__index">{String(index + 1).padStart(2, "0")}</p>
+          <h3>{step.title}</h3>
+          <p class="muted">{step.body}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .process-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .process-card {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .process-card__index {
+    font-size: var(--fs-0);
+    letter-spacing: var(--ls-wide);
+    text-transform: uppercase;
+    color: var(--c-text-faint);
+  }
+
+  @media (min-width: 48rem) {
+    .process-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 72rem) {
+    .process-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+</style>

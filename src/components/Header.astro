@@ -2,9 +2,10 @@
 // src/components/Header.astro
 
 const navItems = [
-  { href: "/services", label: "Services" },
-  { href: "/projects", label: "Projects" },
-  { href: "/about", label: "About" },
+  { href: "/", label: "Home" },
+  { href: "/process", label: "Process" },
+  { href: "/projects", label: "Case studies" },
+  { href: "/about", label: "Fini's Story" },
 ];
 
 const pathname = Astro.url?.pathname ?? "/";
@@ -13,6 +14,8 @@ const isActive = (href: string) => {
   if (href === "/") return pathname === "/";
   return pathname === href || pathname.startsWith(href + "/");
 };
+
+const contactActive = isActive("/contact");
 ---
 
 <a class="skip-link" href="#main">Skip to content</a>
@@ -20,21 +23,21 @@ const isActive = (href: string) => {
 <header class="site-header" data-header>
   <div class="site-header__inner container">
     <a href="/" class="site-header__brand" aria-label="Fini's Kitchens home">
-      <span class="site-header__logo-mark" aria-hidden="true">
+      <span class="site-header__brand-mark-wrap" aria-hidden="true">
         <img
-          class="site-header__logo-img"
-          src="/images/finis-kitchens-icon-64.png"
-          srcset="/images/finis-kitchens-icon-64.png 1x, /images/finis-kitchens-icon-128.png 2x"
+          class="site-header__brand-mark"
+          src="/images/logo-icon-blue.svg"
           alt=""
-          width="28"
-          height="28"
+          width="96"
+          height="96"
           decoding="async"
+          fetchpriority="high"
         />
       </span>
 
-      <span class="site-header__brand-text">
-        <span class="site-header__name">Fini's Kitchens</span>
-        <span class="site-header__tagline">Thoughtful kitchens for real homes</span>
+      <span class="site-header__brand-copy">
+        <span class="site-header__brand-name">Fini’s Kitchens</span>
+        <span class="site-header__brand-tag">For the Family</span>
       </span>
     </a>
 
@@ -43,45 +46,55 @@ const isActive = (href: string) => {
       type="button"
       aria-expanded="false"
       aria-controls="primary-nav"
+      aria-label="Open menu"
       data-nav-toggle
     >
-      <span class="sr-only">Open menu</span>
-      <svg class="icon" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
-        <path
-          d="M4 6h16M4 12h16M4 18h16"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-        />
-      </svg>
+      <span class="sr-only" data-nav-label>Open menu</span>
+      <span class="site-nav__toggle-box" aria-hidden="true">
+        <span class="site-nav__toggle-line site-nav__toggle-line--1"></span>
+        <span class="site-nav__toggle-line site-nav__toggle-line--2"></span>
+        <span class="site-nav__toggle-line site-nav__toggle-line--3"></span>
+      </span>
     </button>
 
     <nav id="primary-nav" class="site-nav" aria-label="Primary navigation" hidden data-nav>
-      <ul class="site-nav__list">
-        {navItems.map((item) => {
-          const active = isActive(item.href);
-          return (
-            <li class="site-nav__item">
-              <a
-                href={item.href}
-                class:list={["site-nav__link", "link", active && "is-active"]}
-                aria-current={active ? "page" : undefined}
-              >
-                {item.label}
-              </a>
-            </li>
-          );
-        })}
-      </ul>
+      <div class="site-nav__panel">
+        <div class="site-nav__meta">
+          <p class="site-nav__eyebrow">Browse</p>
+          <p class="site-nav__title">Fini’s Kitchens</p>
+        </div>
 
-      <a
-        href="/contact"
-        class:list={["btn", "btn--primary", "site-nav__cta", isActive("/contact") && "is-active"]}
-        aria-current={isActive("/contact") ? "page" : undefined}
-      >
-        Grab a coffee – let’s talk
-      </a>
+        <ul class="site-nav__list">
+          {navItems.map((item) => {
+            const active = isActive(item.href);
+            return (
+              <li class="site-nav__item">
+                <a
+                  href={item.href}
+                  class:list={["site-nav__link", "link", active && "is-active"]}
+                  aria-current={active ? "page" : undefined}
+                >
+                  <span>{item.label}</span>
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+
+        <div class="site-nav__footer">
+          <p class="site-nav__note">
+            Warm, hard-working kitchens designed for real homes.
+          </p>
+
+          <a
+            href="/contact"
+            class:list={["btn", "btn--primary", "site-nav__cta", contactActive && "is-active"]}
+            aria-current={contactActive ? "page" : undefined}
+          >
+            Contact
+          </a>
+        </div>
+      </div>
     </nav>
   </div>
 
@@ -92,33 +105,63 @@ const isActive = (href: string) => {
 
       const nav = header.querySelector("[data-nav]");
       const btn = header.querySelector("[data-nav-toggle]");
-
-      const onScroll = () => {
-        const y = window.scrollY || 0;
-
-        // Always keep a visible container; top state is just “lighter”
-        header.classList.toggle("is-top", y < 8);
-        header.classList.toggle("is-scrolled", y >= 8);
-
-        // Compact behaviour
-        header.classList.toggle("is-compact", y > 12);
-      };
-
-      onScroll();
-      window.addEventListener("scroll", onScroll, { passive: true });
-
+      const navLabel = header.querySelector("[data-nav-label]");
       if (!nav || !btn) return;
 
-      const closeNav = () => {
+      let lastFocused = null;
+      const mq = window.matchMedia("(min-width: 860px)");
+
+      let pageBackdrop = document.querySelector(".site-nav-page-backdrop");
+
+      if (!pageBackdrop) {
+        pageBackdrop = document.createElement("button");
+        pageBackdrop.type = "button";
+        pageBackdrop.className = "site-nav-page-backdrop";
+        pageBackdrop.setAttribute("aria-hidden", "true");
+        pageBackdrop.tabIndex = -1;
+        document.body.appendChild(pageBackdrop);
+      }
+
+      const setBodyLock = (locked) => {
+        document.documentElement.style.overflow = locked ? "hidden" : "";
+        document.body.style.overflow = locked ? "hidden" : "";
+        document.body.classList.toggle("nav-open", locked);
+        pageBackdrop.classList.toggle("is-visible", locked);
+      };
+
+      const getFocusable = () =>
+        [
+          ...nav.querySelectorAll(
+            'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+          ),
+        ].filter((el) => !el.hasAttribute("hidden") && el.getAttribute("aria-hidden") !== "true");
+
+      const closeNav = ({ restoreFocus = true } = {}) => {
         nav.hidden = true;
         btn.setAttribute("aria-expanded", "false");
+        btn.setAttribute("aria-label", "Open menu");
+        if (navLabel) navLabel.textContent = "Open menu";
         header.classList.remove("nav-open");
+        setBodyLock(false);
+
+        if (restoreFocus && lastFocused instanceof HTMLElement && !mq.matches) {
+          lastFocused.focus();
+        }
       };
 
       const openNav = () => {
+        lastFocused = document.activeElement;
         nav.hidden = false;
         btn.setAttribute("aria-expanded", "true");
+        btn.setAttribute("aria-label", "Close menu");
+        if (navLabel) navLabel.textContent = "Close menu";
         header.classList.add("nav-open");
+        setBodyLock(true);
+
+        requestAnimationFrame(() => {
+          const firstFocusable = getFocusable()[0];
+          if (firstFocusable instanceof HTMLElement) firstFocusable.focus();
+        });
       };
 
       const toggleNav = () => {
@@ -126,32 +169,67 @@ const isActive = (href: string) => {
         expanded ? closeNav() : openNav();
       };
 
-      btn.addEventListener("click", toggleNav);
+      const onScroll = () => {
+        const y = window.scrollY || 0;
+        header.classList.toggle("is-top", y < 8);
+        header.classList.toggle("is-scrolled", y >= 8);
+        header.classList.toggle("is-compact", y > 12);
+      };
 
-      window.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") closeNav();
-      });
-
-      nav.addEventListener("click", (e) => {
-        const a = e.target.closest("a");
-        if (a) closeNav();
-      });
-
-      window.addEventListener("click", (e) => {
-        if (!header.classList.contains("nav-open")) return;
-        if (!header.contains(e.target)) closeNav();
-      });
-
-      const mq = window.matchMedia("(min-width: 860px)");
       const sync = () => {
         if (mq.matches) {
           nav.hidden = false;
           btn.setAttribute("aria-expanded", "false");
+          btn.setAttribute("aria-label", "Open menu");
+          if (navLabel) navLabel.textContent = "Open menu";
           header.classList.remove("nav-open");
+          setBodyLock(false);
         } else {
-          closeNav();
+          closeNav({ restoreFocus: false });
         }
       };
+
+      onScroll();
+      window.addEventListener("scroll", onScroll, { passive: true });
+      btn.addEventListener("click", toggleNav);
+      pageBackdrop.addEventListener("click", () => {
+        if (!mq.matches && header.classList.contains("nav-open")) {
+          closeNav();
+        }
+      });
+
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && header.classList.contains("nav-open")) {
+          closeNav();
+          return;
+        }
+
+        if (e.key !== "Tab" || !header.classList.contains("nav-open") || mq.matches) return;
+
+        const focusable = getFocusable();
+        if (!focusable.length) return;
+
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        const active = document.activeElement;
+
+        if (e.shiftKey && active === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && active === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      });
+
+      nav.addEventListener("click", (e) => {
+        const target = e.target;
+        if (!(target instanceof Element)) return;
+
+        const a = target.closest("a");
+        if (a && !mq.matches) closeNav({ restoreFocus: false });
+      });
+
       mq.addEventListener?.("change", sync);
       sync();
     })();
@@ -159,7 +237,6 @@ const isActive = (href: string) => {
 </header>
 
 <style>
-  /* A11y: skip link */
   .skip-link {
     position: absolute;
     left: var(--space-4);
@@ -173,6 +250,7 @@ const isActive = (href: string) => {
     transform: translateY(-160%);
     transition: transform var(--dur-2) var(--ease-out);
   }
+
   .skip-link:focus-visible {
     transform: translateY(0);
     outline: 2px solid var(--c-focus);
@@ -191,25 +269,22 @@ const isActive = (href: string) => {
     border: 0;
   }
 
-  /* Header shell */
   .site-header {
     position: sticky;
     top: 0;
-    z-index: 60;
-
-    /* Always visible container: never “disappears” */
-    backdrop-filter: blur(12px);
+    z-index: 80;
+    isolation: isolate;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
     background: rgba(247, 250, 255, 0.78);
     border-bottom: 1px solid rgba(217, 227, 238, 0.55);
     box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
-
     transition:
       background var(--dur-2) var(--ease-out),
       border-color var(--dur-2) var(--ease-out),
       box-shadow var(--dur-2) var(--ease-out);
   }
 
-  /* iOS-style hairlines (make glass feel “real”) */
   .site-header::before,
   .site-header::after {
     content: "";
@@ -222,7 +297,6 @@ const isActive = (href: string) => {
     transition: opacity var(--dur-2) var(--ease-out);
   }
 
-  /* Top highlight */
   .site-header::before {
     top: 0;
     background: linear-gradient(
@@ -233,7 +307,6 @@ const isActive = (href: string) => {
     );
   }
 
-  /* Bottom hairline shadow (subtle separator) */
   .site-header::after {
     bottom: -1px;
     background: linear-gradient(
@@ -244,33 +317,30 @@ const isActive = (href: string) => {
     );
   }
 
-  /* Top-of-page: lighter, more “magazine” */
   .site-header.is-top {
     background: rgba(247, 250, 255, 0.52);
     border-bottom-color: rgba(217, 227, 238, 0.35);
     box-shadow: none;
   }
 
-  /* Scrolled: stronger glass + depth */
   .site-header.is-scrolled {
-    background: rgba(247, 250, 255, 0.90);
-    border-bottom-color: rgba(217, 227, 238, 0.75);
-    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.10);
+    background: rgba(247, 250, 255, 0.92);
+    border-bottom-color: rgba(217, 227, 238, 0.78);
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.1);
   }
 
-  /* Turn on hairlines only when scrolled */
   .site-header.is-scrolled::before,
   .site-header.is-scrolled::after {
     opacity: 1;
   }
 
-  /* If backdrop-filter isn’t supported, still looks fine */
   @supports not ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
     .site-header {
-      background: rgba(247, 250, 255, 0.94);
+      background: rgba(247, 250, 255, 0.95);
     }
+
     .site-header.is-top {
-      background: rgba(247, 250, 255, 0.86);
+      background: rgba(247, 250, 255, 0.88);
     }
   }
 
@@ -279,85 +349,130 @@ const isActive = (href: string) => {
     grid-template-columns: auto 1fr auto;
     align-items: center;
     gap: var(--space-4);
-    padding-block: var(--space-4);
+    padding-block: 0.85rem;
     transition: padding var(--dur-2) var(--ease-out);
   }
 
   .site-header.is-compact .site-header__inner {
-    padding-block: calc(var(--space-4) - 0.45rem);
+    padding-block: 0.6rem;
   }
 
   .site-header__brand {
-    display: inline-flex;
+    display: inline-grid;
+    grid-template-columns: auto minmax(0, 1fr);
     align-items: center;
-    gap: var(--space-3);
-    text-decoration: none;
+    gap: 0.9rem;
     min-width: 0;
+    text-decoration: none;
+    transition:
+      opacity var(--dur-2) var(--ease-out),
+      transform var(--dur-2) var(--ease-out);
   }
 
-  .site-header__logo-mark {
-    width: 36px;
-    height: 36px;
-    border-radius: var(--radius-pill);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    background: var(--c-brand-100);
-    border: 1px solid var(--c-border);
-    box-shadow: var(--shadow-1);
-    flex: 0 0 auto;
-
+  .site-header__brand-mark-wrap {
+    display: grid;
+    place-items: center;
+    width: clamp(46px, 5.2vw, 54px);
+    aspect-ratio: 1;
+    border-radius: 1rem;
+    background: linear-gradient(
+      180deg,
+      rgba(157, 184, 233, 0.24),
+      rgba(157, 184, 233, 0.1)
+    );
+    border: 1px solid rgba(157, 184, 233, 0.34);
+    box-shadow:
+      0 8px 18px rgba(15, 23, 42, 0.07),
+      inset 0 1px 0 rgba(255, 255, 255, 0.55);
+    overflow: hidden;
     transition: transform var(--dur-2) var(--ease-out);
+    flex-shrink: 0;
   }
 
-  .site-header.is-compact .site-header__logo-mark {
+  .site-header__brand-mark {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .site-header__brand-copy {
+    position: relative;
+    display: grid;
+    align-content: center;
+    gap: 0.04rem;
+    min-width: 0;
+    line-height: 1;
+  }
+
+  .site-header__brand-copy::after {
+    content: "";
+    width: 3rem;
+    height: 0.24rem;
+    margin-top: 0.12rem;
+    border-radius: 999px;
+    background: linear-gradient(
+      90deg,
+      rgba(157, 184, 233, 0.18),
+      rgba(78, 109, 149, 0.95),
+      rgba(157, 184, 233, 0.18)
+    );
+    box-shadow: 0 4px 10px rgba(78, 109, 149, 0.16);
+  }
+
+  .site-header__brand-name {
+    font-family: "Baloo 2", var(--font-sans, Inter, system-ui, sans-serif);
+    font-size: clamp(1.34rem, 1.04rem + 0.9vw, 1.82rem);
+    font-weight: 800;
+    line-height: 0.86;
+    letter-spacing: -0.03em;
+    color: #1f2a37;
+    text-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.5),
+      0 8px 18px rgba(15, 23, 42, 0.06);
+    white-space: nowrap;
+  }
+
+  .site-header__brand-tag {
+    font-family: "Caveat", cursive;
+    font-size: clamp(0.92rem, 0.84rem + 0.3vw, 1.08rem);
+    line-height: 0.92;
+    color: var(--c-accent);
+    transform: translateY(-0.04rem);
+    padding-left: 0.16rem;
+    white-space: nowrap;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45);
+  }
+
+  .site-header.is-compact .site-header__brand-mark-wrap {
     transform: scale(0.96);
   }
 
-  .site-header__logo-img {
-    width: 28px;
-    height: 28px;
-    display: block;
-  }
-
-  .site-header__brand-text {
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-  }
-
-  .site-header__name {
-    font-weight: 680;
-    letter-spacing: 0.01em;
-    color: var(--c-text);
-    line-height: 1.1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .site-header__tagline {
-    font-weight: 450;
-    font-size: 0.78rem;
-    color: var(--c-text-faint);
-    letter-spacing: 0.01em;
-    line-height: 1.2;
-  }
-
-  /* Toggle button (mobile) */
   .site-nav__toggle {
     display: none;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
-    border-radius: var(--radius-pill);
-    border: 1px solid var(--c-border);
-    background: var(--c-surface);
+    width: 46px;
+    height: 46px;
+    border-radius: 999px;
+    border: 1px solid rgba(157, 184, 233, 0.28);
+    background: rgba(255, 255, 255, 0.82);
     color: var(--c-text);
-    box-shadow: var(--shadow-1);
+    box-shadow:
+      0 10px 20px rgba(15, 23, 42, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.7);
     cursor: pointer;
+    transition:
+      transform var(--dur-2) var(--ease-out),
+      background var(--dur-2) var(--ease-out),
+      border-color var(--dur-2) var(--ease-out),
+      box-shadow var(--dur-2) var(--ease-out);
+  }
+
+  .site-nav__toggle:hover {
+    transform: translateY(-1px);
+    border-color: rgba(157, 184, 233, 0.45);
+    background: rgba(255, 255, 255, 0.94);
   }
 
   .site-nav__toggle:focus-visible {
@@ -365,37 +480,112 @@ const isActive = (href: string) => {
     outline-offset: 3px;
   }
 
-  /* Nav */
+  .site-nav__toggle-box {
+    position: relative;
+    width: 20px;
+    height: 14px;
+  }
+
+  .site-nav__toggle-line {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    border-radius: 999px;
+    background: currentColor;
+    transform-origin: center;
+    transition:
+      transform var(--dur-2) var(--ease-out),
+      opacity var(--dur-2) var(--ease-out),
+      top var(--dur-2) var(--ease-out);
+  }
+
+  .site-nav__toggle-line--1 {
+    top: 0;
+  }
+
+  .site-nav__toggle-line--2 {
+    top: 6px;
+  }
+
+  .site-nav__toggle-line--3 {
+    top: 12px;
+  }
+
+  .site-header.nav-open .site-nav__toggle {
+    background: rgba(157, 184, 233, 0.18);
+    border-color: rgba(157, 184, 233, 0.5);
+    box-shadow:
+      0 12px 22px rgba(15, 23, 42, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  }
+
+  .site-header.nav-open .site-nav__toggle-line--1 {
+    top: 6px;
+    transform: rotate(45deg);
+  }
+
+  .site-header.nav-open .site-nav__toggle-line--2 {
+    opacity: 0;
+    transform: scaleX(0.3);
+  }
+
+  .site-header.nav-open .site-nav__toggle-line--3 {
+    top: 6px;
+    transform: rotate(-45deg);
+  }
+
   .site-nav {
     justify-self: end;
     display: flex;
     align-items: center;
-    gap: var(--space-5);
     font-size: 0.95rem;
+  }
+
+  .site-nav__panel {
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+  }
+
+  .site-nav__meta,
+  .site-nav__note {
+    display: none;
   }
 
   .site-nav__list {
     list-style: none;
     display: flex;
     align-items: center;
-    gap: var(--space-5);
+    gap: 0.3rem;
     padding: 0;
     margin: 0;
   }
 
-  .site-nav__link {
-    color: var(--c-text);
-    padding: var(--space-2) var(--space-2);
-    border-radius: var(--radius-pill);
-    text-decoration: none;
-    position: relative;
+  .site-nav__item {
+    display: flex;
   }
 
-  .site-nav__link.is-active,
-  .site-nav__link[aria-current="page"] {
+  .site-nav__link {
+    color: var(--c-text);
+    padding: 0.72rem 0.9rem 0.9rem;
+    border-radius: 999px;
+    text-decoration: none;
+    position: relative;
+    white-space: nowrap;
+    background: transparent;
+    border: 1px solid transparent;
+    transition:
+      color var(--dur-2) var(--ease-out),
+      background var(--dur-2) var(--ease-out),
+      border-color var(--dur-2) var(--ease-out),
+      transform var(--dur-2) var(--ease-out);
+  }
+
+  .site-nav__link:hover {
     color: var(--c-accent);
-    background: var(--c-brand-100);
-    border: 1px solid var(--c-border);
+    background: rgba(157, 184, 233, 0.1);
+    border-color: rgba(157, 184, 233, 0.14);
   }
 
   .site-nav__link:focus-visible {
@@ -403,97 +593,379 @@ const isActive = (href: string) => {
     outline-offset: 2px;
   }
 
+  .site-nav__link::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0.46rem;
+    width: min(2.4rem, calc(100% - 1.4rem));
+    height: 3px;
+    border-radius: 999px;
+    background: linear-gradient(
+      90deg,
+      rgba(157, 184, 233, 0.2),
+      rgba(78, 109, 149, 0.96),
+      rgba(157, 184, 233, 0.2)
+    );
+    transform: translateX(-50%) scaleX(0.42);
+    opacity: 0;
+    transition:
+      opacity var(--dur-2) var(--ease-out),
+      transform var(--dur-2) var(--ease-out);
+  }
+
+  .site-nav__link.is-active,
+  .site-nav__link[aria-current="page"] {
+    color: var(--c-text);
+    background: rgba(157, 184, 233, 0.12);
+    border-color: rgba(157, 184, 233, 0.18);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.56);
+  }
+
+  .site-nav__link.is-active::after,
+  .site-nav__link[aria-current="page"]::after {
+    opacity: 1;
+    transform: translateX(-50%) scaleX(1);
+  }
+
   .site-nav__cta {
-    margin-left: var(--space-2);
+    margin-left: 0.25rem;
     white-space: nowrap;
+    box-shadow: 0 10px 22px rgba(78, 109, 149, 0.18);
   }
 
   .site-nav__cta.is-active,
   .site-nav__cta[aria-current="page"] {
-    box-shadow: var(--shadow-1);
     filter: saturate(1.05);
+    box-shadow:
+      0 12px 24px rgba(78, 109, 149, 0.22),
+      inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  }
+
+  :global(body.nav-open) {
+    touch-action: none;
+    overscroll-behavior: contain;
+  }
+
+  :global(.site-nav-page-backdrop) {
+    position: fixed;
+    inset: 0;
+    z-index: 70;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    opacity: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(244, 247, 252, 0.68),
+        rgba(233, 239, 247, 0.88)
+      );
+    backdrop-filter: blur(18px) saturate(0.72) brightness(0.9);
+    -webkit-backdrop-filter: blur(18px) saturate(0.72) brightness(0.9);
+    transition: opacity var(--dur-2) var(--ease-out);
+    appearance: none;
+  }
+
+  :global(.site-nav-page-backdrop.is-visible) {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  @supports not ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
+    :global(.site-nav-page-backdrop) {
+      background: rgba(235, 241, 248, 0.9);
+    }
   }
 
   @media (pointer: coarse) {
-    .site-nav__link { padding: var(--space-3) var(--space-3); }
+    .site-nav__link {
+      padding: 0.82rem 0.94rem 0.98rem;
+    }
   }
 
-  /* Mobile: dropdown panel */
+  @media (max-width: 1120px) {
+    .site-nav__panel {
+      gap: var(--space-4);
+    }
+
+    .site-nav {
+      font-size: 0.92rem;
+    }
+
+    .site-nav__link {
+      padding-inline: 0.78rem;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .site-header__brand-tag {
+      display: none;
+    }
+  }
+
   @media (max-width: 859px) {
     .site-header__inner {
       grid-template-columns: 1fr auto;
-      padding-block: var(--space-3);
+      gap: 0.75rem;
+      padding-block: 0.72rem;
+    }
+
+    .site-header__brand {
+      gap: 0.62rem;
+      max-width: none;
+    }
+
+    .site-header__brand-mark-wrap {
+      width: 42px;
+      border-radius: 0.9rem;
+    }
+
+    .site-header__brand-copy {
+      gap: 0;
+    }
+
+    .site-header__brand-copy::after {
+      width: 2.15rem;
+      height: 0.2rem;
+      margin-top: 0.08rem;
+    }
+
+    .site-header__brand-name {
+      font-size: 1.06rem;
+      line-height: 0.9;
+      letter-spacing: -0.025em;
+      white-space: normal;
+      text-wrap: balance;
+      max-width: 7.8ch;
     }
 
     .site-nav__toggle {
       display: inline-flex;
-    }
-
-    .site-header__tagline {
-      display: none;
+      position: relative;
+      z-index: 82;
     }
 
     .site-nav {
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 100%;
-      padding: var(--space-4);
-      background: var(--c-surface);
-      border-bottom: 1px solid var(--c-border);
-      box-shadow: var(--shadow-2);
-      display: grid;
-      gap: var(--space-3);
-      transform: translateY(-6px);
+      position: fixed;
+      inset: 0;
+      z-index: 81;
+      display: block;
       opacity: 0;
       pointer-events: none;
-      transition: transform var(--dur-2) var(--ease-out), opacity var(--dur-2) var(--ease-out);
+      transition: opacity var(--dur-2) var(--ease-out);
     }
 
     .site-header.nav-open .site-nav {
-      transform: translateY(0);
       opacity: 1;
+    }
+
+    .site-header.nav-open {
+      background: rgba(247, 250, 255, 0.96);
+      border-bottom-color: rgba(217, 227, 238, 0.78);
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+    }
+
+    .site-header.nav-open .site-header__brand {
+      opacity: 0;
+      transform: translateY(-0.2rem);
+      pointer-events: none;
+    }
+
+    .site-nav__panel {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 0.9rem;
+      width: min(calc(100% - 2rem), 32rem);
+      margin:
+        max(5.5rem, calc(env(safe-area-inset-top) + 4.9rem))
+        auto
+        0;
+      transform: translateY(0.85rem) scale(0.985);
+      opacity: 0;
       pointer-events: auto;
+      transition:
+        transform var(--dur-2) var(--ease-out),
+        opacity var(--dur-2) var(--ease-out);
+    }
+
+    .site-header.nav-open .site-nav__panel {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+
+    .site-nav__meta {
+      display: grid;
+      gap: 0.18rem;
+      padding: 0 0.2rem;
+    }
+
+    .site-nav__eyebrow {
+      margin: 0;
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--c-muted);
+    }
+
+    .site-nav__title {
+      margin: 0;
+      font-family: "Baloo 2", var(--font-sans, Inter, system-ui, sans-serif);
+      font-size: 1.2rem;
+      line-height: 0.95;
+      color: var(--c-text);
     }
 
     .site-nav__list {
-      flex-direction: column;
-      align-items: stretch;
-      gap: var(--space-2);
+      display: grid;
+      gap: 0.55rem;
+      padding: 0.78rem;
+      border-radius: 1.4rem;
+      background: rgba(255, 255, 255, 0.995);
+      border: 1px solid rgba(157, 184, 233, 0.22);
+      box-shadow:
+        0 24px 50px rgba(15, 23, 42, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.88);
+    }
+
+    .site-nav__item {
+      display: block;
     }
 
     .site-nav__link {
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       width: 100%;
-      padding: var(--space-3) var(--space-3);
-      border-radius: var(--radius-m);
-      background: var(--c-surface-2);
+      min-height: 3.35rem;
+      padding: 0.95rem 1rem;
+      border-radius: 1rem;
+      background: transparent;
       border: 1px solid transparent;
+      font-size: 1rem;
+    }
+
+    .site-nav__link span {
+      display: inline-block;
+    }
+
+    .site-nav__link::after {
+      left: auto;
+      right: 1rem;
+      bottom: 50%;
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 999px;
+      background: rgba(78, 109, 149, 0.92);
+      transform: translateY(50%) scale(0);
+      opacity: 0;
+    }
+
+    .site-nav__link:hover {
+      background: rgba(157, 184, 233, 0.08);
+      border-color: rgba(157, 184, 233, 0.1);
     }
 
     .site-nav__link.is-active,
     .site-nav__link[aria-current="page"] {
-      background: var(--c-brand-100);
-      border-color: var(--c-border);
+      background: linear-gradient(
+        180deg,
+        rgba(157, 184, 233, 0.22),
+        rgba(157, 184, 233, 0.12)
+      );
+      border-color: rgba(157, 184, 233, 0.24);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.7),
+        0 8px 20px rgba(15, 23, 42, 0.05);
+    }
+
+    .site-nav__link.is-active::after,
+    .site-nav__link[aria-current="page"]::after {
+      opacity: 1;
+      transform: translateY(50%) scale(1);
+    }
+
+    .site-nav__footer {
+      display: grid;
+      gap: 0.8rem;
+      padding: 1rem;
+      border-radius: 1.2rem;
+      background: rgba(255, 255, 255, 0.992);
+      border: 1px solid rgba(157, 184, 233, 0.18);
+      box-shadow:
+        0 18px 38px rgba(15, 23, 42, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.82);
+    }
+
+    .site-nav__note {
+      display: block;
+      margin: 0;
+      font-size: 0.95rem;
+      line-height: 1.45;
+      color: var(--c-muted);
     }
 
     .site-nav__cta {
       width: 100%;
       justify-content: center;
       margin-left: 0;
-      margin-top: var(--space-2);
+      min-height: 3.25rem;
+      border-radius: 1rem;
+      box-shadow:
+        0 16px 26px rgba(78, 109, 149, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.24);
+    }
+  }
+
+  @media (max-width: 420px) {
+    .site-header__brand-mark-wrap {
+      width: 40px;
+    }
+
+    .site-header__brand-name {
+      font-size: 0.98rem;
+      max-width: 7.2ch;
+    }
+
+    .site-header__brand-copy::after {
+      width: 1.9rem;
+    }
+
+    .site-nav__panel {
+      width: min(calc(100% - 1.64rem), 32rem);
+    }
+
+    .site-nav__list {
+      padding: 0.68rem;
+      border-radius: 1.2rem;
+    }
+
+    .site-nav__footer {
+      padding: 0.88rem;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .site-header,
     .site-header__inner,
-    .site-header__logo-mark,
+    .site-header__brand,
+    .site-header__brand-mark-wrap,
     .site-nav,
+    .site-nav__panel,
     .site-nav__toggle,
+    .site-nav__toggle-line,
+    .site-nav__link,
+    .site-nav__link::after,
     .site-header::before,
-    .site-header::after {
+    .site-header::after,
+    :global(.site-nav-page-backdrop) {
       transition: none !important;
+    }
+
+    .site-header__brand-tag {
+      transform: none;
     }
   }
 </style>

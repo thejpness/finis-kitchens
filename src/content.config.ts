@@ -1,19 +1,21 @@
-// src/content/config.ts
-import { defineCollection, z } from "astro:content";
+import { defineCollection } from "astro:content";
+import { z } from "astro/zod";
+import { glob } from "astro/loaders";
 
 const projects = defineCollection({
-  type: "content",
+  loader: glob({
+    pattern: "**/*.{md,mdx}",
+    base: "./src/content/projects",
+  }),
   schema: ({ image }) =>
     z.object({
       title: z.string(),
+      description: z.string().optional(),
       location: z.string().optional(),
       style: z.string().optional(),
       completedAt: z.string().optional(),
 
-      // ✅ ImageMetadata, usable directly in <Picture src={...} />
-      heroImage: image(),
-
-      // ✅ future-proof: gallery can be real images too
+      heroImage: image().optional(),
       gallery: z.array(image()).optional(),
 
       featured: z.boolean().default(false),

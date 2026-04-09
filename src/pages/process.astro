@@ -1,0 +1,451 @@
+---
+// src/pages/process.astro
+import BaseLayout from "../layouts/BaseLayout.astro";
+import FAQList from "../components/sections/FAQList.astro";
+import phWide from "../assets/images/placeholders/kitchen-placeholder-wide-island.png";
+
+const principles = [
+  {
+    title: "Clarity early",
+    text: "You should understand likely scope, budget direction and next steps early, not after weeks of vague conversations.",
+  },
+  {
+    title: "Designed around real routines",
+    text: "The layout is shaped around movement, prep, storage, appliances, family life and the way your household actually uses the room.",
+  },
+  {
+    title: "Joined-up delivery",
+    text: "Design, supply and installation are treated as one coordinated journey, so the whole project feels steadier and easier to trust.",
+  },
+];
+
+const stages = [
+  {
+    number: "01",
+    title: "Initial conversation",
+    intro:
+      "We start with a straightforward conversation about your home, your priorities, your rough budget and what you want the kitchen to do better.",
+    points: [
+      "Talk through the room, the frustrations and what success looks like",
+      "Discuss style, function, appliances and everyday routines",
+      "Sense-check feasibility and likely investment level early",
+    ],
+  },
+  {
+    number: "02",
+    title: "Home survey and brief",
+    intro:
+      "Once the project feels like a good fit, the room is properly understood so the design is grounded in reality rather than guesswork.",
+    points: [
+      "Measure the room and understand the practical constraints",
+      "Review layout opportunities, awkward areas and circulation",
+      "Build a clear brief around storage, cooking, hosting and day-to-day use",
+    ],
+  },
+  {
+    number: "03",
+    title: "Layout and design direction",
+    intro:
+      "The design phase focuses on flow before features, then brings in the cabinetry, finishes and details that make the space feel right.",
+    points: [
+      "Shape the layout around movement, prep space and appliance placement",
+      "Refine the look and feel without losing the practical core",
+      "Guide decisions clearly so you are not overloaded too early",
+    ],
+  },
+  {
+    number: "04",
+    title: "Specification and sign-off",
+    intro:
+      "Before anything moves into delivery, the important choices are tightened up so the project feels considered, coordinated and ready.",
+    points: [
+      "Finalise cabinetry, worktops, finishes and functional details",
+      "Confirm the scope of work and installation approach",
+      "Make sure everyone is clear on what is being supplied and fitted",
+    ],
+  },
+  {
+    number: "05",
+    title: "Supply, installation and handover",
+    intro:
+      "With the design signed off, the project moves through to delivery and fitting with a clear plan and less chasing from you.",
+    points: [
+      "Coordinate supply and installation as a joined-up process",
+      "Keep communication practical and straightforward",
+      "Finish with a kitchen that feels better to live with on an ordinary day",
+    ],
+  },
+];
+
+const reassurances = [
+  "Clear next steps from the outset",
+  "Budget and feasibility discussed early",
+  "Design decisions grounded in daily life",
+  "Less showroom theatre and less pressure",
+  "A more joined-up route from design to fitting",
+];
+
+const faqs = [
+  {
+    question: "How much should we budget before speaking to you?",
+    answer:
+      "A rough figure is enough to start. The aim is not to force precision too early, but to understand the kind of project you are considering and give useful guidance as the brief becomes clearer.",
+  },
+  {
+    question: "How long does the full process usually take?",
+    answer:
+      "Many projects take around three months from initial design through to installation, though timings depend on the scope of work, the room itself and the choices made during specification.",
+  },
+  {
+    question: "Will we be pushed into decisions quickly?",
+    answer:
+      "No. The process is intended to feel calm and clear. Important decisions are made in sequence, with sensible guidance, rather than being rushed through in a sales-led way.",
+  },
+  {
+    question: "Do you handle installation as well as design?",
+    answer:
+      "Yes. Fini’s Kitchens offers a joined-up design, supply and installation service so the project feels more coordinated from start to finish.",
+  },
+  {
+    question: "Is this only for very large or high-end projects?",
+    answer:
+      "No. The focus is on thoughtful, well-planned kitchens for real homes. Quality matters, but so does practicality, clarity and making the room work properly for everyday life.",
+  },
+];
+---
+
+<BaseLayout
+  title="Our process | Fini’s Kitchens"
+  description="A calm, clear kitchen process from first conversation to final fitting. Thoughtful design, practical guidance and joined-up installation for real homes."
+  ogImage={phWide.src}
+>
+  <section class="section">
+    <div class="container">
+      <div class="process-hero">
+        <div class="process-hero__copy stack stack--loose">
+          <div class="stack stack--tight">
+            <p class="eyebrow">A calmer way to buy</p>
+            <h1 class="display-title">A clear kitchen process from first conversation to final fitting.</h1>
+            <p class="lead text-measure--wide">
+              The aim is not to make you learn an industry. It is to guide you through the right decisions,
+              at the right time, with clear next steps, honest budget discussion and less chasing from you.
+            </p>
+          </div>
+
+          <div class="cta-row">
+            <a class="btn btn--primary btn--large" href="/contact">Book a calm design call</a>
+            <a class="btn btn--secondary btn--large" href="/pricing">See pricing guidance</a>
+          </div>
+        </div>
+
+        <aside class="process-hero__aside card card--surface stack stack--tight" aria-label="What this page covers">
+          <p class="eyebrow">What this page should answer</p>
+          <h2>What happens, when it happens, and how the whole thing stays manageable.</h2>
+          <ul class="check-list" role="list">
+            <li>How the project starts</li>
+            <li>When budget and feasibility are discussed</li>
+            <li>How design decisions are made</li>
+            <li>Who handles supply and installation</li>
+          </ul>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="container">
+      <div class="process-proof" role="list" aria-label="Process highlights">
+        <article class="process-proof__item" role="listitem">
+          <p class="process-proof__label">Early budget direction</p>
+        </article>
+        <article class="process-proof__item" role="listitem">
+          <p class="process-proof__label">Real-life planning</p>
+        </article>
+        <article class="process-proof__item" role="listitem">
+          <p class="process-proof__label">Clear design stages</p>
+        </article>
+        <article class="process-proof__item" role="listitem">
+          <p class="process-proof__label">Joined-up installation</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="container section-frame stack stack--loose">
+      <header class="section-intro">
+        <div class="stack stack--tight">
+          <p class="eyebrow">Why the process matters</p>
+          <h2>A good kitchen process removes uncertainty, not just choices.</h2>
+        </div>
+        <p class="muted text-measure">
+          The process should make the project feel clearer and calmer from the start. That means better sequencing,
+          honest conversations, practical advice and design decisions tied back to how the room will really be used.
+        </p>
+      </header>
+
+      <div class="process-principles">
+        {principles.map((item) => (
+          <article class="card card--surface process-principle">
+            <h3>{item.title}</h3>
+            <p class="muted">{item.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="container section-frame stack stack--loose">
+      <header class="section-intro">
+        <div class="stack stack--tight">
+          <p class="eyebrow">Step by step</p>
+          <h2>The process in plain English.</h2>
+        </div>
+        <p class="muted text-measure">
+          Every project is slightly different, but the structure below is how the journey is normally shaped so
+          decisions happen in the right order and the project moves forward with less friction.
+        </p>
+      </header>
+
+      <ol class="process-timeline" role="list">
+        {stages.map((stage) => (
+          <li class="process-step">
+            <div class="process-step__marker" aria-hidden="true">{stage.number}</div>
+
+            <article class="process-step__card">
+              <div class="stack stack--tight">
+                <div class="process-step__head">
+                  <p class="eyebrow">Step {stage.number}</p>
+                  <h3>{stage.title}</h3>
+                </div>
+
+                <p class="muted text-measure">{stage.intro}</p>
+
+                <ul class="process-step__list" role="list">
+                  {stage.points.map((point) => (
+                    <li>{point}</li>
+                  ))}
+                </ul>
+              </div>
+            </article>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="container">
+      <div class="process-assurance">
+        <div class="process-assurance__panel">
+          <div class="stack stack--tight">
+            <p class="eyebrow">Built into the process</p>
+            <h2>Low pressure is not just a tone of voice. It shows up in how the project is run.</h2>
+            <p class="muted text-measure">
+              From the first conversation onwards, the goal is to make the process feel grounded and easier to trust.
+              That means less ambiguity, fewer vague promises and more practical guidance at each stage.
+            </p>
+          </div>
+
+          <ul class="check-list" role="list">
+            {reassurances.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </div>
+
+        <article class="card card--surface process-assurance__card">
+          <p class="eyebrow">What you will not get</p>
+          <h3>Showroom pressure, vague luxury language, or decisions forced before the room is properly understood.</h3>
+          <p class="muted">
+            The point is not to overwhelm you with options. The point is to get to the right kitchen with a process
+            that feels steadier, more transparent and more rooted in everyday life.
+          </p>
+          <div class="cta-row">
+            <a class="btn btn--primary" href="/contact">Start the conversation</a>
+            <a class="text-link" href="/projects">See finished kitchens</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+      <FAQList items={faqs} />
+    </div>
+
+    <div class="container">
+      <div class="final-cta">
+        <div class="stack stack--tight">
+          <p class="eyebrow">Start simply</p>
+          <h2>Start with a conversation, not a sales script.</h2>
+          <p class="muted text-measure">
+            If you are planning a new kitchen and want a clearer, calmer route through the project, the first step is
+            a straightforward conversation about your home, your priorities and what the room needs to do better.
+          </p>
+        </div>
+
+        <div class="cta-row">
+          <a class="btn btn--primary btn--large" href="/contact">Book a calm design call</a>
+          <a class="btn btn--secondary btn--large" href="/pricing">See pricing guidance</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .process-hero,
+  .process-principles,
+  .process-proof,
+  .process-assurance,
+  .process-timeline {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .process-hero {
+    align-items: start;
+  }
+
+  .process-hero__aside {
+    padding: var(--space-7);
+    border-radius: var(--radius-xl);
+  }
+
+  .process-proof__item {
+    padding: var(--space-5);
+    border-radius: var(--radius-l);
+    border: var(--border-1) solid var(--c-border);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(246, 241, 234, 0.92) 100%);
+    box-shadow: var(--shadow-1);
+  }
+
+  .process-proof__label {
+    font-weight: 600;
+    line-height: var(--lh-snug);
+  }
+
+  .process-principle h3 {
+    margin-bottom: var(--space-3);
+  }
+
+  .process-timeline {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .process-step {
+    display: grid;
+    gap: var(--space-4);
+    align-items: start;
+  }
+
+  .process-step__marker {
+    inline-size: 3rem;
+    block-size: 3rem;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    border: var(--border-1) solid var(--c-border-strong);
+    background:
+      radial-gradient(circle at 30% 30%, rgba(157, 184, 233, 0.32), rgba(157, 184, 233, 0.12)),
+      rgba(255, 255, 255, 0.92);
+    color: var(--c-accent);
+    font-weight: 700;
+    box-shadow: var(--shadow-1);
+  }
+
+  .process-step__card {
+    padding: var(--space-7);
+    border-radius: var(--radius-xl);
+    border: var(--border-1) solid var(--c-border);
+    background: var(--grad-soft);
+    box-shadow: var(--shadow-1);
+  }
+
+  .process-step__list {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-2) 0 0;
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .process-step__list li {
+    position: relative;
+    padding-left: 1.2rem;
+    color: var(--c-text-muted);
+  }
+
+  .process-step__list li::before {
+    content: "";
+    position: absolute;
+    top: 0.62rem;
+    left: 0;
+    inline-size: 0.45rem;
+    block-size: 0.45rem;
+    border-radius: 999px;
+    background: var(--c-brand-400);
+  }
+
+  .process-assurance__panel {
+    padding: var(--space-8);
+    border-radius: var(--radius-xl);
+    border: var(--border-1) solid var(--c-border);
+    background:
+      radial-gradient(circle at top left, rgba(157, 184, 233, 0.18) 0%, rgba(157, 184, 233, 0) 42%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.94) 0%, rgba(246, 241, 234, 0.94) 100%);
+    box-shadow: var(--shadow-2);
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .process-assurance__card h3 {
+    margin-top: var(--space-2);
+    margin-bottom: var(--space-3);
+  }
+
+  .final-cta {
+    display: grid;
+    gap: var(--space-6);
+    padding: var(--space-8);
+    border-radius: var(--radius-xl);
+    border: var(--border-1) solid var(--c-border);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(246, 241, 234, 0.94) 100%);
+    box-shadow: var(--shadow-1);
+  }
+
+  @media (min-width: 48rem) {
+    .process-hero {
+      grid-template-columns: minmax(0, 1.2fr) minmax(18rem, 0.8fr);
+      gap: var(--space-8);
+    }
+
+    .process-proof {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .process-principles {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .process-step {
+      grid-template-columns: auto 1fr;
+      gap: var(--space-5);
+    }
+
+    .process-assurance {
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      align-items: stretch;
+    }
+
+    .final-cta {
+      grid-template-columns: 1fr auto;
+      align-items: center;
+    }
+  }
+</style>

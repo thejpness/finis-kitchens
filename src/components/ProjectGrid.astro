@@ -15,63 +15,89 @@ const {
   ariaLabel?: string;
 };
 
+const items = projects.filter(Boolean) as ProjectEntry[];
 const isReel = variant === "reel";
 ---
 
-<section
-  class:list={["project-grid", "grid", isReel && "project-grid--reel"]}
-  aria-label={ariaLabel}
-  data-project-grid={variant}
->
-  {projects.filter(Boolean).map((entry: ProjectEntry) => (
-    <ProjectCard project={entry} />
-  ))}
-</section>
+{
+  items.length > 0 ? (
+    <section
+      class:list={["project-grid", "grid", isReel && "project-grid--reel"]}
+      aria-label={ariaLabel}
+      data-project-grid={variant}
+    >
+      {items.map((entry) => (
+        <ProjectCard project={entry} />
+      ))}
+    </section>
+  ) : (
+    <section class="project-grid-empty card card--surface" aria-label="No projects available">
+      <div class="stack stack--tight">
+        <p class="eyebrow">Projects</p>
+        <h3>More project stories are coming soon.</h3>
+        <p class="muted">
+          We’re currently updating this page with more recent kitchen transformations.
+        </p>
+      </div>
+    </section>
+  )
+}
 
 <style>
-  /* Default: grid */
   .project-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: var(--space-6);
+    align-items: stretch;
+    grid-template-columns: 1fr;
+    gap: clamp(var(--space-5), 2vw, var(--space-7));
   }
 
-  @media (max-width: 880px) {
+  @media (min-width: 42rem) {
     .project-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
-  @media (max-width: 640px) {
+  @media (min-width: 70rem) {
     .project-grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
 
-  /* Reel variant: horizontal scroll-snap rail (carousel vibe, no autoplay) */
   .project-grid--reel {
     grid-template-columns: none;
     grid-auto-flow: column;
-    grid-auto-columns: minmax(18rem, 28%);
+    grid-auto-columns: minmax(17.5rem, 86%);
     overflow-x: auto;
+    overscroll-behavior-inline: contain;
     scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--space-4);
     -webkit-overflow-scrolling: touch;
-    padding-bottom: var(--space-3);
     gap: var(--space-4);
+    padding-inline: var(--space-1);
+    padding-bottom: var(--space-3);
+    margin-inline: calc(var(--space-1) * -1);
+    scrollbar-width: thin;
   }
 
   .project-grid--reel > * {
     scroll-snap-align: start;
+    scroll-snap-stop: always;
   }
 
-  @media (max-width: 980px) {
+  @media (min-width: 42rem) {
     .project-grid--reel {
-      grid-auto-columns: minmax(18rem, 42%);
+      grid-auto-columns: minmax(20rem, 44%);
     }
   }
 
-  @media (max-width: 640px) {
+  @media (min-width: 70rem) {
     .project-grid--reel {
-      grid-auto-columns: minmax(18rem, 86%);
+      grid-auto-columns: minmax(21rem, 31%);
+      gap: var(--space-5);
     }
+  }
+
+  .project-grid-empty {
+    padding: var(--space-7);
+    border-radius: var(--radius-xl);
   }
 </style>

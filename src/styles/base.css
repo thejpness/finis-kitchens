@@ -17,11 +17,38 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: "Baloo 2";
+  src: url("/fonts/Baloo2-ExtraBold.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Caveat";
+  src: url("/fonts/Caveat-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 @layer base {
-  /* A light reset */
-  *, *::before, *::after { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-  body { margin: 0; }
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    overflow-x: clip;
+  }
+
+  body {
+    margin: 0;
+    position: relative;
+    min-width: 320px;
+  }
 
   :where(img, picture, video, canvas, svg) {
     display: block;
@@ -29,9 +56,10 @@
     height: auto;
   }
 
-  :where(button, input, textarea, select) { font: inherit; }
+  :where(button, input, textarea, select) {
+    font: inherit;
+  }
 
-  /* Core page defaults */
   body {
     font-family: var(--font-sans);
     font-size: var(--fs-1);
@@ -41,51 +69,61 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-
-    /* Variable axis support (safe even if fallback fonts ignore it) */
     font-optical-sizing: auto;
   }
 
-  main { min-height: 60vh; }
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+    background:
+      radial-gradient(circle at top left, rgba(157, 184, 233, 0.14) 0%, rgba(157, 184, 233, 0) 34%),
+      radial-gradient(circle at bottom right, rgba(229, 216, 197, 0.18) 0%, rgba(229, 216, 197, 0) 28%);
+  }
 
-  /* Headings: explicit weights + nicer wraps */
+  main {
+    min-height: 60vh;
+  }
+
   :where(h1, h2, h3, h4) {
+    margin: 0;
     line-height: var(--lh-tight);
     letter-spacing: var(--ls-tight);
-    margin: 0;
     font-weight: 650;
     text-wrap: balance;
   }
+
   h1 { font-size: var(--fs-display); }
   h2 { font-size: var(--fs-4); }
   h3 { font-size: var(--fs-3); }
 
-  /* Paragraph defaults */
   :where(p) {
     margin: 0;
     max-width: 70ch;
   }
 
-  /* Links: keep UI clean by default (use .link or .prose for underlines) */
   a {
     color: inherit;
     text-decoration: none;
   }
 
-  /* Focus: visible but tasteful */
-  :focus { outline: none; }
+  :focus {
+    outline: none;
+  }
+
   :focus-visible {
     outline: 2px solid var(--c-focus);
     outline-offset: 3px;
     border-radius: 6px;
   }
 
-  /* Selection */
   ::selection {
-    background: rgba(20, 184, 166, 0.22);
+    background: rgba(157, 184, 233, 0.32);
+    color: var(--c-text);
   }
 
-  /* Reduce motion */
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: 1ms !important;
@@ -95,25 +133,42 @@
     }
   }
 
-  /* A “prose” wrapper for markdown/rich text pages */
   .prose {
     max-width: 70ch;
   }
 
-  .prose :where(p) { margin-top: var(--space-4); }
-  .prose :where(h2) { margin-top: var(--space-9); }
-  .prose :where(h3) { margin-top: var(--space-7); }
+  .prose :where(p) {
+    margin-top: var(--space-4);
+  }
 
-  .prose :where(ul, ol) { margin: var(--space-4) 0 0; padding-left: 1.2em; }
-  .prose :where(li) { margin-top: var(--space-2); color: var(--c-text-muted); }
-  .prose :where(p, li) { color: var(--c-text-muted); }
+  .prose :where(h2) {
+    margin-top: var(--space-9);
+  }
 
-  /* Prose links should look like content */
+  .prose :where(h3) {
+    margin-top: var(--space-7);
+  }
+
+  .prose :where(ul, ol) {
+    margin: var(--space-4) 0 0;
+    padding-left: 1.2em;
+  }
+
+  .prose :where(li) {
+    margin-top: var(--space-2);
+    color: var(--c-text-muted);
+  }
+
+  .prose :where(p, li) {
+    color: var(--c-text-muted);
+  }
+
   .prose a {
     text-decoration: underline;
     text-decoration-thickness: 1px;
     text-underline-offset: 0.18em;
   }
+
   .prose a:hover {
     text-decoration-thickness: 2px;
   }
