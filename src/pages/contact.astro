@@ -3,7 +3,7 @@
 import PageLayout from "../layouts/PageLayout.astro";
 import WhatsAppButton from "../components/WhatsAppButton.astro";
 
-const TURNSTILE_SITE_KEY = Astro.env.get("PUBLIC_TURNSTILE_SITE_KEY") ?? "";
+const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
 ---
 
 <PageLayout
