@@ -8,20 +8,20 @@
   }
 
   .section {
-    padding-block: var(--space-10);
+    padding-block: clamp(var(--space-8), 5vw, var(--space-9));
   }
 
   .section--tight {
-    padding-block: var(--space-8);
+    padding-block: clamp(var(--space-6), 3.5vw, var(--space-7));
   }
 
   .section--loose {
-    padding-block: var(--space-11);
+    padding-block: clamp(var(--space-9), 6vw, var(--space-10));
   }
 
   .section-frame {
     border-top: var(--border-1) solid var(--c-border);
-    padding-top: var(--space-8);
+    padding-top: var(--space-7);
   }
 
   .divider {
@@ -39,7 +39,7 @@
   }
 
   .stack--loose > * + * {
-    margin-top: var(--space-6);
+    margin-top: var(--space-5);
   }
 
   .grid {
@@ -108,18 +108,18 @@
   /* Shared section header pattern */
   .section-intro {
     display: grid;
-    gap: var(--space-4);
+    gap: var(--space-3);
   }
 
   .section-head {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    gap: var(--space-6);
+    gap: var(--space-5);
   }
 
   .section-head__copy {
-    max-width: 46rem;
+    max-width: 52rem;
   }
 
   .section-head__desc {
@@ -182,7 +182,7 @@
     background: var(--c-surface-2);
     border: var(--border-1) solid var(--c-border);
     box-shadow: var(--shadow-1);
-    padding: var(--space-6);
+    padding: clamp(var(--space-5), 2vw, var(--space-6));
   }
 
   .card--surface {
@@ -324,7 +324,7 @@
     background: var(--grad-soft);
     border: var(--border-1) solid var(--c-border);
     box-shadow: var(--shadow-1);
-    padding: var(--space-8);
+    padding: clamp(var(--space-6), 2.5vw, var(--space-7));
   }
 
   /* Check list */
@@ -366,7 +366,7 @@
   .details-card summary {
     list-style: none;
     cursor: pointer;
-    padding: var(--space-5);
+    padding: clamp(var(--space-4), 2vw, var(--space-5));
     font-weight: 600;
   }
 
@@ -375,7 +375,7 @@
   }
 
   .details-card__content {
-    padding: 0 var(--space-5) var(--space-5);
+    padding: 0 clamp(var(--space-4), 2vw, var(--space-5)) clamp(var(--space-4), 2vw, var(--space-5));
   }
 
   /* A11y */

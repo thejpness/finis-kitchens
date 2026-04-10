@@ -1,0 +1,205 @@
+---
+import PageLayout from "../layouts/PageLayout.astro";
+import StoryHero from "../components/story/StoryHero.astro";
+import StorySection from "../components/story/StorySection.astro";
+import StoryQuotePanel from "../components/story/StoryQuotePanel.astro";
+import StoryTranscript from "../components/story/StoryTranscript.astro";
+import StoryDownloadCard from "../components/story/StoryDownloadCard.astro";
+import StoryBridge from "../components/story/StoryBridge.astro";
+import StoryBookViewer from "../components/story/StoryBookViewer.astro";
+
+const hasStoryFilm = false;
+const storybookViewerId = "the-love-that-stays-viewer";
+
+const writtenStory = [
+  {
+    heading: "A little boy at the heart of this business",
+    body:
+      "Fini’s Kitchens was named in honour of Finan “Fini” Wyatt - a deeply loved little boy whose memory continues to shape the heart, care and purpose behind the business."
+  },
+  {
+    heading: "Seven families, one shared beginning",
+    body:
+      "Before the children were born, a group of new parents met through NCT. What began as classes and first-time nerves soon became friendship, support and a bond that would carry into family life."
+  },
+  {
+    heading: "Growing up side by side",
+    body:
+      "The children arrived one by one and grew alongside each other. The story remembers the ordinary joy of those early years - play, laughter, picnics, bubbles, muddy days and all the little moments families hold onto forever."
+  },
+  {
+    heading: "Loss, love and remembrance",
+    body:
+      "In January 2024, Finan died suddenly at just 20 months old because of a very rare condition. His memory is held with love, honesty and care."
+  },
+  {
+    heading: "Why this story lives here",
+    body:
+      "After losing Finan, the family behind Fini’s Kitchens wanted to use business as a force for good and to help make people’s dreams real. That purpose still sits underneath the work today."
+  }
+];
+
+const storybookPages = [
+  {
+    label: "Cover",
+    src: "/images/story/book/01-cover.jpg",
+    alt: "Cover page of The Love That Stays"
+  },
+  {
+    label: "Dedication",
+    src: "/images/story/book/02-dedication.jpg",
+    alt: "Dedication page for Finan in The Love That Stays"
+  },
+  {
+    label: "Page 1",
+    src: "/images/story/book/03-the-beginning.jpg",
+    alt: "Illustrated storybook page about the parents meeting before the babies were born"
+  },
+  {
+    label: "Page 2",
+    src: "/images/story/book/04-seven-babies.jpg",
+    alt: "Illustrated storybook page introducing the seven babies including Finan"
+  },
+  {
+    label: "Page 3",
+    src: "/images/story/book/05-bubbles-and-play.jpg",
+    alt: "Illustrated storybook page showing the babies growing and playing together"
+  },
+  {
+    label: "Page 4",
+    src: "/images/story/book/06-picnic.jpg",
+    alt: "Illustrated storybook page showing outdoor play and picnic scenes"
+  },
+  {
+    label: "Page 5",
+    src: "/images/story/book/07-rainbow.jpg",
+    alt: "Illustrated storybook page with rainbow and ladybirds symbolising Finan’s presence"
+  },
+  {
+    label: "Page 6",
+    src: "/images/story/book/08-grey-sky.jpg",
+    alt: "Illustrated storybook page describing Finan's passing and remembrance"
+  },
+  {
+    label: "Page 7",
+    src: "/images/story/book/09-six-friends.jpg",
+    alt: "Illustrated storybook page showing the six friends growing up together"
+  },
+  {
+    label: "Page 8",
+    src: "/images/story/book/10-bright-star.jpg",
+    alt: "Illustrated storybook page showing one bright star above the children"
+  },
+  {
+    label: "Closing page",
+    src: "/images/story/book/11-closing-poem.jpg",
+    alt: "Closing poem page from The Love That Stays"
+  }
+];
+---
+
+<PageLayout
+  title="The Love That Stays"
+  metaTitle="The Love That Stays | Fini's Kitchens"
+  description="The story behind Fini’s Kitchens - a page dedicated to Finan “Fini” Wyatt, whose memory continues to shape the values, care and purpose behind the business."
+  ogImage="/images/story/book/01-cover.jpg"
+  hidePageHero={true}
+>
+  <StoryHero
+    eyebrow="Fini's Story"
+    title="The Love That Stays"
+    intro="Fini’s Kitchens was named in honour of Finan “Fini” Wyatt - a deeply loved little boy whose memory continues to shape the heart behind this business."
+    videoSrc={hasStoryFilm ? "/videos/the-love-that-stays.mp4" : undefined}
+    posterSrc="/images/story/book/01-cover.jpg"
+    readAnchor="#story"
+    viewerId={storybookViewerId}
+  />
+
+  <section class="section" id="story" aria-labelledby="story-opening-heading">
+    <div class="container stack stack--xl">
+      <StoryQuotePanel
+        tone="soft"
+        title="For Finan"
+        text="Finan “Fini” Wyatt was the co-owners’ son - a beautiful, deeply loved little boy whose presence is woven into the story of this business."
+      />
+
+      <StorySection
+        title="Where the story begins"
+        text="Before the children were born, seven new parents met through NCT. What began as classes, nerves and first-time questions quickly became laughter, friendship and the kind of support that carries people through the biggest parts of life. Long before Fini’s Kitchens existed, that circle had already begun."
+        first={true}
+      />
+
+      <StorySection
+        title="Seven children, one shared beginning"
+        text="One by one, the babies arrived. Each child brought their own personality, rhythm and joy into the group. When Finan arrived, the circle felt complete. The storybook remembers that early season with warmth - seven little lives, deeply loved, growing side by side."
+        image="/images/story/book/04-seven-babies.jpg"
+        imageAlt="Illustration of seven hot air balloons representing the children"
+        viewerId={storybookViewerId}
+        viewerIndex={3}
+      />
+
+      <StorySection
+        title="The beauty of ordinary family life"
+        text="So much of what matters in the story is beautifully everyday: bubbles, songs, soft play, picnics, changing weather, muddy shoes, growing confidence and shared laughter. These are the moments families actually remember - not polished perfection, but the real joy of childhood. That real-life warmth is part of what now shapes the way we think about home."
+      />
+
+      <StoryQuotePanel
+        tone="deep"
+        title="January 2024"
+        text="Finan died suddenly in January 2024 at just 20 months old because of a very rare condition. His memory is held with love, honesty and care."
+      />
+
+      <StorySection
+        title="Love did not leave with him"
+        text="Grief changes a family forever. It changes how life is seen, what matters most and what feels worth building. This story does not pretend loss is simple. Instead, it holds onto something quieter and truer: that Finan is still loved, still remembered and still part of the lives around him."
+      />
+
+      <StorySection
+        reverse={true}
+        title="Why this became Fini’s Kitchens"
+        text="After losing Finan, the family behind Fini’s Kitchens wanted to use business as a force for good and to help make people’s dreams real. That purpose sits underneath the work. This is not just about kitchens as products. It is about family life, home, warmth, care, and creating spaces that hold what matters."
+        image="/images/story/book/10-bright-star.jpg"
+        imageAlt="Illustration of children beneath a moon and starry sky with one bright star above"
+        viewerId={storybookViewerId}
+        viewerIndex={9}
+      />
+
+      <StorySection
+        title="Part of something wider"
+        text="Fini’s Kitchens is part of the wider Fini Group, built around the idea of improving people’s lives through the team’s professional passions. For us, that means bringing care, thought and real-life understanding into the homes we help shape - and carrying Finan’s name forward with meaning."
+      />
+    </div>
+  </section>
+
+  <StoryBookViewer
+    viewerId={storybookViewerId}
+    eyebrow="Illustrated storybook"
+    title="Read the illustrated storybook"
+    intro="Open The Love That Stays in a full-screen story viewer. Swipe on mobile or use the arrows on desktop."
+    buttonLabel="Open the storybook"
+    pages={storybookPages}
+  />
+
+  <StoryTranscript
+    title="Prefer to read it in words?"
+    intro="Read a shorter written version of the story."
+    summaryLabel="Read the shorter written version"
+    items={writtenStory}
+  />
+
+  <StoryDownloadCard
+    title="Prefer the original format?"
+    text="You can also open the original PDF edition of The Love That Stays."
+    buttonLabel="Open the storybook PDF"
+    href="/documents/the-love-that-stays.pdf"
+  />
+
+  <StoryBridge
+    title="A home should feel like it was made for real life"
+    text="Fini’s Kitchens was built from lived experience - from love, loss, family life and the belief that a home should feel warm, grounding and deeply personal. That is the standard we carry into every project."
+    primaryHref="/about"
+    primaryLabel="Read more about us"
+    secondaryHref="/contact"
+    secondaryLabel="Book a consultation"
+  />
+</PageLayout>

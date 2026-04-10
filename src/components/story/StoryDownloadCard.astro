@@ -1,0 +1,57 @@
+---
+interface Props {
+  title: string;
+  text: string;
+  buttonLabel: string;
+  href: string;
+}
+
+const { title, text, buttonLabel, href } = Astro.props;
+---
+
+<section class="section">
+  <div class="container">
+    <div class="story-download">
+      <div class="story-download__copy">
+        <h2 class="story-download__title">{title}</h2>
+        <p class="story-download__text">{text}</p>
+      </div>
+
+      <a class="btn btn--secondary" href={href} target="_blank" rel="noopener">
+        {buttonLabel}
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .story-download {
+    display: grid;
+    gap: 1rem;
+    align-items: center;
+    padding: clamp(1.15rem, 2.25vw, 1.5rem);
+    border-radius: calc(var(--radius-xl) + 0.15rem);
+    border: var(--border-1) solid color-mix(in srgb, var(--c-border) 85%, white 15%);
+    background:
+      linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--c-surface) 97%, white 3%),
+        color-mix(in srgb, var(--c-surface) 100%, transparent 0%)
+      );
+  }
+
+  .story-download__title {
+    margin-bottom: 0.35rem;
+  }
+
+  .story-download__text {
+    margin: 0;
+  }
+
+  @media (min-width: 800px) {
+    .story-download {
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 1.5rem;
+    }
+  }
+</style>

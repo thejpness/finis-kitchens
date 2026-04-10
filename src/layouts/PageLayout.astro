@@ -10,6 +10,7 @@ interface Props {
   noindex?: boolean;
   eyebrow?: string;
   heroSize?: "tight" | "loose";
+  hidePageHero?: boolean;
 }
 
 const {
@@ -20,17 +21,20 @@ const {
   noindex,
   eyebrow,
   heroSize = "loose",
+  hidePageHero = false,
 } = Astro.props as Props;
 ---
 
 <BaseLayout title={metaTitle} description={description} ogImage={ogImage} noindex={noindex}>
-  <section class:list={["page-hero", "section", heroSize === "tight" ? "section--tight" : "section--loose"]}>
-    <div class="container page-hero__inner stack stack--tight">
-      {eyebrow && <p class="eyebrow">{eyebrow}</p>}
-      <h1 class="page-hero__title">{title}</h1>
-      {description && <p class="lead page-hero__desc">{description}</p>}
-    </div>
-  </section>
+  {!hidePageHero && (
+    <section class:list={["page-hero", "section", heroSize === "tight" ? "section--tight" : "section--loose"]}>
+      <div class="container page-hero__inner stack stack--tight">
+        {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+        <h1 class="page-hero__title">{title}</h1>
+        {description && <p class="lead page-hero__desc">{description}</p>}
+      </div>
+    </section>
+  )}
 
   <slot />
 </BaseLayout>

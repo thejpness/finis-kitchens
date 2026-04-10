@@ -1,0 +1,167 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  intro: string;
+  videoSrc?: string;
+  posterSrc?: string;
+  readAnchor?: string;
+  viewerId?: string;
+}
+
+const {
+  eyebrow = "Story",
+  title,
+  intro,
+  videoSrc,
+  posterSrc,
+  readAnchor = "#story",
+  viewerId
+} = Astro.props;
+
+const hasVideo = Boolean(videoSrc);
+const hasPoster = Boolean(posterSrc);
+---
+
+<section class="story-hero section">
+  <div class="container story-hero__grid">
+    <div class="story-hero__copy">
+      <div class="stack stack--tight">
+        <p class="eyebrow">{eyebrow}</p>
+        <h1 class="display-title story-hero__title">{title}</h1>
+        <p class="lead story-hero__intro">{intro}</p>
+      </div>
+
+      <div class="cta-row story-hero__actions">
+        <a class="btn btn--primary btn--large" href={hasVideo ? "#film" : readAnchor}>
+          {hasVideo ? "Watch the short film" : "Read the story"}
+        </a>
+
+        {hasVideo ? (
+          <a class="btn btn--secondary btn--large" href={readAnchor}>Read the story below</a>
+        ) : viewerId ? (
+          <button
+            type="button"
+            class="btn btn--secondary btn--large"
+            data-storybook-open={viewerId}
+            data-storybook-index="0"
+          >
+            Open the illustrated storybook
+          </button>
+        ) : null}
+      </div>
+
+      <p class="story-hero__note">
+        Content note: this page includes themes of child loss and remembrance.
+      </p>
+    </div>
+
+    {(hasVideo || hasPoster) && (
+      <div class="story-hero__media" id="film">
+        {hasVideo ? (
+          <video
+            class="story-hero__video"
+            controls
+            playsinline
+            preload="metadata"
+            poster={posterSrc}
+          >
+            <source src={videoSrc} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        ) : viewerId ? (
+          <button
+            type="button"
+            class="story-hero__poster-button"
+            data-storybook-open={viewerId}
+            data-storybook-index="0"
+            aria-label="Open the illustrated storybook"
+          >
+            <img
+              class="story-hero__poster"
+              src={posterSrc}
+              alt="Cover of The Love That Stays"
+              loading="eager"
+              decoding="async"
+            />
+          </button>
+        ) : (
+          <img
+            class="story-hero__poster"
+            src={posterSrc}
+            alt="Cover of The Love That Stays"
+            loading="eager"
+            decoding="async"
+          />
+        )}
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .story-hero {
+    padding-top: clamp(2rem, 4vw, 4rem);
+  }
+
+  .story-hero__grid {
+    display: grid;
+    gap: clamp(1.5rem, 3vw, 3rem);
+    align-items: start;
+  }
+
+  .story-hero__copy {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .story-hero__title {
+    max-width: 9ch;
+    letter-spacing: var(--ls-tight);
+  }
+
+  .story-hero__intro {
+    max-width: 38rem;
+    margin: 0;
+  }
+
+  .story-hero__actions {
+    flex-wrap: wrap;
+  }
+
+  .story-hero__note {
+    margin: 0;
+    color: var(--c-muted);
+    font-size: 0.95rem;
+  }
+
+  .story-hero__media {
+    overflow: hidden;
+    border-radius: calc(var(--radius-xl) + 0.2rem);
+    border: var(--border-1) solid var(--c-border);
+    background: var(--c-surface);
+    box-shadow: 0 18px 50px color-mix(in srgb, var(--c-text) 10%, transparent 90%);
+  }
+
+  .story-hero__poster-button {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .story-hero__video,
+  .story-hero__poster {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  @media (min-width: 960px) {
+    .story-hero__grid {
+      grid-template-columns: minmax(0, 1.12fr) minmax(18rem, 26rem);
+    }
+  }
+</style>

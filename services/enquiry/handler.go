@@ -21,6 +21,7 @@ type enquiry struct {
 	Name         string `json:"name"`
 	Email        string `json:"email"`
 	Phone        string `json:"phone,omitempty"`
+	Timeline     string `json:"timeline,omitempty"`
 	Message      string `json:"message"`
 	Page         string `json:"page,omitempty"`
 	Source       string `json:"source,omitempty"`
@@ -52,6 +53,7 @@ func handleEnquiry(w http.ResponseWriter, r *http.Request) {
 		httpError(w, http.StatusBadRequest, "invalid json")
 		return
 	}
+
 	// Ensure there isn't trailing junk / extra JSON values
 	var extra any
 	if err := dec.Decode(&extra); err != io.EOF {
@@ -110,11 +112,18 @@ func handleEnquiry(w http.ResponseWriter, r *http.Request) {
 	now := time.Now().UTC().Format(time.RFC3339)
 
 	plain := fmt.Sprintf(
-		"New %s message\n\nChannel: %s\nName: %s\nEmail: %s\nPhone: %s\nPage: %s\nSource: %s\nConsent: %v\nTime: %s\n\nMessage:\n%s\n",
+		"New %s message\n\nChannel: %s\nName: %s\nEmail: %s\nPhone: %s\nTimeline: %s\nPage: %s\nSource: %s\nConsent: %v\nTime: %s\n\nMessage:\n%s\n",
 		channel,
 		channel,
-		safe(in.Name), in.Email, safe(in.Phone), safe(in.Page), safe(in.Source),
-		boolOr(in.Consent, false), now, in.Message,
+		safe(in.Name),
+		in.Email,
+		safe(in.Phone),
+		safe(in.Timeline),
+		safe(in.Page),
+		safe(in.Source),
+		boolOr(in.Consent, false),
+		now,
+		in.Message,
 	)
 
 	htmlBody := fmt.Sprintf(`
@@ -123,6 +132,7 @@ func handleEnquiry(w http.ResponseWriter, r *http.Request) {
    <strong>Name:</strong> %s<br>
    <strong>Email:</strong> %s<br>
    <strong>Phone:</strong> %s<br>
+   <strong>Timeline:</strong> %s<br>
    <strong>Page:</strong> %s<br>
    <strong>Source:</strong> %s<br>
    <strong>Consent:</strong> %v<br>
@@ -130,9 +140,15 @@ func handleEnquiry(w http.ResponseWriter, r *http.Request) {
 <p><strong>Message:</strong><br>%s</p>`,
 		esc(channel),
 		esc(channel),
-		esc(safe(in.Name)), esc(in.Email), esc(safe(in.Phone)), esc(safe(in.Page)),
-		esc(safe(in.Source)), boolOr(in.Consent, false),
-		esc(now), nl2br(esc(in.Message)),
+		esc(safe(in.Name)),
+		esc(in.Email),
+		esc(safe(in.Phone)),
+		esc(safe(in.Timeline)),
+		esc(safe(in.Page)),
+		esc(safe(in.Source)),
+		boolOr(in.Consent, false),
+		esc(now),
+		nl2br(esc(in.Message)),
 	)
 
 	if err := sendMail(to, subject, plain, htmlBody, in.Email); err != nil {
@@ -141,8 +157,8 @@ func handleEnquiry(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	log.Printf("enquiry accepted channel=%q name=%q email=%q page=%q source=%q",
-		channel, safe(in.Name), in.Email, safe(in.Page), safe(in.Source))
+	log.Printf("enquiry accepted channel=%q name=%q email=%q timeline=%q page=%q source=%q",
+		channel, safe(in.Name), in.Email, safe(in.Timeline), safe(in.Page), safe(in.Source))
 
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(http.StatusAccepted)
@@ -152,6 +168,8 @@ func handleEnquiry(w http.ResponseWriter, r *http.Request) {
 func validate(in *enquiry, requireConsent bool) error {
 	in.Name = strings.TrimSpace(nameTrim.ReplaceAllString(in.Name, " "))
 	in.Email = strings.TrimSpace(in.Email)
+	in.Phone = strings.TrimSpace(in.Phone)
+	in.Timeline = strings.TrimSpace(in.Timeline)
 	in.Message = strings.TrimSpace(in.Message)
 
 	if in.Name == "" || len(in.Name) < 2 {
@@ -159,6 +177,9 @@ func validate(in *enquiry, requireConsent bool) error {
 	}
 	if !emailRx.MatchString(in.Email) {
 		return errors.New("valid email required")
+	}
+	if in.Timeline == "" {
+		return errors.New("timeline is required")
 	}
 	if len(in.Message) < 10 {
 		return errors.New("message is too short")

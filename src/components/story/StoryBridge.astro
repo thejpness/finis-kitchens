@@ -1,0 +1,67 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  text: string;
+  primaryHref: string;
+  primaryLabel: string;
+  secondaryHref?: string;
+  secondaryLabel?: string;
+}
+
+const {
+  eyebrow,
+  title,
+  text,
+  primaryHref,
+  primaryLabel,
+  secondaryHref,
+  secondaryLabel
+} = Astro.props;
+---
+
+<section class="section story-bridge">
+  <div class="container">
+    <div class="story-bridge__panel">
+      {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+      <h2 class="story-bridge__title">{title}</h2>
+      <p class="story-bridge__text">{text}</p>
+
+      <div class="cta-row story-bridge__actions">
+        <a class="btn btn--primary" href={primaryHref}>{primaryLabel}</a>
+        {secondaryHref && secondaryLabel && (
+          <a class="btn btn--secondary" href={secondaryHref}>{secondaryLabel}</a>
+        )}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .story-bridge__panel {
+    padding: clamp(1.5rem, 3vw, 2.35rem);
+    border-radius: calc(var(--radius-xl) + 0.15rem);
+    border: var(--border-1) solid var(--c-border);
+    background:
+      linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--c-surface) 96%, white 4%),
+        color-mix(in srgb, var(--c-surface) 88%, var(--c-brand-2) 12%)
+      );
+  }
+
+  .story-bridge__title {
+    margin-bottom: 0.75rem;
+    letter-spacing: var(--ls-tight);
+  }
+
+  .story-bridge__text {
+    margin: 0;
+    max-width: none;
+  }
+
+  .story-bridge__actions {
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+  }
+</style>

@@ -1,0 +1,93 @@
+---
+interface Item {
+  heading: string;
+  body: string;
+}
+
+interface Props {
+  title: string;
+  intro?: string;
+  summaryLabel?: string;
+  items: Item[];
+}
+
+const {
+  title,
+  intro,
+  summaryLabel = "Read the written version",
+  items
+} = Astro.props;
+---
+
+<section class="section story-written-version" aria-labelledby="written-version-heading">
+  <div class="container stack">
+    <div class="section-head">
+      <div class="section-head__copy">
+        <h2 class="section-head__title" id="written-version-heading">{title}</h2>
+        {intro && <p class="section-head__desc">{intro}</p>}
+      </div>
+    </div>
+
+    <details class="story-written-version__panel">
+      <summary class="story-written-version__summary">{summaryLabel}</summary>
+
+      <div class="story-written-version__body">
+        {items.map((item) => (
+          <section class="story-written-version__item">
+            <h3>{item.heading}</h3>
+            <p>{item.body}</p>
+          </section>
+        ))}
+      </div>
+    </details>
+  </div>
+</section>
+
+<style>
+  .story-written-version__panel {
+    border: var(--border-1) solid var(--c-border);
+    border-radius: calc(var(--radius-xl) + 0.15rem);
+    background:
+      linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--c-surface) 96%, white 4%),
+        color-mix(in srgb, var(--c-surface) 100%, transparent 0%)
+      );
+    overflow: hidden;
+  }
+
+  .story-written-version__summary {
+    cursor: pointer;
+    list-style: none;
+    padding: 1rem 1.25rem;
+    font-weight: 600;
+  }
+
+  .story-written-version__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .story-written-version__body {
+    display: grid;
+    gap: 1.25rem;
+    padding: 0 1.25rem 1.25rem;
+  }
+
+  .story-written-version__item {
+    padding-top: 1rem;
+    border-top: var(--border-1) solid color-mix(in srgb, var(--c-border) 80%, white 20%);
+  }
+
+  .story-written-version__item:first-child {
+    border-top: 0;
+    padding-top: 0.25rem;
+  }
+
+  .story-written-version__item h3 {
+    margin-bottom: 0.5rem;
+  }
+
+  .story-written-version__item p {
+    margin: 0;
+  }
+</style>

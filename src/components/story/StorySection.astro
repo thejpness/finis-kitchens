@@ -1,0 +1,155 @@
+---
+interface Props {
+  title: string;
+  text: string;
+  image?: string;
+  imageAlt?: string;
+  reverse?: boolean;
+  viewerId?: string;
+  viewerIndex?: number;
+  first?: boolean;
+}
+
+const {
+  title,
+  text,
+  image,
+  imageAlt = "",
+  reverse = false,
+  viewerId,
+  viewerIndex = 0,
+  first = false
+} = Astro.props;
+
+const hasImage = Boolean(image);
+const imageOpensViewer = hasImage && Boolean(viewerId);
+---
+
+<article
+  class:list={[
+    "story-section",
+    reverse && "story-section--reverse",
+    !hasImage && "story-section--text-only",
+    first && "story-section--first"
+  ]}
+>
+  <div class="story-section__copy">
+    <h2 class="story-section__title">{title}</h2>
+    <p class="story-section__text">{text}</p>
+  </div>
+
+  {hasImage && (
+    <div class="story-section__media-wrap">
+      <div class="story-section__media">
+        {imageOpensViewer ? (
+          <button
+            type="button"
+            class="story-section__media-button"
+            data-storybook-open={viewerId}
+            data-storybook-index={String(viewerIndex)}
+            aria-label={`Open illustrated storybook from ${title}`}
+          >
+            <img src={image} alt={imageAlt} loading="lazy" decoding="async" />
+          </button>
+        ) : (
+          <img src={image} alt={imageAlt} loading="lazy" decoding="async" />
+        )}
+      </div>
+
+      {imageOpensViewer && (
+        <p class="story-section__hint">
+          Tap or click the artwork to open the story viewer.
+        </p>
+      )}
+    </div>
+  )}
+</article>
+
+<style>
+  .story-section {
+    display: grid;
+    gap: clamp(1.25rem, 2.5vw, 2rem);
+    align-items: center;
+  }
+
+  .story-section--text-only {
+    padding: 0;
+  }
+
+  .story-section--text-only:not(.story-section--first) {
+    padding-top: clamp(1.25rem, 2vw, 1.75rem);
+    border-top: var(--border-1) solid color-mix(in srgb, var(--c-border) 80%, white 20%);
+  }
+
+  .story-section__copy {
+    padding: 0;
+  }
+
+  .story-section__title {
+    margin: 0 0 0.75rem;
+    letter-spacing: var(--ls-tight);
+  }
+
+  .story-section__text {
+    margin: 0;
+    color: var(--c-text);
+    max-width: none;
+  }
+
+  .story-section__media-wrap {
+    display: grid;
+    gap: 0.75rem;
+    padding: clamp(1rem, 2vw, 1.5rem);
+    border: var(--border-1) solid var(--c-border);
+    border-radius: calc(var(--radius-xl) + 0.15rem);
+    background:
+      linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--c-surface) 95%, white 5%),
+        color-mix(in srgb, var(--c-surface) 100%, transparent 0%)
+      );
+  }
+
+  .story-section__media {
+    overflow: hidden;
+    border-radius: var(--radius-xl);
+    background: var(--c-surface);
+    border: var(--border-1) solid color-mix(in srgb, var(--c-border) 85%, white 15%);
+  }
+
+  .story-section__media-button {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .story-section__media img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .story-section__hint {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--c-muted);
+  }
+
+  @media (min-width: 960px) {
+    .story-section:not(.story-section--text-only) {
+      grid-template-columns: minmax(0, 1.28fr) minmax(18rem, 0.92fr);
+      gap: clamp(1.5rem, 3vw, 2.5rem);
+    }
+
+    .story-section--reverse .story-section__copy {
+      order: 2;
+    }
+
+    .story-section--reverse .story-section__media-wrap {
+      order: 1;
+    }
+  }
+</style>

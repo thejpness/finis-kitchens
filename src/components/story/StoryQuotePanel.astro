@@ -1,0 +1,60 @@
+---
+interface Props {
+  title: string;
+  text: string;
+  tone?: "soft" | "deep";
+}
+
+const { title, text, tone = "soft" } = Astro.props;
+---
+
+<section class:list={["story-quote", `story-quote--${tone}`]}>
+  <div class="story-quote__inner">
+    <p class="story-quote__eyebrow">{title}</p>
+    <p class="story-quote__text">{text}</p>
+  </div>
+</section>
+
+<style>
+  .story-quote {
+    border-radius: calc(var(--radius-xl) + 0.15rem);
+    padding: clamp(1.5rem, 3vw, 2.35rem);
+    border: var(--border-1) solid var(--c-border);
+  }
+
+  .story-quote--soft {
+    background:
+      linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--c-surface) 94%, white 6%),
+        color-mix(in srgb, var(--c-surface) 100%, transparent 0%)
+      );
+  }
+
+  .story-quote--deep {
+    background:
+      linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--c-surface) 88%, var(--c-brand-2) 12%),
+        color-mix(in srgb, var(--c-surface) 95%, transparent 5%)
+      );
+  }
+
+  .story-quote__inner {
+    width: 100%;
+  }
+
+  .story-quote__eyebrow {
+    margin: 0 0 0.75rem;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--c-muted);
+  }
+
+  .story-quote__text {
+    margin: 0;
+    font-size: clamp(1.2rem, 2vw, 1.5rem);
+    line-height: 1.65;
+  }
+</style>

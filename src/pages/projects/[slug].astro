@@ -1,5 +1,4 @@
 ---
-// src/pages/projects/[slug].astro
 import PageLayout from "../../layouts/PageLayout.astro";
 import { getCollection, render } from "astro:content";
 import { Picture } from "astro:assets";
@@ -142,20 +141,21 @@ if (data.completedAt) summaryPoints.push({ label: "Completed", value: data.compl
               </p>
             </header>
 
-            <div class="project-gallery">
+            <div
+              class="project-gallery-rail"
+              role="list"
+              aria-label={`Gallery for ${title}`}
+              tabindex="0"
+            >
               {gallery.map((image, index) => (
-                <figure class:list={["project-gallery__item", index === 0 && "project-gallery__item--featured"]}>
-                  <div class="media media--4x3 project-gallery__media">
+                <figure class="project-gallery-card" role="listitem">
+                  <div class="project-gallery-frame">
                     <Picture
                       src={image}
                       alt={`${title} gallery image ${index + 1}`}
                       formats={["avif", "webp"]}
-                      widths={[480, 768, 1024, 1280]}
-                      sizes={
-                        index === 0
-                          ? "(min-width: 64rem) 50vw, 100vw"
-                          : "(min-width: 64rem) 25vw, (min-width: 42rem) 50vw, 100vw"
-                      }
+                      widths={[480, 768, 1024, 1280, 1600]}
+                      sizes="(min-width: 72rem) 42rem, (min-width: 48rem) 70vw, 86vw"
                       loading="lazy"
                       decoding="async"
                     />
@@ -189,8 +189,7 @@ if (data.completedAt) summaryPoints.push({ label: "Completed", value: data.compl
 
 <style>
   .project-header,
-  .project-story__grid,
-  .project-gallery {
+  .project-story__grid {
     display: grid;
     gap: var(--space-6);
   }
@@ -289,19 +288,50 @@ if (data.completedAt) summaryPoints.push({ label: "Completed", value: data.compl
     box-shadow: var(--shadow-1);
   }
 
-  .project-gallery {
-    grid-template-columns: 1fr;
+  .project-gallery-rail {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: min(86vw, 36rem);
+    gap: var(--space-4);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    padding-bottom: var(--space-2);
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
   }
 
-  .project-gallery__item,
-  .project-gallery__media {
+  .project-gallery-card {
+    min-width: 0;
+    scroll-snap-align: start;
+  }
+
+  .project-gallery-frame {
+    display: grid;
+    place-items: center;
+    min-height: clamp(16rem, 42vw, 28rem);
+    padding: var(--space-3);
+    border: var(--border-1) solid var(--c-border);
+    border-radius: var(--radius-l);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 244, 238, 0.96) 100%);
+    box-shadow: var(--shadow-1);
+    overflow: hidden;
+  }
+
+  .project-gallery-frame picture {
+    display: block;
+    width: 100%;
     height: 100%;
   }
 
-  .project-gallery__media {
-    overflow: hidden;
-    border-radius: var(--radius-l);
-    box-shadow: var(--shadow-1);
+  .project-gallery-frame :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-height: clamp(14rem, 38vw, 26rem);
+    object-fit: contain;
+    object-position: center;
+    border-radius: calc(var(--radius-l) - 0.35rem);
   }
 
   .project-next {
@@ -326,28 +356,19 @@ if (data.completedAt) summaryPoints.push({ label: "Completed", value: data.compl
       align-items: start;
     }
 
+    .project-gallery-rail {
+      grid-auto-columns: min(72vw, 40rem);
+    }
+
     .project-next {
       grid-template-columns: 1fr auto;
       align-items: center;
     }
-
-    .project-gallery {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .project-gallery__item--featured {
-      grid-column: 1 / -1;
-    }
   }
 
   @media (min-width: 72rem) {
-    .project-gallery {
-      grid-template-columns: 1.2fr 0.8fr 0.8fr;
-    }
-
-    .project-gallery__item--featured {
-      grid-column: 1 / 2;
-      grid-row: 1 / span 2;
+    .project-gallery-rail {
+      grid-auto-columns: min(42rem, 48vw);
     }
   }
 
@@ -361,6 +382,11 @@ if (data.completedAt) summaryPoints.push({ label: "Completed", value: data.compl
 
     .project-header__title {
       max-width: 100%;
+    }
+
+    .project-gallery-frame {
+      min-height: 14rem;
+      padding: var(--space-2);
     }
   }
 </style>

@@ -3,7 +3,7 @@
 import PageLayout from "../layouts/PageLayout.astro";
 import WhatsAppButton from "../components/WhatsAppButton.astro";
 
-const TURNSTILE_SITE_KEY = Astro.env.get("PUBLIC_TURNSTILE_SITE_KEY") ?? "";
+const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
 ---
 
 <PageLayout
@@ -132,6 +132,18 @@ const TURNSTILE_SITE_KEY = Astro.env.get("PUBLIC_TURNSTILE_SITE_KEY") ?? "";
                 <label for="phone">Phone (optional)</label>
                 <input type="tel" id="phone" name="phone" autocomplete="tel" />
                 <p class="field-help faint">Useful if you’d prefer a quick call back.</p>
+              </div>
+
+              <div class="form-group">
+                <label for="timeline">How soon are you looking to have your new kitchen?</label>
+                <select id="timeline" name="timeline" required>
+                  <option value="">Select a timeframe</option>
+                  <option value="Less than 3 months">Less than 3 months</option>
+                  <option value="3-6 months">3-6 months</option>
+                  <option value="6-9 months">6-9 months</option>
+                  <option value="9+ months / I don't know">9+ months / I don't know</option>
+                </select>
+                <p class="field-help faint">This helps us suggest sensible next steps and timings.</p>
               </div>
 
               <div class="form-group">
@@ -307,6 +319,7 @@ const TURNSTILE_SITE_KEY = Astro.env.get("PUBLIC_TURNSTILE_SITE_KEY") ?? "";
       const name = (form.querySelector("#name")?.value || "").trim();
       const email = (form.querySelector("#email")?.value || "").trim();
       const phone = (form.querySelector("#phone")?.value || "").trim();
+      const timeline = (form.querySelector("#timeline")?.value || "").trim();
       const message = (form.querySelector("#message")?.value || "").trim();
       const company = (form.querySelector("#company")?.value || "").trim(); // honeypot
       const consent = !!form.querySelector("#consent")?.checked;
@@ -315,6 +328,7 @@ const TURNSTILE_SITE_KEY = Astro.env.get("PUBLIC_TURNSTILE_SITE_KEY") ?? "";
       // Basic client-side checks (server remains source-of-truth)
       if (!name || name.length < 2) return setStatus("Please enter your name.", "error");
       if (!email || !email.includes("@")) return setStatus("Please enter a valid email.", "error");
+      if (!timeline) return setStatus("Please choose a rough timeframe.", "error");
       if (!message || message.length < 10) return setStatus("Please add a little more detail.", "error");
       if (!captchaToken) return setStatus("Please complete the security check.", "error");
 
@@ -322,6 +336,7 @@ const TURNSTILE_SITE_KEY = Astro.env.get("PUBLIC_TURNSTILE_SITE_KEY") ?? "";
         name,
         email,
         phone: phone || undefined,
+        timeline: timeline || undefined,
         message,
         page: window.location.href,
         source: getUTMSource(),
@@ -496,7 +511,8 @@ const TURNSTILE_SITE_KEY = Astro.env.get("PUBLIC_TURNSTILE_SITE_KEY") ?? "";
   }
 
   .form-group input,
-  .form-group textarea {
+  .form-group textarea,
+  .form-group select {
     width: 100%;
     padding: 0.85rem 1rem;
     border: var(--border-1) solid var(--c-border-strong);
@@ -510,13 +526,15 @@ const TURNSTILE_SITE_KEY = Astro.env.get("PUBLIC_TURNSTILE_SITE_KEY") ?? "";
   }
 
   .form-group input:hover,
-  .form-group textarea:hover {
+  .form-group textarea:hover,
+  .form-group select:hover {
     border-color: color-mix(in srgb, var(--c-accent) 28%, var(--c-border-strong));
     background: color-mix(in srgb, var(--c-surface) 94%, white);
   }
 
   .form-group input:focus,
-  .form-group textarea:focus {
+  .form-group textarea:focus,
+  .form-group select:focus {
     outline: none;
     border-color: var(--c-accent);
     box-shadow: 0 0 0 4px color-mix(in srgb, var(--c-accent) 18%, transparent);
@@ -526,6 +544,22 @@ const TURNSTILE_SITE_KEY = Astro.env.get("PUBLIC_TURNSTILE_SITE_KEY") ?? "";
     resize: vertical;
     font-family: inherit;
     min-height: 10rem;
+  }
+
+  .form-group select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    background-image:
+      linear-gradient(45deg, transparent 50%, var(--c-text) 50%),
+      linear-gradient(135deg, var(--c-text) 50%, transparent 50%);
+    background-position:
+      calc(100% - 1.1rem) calc(50% - 0.15rem),
+      calc(100% - 0.8rem) calc(50% - 0.15rem);
+    background-size: 0.35rem 0.35rem, 0.35rem 0.35rem;
+    background-repeat: no-repeat;
+    padding-right: 2.5rem;
   }
 
   .form-submit {

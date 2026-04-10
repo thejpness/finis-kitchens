@@ -1,6 +1,5 @@
 /* src/styles/base.css */
 
-/* Load Inter Variable (normal + italic) */
 @font-face {
   font-family: "Inter";
   src: url("/fonts/InterVariable.woff2") format("woff2");
@@ -101,7 +100,6 @@
 
   :where(p) {
     margin: 0;
-    max-width: 70ch;
   }
 
   a {
