@@ -18,6 +18,7 @@ type forwardedEnquiry struct {
 	Name         string `json:"name"`
 	Email        string `json:"email"`
 	Phone        string `json:"phone,omitempty"`
+	Timeline     string `json:"timeline,omitempty"`
 	Message      string `json:"message"`
 	Page         string `json:"page,omitempty"`
 	Source       string `json:"source,omitempty"`
@@ -45,35 +46,32 @@ func main() {
 	})
 
 	mux.HandleFunc("POST /api/enquiry", func(w http.ResponseWriter, r *http.Request) {
-		// Enforce JSON
 		if ct := r.Header.Get("Content-Type"); !strings.HasPrefix(ct, "application/json") {
 			httpError(w, http.StatusUnsupportedMediaType, "use application/json")
 			return
 		}
 
-		// Read capped body
 		body, err := io.ReadAll(http.MaxBytesReader(w, r.Body, cfg.MaxBodyBytes))
 		if err != nil {
 			httpError(w, http.StatusBadRequest, "bad request")
 			return
 		}
 
-		// Decode strictly into struct
 		var payload forwardedEnquiry
 		dec := json.NewDecoder(bytes.NewReader(body))
 		dec.DisallowUnknownFields()
+
 		if err := dec.Decode(&payload); err != nil {
 			httpError(w, http.StatusBadRequest, "invalid json")
 			return
 		}
-		// Ensure there isn't trailing junk / extra JSON values
+
 		var extra any
 		if err := dec.Decode(&extra); err != io.EOF {
 			httpError(w, http.StatusBadRequest, "invalid json")
 			return
 		}
 
-		// Verify Turnstile (proxy owns it)
 		token := strings.TrimSpace(payload.CaptchaToken)
 		if err := verifyTurnstile(r.Context(), cfg.TurnstileSecret, token); err != nil {
 			log.Printf("captcha failed: %v", err)
@@ -81,7 +79,6 @@ func main() {
 			return
 		}
 
-		// Strip captcha before forwarding
 		payload.CaptchaToken = ""
 
 		fwd, err := json.Marshal(payload)
@@ -95,6 +92,7 @@ func main() {
 			httpError(w, http.StatusBadGateway, "upstream error")
 			return
 		}
+
 		req.Header.Set("Content-Type", "application/json")
 		req.Header.Set("Accept", "application/json")
 		req.Header.Set(internalSecretHeader, cfg.InternalSecret)
