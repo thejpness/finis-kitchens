@@ -1,29 +1,43 @@
 # syntax=docker/dockerfile:1.6
 
 FROM --platform=$BUILDPLATFORM golang:1.25 AS build
+
 WORKDIR /src
 
 ARG TARGETOS
 ARG TARGETARCH
 
-# Copy module files first for caching.
-# This won't fail if go.sum doesn't exist.
+ENV CGO_ENABLED=0
+
+# Copy module files first for better build caching.
+# COPY go.* works whether go.sum exists or not.
 COPY go.* ./
 
 RUN --mount=type=cache,target=/go/pkg/mod \
     go mod download
 
-# Copy source
 COPY . .
 
-# Build
 RUN --mount=type=cache,target=/root/.cache/go-build \
-    CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=$TARGETARCH \
-    go build -trimpath -ldflags="-s -w" -o /out/enquiry-proxy .
+    GOOS=$TARGETOS GOARCH=$TARGETARCH \
+    go build \
+      -trimpath \
+      -buildvcs=false \
+      -ldflags="-s -w" \
+      -o /out/enquiry-proxy \
+      .
 
-# Runtime (needs CA certs for Turnstile HTTPS)
-FROM gcr.io/distroless/base-debian12:nonroot
+
+# Runtime: minimal non-root distroless image.
+# Suitable for fully static Go binaries built with CGO_ENABLED=0.
+FROM gcr.io/distroless/static-debian12:nonroot AS runtime
+
 WORKDIR /app
-COPY --from=build /out/enquiry-proxy /app/enquiry-proxy
+
+COPY --from=build --chown=nonroot:nonroot /out/enquiry-proxy /app/enquiry-proxy
+
+USER nonroot:nonroot
+
 EXPOSE 8080
+
 ENTRYPOINT ["/app/enquiry-proxy"]
