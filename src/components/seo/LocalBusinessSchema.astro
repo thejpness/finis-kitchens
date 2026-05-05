@@ -1,0 +1,31 @@
+---
+const site = Astro.site ?? new URL("https://www.finiskitchens.co.uk");
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": ["LocalBusiness", "HomeAndConstructionBusiness"],
+  "@id": new URL("/#business", site).href,
+  name: "Fini's Kitchens",
+  url: site.href.replace(/\/$/, ""),
+  description:
+    "Kitchen design and installation for real family homes, with clear guidance from first enquiry to final finish.",
+  image: [
+    new URL("/images/og/finis-kitchens-og.jpg", site).href
+  ],
+  priceRange: "£££",
+  areaServed: [
+    {
+      "@type": "AdministrativeArea",
+      name: "West Sussex"
+    }
+  ],
+  serviceType: [
+    "Kitchen design",
+    "Kitchen supply",
+    "Kitchen installation",
+    "Kitchen renovation"
+  ]
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />
