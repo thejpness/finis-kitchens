@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.6
 
-FROM --platform=$BUILDPLATFORM golang:1.25 AS build
+FROM --platform=$BUILDPLATFORM golang:1.25.9-bookworm AS build
 
 WORKDIR /src
 
@@ -26,7 +26,6 @@ RUN --mount=type=cache,target=/root/.cache/go-build \
       -ldflags="-s -w" \
       -o /out/enquiry-proxy \
       .
-
 
 # Runtime: minimal non-root distroless image.
 # Suitable for fully static Go binaries built with CGO_ENABLED=0.
