@@ -1,4 +1,5 @@
 ---
+// src/layouts/BaseLayout.astro
 import "../styles/tokens.css";
 import "../styles/base.css";
 import "../styles/components.css";
@@ -9,7 +10,7 @@ import Footer from "../components/Footer.astro";
 interface Props {
   title?: string;
   description?: string;
-  ogImage?: string;   // can be absolute or site-relative like "/images/..."
+  ogImage?: string;
   noindex?: boolean;
 }
 
@@ -18,25 +19,50 @@ const {
   description = "Fini's Kitchens designs and installs beautifully functional kitchens for real homes in and around Horsham.",
   ogImage = "/images/hero/default-hero.jpg",
   noindex = false,
-} = Astro.props;
+} = Astro.props as Props;
 
-// Safe origin fallback if Astro.site isn't configured
-const SITE_ORIGIN = (Astro.site?.toString() ?? "https://www.finiskitchens.co.uk").replace(/\/$/, "");
+const siteOrigin = (Astro.site?.toString() ?? "https://www.finiskitchens.co.uk").replace(/\/$/, "");
 
 const toAbsoluteUrl = (pathOrUrl: string) => {
   try {
-    // If already absolute, return as-is
     return new URL(pathOrUrl).toString();
   } catch {
-    // Otherwise treat as site-relative
-    return new URL(pathOrUrl, SITE_ORIGIN).toString();
+    return new URL(pathOrUrl, `${siteOrigin}/`).toString();
   }
 };
 
-const canonicalURL = new URL(Astro.url.pathname, SITE_ORIGIN).toString();
+const canonicalUrl = new URL(Astro.url.pathname, `${siteOrigin}/`).toString();
 const ogImageUrl = toAbsoluteUrl(ogImage);
+
+const robotsContent = noindex
+  ? "noindex,nofollow"
+  : "index,follow,max-image-preview:large";
+
+const businessSchema = {
+  "@context": "https://schema.org",
+  "@type": ["LocalBusiness", "HomeAndConstructionBusiness"],
+  "@id": `${siteOrigin}/#business`,
+  name: "Fini's Kitchens",
+  url: siteOrigin,
+  description,
+  image: ogImageUrl,
+  priceRange: "£££",
+  areaServed: [
+    {
+      "@type": "Place",
+      name: "Horsham and surrounding areas",
+    },
+  ],
+  serviceType: [
+    "Kitchen design",
+    "Kitchen supply",
+    "Kitchen installation",
+    "Kitchen renovation",
+  ],
+};
 ---
 
+<!doctype html>
 <html lang="en-GB">
   <head>
     <meta charset="utf-8" />
@@ -44,39 +70,48 @@ const ogImageUrl = toAbsoluteUrl(ogImage);
 
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonicalURL} />
+    <meta name="robots" content={robotsContent} />
 
-    {noindex && <meta name="robots" content="noindex,nofollow" />}
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
 
-    <!-- Theme hint (optional but nice) -->
     <meta name="theme-color" content="#f9fafb" />
+    <meta name="format-detection" content="telephone=no" />
 
-    <!-- Preload primary font (if you added InterVariable.woff2) -->
-    <link rel="preload" href="/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin />
+    <link
+      rel="preload"
+      href="/fonts/InterVariable.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
 
-    <!-- Open Graph / social -->
     <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_GB" />
     <meta property="og:site_name" content="Fini's Kitchens" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:url" content={canonicalUrl} />
     <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:alt" content="Fini's Kitchens" />
 
-    <!-- Twitter card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
 
-    <!-- Icons -->
-    <link rel="icon" href="/favicon.ico?v=1" />
+    <link rel="icon" href="/favicon.ico?v=1" sizes="any" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(businessSchema)} />
   </head>
 
   <body>
     <Header />
-      <main id="main">
-        <slot />
-      </main>
+
+    <main id="main">
+      <slot />
+    </main>
+
     <Footer />
   </body>
 </html>
