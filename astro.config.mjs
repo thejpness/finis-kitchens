@@ -1,5 +1,16 @@
+// astro.config.mjs
 import { defineConfig } from "astro/config";
+import sitemap from "@astrojs/sitemap";
+
+const site = process.env.PUBLIC_SITE_ORIGIN ?? "https://www.finiskitchens.co.uk";
 
 export default defineConfig({
-  site: "https://www.finiskitchens.co.uk",
+  site,
+  integrations: [
+    sitemap({
+      filter: (page) => {
+        return !page.includes("/admin") && !page.includes("/api");
+      },
+    }),
+  ],
 });

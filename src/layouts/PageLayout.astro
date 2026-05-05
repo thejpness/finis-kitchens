@@ -15,17 +15,24 @@ interface Props {
 
 const {
   title,
-  metaTitle = title,
-  description,
-  ogImage,
-  noindex,
+  metaTitle,
+  description = "Calm, practical kitchen design and installation for real family life. Fini's Kitchens helps plan, supply and fit kitchens with clear guidance from first enquiry to final finish.",
+  ogImage = "/images/og/finis-kitchens-og.jpg",
+  noindex = false,
   eyebrow,
   heroSize = "loose",
   hidePageHero = false,
 } = Astro.props as Props;
+
+const resolvedMetaTitle = metaTitle ?? `${title} | Fini's Kitchens`;
 ---
 
-<BaseLayout title={metaTitle} description={description} ogImage={ogImage} noindex={noindex}>
+<BaseLayout
+  title={resolvedMetaTitle}
+  description={description}
+  ogImage={ogImage}
+  noindex={noindex}
+>
   {!hidePageHero && (
     <section class:list={["page-hero", "section", heroSize === "tight" ? "section--tight" : "section--loose"]}>
       <div class="container page-hero__inner stack stack--tight">
@@ -40,7 +47,15 @@ const {
 </BaseLayout>
 
 <style>
-  .page-hero__inner { max-width: 55rem; }
-  .page-hero__title { letter-spacing: var(--ls-tight); }
-  .page-hero__desc { max-width: 52rem; }
+  .page-hero__inner {
+    max-width: 55rem;
+  }
+
+  .page-hero__title {
+    letter-spacing: var(--ls-tight);
+  }
+
+  .page-hero__desc {
+    max-width: 52rem;
+  }
 </style>
