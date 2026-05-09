@@ -51,9 +51,8 @@ services:
       - traefik.http.middlewares.finis-security.headers.stsPreload=false
       - traefik.http.middlewares.finis-security.headers.customResponseHeaders.Permissions-Policy=camera=(), microphone=(), geolocation=()
 
-      # Canonical site router:
+      # Canonical site router.
       # Serves production apex and staging.
-      # Does NOT serve www directly; www is redirected below.
       - traefik.http.routers.finis-web.rule=Host(`${DOMAIN}`) || Host(`${STAGING_DOMAIN}`)
       - traefik.http.routers.finis-web.entrypoints=websecure
       - traefik.http.routers.finis-web.tls.certresolver=myresolver
@@ -64,7 +63,6 @@ services:
       - traefik.http.services.finis-web.loadbalancer.server.port=8080
 
       # www -> apex redirect router.
-      # This catches www.finiskitchens.co.uk and redirects it to finiskitchens.co.uk.
       - traefik.http.routers.finis-web-www.rule=Host(`${WWW_DOMAIN}`)
       - traefik.http.routers.finis-web-www.entrypoints=websecure
       - traefik.http.routers.finis-web-www.tls.certresolver=myresolver
@@ -74,13 +72,10 @@ services:
       - traefik.http.routers.finis-web-www.service=finis-web
 
       # Preserve path/query while redirecting www to apex.
-      # Example:
-      # https://www.finiskitchens.co.uk/contact -> https://finiskitchens.co.uk/contact
       - traefik.http.middlewares.finis-www-to-apex.redirectregex.regex=^https?://[^/]+/(.*)
       - traefik.http.middlewares.finis-www-to-apex.redirectregex.replacement=https://${DOMAIN}/$${1}
       - traefik.http.middlewares.finis-www-to-apex.redirectregex.permanent=true
 
-  # Internal mail pipeline. Not exposed via Traefik.
   enquiry:
     build:
       context: ./services/enquiry
@@ -112,7 +107,6 @@ services:
     labels:
       - traefik.enable=false
 
-  # Public edge: Turnstile + forward to enquiry.
   enquiry-proxy:
     build:
       context: ./services/enquiry-proxy
@@ -146,41 +140,41 @@ services:
       - traefik.enable=true
       - traefik.docker.network=${TRAEFIK_NETWORK}
 
-      - traefik.http.routers.finis-enquiry.rule=(Host(`${DOMAIN}`) || Host(`${STAGING_DOMAIN}`)) && Path(`/api/enquiry`)
+      # Public enquiry endpoint.
+      # Includes www so form posts still match before/around canonical redirect behaviour.
+      - traefik.http.routers.finis-enquiry.rule=(Host(`${DOMAIN}`) || Host(`${WWW_DOMAIN}`) || Host(`${STAGING_DOMAIN}`)) && Path(`/api/enquiry`)
       - traefik.http.routers.finis-enquiry.entrypoints=websecure
       - traefik.http.routers.finis-enquiry.tls.certresolver=myresolver
       - traefik.http.routers.finis-enquiry.tls.options=modern@file
-      - traefik.http.routers.finis-enquiry.priority=100
+      - traefik.http.routers.finis-enquiry.priority=300
+      - traefik.http.routers.finis-enquiry.service=finis-enquiry
       - traefik.http.services.finis-enquiry.loadbalancer.server.port=8080
 
       # Contact form abuse controls.
-      # Allows roughly 5 submissions per minute per source, with a small burst.
       - traefik.http.middlewares.finis-enquiry-ratelimit.ratelimit.average=5
       - traefik.http.middlewares.finis-enquiry-ratelimit.ratelimit.period=1m
       - traefik.http.middlewares.finis-enquiry-ratelimit.ratelimit.burst=3
 
       # Reject oversized request bodies before they reach the Go proxy.
-      # 32KB is plenty for name/email/message/timeline/budget fields + Turnstile token.
       - traefik.http.middlewares.finis-enquiry-bodylimit.buffering.maxRequestBodyBytes=32768
       - traefik.http.middlewares.finis-enquiry-bodylimit.buffering.memRequestBodyBytes=32768
 
       # Prevent bursts of concurrent form posts pinning the proxy.
       - traefik.http.middlewares.finis-enquiry-inflight.inflightreq.amount=4
 
-      - traefik.http.routers.finis-enquiry.middlewares=finis-enquiry-ratelimit@docker,finis-enquiry-bodylimit@docker,finis-enquiry-inflight@docker,finis-chain@docker
+      # Do not reference finis-chain@docker here.
+      # Keep this router independent from the web container's middleware labels.
+      - traefik.http.routers.finis-enquiry.middlewares=finis-enquiry-ratelimit@docker,finis-enquiry-bodylimit@docker,finis-enquiry-inflight@docker
 
 networks:
   traefik:
     external: true
     name: ${TRAEFIK_NETWORK}
 
-  # Private proxy <-> enquiry network.
-  # No direct internet access from this network.
   internal:
     name: finis-internal
     internal: true
 
-  # Explicit egress network for services that need outbound DNS/SMTP/Turnstile.
   egress:
     name: finis-egress
 
