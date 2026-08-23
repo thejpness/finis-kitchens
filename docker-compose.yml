@@ -4,14 +4,19 @@ x-logging: &default-logging
     max-size: "10m"
     max-file: "5"
 
+# Base deployment definition. Run it with an explicit project name and
+# environment file; see docs/deployment.md. Private resource names are left to
+# Compose so each project receives its own network and secret namespace.
 services:
   web:
     build:
       context: .
       dockerfile: docker/Dockerfile.prod
       args:
+        DEPLOYMENT_ENV: ${DEPLOYMENT_ENV}
+        PUBLIC_SITE_ORIGIN: ${PUBLIC_SITE_ORIGIN}
         PUBLIC_TURNSTILE_SITE_KEY: ${PUBLIC_TURNSTILE_SITE_KEY}
-    image: finis-web:prod
+    image: finis-${DEPLOYMENT_ENV}-web:latest
     restart: unless-stopped
     init: true
     read_only: true
@@ -34,53 +39,40 @@ services:
       - traefik.enable=true
       - traefik.docker.network=${TRAEFIK_NETWORK}
 
-      # Fini's Kitchens middleware chain.
       # Client-safe HSTS: no preload, no includeSubDomains.
-      - traefik.http.middlewares.finis-chain.chain.middlewares=finis-compress,finis-security
+      - traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-chain.chain.middlewares=${TRAEFIK_RESOURCE_PREFIX}-compress,${TRAEFIK_RESOURCE_PREFIX}-security
+      - traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-compress.compress=true
+      - traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-compress.compress.encodings=gzip,br,zstd
+      - traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-compress.compress.minResponseBodyBytes=1024
+      - traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-security.headers.contentTypeNosniff=true
+      - traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-security.headers.frameDeny=true
+      - traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-security.headers.referrerPolicy=strict-origin-when-cross-origin
+      - traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-security.headers.forceSTSHeader=true
+      - traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-security.headers.stsSeconds=31536000
+      - traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-security.headers.stsIncludeSubdomains=false
+      - traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-security.headers.stsPreload=false
+      - traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-security.headers.customResponseHeaders.Permissions-Policy=camera=(), microphone=(), geolocation=()
 
-      - traefik.http.middlewares.finis-compress.compress=true
-      - traefik.http.middlewares.finis-compress.compress.encodings=gzip,br,zstd
-      - traefik.http.middlewares.finis-compress.compress.minResponseBodyBytes=1024
+      # Each environment owns exactly one canonical web hostname.
+      - traefik.http.routers.${TRAEFIK_RESOURCE_PREFIX}-web.rule=Host(`${SITE_DOMAIN}`)
+      - traefik.http.routers.${TRAEFIK_RESOURCE_PREFIX}-web.entrypoints=websecure
+      - traefik.http.routers.${TRAEFIK_RESOURCE_PREFIX}-web.tls.certresolver=myresolver
+      - traefik.http.routers.${TRAEFIK_RESOURCE_PREFIX}-web.tls.options=modern@file
+      - traefik.http.routers.${TRAEFIK_RESOURCE_PREFIX}-web.priority=${TRAEFIK_WEB_ROUTER_PRIORITY:-10}
+      - traefik.http.routers.${TRAEFIK_RESOURCE_PREFIX}-web.middlewares=${TRAEFIK_RESOURCE_PREFIX}-chain@docker${TRAEFIK_EXTRA_WEB_MIDDLEWARES:-}
+      - traefik.http.routers.${TRAEFIK_RESOURCE_PREFIX}-web.service=${TRAEFIK_RESOURCE_PREFIX}-web
+      - traefik.http.services.${TRAEFIK_RESOURCE_PREFIX}-web.loadbalancer.server.port=8080
 
-      - traefik.http.middlewares.finis-security.headers.contentTypeNosniff=true
-      - traefik.http.middlewares.finis-security.headers.frameDeny=true
-      - traefik.http.middlewares.finis-security.headers.referrerPolicy=strict-origin-when-cross-origin
-      - traefik.http.middlewares.finis-security.headers.forceSTSHeader=true
-      - traefik.http.middlewares.finis-security.headers.stsSeconds=31536000
-      - traefik.http.middlewares.finis-security.headers.stsIncludeSubdomains=false
-      - traefik.http.middlewares.finis-security.headers.stsPreload=false
-      - traefik.http.middlewares.finis-security.headers.customResponseHeaders.Permissions-Policy=camera=(), microphone=(), geolocation=()
-
-      # Canonical site router.
-      # Serves production apex and staging.
-      - traefik.http.routers.finis-web.rule=Host(`${DOMAIN}`) || Host(`${STAGING_DOMAIN}`)
-      - traefik.http.routers.finis-web.entrypoints=websecure
-      - traefik.http.routers.finis-web.tls.certresolver=myresolver
-      - traefik.http.routers.finis-web.tls.options=modern@file
-      - traefik.http.routers.finis-web.priority=10
-      - traefik.http.routers.finis-web.middlewares=finis-chain@docker
-      - traefik.http.routers.finis-web.service=finis-web
-      - traefik.http.services.finis-web.loadbalancer.server.port=8080
-
-      # www -> apex redirect router.
-      - traefik.http.routers.finis-web-www.rule=Host(`${WWW_DOMAIN}`)
-      - traefik.http.routers.finis-web-www.entrypoints=websecure
-      - traefik.http.routers.finis-web-www.tls.certresolver=myresolver
-      - traefik.http.routers.finis-web-www.tls.options=modern@file
-      - traefik.http.routers.finis-web-www.priority=200
-      - traefik.http.routers.finis-web-www.middlewares=finis-chain@docker,finis-www-to-apex@docker
-      - traefik.http.routers.finis-web-www.service=finis-web
-
-      # Preserve path/query while redirecting www to apex.
-      - traefik.http.middlewares.finis-www-to-apex.redirectregex.regex=^https?://[^/]+/(.*)
-      - traefik.http.middlewares.finis-www-to-apex.redirectregex.replacement=https://${DOMAIN}/$${1}
-      - traefik.http.middlewares.finis-www-to-apex.redirectregex.permanent=true
+      # Staging supplies this as an extra web middleware. It gives crawlers a
+      # response-header signal in addition to the generated meta/robots files.
+      # Quote the complete label: the comma is part of the single header value.
+      - "traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-noindex.headers.customResponseHeaders.X-Robots-Tag=noindex, nofollow"
 
   enquiry:
     build:
       context: ./services/enquiry
       dockerfile: Dockerfile
-    image: finis-enquiry:prod
+    image: finis-${DEPLOYMENT_ENV}-enquiry:latest
     restart: unless-stopped
     init: true
     read_only: true
@@ -91,9 +83,17 @@ services:
       - no-new-privileges:true
     pids_limit: 64
     mem_limit: 128m
-    env_file:
-      - .env
     environment:
+      ADDR: ${ADDR:-:8080}
+      ALLOW_ORIGIN: ${ALLOW_ORIGIN}
+      SUBJECT_PREFIX: ${SUBJECT_PREFIX}
+      REQUIRE_CONSENT: ${REQUIRE_CONSENT}
+      ENQUIRY_TO: ${ENQUIRY_TO}
+      SUPPORT_TO: ${SUPPORT_TO:-}
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_FROM: ${SMTP_FROM}
+      HEALTHCHECK_URL: http://127.0.0.1:8080/healthz
       SMTP_USER_FILE: /run/secrets/finis_smtp_user
       SMTP_PASS_FILE: /run/secrets/finis_smtp_pass
       INTERNAL_ENQUIRY_SECRET_FILE: /run/secrets/finis_internal_enquiry_secret
@@ -104,6 +104,12 @@ services:
     networks:
       - internal
       - egress
+    healthcheck:
+      test: ["CMD", "/app/enquiry", "healthcheck"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
     labels:
       - traefik.enable=false
 
@@ -111,7 +117,7 @@ services:
     build:
       context: ./services/enquiry-proxy
       dockerfile: Dockerfile
-    image: finis-enquiry-proxy:prod
+    image: finis-${DEPLOYMENT_ENV}-enquiry-proxy:latest
     restart: unless-stopped
     init: true
     read_only: true
@@ -123,10 +129,14 @@ services:
     pids_limit: 64
     mem_limit: 128m
     depends_on:
-      - enquiry
-    env_file:
-      - .env
+      enquiry:
+        condition: service_healthy
     environment:
+      ADDR: ${ADDR:-:8080}
+      UPSTREAM_URL: ${UPSTREAM_URL:-http://enquiry:8080/api/enquiry}
+      ALLOW_ORIGIN: ${ALLOW_ORIGIN}
+      MAX_BODY_BYTES: ${MAX_BODY_BYTES:-65536}
+      HEALTHCHECK_URL: http://127.0.0.1:8080/healthz
       TURNSTILE_SECRET_FILE: /run/secrets/finis_turnstile_secret
       INTERNAL_ENQUIRY_SECRET_FILE: /run/secrets/finis_internal_enquiry_secret
     secrets:
@@ -136,54 +146,49 @@ services:
       - traefik
       - internal
       - egress
+    healthcheck:
+      test: ["CMD", "/app/enquiry-proxy", "healthcheck"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
     labels:
       - traefik.enable=true
       - traefik.docker.network=${TRAEFIK_NETWORK}
-
-      # Public enquiry endpoint.
-      # Includes www so form posts still match before/around canonical redirect behaviour.
-      - traefik.http.routers.finis-enquiry.rule=(Host(`${DOMAIN}`) || Host(`${WWW_DOMAIN}`) || Host(`${STAGING_DOMAIN}`)) && Path(`/api/enquiry`)
-      - traefik.http.routers.finis-enquiry.entrypoints=websecure
-      - traefik.http.routers.finis-enquiry.tls.certresolver=myresolver
-      - traefik.http.routers.finis-enquiry.tls.options=modern@file
-      - traefik.http.routers.finis-enquiry.priority=300
-      - traefik.http.routers.finis-enquiry.service=finis-enquiry
-      - traefik.http.services.finis-enquiry.loadbalancer.server.port=8080
+      # Quote the complete label so YAML cannot reinterpret the rule's &&.
+      - "traefik.http.routers.${TRAEFIK_RESOURCE_PREFIX}-enquiry.rule=Host(`${SITE_DOMAIN}`) && Path(`/api/enquiry`)"
+      - traefik.http.routers.${TRAEFIK_RESOURCE_PREFIX}-enquiry.entrypoints=websecure
+      - traefik.http.routers.${TRAEFIK_RESOURCE_PREFIX}-enquiry.tls.certresolver=myresolver
+      - traefik.http.routers.${TRAEFIK_RESOURCE_PREFIX}-enquiry.tls.options=modern@file
+      - traefik.http.routers.${TRAEFIK_RESOURCE_PREFIX}-enquiry.priority=${TRAEFIK_ENQUIRY_ROUTER_PRIORITY:-300}
+      - traefik.http.routers.${TRAEFIK_RESOURCE_PREFIX}-enquiry.service=${TRAEFIK_RESOURCE_PREFIX}-enquiry
+      - traefik.http.services.${TRAEFIK_RESOURCE_PREFIX}-enquiry.loadbalancer.server.port=8080
 
       # Contact form abuse controls.
-      - traefik.http.middlewares.finis-enquiry-ratelimit.ratelimit.average=5
-      - traefik.http.middlewares.finis-enquiry-ratelimit.ratelimit.period=1m
-      - traefik.http.middlewares.finis-enquiry-ratelimit.ratelimit.burst=3
-
-      # Reject oversized request bodies before they reach the Go proxy.
-      - traefik.http.middlewares.finis-enquiry-bodylimit.buffering.maxRequestBodyBytes=32768
-      - traefik.http.middlewares.finis-enquiry-bodylimit.buffering.memRequestBodyBytes=32768
-
-      # Prevent bursts of concurrent form posts pinning the proxy.
-      - traefik.http.middlewares.finis-enquiry-inflight.inflightreq.amount=4
-
-      # Do not reference finis-chain@docker here.
-      # Keep this router independent from the web container's middleware labels.
-      - traefik.http.routers.finis-enquiry.middlewares=finis-enquiry-ratelimit@docker,finis-enquiry-bodylimit@docker,finis-enquiry-inflight@docker
+      - traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-enquiry-ratelimit.ratelimit.average=5
+      - traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-enquiry-ratelimit.ratelimit.period=1m
+      - traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-enquiry-ratelimit.ratelimit.burst=3
+      - traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-enquiry-bodylimit.buffering.maxRequestBodyBytes=32768
+      - traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-enquiry-bodylimit.buffering.memRequestBodyBytes=32768
+      - traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-enquiry-inflight.inflightreq.amount=4
+      - traefik.http.routers.${TRAEFIK_RESOURCE_PREFIX}-enquiry.middlewares=${TRAEFIK_RESOURCE_PREFIX}-enquiry-ratelimit@docker,${TRAEFIK_RESOURCE_PREFIX}-enquiry-bodylimit@docker,${TRAEFIK_RESOURCE_PREFIX}-enquiry-inflight@docker
 
 networks:
+  # Intentionally shared only with the host's Traefik project.
   traefik:
     external: true
     name: ${TRAEFIK_NETWORK}
-
+  # Compose project scoping isolates these names per deployment.
   internal:
-    name: finis-internal
     internal: true
-
-  egress:
-    name: finis-egress
+  egress: {}
 
 secrets:
   finis_turnstile_secret:
-    file: ./secrets/turnstile_secret.txt
+    file: ${SECRETS_DIR}/turnstile_secret.txt
   finis_smtp_user:
-    file: ./secrets/smtp_user.txt
+    file: ${SECRETS_DIR}/smtp_user.txt
   finis_smtp_pass:
-    file: ./secrets/smtp_pass.txt
+    file: ${SECRETS_DIR}/smtp_pass.txt
   finis_internal_enquiry_secret:
-    file: ./secrets/internal_enquiry_secret.txt
+    file: ${SECRETS_DIR}/internal_enquiry_secret.txt

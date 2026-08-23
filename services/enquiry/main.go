@@ -4,12 +4,17 @@ import (
 	"errors"
 	"log"
 	"net/http"
+	"os"
 	"time"
 )
 
 var cfg appConfig
 
 func main() {
+	if len(os.Args) == 2 && os.Args[1] == "healthcheck" {
+		os.Exit(runHealthcheck())
+	}
+
 	var err error
 	cfg, err = loadConfig()
 	if err != nil {

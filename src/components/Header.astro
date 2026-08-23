@@ -1,6 +1,12 @@
 ---
 // src/components/Header.astro
 
+interface Props {
+  overlay?: boolean;
+}
+
+const { overlay = false } = Astro.props as Props;
+
 const navItems = [
   { href: "/", label: "Home" },
   { href: "/process", label: "Process" },
@@ -21,7 +27,7 @@ const contactActive = isActive("/contact");
 
 <a class="skip-link" href="#main">Skip to content</a>
 
-<header class="site-header" data-header>
+<header class:list={["site-header", overlay && "site-header--hero", overlay && "is-top"]} data-header>
   <div class="site-header__inner container">
     <a href="/" class="site-header__brand" aria-label="Fini's Kitchens home">
       <span class="site-header__brand-mark-wrap" aria-hidden="true">
@@ -384,6 +390,63 @@ const contactActive = isActive("/contact");
     .site-header.is-top {
       background: rgba(247, 250, 255, 0.88);
     }
+  }
+
+  /* The homepage starts beneath this header; it becomes solid once the page moves. */
+  .site-header--hero.is-top {
+    background: linear-gradient(180deg, rgba(7, 18, 30, 0.34), rgba(7, 18, 30, 0));
+    border-bottom-color: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .site-header--hero.is-top .site-header__brand-mark-wrap {
+    background: rgba(21, 45, 65, 0.62);
+    border-color: rgba(255, 255, 255, 0.36);
+    box-shadow: none;
+  }
+
+  .site-header--hero.is-top .site-header__brand-name,
+  .site-header--hero.is-top .site-header__brand-tag,
+  .site-header--hero.is-top .site-nav__link {
+    color: #fff;
+    text-shadow: 0 2px 12px rgba(7, 18, 30, 0.35);
+  }
+
+  .site-header--hero.is-top .site-header__brand-copy::after {
+    background: rgba(255, 255, 255, 0.82);
+    box-shadow: none;
+  }
+
+  .site-header--hero.is-top .site-nav__link:hover,
+  .site-header--hero.is-top .site-nav__link.is-active,
+  .site-header--hero.is-top .site-nav__link[aria-current="page"] {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.14);
+    border-color: rgba(255, 255, 255, 0.24);
+    box-shadow: none;
+  }
+
+  .site-header--hero.is-top .site-nav__link::after {
+    background: rgba(255, 255, 255, 0.9);
+  }
+
+  .site-header--hero.is-top .site-nav__toggle {
+    color: #fff;
+    background: rgba(7, 18, 30, 0.42);
+    border-color: rgba(255, 255, 255, 0.42);
+    box-shadow: none;
+  }
+
+  .site-header--hero.is-top .site-nav__toggle:hover {
+    background: rgba(7, 18, 30, 0.6);
+    border-color: rgba(255, 255, 255, 0.7);
+  }
+
+  .site-header--hero.is-top .site-nav__link:focus-visible,
+  .site-header--hero.is-top .site-nav__toggle:focus-visible {
+    outline-color: #fff;
   }
 
   .site-header__inner {
@@ -955,6 +1018,40 @@ const contactActive = isActive("/contact");
       box-shadow:
         0 16px 26px rgba(78, 109, 149, 0.22),
         inset 0 1px 0 rgba(255, 255, 255, 0.24);
+    }
+
+    /* Keep the solid, expanded menu readable when the header started over the hero. */
+    .site-header--hero.nav-open .site-nav__link {
+      color: var(--c-text);
+      text-shadow: none;
+    }
+
+    .site-header--hero.nav-open .site-nav__link:hover,
+    .site-header--hero.nav-open .site-nav__link.is-active,
+    .site-header--hero.nav-open .site-nav__link[aria-current="page"] {
+      color: var(--c-text);
+      background: linear-gradient(
+        180deg,
+        rgba(157, 184, 233, 0.22),
+        rgba(157, 184, 233, 0.12)
+      );
+      border-color: rgba(157, 184, 233, 0.24);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.7),
+        0 8px 20px rgba(15, 23, 42, 0.05);
+    }
+
+    .site-header--hero.nav-open .site-nav__link::after {
+      background: rgba(78, 109, 149, 0.92);
+    }
+
+    .site-header--hero.nav-open .site-nav__toggle {
+      color: var(--c-text);
+      background: rgba(157, 184, 233, 0.18);
+      border-color: rgba(157, 184, 233, 0.5);
+      box-shadow:
+        0 12px 22px rgba(15, 23, 42, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
     }
   }
 

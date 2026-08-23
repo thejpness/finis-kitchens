@@ -12,6 +12,7 @@ interface Props {
   description?: string;
   ogImage?: string;
   noindex?: boolean;
+  headerOverlay?: boolean;
 }
 
 const {
@@ -19,9 +20,11 @@ const {
   description = "Fini's Kitchens designs and installs beautifully functional kitchens for real homes in and around Horsham.",
   ogImage = "/images/hero/default-hero.jpg",
   noindex = false,
+  headerOverlay = false,
 } = Astro.props as Props;
 
-const siteOrigin = (Astro.site?.toString() ?? "https://www.finiskitchens.co.uk").replace(/\/$/, "");
+const siteOrigin = (Astro.site?.toString() ?? "https://finiskitchens.co.uk").replace(/\/$/, "");
+const isStagingBuild = import.meta.env.DEPLOYMENT_ENV === "staging";
 
 const toAbsoluteUrl = (pathOrUrl: string) => {
   try {
@@ -34,7 +37,7 @@ const toAbsoluteUrl = (pathOrUrl: string) => {
 const canonicalUrl = new URL(Astro.url.pathname, `${siteOrigin}/`).toString();
 const ogImageUrl = toAbsoluteUrl(ogImage);
 
-const robotsContent = noindex
+const robotsContent = noindex || isStagingBuild
   ? "noindex,nofollow"
   : "index,follow,max-image-preview:large";
 
@@ -106,7 +109,7 @@ const businessSchema = {
   </head>
 
   <body>
-    <Header />
+    <Header overlay={headerOverlay} />
 
     <main id="main">
       <slot />

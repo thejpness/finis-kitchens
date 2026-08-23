@@ -62,6 +62,12 @@ services:
         mode: 0444
     networks:
       - internal
+    healthcheck:
+      test: ["CMD", "/app/enquiry", "healthcheck"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
 
   enquiry-proxy:
     build:
@@ -71,7 +77,8 @@ services:
     container_name: finis-enquiry-proxy-local
     restart: unless-stopped
     depends_on:
-      - enquiry
+      enquiry:
+        condition: service_healthy
     env_file:
       - .env.local
     environment:
@@ -87,6 +94,12 @@ services:
     networks:
       - traefik
       - internal
+    healthcheck:
+      test: ["CMD", "/app/enquiry-proxy", "healthcheck"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
     labels:
       - traefik.enable=true
       - traefik.http.routers.finis-enquiry.rule=Path(`/api/enquiry`)

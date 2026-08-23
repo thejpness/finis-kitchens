@@ -7,6 +7,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 )
@@ -29,6 +30,10 @@ type forwardedEnquiry struct {
 }
 
 func main() {
+	if len(os.Args) == 2 && os.Args[1] == "healthcheck" {
+		os.Exit(runHealthcheck())
+	}
+
 	cfg, err := loadConfig()
 	if err != nil {
 		log.Fatalf("config error: %v", err)

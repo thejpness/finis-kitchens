@@ -5,13 +5,14 @@ interface Item {
 }
 
 interface Props {
+  id?: string;
   items: Item[];
 }
 
-const { items = [] } = Astro.props;
+const { id, items = [] } = Astro.props;
 ---
 
-<section class="proof-strip" aria-label="Why homeowners choose Fini’s Kitchens">
+<section id={id} class="proof-strip" aria-label="Why homeowners choose Fini’s Kitchens">
   <div class="container">
     <ul class="proof-strip__list" role="list">
       {items.map((item) => (
@@ -27,6 +28,7 @@ const { items = [] } = Astro.props;
 <style>
   .proof-strip {
     padding-bottom: var(--space-5);
+    scroll-margin-top: 6rem;
   }
 
   .proof-strip__list {

@@ -2,7 +2,7 @@
 import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 
-const site = process.env.PUBLIC_SITE_ORIGIN ?? "https://www.finiskitchens.co.uk";
+const site = process.env.PUBLIC_SITE_ORIGIN ?? "https://finiskitchens.co.uk";
 
 export default defineConfig({
   site,

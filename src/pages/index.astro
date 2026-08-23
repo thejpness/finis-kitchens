@@ -1,14 +1,13 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import HomeHero from "../components/sections/HomeHero.astro";
-import ProofStrip from "../components/sections/ProofStrip.astro";
+import finiBlueKitchen from "../assets/images/hero/fini-blue-kitchen.jpg";
+
 import BudgetGuide from "../components/sections/BudgetGuide.astro";
 import ProcessSteps from "../components/sections/ProcessSteps.astro";
 import ProjectPreviewGrid from "../components/sections/ProjectPreviewGrid.astro";
 import FAQList from "../components/sections/FAQList.astro";
 import { getCollection } from "astro:content";
-
-import phWide from "../assets/images/placeholders/kitchen-placeholder-wide-island.png";
 
 const allProjects = await getCollection("projects");
 const featuredProjects = allProjects
@@ -16,26 +15,7 @@ const featuredProjects = allProjects
   .sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999))
   .slice(0, 3);
 
-const heroImage = featuredProjects[0]?.data.heroImage ?? phWide;
-
-const proofItems = [
-  {
-    title: "Designed around real routines",
-    text: "Storage, prep space, movement and everyday family life considered from the start.",
-  },
-  {
-    title: "A calmer process",
-    text: "Clear communication, practical guidance and a more straightforward way to buy a kitchen.",
-  },
-  {
-    title: "Budget guidance early",
-    text: "Useful cost direction upfront, so you can plan with more confidence.",
-  },
-  {
-    title: "Real homes, real results",
-    text: "Kitchens created for lived-in spaces, not showroom theatre.",
-  },
-];
+const heroImage = finiBlueKitchen;
 
 const steps = [
   {
@@ -89,47 +69,54 @@ const faqs = [
   title="Calm, real-life kitchens | Fini’s Kitchens"
   description="Thoughtful kitchen design, supply and installation for real homes. Clear process, practical guidance and premium results without the showroom pressure."
   ogImage={heroImage.src}
+  headerOverlay
 >
   <HomeHero image={heroImage} />
 
-  <ProofStrip items={proofItems} />
-
-  <section class="section section--tight">
-    <div class="container section-frame stack stack--loose">
-      <header class="section-intro">
-        <div class="stack stack--tight">
-          <p class="eyebrow">Designed for real life</p>
-          <h2>A calm kitchen is rarely about more units. It is about better decisions.</h2>
-        </div>
-        <p class="muted text-measure">
-          Good kitchen design starts with everyday life - weekday breakfasts, school bags, quiet evenings,
-          hosting friends, finding space for everything, and making the room feel easier to use.
+  <section id="home-content" class="real-life" aria-labelledby="real-life-title">
+    <div class="container real-life__layout">
+      <header class="real-life__intro">
+        <p class="real-life__eyebrow">Designed for real life</p>
+        <h2 id="real-life-title">Your kitchen rarely needs more… just better decisions.</h2>
+        <p class="real-life__summary">
+          Kitchen design should start with ordinary life — breakfast, school runs, working, hosting, family meals,
+          storage, movement and the details people often forget to design around.
         </p>
       </header>
 
-      <div class="home-value__grid">
-        <article class="card card--surface home-value__card">
-          <h3>Flow before features</h3>
-          <p class="muted">
-            Prep space, routes through the room, bin placement, appliance positioning and everyday reach matter
-            just as much as the final look.
-          </p>
-        </article>
+      <ol class="real-life__principles">
+        <li class="real-life__principle">
+          <span class="real-life__number" aria-hidden="true">01</span>
+          <div>
+            <h3>Style, flow and function working together</h3>
+            <p>A room that looks right because it works hard.</p>
+          </div>
+        </li>
 
-        <article class="card card--surface home-value__card">
-          <h3>Premium without the theatre</h3>
-          <p class="muted">
-            Quality comes through in the fit, finish and thought behind the design - not in vague luxury language.
-          </p>
-        </article>
+        <li class="real-life__principle">
+          <span class="real-life__number" aria-hidden="true">02</span>
+          <div>
+            <h3>The little things that matter most</h3>
+            <p>Storage, reach and movement considered before they become frustrations.</p>
+          </div>
+        </li>
 
-        <article class="card card--surface home-value__card">
-          <h3>Clarity builds confidence</h3>
-          <p class="muted">
-            Understanding likely budgets, timings and installation scope early makes the whole project feel more settled.
-          </p>
-        </article>
-      </div>
+        <li class="real-life__principle">
+          <span class="real-life__number" aria-hidden="true">03</span>
+          <div>
+            <h3>The love that makes it real</h3>
+            <p>Designed around the people, routines and moments that make it yours.</p>
+          </div>
+        </li>
+
+        <li class="real-life__principle">
+          <span class="real-life__number" aria-hidden="true">04</span>
+          <div>
+            <h3>Premium without the theatre</h3>
+            <p>Beautiful materials and practical choices, without the showroom performance.</p>
+          </div>
+        </li>
+      </ol>
     </div>
   </section>
 
@@ -267,16 +254,95 @@ const faqs = [
 </BaseLayout>
 
 <style>
-  .home-value__grid,
   .home-lifestyle__grid,
   .trust-grid {
     display: grid;
     gap: var(--space-6);
   }
 
-  .home-value__card h3,
   .trust-card h3 {
     margin-bottom: var(--space-3);
+  }
+
+  .real-life {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    color: var(--c-brand-50);
+    background: var(--c-brand-900);
+    scroll-margin-top: 6rem;
+  }
+
+  .real-life__layout {
+    display: grid;
+    gap: clamp(3.5rem, 7vw, 7rem);
+  }
+
+  .real-life__intro {
+    max-width: 34rem;
+  }
+
+  .real-life__eyebrow {
+    margin-bottom: var(--space-4);
+    color: var(--c-brand-300);
+    font-size: 0.72rem;
+    font-weight: 650;
+    letter-spacing: var(--ls-wide);
+    text-transform: uppercase;
+  }
+
+  .real-life__intro h2 {
+    color: #fff;
+    font-size: clamp(2.35rem, 4.4vw, 4.35rem);
+    font-weight: 580;
+    line-height: 0.98;
+    letter-spacing: -0.045em;
+  }
+
+  .real-life__summary {
+    margin-top: var(--space-6);
+    color: var(--c-brand-100);
+    font-size: var(--fs-2);
+    line-height: var(--lh-loose);
+  }
+
+  .real-life__principles {
+    display: grid;
+    gap: 0 var(--space-8);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .real-life__principle {
+    display: grid;
+    grid-template-columns: 2.5rem minmax(0, 1fr);
+    gap: var(--space-3);
+    padding-block: var(--space-6) var(--space-7);
+    border-top: 1px solid rgba(185, 208, 239, 0.32);
+  }
+
+  .real-life__number {
+    padding-top: 0.24rem;
+    color: var(--c-brand-300);
+    font-size: var(--fs-0);
+    font-weight: 650;
+    letter-spacing: 0.08em;
+  }
+
+  .real-life__principle h3 {
+    max-width: 18ch;
+    color: #fff;
+    font-size: clamp(1.2rem, 1.7vw, 1.48rem);
+    font-weight: 600;
+    line-height: 1.12;
+    letter-spacing: -0.025em;
+  }
+
+  .real-life__principle p {
+    max-width: 34ch;
+    margin-top: var(--space-3);
+    color: var(--c-brand-100);
+    font-size: var(--fs-0);
+    line-height: var(--lh-snug);
   }
 
   .home-lifestyle__feature {
@@ -316,9 +382,21 @@ const faqs = [
   }
 
   @media (min-width: 48rem) {
-    .home-value__grid,
     .trust-grid {
       grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .real-life__layout {
+      grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+      align-items: start;
+    }
+
+    .real-life__principles {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .real-life__principle:nth-child(even) {
+      margin-top: clamp(2.5rem, 6vw, 4.75rem);
     }
 
     .home-lifestyle__grid {
