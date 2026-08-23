@@ -11,24 +11,28 @@ interface Props {
 const { items = [] } = Astro.props;
 ---
 
-<section class="section section--tight">
-  <div class="container section-frame stack stack--loose">
-    <header class="section-intro">
-      <div class="stack stack--tight">
-        <p class="eyebrow">FAQ</p>
-        <h2>Common questions, answered clearly.</h2>
+<section class="process-faq" aria-labelledby="process-faq-title">
+  <div class="container process-faq__frame">
+    <header class="process-faq__intro">
+      <div>
+        <p class="process-faq__eyebrow">FAQ</p>
+        <h2 id="process-faq-title">Common questions, answered clearly.</h2>
       </div>
-      <p class="muted text-measure">
+
+      <p class="process-faq__summary">
         A few of the things people usually want to understand before starting a kitchen project.
       </p>
     </header>
 
-    <div class="faq-list">
+    <div class="process-faq__list">
       {items.map((item) => (
-        <details class="details-card">
-          <summary>{item.question}</summary>
-          <div class="details-card__content">
-            <p class="muted">{item.answer}</p>
+        <details class="process-faq__item">
+          <summary>
+            <span>{item.question}</span>
+          </summary>
+
+          <div class="process-faq__answer">
+            <p>{item.answer}</p>
           </div>
         </details>
       ))}
@@ -37,8 +41,110 @@ const { items = [] } = Astro.props;
 </section>
 
 <style>
-  .faq-list {
+  .process-faq {
+    padding-block: var(--home-section-y);
+    background: var(--c-canvas-warm);
+  }
+
+  .process-faq__frame {
     display: grid;
-    gap: var(--space-3);
+    gap: clamp(2.75rem, 5vw, 4.5rem);
+  }
+
+  .process-faq__intro {
+    display: grid;
+    gap: var(--space-6);
+    align-items: end;
+  }
+
+  .process-faq__eyebrow {
+    margin-bottom: var(--space-4);
+    color: var(--c-blue);
+    font-size: var(--eyebrow-size);
+    font-weight: var(--eyebrow-weight);
+    line-height: var(--eyebrow-line-height);
+    letter-spacing: var(--eyebrow-tracking);
+    text-transform: uppercase;
+  }
+
+  .process-faq__intro h2 {
+    max-width: 13ch;
+    color: var(--c-ink);
+    font-size: clamp(2.35rem, 4.4vw, 4.25rem);
+    font-weight: 580;
+    line-height: 0.98;
+    letter-spacing: -0.045em;
+  }
+
+  .process-faq__summary {
+    max-width: 34ch;
+    color: var(--c-navy);
+    font-size: var(--fs-2);
+    line-height: var(--lh-snug);
+  }
+
+  .process-faq__list {
+    border-top: var(--border-1) solid var(--c-rule-blue);
+  }
+
+  .process-faq__item {
+    border-bottom: var(--border-1) solid var(--c-rule-blue);
+  }
+
+  .process-faq__item summary {
+    position: relative;
+    display: flex;
+    gap: var(--space-5);
+    align-items: center;
+    justify-content: space-between;
+    padding-block: clamp(1.35rem, 2.5vw, 1.8rem);
+    color: var(--c-ink);
+    font-size: clamp(1.08rem, 1.6vw, 1.3rem);
+    font-weight: 600;
+    line-height: var(--lh-snug);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .process-faq__item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .process-faq__item summary::after {
+    content: "+";
+    flex: 0 0 auto;
+    color: var(--c-blue);
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 1;
+  }
+
+  .process-faq__item[open] summary::after {
+    content: "−";
+  }
+
+  .process-faq__item summary:focus-visible {
+    outline: 2px solid var(--c-blue);
+    outline-offset: 4px;
+  }
+
+  .process-faq__answer {
+    max-width: 48rem;
+    padding: 0 3rem clamp(1.5rem, 3vw, 2.25rem) 0;
+  }
+
+  .process-faq__answer p {
+    color: var(--c-text-muted);
+    line-height: 1.65;
+  }
+
+  @media (min-width: 48rem) {
+    .process-faq__intro {
+      grid-template-columns: minmax(0, 1.15fr) minmax(16rem, 0.85fr);
+    }
+
+    .process-faq__item summary {
+      padding-right: var(--space-3);
+    }
   }
 </style>
