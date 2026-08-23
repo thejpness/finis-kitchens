@@ -13,7 +13,7 @@ const allProjects = await getCollection("projects");
 const featuredProjects = allProjects
   .filter((project) => project.data.featured === true)
   .sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999))
-  .slice(0, 3);
+  .slice(0, 1);
 
 const heroImage = finiBlueKitchen;
 

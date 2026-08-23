@@ -2,17 +2,14 @@
 import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
 
-import phWide from "../../assets/images/placeholders/kitchen-placeholder-wide-island.png";
-import phDetail from "../../assets/images/placeholders/kitchen-placeholder-detail-sink.png";
-import phEvening from "../../assets/images/placeholders/kitchen-placeholder-evening-teal.png";
+import projectFallback from "../../assets/images/placeholders/kitchen-placeholder-wide-island.png";
 
 interface ProjectCard {
   id: string;
   data: {
     title: string;
+    description?: string;
     location?: string;
-    style?: string;
-    summary?: string;
     heroImage?: ImageMetadata;
   };
 }
@@ -22,111 +19,196 @@ interface Props {
 }
 
 const { projects = [] } = Astro.props;
+const [featuredProject] = projects;
 
-const fallbacks = [phWide, phDetail, phEvening];
-const fallbackFor = (id: string) =>
-  fallbacks[[...id].reduce((acc, char) => acc + char.charCodeAt(0), 0) % fallbacks.length];
+const image = featuredProject?.data.heroImage ?? projectFallback;
+const href = featuredProject ? `/projects/${featuredProject.id.replace(/\/index$/, "")}/` : undefined;
+const description = featuredProject?.data.description ?? "A completed Fini’s Kitchens project.";
 ---
 
-<section id="projects" class="section section--tight">
-  <div class="container section-frame stack stack--loose">
-    <header class="section-intro">
-      <div class="stack stack--tight">
-        <p class="eyebrow">Real-life kitchens</p>
-        <h2>See how thoughtful design comes to life in real homes.</h2>
-      </div>
-      <p class="muted text-measure">
-        Explore a selection of recent projects and see how each kitchen was shaped around the home, the layout and the way it needed to work every day.
-      </p>
+<section id="projects" class="project-preview" aria-labelledby="projects-preview-title">
+  <div class="container project-preview__frame">
+    <header class="project-preview__intro">
+      <p class="project-preview__eyebrow">Real-life kitchens</p>
+      <h2 id="projects-preview-title">See how thoughtful design comes to life in real homes.</h2>
     </header>
 
-    <div class="project-grid">
-      {projects.map((project) => {
-        const image = project.data.heroImage ?? fallbackFor(project.id);
-        const href = `/projects/${project.id.replace(/\/index$/, "")}/`;
-        const summary =
-          project.data.summary ??
-          `${project.data.style ?? "Kitchen"} project${project.data.location ? ` in ${project.data.location}` : ""}.`;
+    {
+      featuredProject && href && (
+        <article class="project-feature">
+          <div class="project-feature__image">
+            <Image
+              src={image}
+              alt={`${featuredProject.data.title}${featuredProject.data.location ? ` in ${featuredProject.data.location}` : ""}`}
+              widths={[720, 1200, 1600]}
+              sizes="(min-width: 64rem) 56vw, (min-width: 48rem) 58vw, 100vw"
+              loading="lazy"
+            />
+          </div>
 
-        return (
-          <article class="project-card">
-            <a class="project-card__link" href={href}>
-              <div class="media media--4x3 project-card__media">
-                <Image
-                  src={image}
-                  alt={`${project.data.title} by Fini’s Kitchens`}
-                  widths={[640, 960]}
-                  sizes="(min-width: 64rem) 33vw, 100vw"
-                  loading="lazy"
-                />
-              </div>
-
-              <div class="project-card__body">
-                <div class="project-card__meta">
-                  {project.data.location && <span class="badge badge--quiet">{project.data.location}</span>}
-                  {project.data.style && <span class="badge badge--quiet">{project.data.style}</span>}
-                </div>
-
-                <h3>{project.data.title}</h3>
-                <p class="muted">{summary}</p>
-              </div>
+          <div class="project-feature__content">
+            {featuredProject.data.location && <p class="project-feature__location">{featuredProject.data.location}</p>}
+            <h3>{featuredProject.data.title}</h3>
+            <p class="project-feature__description">{description}</p>
+            <a class="project-feature__link" href={href}>
+              <span>View the project</span>
+              <span aria-hidden="true">→</span>
             </a>
-          </article>
-        );
-      })}
-    </div>
+          </div>
+        </article>
+      )
+    }
 
-    <div>
-      <a class="btn btn--secondary" href="/projects">See all projects</a>
-    </div>
+    <a class="project-preview__all-link" href="/projects">
+      <span>View all projects</span>
+      <span aria-hidden="true">→</span>
+    </a>
   </div>
 </section>
 
 <style>
-  .project-grid {
-    display: grid;
-    gap: var(--space-6);
+  .project-preview {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: var(--c-oat-100);
   }
 
-  .project-card {
-    border-radius: var(--radius-xl);
+  .project-preview__frame {
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 4.5rem);
+  }
+
+  .project-preview__intro {
+    max-width: 39rem;
+  }
+
+  .project-preview__eyebrow,
+  .project-feature__location {
+    color: var(--c-brand-700);
+    font-size: 0.72rem;
+    font-weight: 650;
+    letter-spacing: var(--ls-wide);
+    text-transform: uppercase;
+  }
+
+  .project-preview__eyebrow {
+    margin-bottom: var(--space-4);
+  }
+
+  .project-preview__intro h2 {
+    color: var(--c-brand-900);
+    font-size: clamp(2.35rem, 4.4vw, 4.35rem);
+    font-weight: 580;
+    line-height: 0.98;
+    letter-spacing: -0.045em;
+  }
+
+  .project-feature {
+    display: grid;
+    gap: clamp(2rem, 5vw, 5.5rem);
+    align-items: end;
+  }
+
+  .project-feature__image {
+    aspect-ratio: 4 / 5;
     overflow: hidden;
-    border: var(--border-1) solid var(--c-border);
-    background: var(--c-surface);
-    box-shadow: var(--shadow-1);
+    border-radius: var(--radius-l);
+    background: var(--c-surface-2);
   }
 
-  .project-card__link {
-    display: grid;
+  .project-feature__image :global(img),
+  .project-feature__image :global(picture) {
+    width: 100%;
     height: 100%;
   }
 
-  .project-card__media {
-    border-radius: 0;
-    border-bottom: var(--border-1) solid var(--c-border);
+  .project-feature__image :global(img) {
+    object-fit: cover;
+    object-position: 50% 58%;
   }
 
-  .project-card__body {
-    padding: var(--space-6);
+  .project-feature__content {
     display: grid;
-    gap: var(--space-3);
+    gap: var(--space-4);
+    max-width: 28rem;
+    padding-bottom: var(--space-2);
   }
 
-  .project-card__meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
+  .project-feature__content h3 {
+    color: var(--c-brand-900);
+    font-size: clamp(1.75rem, 2.5vw, 2.7rem);
+    font-weight: 580;
+    line-height: 1.02;
+    letter-spacing: -0.04em;
+  }
+
+  .project-feature__description {
+    color: var(--c-text-muted);
+    font-size: var(--fs-1);
+    line-height: var(--lh-snug);
+  }
+
+  .project-feature__link,
+  .project-preview__all-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    width: fit-content;
+    color: var(--c-brand-800);
+    font-size: var(--fs-0);
+    font-weight: 650;
+  }
+
+  .project-feature__link {
+    margin-top: var(--space-2);
+  }
+
+  .project-feature__link span:first-child,
+  .project-preview__all-link span:first-child {
+    padding-bottom: 0.16rem;
+    border-bottom: 1px solid currentColor;
+  }
+
+  .project-feature__link span:last-child,
+  .project-preview__all-link span:last-child {
+    transition: transform var(--dur-2) var(--ease-out);
+  }
+
+  .project-feature__link:hover span:last-child,
+  .project-preview__all-link:hover span:last-child {
+    transform: translateX(0.2rem);
+  }
+
+  .project-feature__link:focus-visible,
+  .project-preview__all-link:focus-visible {
+    outline-color: var(--c-brand-700);
+    outline-offset: 5px;
   }
 
   @media (min-width: 48rem) {
-    .project-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+    .project-feature {
+      grid-template-columns: minmax(0, 1.16fr) minmax(17rem, 0.84fr);
     }
   }
 
-  @media (min-width: 72rem) {
-    .project-grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+  @media (min-width: 64rem) {
+    .project-preview__intro {
+      max-width: 46rem;
+    }
+
+    .project-feature__content {
+      padding-bottom: clamp(1rem, 4vw, 4rem);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .project-feature__link span:last-child,
+    .project-preview__all-link span:last-child {
+      transition: none;
+    }
+
+    .project-feature__link:hover span:last-child,
+    .project-preview__all-link:hover span:last-child {
+      transform: none;
     }
   }
 </style>
