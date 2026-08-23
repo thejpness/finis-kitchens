@@ -12,6 +12,7 @@ interface Props {
   description?: string;
   ogImage?: string;
   noindex?: boolean;
+  headerOverlay?: boolean;
 }
 
 const {
@@ -19,6 +20,7 @@ const {
   description = "Fini's Kitchens designs and installs beautifully functional kitchens for real homes in and around Horsham.",
   ogImage = "/images/hero/default-hero.jpg",
   noindex = false,
+  headerOverlay = false,
 } = Astro.props as Props;
 
 const siteOrigin = (Astro.site?.toString() ?? "https://finiskitchens.co.uk").replace(/\/$/, "");
@@ -107,7 +109,7 @@ const businessSchema = {
   </head>
 
   <body>
-    <Header />
+    <Header overlay={headerOverlay} />
 
     <main id="main">
       <slot />

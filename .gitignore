@@ -27,3 +27,6 @@ pnpm-debug.log*
 # Docker secrets (never commit)
 secrets/
 *.secret
+
+# Client source/reference imagery
+client-assets/
