@@ -13,6 +13,7 @@ const projects = defineCollection({
       description: z.string().optional(),
       location: z.string().optional(),
       style: z.string().optional(),
+      projectType: z.string().optional(),
       completedAt: z.string().optional(),
 
       heroImage: image().optional(),

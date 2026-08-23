@@ -1,8 +1,10 @@
 ---
-title: Handleless Matt Purple Kitchen
-description: A sleek, modern kitchen in Scrimshaw with full-height units, integrated appliances and a clean handleless finish.
-location: Scrimshaw
-style: Handleless Matt Purple
+title: Longleys Road
+description: A compact Chichester renovation transformed with aubergine cabinetry, white quartz worktops and a much more considered approach to storage and everyday function.
+location: Chichester
+style: Aubergine handleless
+projectType: Renovation
+completedAt: October 2025
 heroImage: ./images/scrimshaw-sideshot.jpg
 gallery:
   - ./images/scrimshaw-righttoleft.jpg
@@ -12,26 +14,54 @@ featured: true
 order: 10
 ---
 
-A sleek, modern kitchen project designed to feel clean, calm and highly practical in day-to-day use.
+The existing kitchen was a basic new-build installation where colours had begun to fade and mismatch, storage had not been prioritised and the room no longer felt personal to the client.
 
-## Project overview
+The footprint itself could not change dramatically, so the project was less about reinventing the room and more about making every decision more considered - improving both form and function within the space available.
 
-This Scrimshaw kitchen uses a deep matt purple finish with a fully handleless look to create a strong contemporary feel without losing warmth. Full-height units help the room feel structured and intentional, while integrated appliances keep the overall design visually quiet and uncluttered.
+## The brief
 
-## What made this project work
+The client wanted a kitchen that felt much more like their own.
 
-The aim was to create a kitchen that felt streamlined and modern, but still practical enough for real daily life. The handleless cabinetry keeps the lines crisp, while the full run of storage helps the room work harder without feeling overcrowded.
+Colour and style were especially important, alongside better-quality materials and a significant improvement in storage. The existing straight-run layout also meant that every cabinet needed to work harder.
 
-The darker cabinetry gives the space real character, balanced by lighter surfaces and a cleaner backdrop to stop it feeling heavy.
+## Design direction
 
-## Key features
+The aim was bright, modern and clean-lined, with enough personality to make the kitchen feel distinctive.
 
-- Handleless matt purple cabinetry
-- Full-height storage units
-- Integrated appliances
-- Clean-lined contemporary layout
-- Minimal, uncluttered overall finish
+Aubergine frontals were paired with white quartz worktops, reflecting the client's love of purple while keeping the overall finish sleek and contemporary.
+
+Rather than forcing a different layout into a restricted footprint, the design focused on making the existing run feel more ordered and intentional.
+
+## Making the space work harder
+
+Cabinet sizes were equalised into consistent 600mm blocks across the space, bringing greater symmetry to the run.
+
+Storage was improved substantially by:
+
+- taking the wall units higher
+- assigning individual cabinets to specific purposes
+- introducing more drawers
+- integrating all appliances
+- organising storage around how the client actually uses the kitchen
+
+The result is a kitchen that is easier to organise and simpler to use day to day.
+
+## Working within the constraints
+
+The main challenge was the available footprint. The kitchen could not be extended and the straight-run layout left limited scope for major structural change.
+
+The solution was to understand which functions mattered most to the client and make those needs part of the design itself, rather than treating storage and usability as an afterthought.
+
+The flush installation into the recess also helps the finished kitchen feel deliberate and properly fitted to the room.
 
 ## The result
 
-The finished kitchen feels modern, striking and well resolved. It makes strong use of colour while still keeping the space functional, easy to use and visually calm. The final result is a kitchen that feels distinctive without becoming overdesigned.
+The finished kitchen feels unique to the client rather than like the standard new-build kitchen it replaced.
+
+The aubergine colour gives the room its character, while the stronger symmetry, higher storage, additional drawers and integrated appliances make the space considerably more useful without increasing its footprint.
+
+## Client feedback
+
+> "I was fairly clear about what I wanted in terms of the symmetry of it, and what I was going for, and Oli kind of pulled out a whole range of things that sort of met those requirements, and I'm really pleased with the end result. I think the first thing that struck me was that it was actually exactly as I expected it to be."
+
+> "It's turned out brilliantly, why didn't I do it sooner!"
