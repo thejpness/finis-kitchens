@@ -65,7 +65,8 @@ services:
 
       # Staging supplies this as an extra web middleware. It gives crawlers a
       # response-header signal in addition to the generated meta/robots files.
-      - traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-noindex.headers.customResponseHeaders.X-Robots-Tag=noindex, nofollow
+      # Quote the complete label: the comma is part of the single header value.
+      - "traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-noindex.headers.customResponseHeaders.X-Robots-Tag=noindex, nofollow"
 
   enquiry:
     build:
@@ -154,7 +155,8 @@ services:
     labels:
       - traefik.enable=true
       - traefik.docker.network=${TRAEFIK_NETWORK}
-      - traefik.http.routers.${TRAEFIK_RESOURCE_PREFIX}-enquiry.rule=Host(`${SITE_DOMAIN}`) && Path(`/api/enquiry`)
+      # Quote the complete label so YAML cannot reinterpret the rule's &&.
+      - "traefik.http.routers.${TRAEFIK_RESOURCE_PREFIX}-enquiry.rule=Host(`${SITE_DOMAIN}`) && Path(`/api/enquiry`)"
       - traefik.http.routers.${TRAEFIK_RESOURCE_PREFIX}-enquiry.entrypoints=websecure
       - traefik.http.routers.${TRAEFIK_RESOURCE_PREFIX}-enquiry.tls.certresolver=myresolver
       - traefik.http.routers.${TRAEFIK_RESOURCE_PREFIX}-enquiry.tls.options=modern@file
