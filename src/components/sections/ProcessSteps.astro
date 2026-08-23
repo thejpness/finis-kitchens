@@ -11,60 +11,228 @@ interface Props {
 const { steps = [] } = Astro.props;
 ---
 
-<section class="section section--tight">
-  <div class="container section-frame stack stack--loose">
-    <header class="section-intro">
-      <div class="stack stack--tight">
-        <p class="eyebrow">How it works</p>
-        <h2>A clear process from first ideas to finished kitchen.</h2>
+<section class="process-teaser" aria-labelledby="process-teaser-title">
+  <div class="container process-teaser__frame">
+    <header class="process-teaser__intro">
+      <div>
+        <p class="process-teaser__eyebrow">How it works</p>
+        <h2 id="process-teaser-title">A clear path from first conversation to finished kitchen.</h2>
       </div>
-      <p class="muted text-measure">
-        From the first visit to final installation, each stage is designed to feel straightforward, well-planned and easier to follow.
+
+      <p class="process-teaser__summary">
+        Five straightforward stages, with clear decisions and guidance at each step.
       </p>
     </header>
 
-    <ol class="process-grid" role="list">
+    <ol class="process-rail">
       {steps.map((step, index) => (
-        <li class="card card--surface process-card">
-          <p class="process-card__index">{String(index + 1).padStart(2, "0")}</p>
-          <h3>{step.title}</h3>
-          <p class="muted">{step.body}</p>
+        <li class="process-rail__step">
+          <p class="process-rail__number">{String(index + 1).padStart(2, "0")}</p>
+          <div class="process-rail__copy">
+            <h3>{step.title}</h3>
+            <p>{step.body}</p>
+          </div>
         </li>
       ))}
     </ol>
+
+    <a class="process-teaser__link" href="/process">
+      <span>See the full process</span>
+      <span aria-hidden="true">→</span>
+    </a>
   </div>
 </section>
 
 <style>
-  .process-grid {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: grid;
-    gap: var(--space-5);
+  .process-teaser {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    background: var(--c-bg);
   }
 
-  .process-card {
+  .process-teaser__frame {
     display: grid;
-    gap: var(--space-3);
+    gap: clamp(3rem, 6vw, 5rem);
   }
 
-  .process-card__index {
-    font-size: var(--fs-0);
+  .process-teaser__intro {
+    display: grid;
+    gap: var(--space-6);
+    align-items: end;
+  }
+
+  .process-teaser__eyebrow {
+    margin-bottom: var(--space-4);
+    color: var(--c-brand-700);
+    font-size: 0.72rem;
+    font-weight: 650;
     letter-spacing: var(--ls-wide);
     text-transform: uppercase;
-    color: var(--c-text-faint);
+  }
+
+  .process-teaser__intro h2 {
+    max-width: 14ch;
+    color: var(--c-brand-900);
+    font-size: clamp(2.35rem, 4.4vw, 4.35rem);
+    font-weight: 580;
+    line-height: 0.98;
+    letter-spacing: -0.045em;
+  }
+
+  .process-teaser__summary {
+    max-width: 33ch;
+    color: var(--c-brand-800);
+    font-size: var(--fs-2);
+    line-height: var(--lh-snug);
+  }
+
+  .process-rail {
+    display: grid;
+    gap: 0;
+    padding: 0 0 0 var(--space-8);
+    margin: 0;
+    list-style: none;
+    border-left: 1px solid var(--c-brand-300);
+  }
+
+  .process-rail__step {
+    position: relative;
+    display: grid;
+    gap: var(--space-3);
+    padding: 0 0 var(--space-8);
+  }
+
+  .process-rail__step:last-child {
+    padding-bottom: 0;
+  }
+
+  .process-rail__step::before {
+    content: "";
+    position: absolute;
+    top: 0.75rem;
+    left: calc(-1 * var(--space-8) - 0.31rem);
+    width: 0.62rem;
+    height: 0.62rem;
+    border-radius: 50%;
+    background: var(--c-brand-600);
+    box-shadow: 0 0 0 4px var(--c-bg);
+  }
+
+  .process-rail__number {
+    color: var(--c-brand-700);
+    font-size: clamp(2.45rem, 5vw, 4rem);
+    font-weight: 590;
+    line-height: 0.84;
+    letter-spacing: -0.06em;
+  }
+
+  .process-rail__copy h3 {
+    max-width: 22ch;
+    color: var(--c-brand-900);
+    font-size: clamp(1.2rem, 1.6vw, 1.45rem);
+    font-weight: 600;
+    line-height: 1.12;
+    letter-spacing: -0.025em;
+  }
+
+  .process-rail__copy p {
+    max-width: 48ch;
+    margin-top: var(--space-2);
+    color: var(--c-text-muted);
+    font-size: var(--fs-0);
+    line-height: var(--lh-snug);
+  }
+
+  .process-teaser__link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    width: fit-content;
+    color: var(--c-brand-800);
+    font-size: var(--fs-0);
+    font-weight: 650;
+    text-decoration: none;
+  }
+
+  .process-teaser__link span:first-child {
+    padding-bottom: 0.16rem;
+    border-bottom: 1px solid currentColor;
+  }
+
+  .process-teaser__link span:last-child {
+    transition: transform var(--dur-2) var(--ease-out);
+  }
+
+  .process-teaser__link:hover span:last-child {
+    transform: translateX(0.2rem);
+  }
+
+  .process-teaser__link:focus-visible {
+    outline-color: var(--c-brand-700);
+    outline-offset: 5px;
   }
 
   @media (min-width: 48rem) {
-    .process-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+    .process-teaser__intro {
+      grid-template-columns: minmax(0, 1.15fr) minmax(16rem, 0.85fr);
     }
   }
 
-  @media (min-width: 72rem) {
-    .process-grid {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+  @media (min-width: 64rem) {
+    .process-rail {
+      position: relative;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: clamp(var(--space-5), 2.4vw, var(--space-7));
+      padding: 0;
+      border-left: 0;
+    }
+
+    .process-rail::before {
+      content: "";
+      position: absolute;
+      top: clamp(3rem, 4vw, 3.6rem);
+      right: clamp(1.1rem, 2vw, 1.65rem);
+      left: 0;
+      height: 1px;
+      background: var(--c-brand-300);
+    }
+
+    .process-rail__step {
+      gap: 0;
+      padding: 0;
+    }
+
+    .process-rail__step::before {
+      top: clamp(2.72rem, 3.7vw, 3.35rem);
+      left: 0;
+      width: 0.68rem;
+      height: 0.68rem;
+      box-shadow: 0 0 0 4px var(--c-bg);
+    }
+
+    .process-rail__number {
+      position: relative;
+      z-index: 1;
+      width: fit-content;
+      padding-right: var(--space-3);
+      background: var(--c-bg);
+    }
+
+    .process-rail__copy {
+      padding-top: clamp(2.8rem, 4vw, 3.75rem);
+    }
+
+    .process-rail__copy p {
+      max-width: 20ch;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .process-teaser__link span:last-child {
+      transition: none;
+    }
+
+    .process-teaser__link:hover span:last-child {
+      transform: none;
     }
   }
 </style>
