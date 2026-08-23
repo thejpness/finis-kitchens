@@ -1,300 +1,564 @@
 ---
-import PageLayout from "../layouts/PageLayout.astro";
+import { Image } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import finiOrigin from "../assets/images/about/fini-origin.jpg";
 ---
 
-<PageLayout
-  title="About Fini's Kitchens"
-  description="Learn more about Fini's Kitchens, the origin of the business, and the experience behind the people leading it."
-  eyebrow="Who we are"
+<BaseLayout
+  title="About Fini's Kitchens | Fini's Kitchens"
+  description="Meet the people and experience behind Fini's Kitchens, and discover the personal story at the heart of the business."
+  ogImage={finiOrigin.src}
 >
-  <section class="section">
-    <div class="container">
-      <header class="section-head">
-        <div class="section-head__copy">
-          <h2 class="section-head__title">Part of the Fini Group</h2>
-          <p class="section-head__desc">
-            We’re part of the wider Fini Group, offering services built around care, practical improvement and meaningful
-            work through our professional passions: kitchen renovations, cleaning services and software.
-          </p>
-        </div>
-      </header>
-
-      <div class="grid grid--2 about-grid">
-        <div class="stack">
-          <p class="muted">
-            Fini’s Kitchens exists to create spaces that feel good to live in, not just spaces that look good in photos.
-          </p>
-          <p class="muted">
-            From design through to installation, we focus on layout, function, flow and the small details that make a
-            kitchen easier to use every day.
-          </p>
-        </div>
-
-        <div class="media media--1x1 about-media">
-          <div class="about-placeholder">Team photo</div>
-        </div>
+  <section class="about-hero">
+    <div class="container about-hero__layout">
+      <div class="about-hero__copy">
+        <p class="about-eyebrow">Who we are</p>
+        <h1>Thoughtful kitchens, built around real life.</h1>
+        <p class="about-hero__summary">
+          Fini's Kitchens combines practical design experience with a straightforward way of working -
+          creating kitchens that feel considered, function properly and are easier to live with every day.
+        </p>
       </div>
+
+      <aside class="about-hero__group" aria-label="About the Fini Group">
+        <p class="about-eyebrow">Part of the Fini Group</p>
+        <p>
+          We're part of the wider Fini Group, with businesses built around care, practical improvement
+          and meaningful work across kitchen renovations, cleaning services and software.
+        </p>
+      </aside>
     </div>
   </section>
 
-  <section class="section section--tight">
-    <div class="container">
-      <header class="section-head">
-        <div class="section-head__copy">
-          <h2 class="section-head__title">The origin of the business</h2>
-          <p class="section-head__desc">
-            Fini’s Kitchens was built from something deeply personal - and from a decision to create something meaningful,
-            lasting and full of care.
-          </p>
-        </div>
-      </header>
+  <section class="about-origin" aria-labelledby="about-origin-title">
+    <div class="container about-origin__layout">
+      <div class="about-origin__copy">
+        <p class="about-eyebrow">Where it began</p>
+        <h2 id="about-origin-title">A personal beginning, given its own space.</h2>
 
-      <div class="origin-card card card--surface">
-        <div class="stack">
-          <p class="muted">
-            The heart behind the business matters, but the full story deserves its own space. If you’d like to understand
-            where Fini’s Kitchens began and why the work means so much, you can read it here.
+        <div class="about-origin__body">
+          <p>
+            Fini's Kitchens was built from something deeply personal - and from a decision to create
+            something meaningful, lasting and full of care.
           </p>
 
-          <div class="cta-row">
-            <a class="btn btn--primary" href="/the-love-that-stays">Read the full story</a>
-          </div>
+          <p>
+            That beginning remains part of the character of the business, but the full story deserves
+            more than a paragraph on an About page.
+          </p>
         </div>
+
+        <a class="about-text-link" href="/the-love-that-stays">Read the full story</a>
       </div>
+
+      <figure class="about-origin__figure">
+        <div class="about-origin__image-wrap">
+          <Image
+            class="about-origin__image"
+            src={finiOrigin}
+            alt="A young child sitting in a blue armchair at home."
+            widths={[480, 720, 960, 1100]}
+            sizes="(min-width: 64rem) 38vw, 100vw"
+            loading="lazy"
+          />
+        </div>
+
+        <figcaption>Where the name began.</figcaption>
+      </figure>
     </div>
   </section>
-  <section class="section section--tight">
-    <div class="container">
-      <header class="section-head">
-        <div class="section-head__copy">
-          <h2 class="section-head__title">Leadership</h2>
-          <p class="section-head__desc">
-            A small team with a strong mix of design, operations and business oversight.
-          </p>
+
+  <section class="about-leadership" aria-labelledby="about-leadership-title">
+    <div class="container about-leadership__frame">
+      <header class="about-leadership__intro">
+        <div>
+          <p class="about-leadership__eyebrow">Leadership</p>
+          <h2 id="about-leadership-title">A small team with broad experience.</h2>
         </div>
+
+        <p>
+          Design, operations and commercial oversight working together around one straightforward goal:
+          kitchens that are considered properly and delivered well.
+        </p>
       </header>
 
-      <div class="grid grid--3 team-grid">
-        <article class="card card--surface team">
-          <div class="team__avatar">
-            <img
-              class="team__avatar-image"
-              src="/images/OW.jpeg"
-              alt="Portrait of Oli Wyatt"
-              width="72"
-              height="72"
-              loading="lazy"
-            />
-          </div>
-          <h3>Oli Wyatt</h3>
-          <p class="faint team__role">CEO & Designer</p>
-          <p class="muted">Design, delivery and commercial leadership.</p>
-        </article>
+      <div class="about-leadership__people">
+        <article class="about-person">
+          <img
+            class="about-person__image"
+            src="/images/OW.jpeg"
+            alt="Portrait of Oli Wyatt"
+            width="96"
+            height="96"
+            loading="lazy"
+          />
 
-        <article class="card card--surface team">
-          <div class="team__avatar">
-            <img
-              class="team__avatar-image"
-              src="/images/VN.png"
-              alt="Portrait of Viki Nasch"
-              width="72"
-              height="72"
-              loading="lazy"
-            />
-          </div>
-          <h3>Viki Nasch</h3>
-          <p class="faint team__role">COO</p>
-          <p class="muted">The Brains</p>
-        </article>
-      </div>
-    </div>
-  </section>
-  <section class="section section--tight">
-    <div class="container">
-      <header class="section-head">
-        <div class="section-head__copy">
-          <h2 class="section-head__title">About the owner, CEO & creator</h2>
-          <p class="section-head__desc">
-            Fini’s Kitchens is led by Oli Wyatt, whose career spans kitchen design, contract delivery, sales, operations
-            and commercial leadership across the industry.
-          </p>
-        </div>
-      </header>
-
-      <div class="grid grid--2 about-grid">
-        <article class="card card--surface founder-card">
-          <div class="founder-card__top">
-            <div class="team__avatar founder-card__avatar">
-              <img
-                class="team__avatar-image"
-                src="/images/OW.jpeg"
-                alt="Portrait of Oli Wyatt"
-                width="96"
-                height="96"
-                loading="lazy"
-              />
-            </div>
-
-            <div class="stack stack--tight">
-              <h3>Oli Wyatt</h3>
-              <p class="faint team__role">Owner, CEO & Creator</p>
-              <p class="muted">
-                With nearly two decades in the kitchen industry, Oli brings a rare mix of creative design thinking,
-                technical understanding and real-world delivery experience.
-              </p>
-            </div>
-          </div>
-
-          <div class="stack founder-summary">
-            <p class="muted">
-              His background covers kitchen design, social housing, private developer projects, contract management,
-              process improvement, sales and commercial leadership. That breadth gives him a practical view of what makes
-              a kitchen work - not just visually, but in budget, buildability, function and day-to-day life.
-            </p>
-
-            <p class="muted">
-              Rather than approaching projects from only one angle, Oli understands the full journey: how a space should
-              feel, how it needs to perform, and what it takes to deliver it well.
-            </p>
+          <div>
+            <h3>Oli Wyatt</h3>
+            <p class="about-person__role">CEO & Designer</p>
+            <p class="about-person__summary">Design, delivery and commercial leadership.</p>
           </div>
         </article>
 
-        <article class="card card--surface confidence-card">
-          <h3>Why clients can feel confident</h3>
+        <article class="about-person">
+          <img
+            class="about-person__image"
+            src="/images/VN.png"
+            alt="Portrait of Viki Nasch"
+            width="96"
+            height="96"
+            loading="lazy"
+          />
 
-          <div class="confidence-list">
-            <div class="confidence-item">
-              <strong>Deep industry experience</strong>
-              <p class="muted">
-                Nearly 20 years spent inside the kitchen sector, from design roles through to senior commercial and
-                contract leadership.
-              </p>
-            </div>
-
-            <div class="confidence-item">
-              <strong>Design backed by delivery knowledge</strong>
-              <p class="muted">
-                Ideas are shaped by real understanding of surveying, specifications, cost control, workflow and how
-                projects actually move on site.
-              </p>
-            </div>
-
-            <div class="confidence-item">
-              <strong>Broad perspective across project types</strong>
-              <p class="muted">
-                Experience across private contracts, developer work, social housing and contract environments brings a
-                balanced, practical approach to each kitchen.
-              </p>
-            </div>
-
-            <div class="confidence-item">
-              <strong>Commercial clarity</strong>
-              <p class="muted">
-                Strong commercial and operational experience helps keep decisions grounded, communication clearer and
-                expectations realistic.
-              </p>
-            </div>
+          <div>
+            <h3>Viki Nasch</h3>
+            <p class="about-person__role">COO</p>
+            <p class="about-person__summary">Operations and business oversight.</p>
           </div>
         </article>
       </div>
     </div>
   </section>
 
+  <section class="about-experience" aria-labelledby="about-experience-title">
+    <div class="container about-experience__frame">
+      <header class="about-experience__intro">
+        <div>
+          <p class="about-eyebrow">Experience behind the work</p>
+          <h2 id="about-experience-title">Nearly two decades inside the kitchen industry.</h2>
+        </div>
 
-</PageLayout>
+        <p>
+          Fini's Kitchens is led by Oli Wyatt, whose career spans kitchen design, contract delivery,
+          sales, operations and commercial leadership across the industry.
+        </p>
+      </header>
+
+      <div class="about-experience__content">
+        <div class="about-experience__story">
+          <p>
+            With nearly two decades in the kitchen industry, Oli brings a mix of creative design thinking,
+            technical understanding and real-world delivery experience.
+          </p>
+
+          <p>
+            His background covers kitchen design, social housing, private developer projects, contract management,
+            process improvement, sales and commercial leadership. That breadth gives him a practical view of what
+            makes a kitchen work - not just visually, but in budget, buildability, function and day-to-day life.
+          </p>
+
+          <p>
+            Rather than approaching projects from only one angle, Oli understands the full journey:
+            how a space should feel, how it needs to perform, and what it takes to deliver it well.
+          </p>
+        </div>
+
+        <div class="about-confidence">
+          <p class="about-confidence__label">Why clients can feel confident</p>
+
+          <div class="about-confidence__list">
+            <article>
+              <span aria-hidden="true">01</span>
+              <div>
+                <h3>Deep industry experience</h3>
+                <p>
+                  Nearly 20 years inside the kitchen sector, from design roles through to senior
+                  commercial and contract leadership.
+                </p>
+              </div>
+            </article>
+
+            <article>
+              <span aria-hidden="true">02</span>
+              <div>
+                <h3>Design backed by delivery knowledge</h3>
+                <p>
+                  Ideas are shaped by real understanding of surveying, specifications, cost control,
+                  workflow and how projects actually move on site.
+                </p>
+              </div>
+            </article>
+
+            <article>
+              <span aria-hidden="true">03</span>
+              <div>
+                <h3>Broad perspective across project types</h3>
+                <p>
+                  Experience across private contracts, developer work, social housing and contract
+                  environments brings a balanced, practical approach to each kitchen.
+                </p>
+              </div>
+            </article>
+
+            <article>
+              <span aria-hidden="true">04</span>
+              <div>
+                <h3>Commercial clarity</h3>
+                <p>
+                  Strong commercial and operational experience helps keep decisions grounded,
+                  communication clearer and expectations realistic.
+                </p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+</BaseLayout>
 
 <style>
-  .about-grid { margin-top: var(--space-8); align-items: center; }
-
-  .about-media {
-    border-radius: var(--radius-l);
-    box-shadow: var(--shadow-2);
+  .about-hero {
+    padding-block: clamp(4rem, 7vw, 6.25rem);
+    background: var(--c-canvas-warm);
   }
 
-  .about-placeholder {
-    width: 100%;
-    height: 100%;
+  .about-hero__layout,
+  .about-origin__layout {
     display: grid;
-    place-items: center;
-    color: var(--c-text-faint);
-    border: 1px dashed var(--c-border-strong);
-    background: var(--c-surface-2);
+    gap: clamp(3rem, 7vw, 7rem);
   }
 
-  .origin-card {
-    margin-top: var(--space-8);
+  .about-hero__layout {
+    align-items: end;
   }
 
-  .team { text-align: center; }
-
-  .team__avatar {
-    width: 72px;
-    height: 72px;
-    border-radius: var(--radius-pill);
-    margin: 0 auto var(--space-4);
-    overflow: hidden;
-    box-shadow: var(--shadow-1);
-    background: var(--c-surface-2);
-    border: 1px solid var(--c-border);
+  .about-hero__copy {
+    max-width: 48rem;
   }
 
-  .founder-card__avatar {
-    width: 96px;
-    height: 96px;
+  .about-eyebrow {
+    margin-bottom: var(--space-4);
+    color: var(--c-blue);
+    font-size: var(--eyebrow-size);
+    font-weight: var(--eyebrow-weight);
+    line-height: var(--eyebrow-line-height);
+    letter-spacing: var(--eyebrow-tracking);
+    text-transform: uppercase;
+  }
+
+  .about-hero h1 {
+    max-width: 11ch;
+    color: var(--c-ink);
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 6vw, 5.8rem);
+    font-weight: 450;
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+  }
+
+  .about-hero__summary {
+    max-width: 42rem;
+    margin-top: var(--space-6);
+    color: var(--c-navy);
+    font-size: clamp(1.08rem, 1.7vw, 1.3rem);
+    line-height: var(--lh-snug);
+  }
+
+  .about-hero__group {
+    padding-top: var(--space-5);
+    border-top: var(--border-1) solid var(--c-rule-blue);
+  }
+
+  .about-hero__group p:last-child {
+    max-width: 35rem;
+    color: var(--c-navy);
+    font-size: clamp(1rem, 1.3vw, 1.12rem);
+    line-height: 1.55;
+  }
+
+  .about-origin {
+    padding-block: var(--home-section-y-tight);
+    border-top: var(--border-1) solid var(--c-rule-blue);
+    background: var(--c-paper);
+  }
+
+  .about-origin__layout {
+    align-items: center;
+  }
+
+  .about-origin__copy h2 {
+    max-width: 13ch;
+    color: var(--c-ink);
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 4.8vw, 4.6rem);
+    font-weight: 450;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  .about-origin__body {
+    display: grid;
+    gap: var(--space-5);
+    max-width: 39rem;
+    margin-top: var(--space-6);
+  }
+
+  .about-origin__body p {
+    color: var(--c-navy);
+    font-size: clamp(1rem, 1.3vw, 1.12rem);
+    line-height: 1.65;
+  }
+
+  .about-text-link {
+    display: inline-block;
+    margin-top: var(--space-7);
+    color: var(--c-navy);
+    font-weight: 650;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.18em;
+  }
+
+  .about-text-link:hover {
+    color: var(--c-blue);
+    text-decoration-thickness: 2px;
+  }
+
+  .about-origin__figure {
+    width: min(100%, 32rem);
     margin: 0;
   }
 
-  .team__avatar-image {
+  .about-origin__image-wrap {
+    overflow: hidden;
+    aspect-ratio: 4 / 5;
+    border-radius: 0.75rem;
+    background: var(--c-canvas-warm);
+  }
+
+  .about-origin__image {
     width: 100%;
     height: 100%;
     display: block;
     object-fit: cover;
-    object-position: center top;
   }
 
-  .team__role { margin-top: var(--space-2); }
-
-  .founder-card,
-  .confidence-card {
-    height: 100%;
+  .about-origin__figure figcaption {
+    margin-top: var(--space-3);
+    color: var(--c-text-muted);
+    font-size: var(--fs--1);
+    line-height: var(--lh-snug);
   }
 
-  .founder-card__top {
+  .about-leadership {
+    padding-block: var(--home-section-y);
+    background: var(--c-navy);
+    color: var(--c-paper);
+  }
+
+  .about-leadership__frame {
     display: grid;
-    grid-template-columns: 96px 1fr;
+    gap: clamp(3rem, 6vw, 5rem);
+  }
+
+  .about-leadership__intro {
+    display: grid;
+    gap: var(--space-6);
+    align-items: end;
+  }
+
+  .about-leadership__eyebrow {
+    margin-bottom: var(--space-4);
+    color: var(--c-blue-pale);
+    font-size: var(--eyebrow-size);
+    font-weight: var(--eyebrow-weight);
+    line-height: var(--eyebrow-line-height);
+    letter-spacing: var(--eyebrow-tracking);
+    text-transform: uppercase;
+  }
+
+  .about-leadership__intro h2 {
+    max-width: 13ch;
+    color: var(--c-paper);
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 4.6vw, 4.5rem);
+    font-weight: 450;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  .about-leadership__intro > p {
+    max-width: 37ch;
+    color: var(--c-blue-pale);
+    font-size: var(--fs-2);
+    line-height: var(--lh-snug);
+  }
+
+  .about-leadership__people {
+    display: grid;
+    border-top: var(--border-1) solid var(--c-rule-on-dark);
+  }
+
+  .about-person {
+    display: grid;
+    grid-template-columns: 5.5rem minmax(0, 1fr);
     gap: var(--space-5);
     align-items: center;
-    margin-bottom: var(--space-6);
+    padding-block: clamp(1.75rem, 3vw, 2.5rem);
+    border-bottom: var(--border-1) solid var(--c-rule-on-dark);
   }
 
-  .founder-summary {
+  .about-person__image {
+    width: 5.5rem;
+    height: 5.5rem;
+    display: block;
+    object-fit: cover;
+    object-position: center top;
+    border-radius: 0.75rem;
+  }
+
+  .about-person h3 {
+    color: var(--c-paper);
+    font-size: clamp(1.35rem, 2vw, 1.7rem);
+    font-weight: 600;
+    line-height: 1.05;
+  }
+
+  .about-person__role {
     margin-top: var(--space-2);
+    color: var(--c-blue-pale);
+    font-size: var(--fs--1);
+    font-weight: 650;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 
-  .confidence-list {
-    margin-top: var(--space-5);
+  .about-person__summary {
+    margin-top: var(--space-3);
+    color: var(--c-blue-pale);
+    line-height: 1.5;
+  }
+
+  .about-experience {
+    padding-block: var(--home-section-y-tight);
+    background: var(--c-canvas);
+  }
+
+  .about-experience__frame {
+    display: grid;
+    gap: clamp(3rem, 6vw, 5rem);
+  }
+
+  .about-experience__intro {
+    display: grid;
+    gap: var(--space-6);
+    align-items: end;
+  }
+
+  .about-experience__intro h2 {
+    max-width: 14ch;
+    color: var(--c-ink);
+    font-size: clamp(2.35rem, 4.4vw, 4.25rem);
+    font-weight: 580;
+    line-height: 0.98;
+    letter-spacing: -0.045em;
+  }
+
+  .about-experience__intro > p {
+    max-width: 37ch;
+    color: var(--c-navy);
+    font-size: var(--fs-2);
+    line-height: var(--lh-snug);
+  }
+
+  .about-experience__content {
+    display: grid;
+    gap: clamp(3rem, 6vw, 6rem);
+  }
+
+  .about-experience__story {
     display: grid;
     gap: var(--space-5);
+    align-content: start;
+    max-width: 42rem;
   }
 
-  .confidence-item strong {
-    display: block;
-    margin-bottom: var(--space-2);
-    color: var(--c-text);
+  .about-experience__story p {
+    color: var(--c-navy);
+    font-size: clamp(1rem, 1.25vw, 1.1rem);
+    line-height: 1.65;
   }
 
-  .confidence-item p {
-    margin: 0;
+  .about-confidence__label {
+    padding-bottom: var(--space-4);
+    border-bottom: var(--border-1) solid var(--c-rule-blue);
+    color: var(--c-blue);
+    font-size: var(--eyebrow-size);
+    font-weight: var(--eyebrow-weight);
+    line-height: var(--eyebrow-line-height);
+    letter-spacing: var(--eyebrow-tracking);
+    text-transform: uppercase;
   }
 
-  @media (max-width: 720px) {
-    .founder-card__top {
-      grid-template-columns: 1fr;
-      text-align: center;
+  .about-confidence__list article {
+    display: grid;
+    grid-template-columns: 2.5rem minmax(0, 1fr);
+    gap: var(--space-4);
+    padding-block: var(--space-5);
+    border-bottom: var(--border-1) solid var(--c-rule-blue);
+  }
+
+  .about-confidence__list article > span {
+    color: var(--c-blue);
+    font-size: var(--fs--1);
+    font-weight: 650;
+    letter-spacing: 0.08em;
+  }
+
+  .about-confidence h3 {
+    color: var(--c-ink);
+    font-size: clamp(1.1rem, 1.5vw, 1.3rem);
+    font-weight: 600;
+    line-height: var(--lh-snug);
+  }
+
+  .about-confidence article p {
+    margin-top: var(--space-2);
+    color: var(--c-text-muted);
+    line-height: 1.55;
+  }
+
+  @media (min-width: 64rem) {
+    .about-hero__layout {
+      grid-template-columns: minmax(0, 1.25fr) minmax(20rem, 0.75fr);
     }
 
-    .founder-card__avatar {
-      margin: 0 auto;
+    .about-origin__layout {
+      grid-template-columns: minmax(0, 1.05fr) minmax(24rem, 0.75fr);
+    }
+
+    .about-origin__figure {
+      justify-self: end;
+    }
+
+    .about-leadership__intro,
+    .about-experience__intro {
+      grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 0.85fr);
+    }
+
+    .about-leadership__people {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .about-person {
+      padding-inline: clamp(2rem, 4vw, 4rem);
+    }
+
+    .about-person:first-child {
+      padding-left: 0;
+      border-right: var(--border-1) solid var(--c-rule-on-dark);
+    }
+
+    .about-person:last-child {
+      padding-right: 0;
+    }
+
+    .about-experience__content {
+      grid-template-columns: minmax(0, 0.85fr) minmax(24rem, 1.15fr);
     }
   }
+
 </style>
