@@ -6,7 +6,6 @@ import finiBlueKitchen from "../assets/images/hero/fini-blue-kitchen.jpg";
 import BudgetGuide from "../components/sections/BudgetGuide.astro";
 import ProcessSteps from "../components/sections/ProcessSteps.astro";
 import ProjectPreviewGrid from "../components/sections/ProjectPreviewGrid.astro";
-import FAQList from "../components/sections/FAQList.astro";
 import { getCollection } from "astro:content";
 
 const allProjects = await getCollection("projects");
@@ -40,33 +39,6 @@ const steps = [
   },
 ];
 
-const faqs = [
-  {
-    question: "How much should we budget for a new kitchen?",
-    answer:
-      "That depends on the size of the room, your cabinetry choices, worktops, appliances and whether any building work sits around the kitchen itself. We aim to give you useful cost guidance early, so you can make decisions with confidence.",
-  },
-  {
-    question: "How long does a typical project take?",
-    answer:
-      "Many projects take around three months from initial design through to installation. Exact timings depend on the scope of work, product choices and the room itself.",
-  },
-  {
-    question: "Do you handle installation as well as design?",
-    answer:
-      "Yes. Fini’s Kitchens offers a joined-up service covering design, supply and installation, so the process feels clearer and better coordinated.",
-  },
-  {
-    question: "Will the process feel very sales-led?",
-    answer:
-      "No. The approach is designed to feel calm, clear and low pressure, with practical advice and straightforward conversations rather than pushy selling.",
-  },
-  {
-    question: "Do you only work on large, high-end projects?",
-    answer:
-      "Not at all. The focus is on thoughtful, well-planned kitchens for real homes - with quality and care in the details, without unnecessary showroom drama.",
-  },
-];
 ---
 
 <BaseLayout
@@ -156,42 +128,6 @@ const faqs = [
     </div>
   </section>
 
-  <section class="section section--tight">
-    <div class="container section-frame stack stack--loose">
-      <header class="section-intro">
-        <div class="stack stack--tight">
-          <p class="eyebrow">Reassurance</p>
-          <h2>The questions most people want answered early.</h2>
-        </div>
-      </header>
-
-      <div class="trust-grid">
-        <article class="card card--surface trust-card">
-          <h3>What kind of budget is realistic?</h3>
-          <p class="muted">
-            Early cost guidance helps you understand what is possible and plan with more confidence.
-          </p>
-        </article>
-
-        <article class="card card--surface trust-card">
-          <h3>How long is this likely to take?</h3>
-          <p class="muted">
-            Clear expectations around timings make the whole experience feel calmer and easier to manage.
-          </p>
-        </article>
-
-        <article class="card card--surface trust-card">
-          <h3>Who is handling installation?</h3>
-          <p class="muted">
-            Knowing how the project is coordinated gives you more confidence from the outset.
-          </p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <FAQList items={faqs} />
-
   <section class="section">
     <div class="container">
       <div class="final-cta">
@@ -213,15 +149,6 @@ const faqs = [
 </BaseLayout>
 
 <style>
-  .trust-grid {
-    display: grid;
-    gap: var(--space-6);
-  }
-
-  .trust-card h3 {
-    margin-bottom: var(--space-3);
-  }
-
   .real-life {
     padding-block: clamp(4.5rem, 9vw, 8rem);
     color: var(--c-brand-50);
@@ -417,10 +344,6 @@ const faqs = [
   }
 
   @media (min-width: 48rem) {
-    .trust-grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
     .real-life__layout {
       grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
       align-items: start;
