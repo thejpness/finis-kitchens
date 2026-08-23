@@ -105,12 +105,14 @@ const { image } = Astro.props;
   .home-hero__title {
     max-width: 10ch;
     color: #fff;
-    font-size: clamp(3.15rem, 7vw, 6.5rem);
-    font-weight: 600;
-    line-height: 0.94;
-    letter-spacing: -0.055em;
+    font-family: var(--font-display);
+    font-size: clamp(3.15rem, 6.6vw, 6.1rem);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.022em;
     text-wrap: balance;
     text-shadow: 0 2px 24px rgba(7, 18, 30, 0.2);
+    font-optical-sizing: auto;
   }
 
   .home-hero__supporting {

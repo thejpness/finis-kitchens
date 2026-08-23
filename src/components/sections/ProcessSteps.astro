@@ -27,7 +27,7 @@ const { steps = [] } = Astro.props;
     <ol class="process-rail">
       {steps.map((step, index) => (
         <li class="process-rail__step">
-          <p class="process-rail__number">{String(index + 1).padStart(2, "0")}</p>
+          <p class="process-rail__number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</p>
           <div class="process-rail__copy">
             <h3>{step.title}</h3>
             <p>{step.body}</p>
@@ -177,7 +177,7 @@ const { steps = [] } = Astro.props;
     }
   }
 
-  @media (min-width: 64rem) {
+  @media (min-width: 72rem) {
     .process-rail {
       position: relative;
       grid-template-columns: repeat(5, minmax(0, 1fr));

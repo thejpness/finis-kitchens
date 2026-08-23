@@ -146,35 +146,40 @@ const legalLinks: { href: string; label: string }[] = [
 
       <div class="site-footer__bottom">
       <div class="container site-footer__bottom-inner">
-        <span>© {currentYear} Fini's Kitchens. All rights reserved.</span>
-        <span class="site-footer__meta">Company: 16193287</span>
+        <div class="site-footer__credit">
+          <span>© {currentYear} Fini's Kitchens. All rights reserved.</span>
 
-        <a
-          class="site-footer__studio"
-          href="https://southcoastapps.co.uk"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Built by South Coast Apps.
-        </a>
+          <a
+            class="site-footer__studio"
+            href="https://southcoastapps.co.uk"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Built by South Coast Apps.
+          </a>
+        </div>
 
-        <nav class="site-footer__legal" aria-label="Legal">
-          {legalLinks.map((l, idx) => {
-            const active = isActive(l.href);
-            return (
-              <>
-                <a
-                  href={l.href}
-                  class:list={["site-footer__legal-link", active && "is-active"]}
-                  aria-current={active ? "page" : undefined}
-                >
-                  {l.label}
-                </a>
-                {idx < legalLinks.length - 1 && <span aria-hidden="true">·</span>}
-              </>
-            );
-          })}
-        </nav>
+        <div class="site-footer__meta-group">
+          <span class="site-footer__meta">Company: 16193287</span>
+
+          <nav class="site-footer__legal" aria-label="Legal">
+            {legalLinks.map((l, idx) => {
+              const active = isActive(l.href);
+              return (
+                <>
+                  <a
+                    href={l.href}
+                    class:list={["site-footer__legal-link", active && "is-active"]}
+                    aria-current={active ? "page" : undefined}
+                  >
+                    {l.label}
+                  </a>
+                  {idx < legalLinks.length - 1 && <span aria-hidden="true">·</span>}
+                </>
+              );
+            })}
+          </nav>
+        </div>
       </div>
     </div>
   </div>
@@ -204,7 +209,7 @@ const legalLinks: { href: string; label: string }[] = [
 
   .site-footer__grid {
     display: grid;
-    grid-template-columns: minmax(0, 1.2fr) repeat(3, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1.2fr) repeat(2, minmax(0, 1fr));
     gap: var(--space-8);
     align-items: start;
   }
@@ -398,12 +403,24 @@ const legalLinks: { href: string; label: string }[] = [
 
   .site-footer__bottom-inner {
     padding-block: var(--space-4);
-    display: grid;
-    grid-template-columns: 1fr auto auto auto;
-    gap: var(--space-4);
+    display: flex;
+    justify-content: space-between;
     align-items: center;
+    gap: var(--space-6);
     font-size: 0.78rem;
     color: rgba(234, 240, 247, 0.58);
+  }
+
+  .site-footer__credit,
+  .site-footer__meta-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .site-footer__meta-group {
+    justify-content: flex-end;
   }
 
   .site-footer__meta {
@@ -414,7 +431,6 @@ const legalLinks: { href: string; label: string }[] = [
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
-    justify-self: end;
     white-space: nowrap;
   }
 
@@ -445,15 +461,15 @@ const legalLinks: { href: string; label: string }[] = [
     text-decoration-color: rgba(157, 184, 233, 0.92);
   }
   .site-footer__studio {
-    color: rgba(234, 240, 247, 0.72);
+    color: inherit;
     text-decoration: none;
     white-space: nowrap;
-    padding: 0.2rem 0.25rem;
+    padding: 0.2rem 0;
     border-radius: var(--radius-s);
   }
 
   .site-footer__studio:hover {
-    color: #fff;
+    color: rgba(234, 240, 247, 0.82);
     text-decoration: underline;
     text-underline-offset: 0.18em;
   }
@@ -490,12 +506,18 @@ const legalLinks: { href: string; label: string }[] = [
     }
 
     .site-footer__bottom-inner {
-      grid-template-columns: 1fr;
-      justify-items: start;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-3);
+    }
+
+    .site-footer__credit,
+    .site-footer__meta-group {
+      justify-content: flex-start;
+      gap: var(--space-2) var(--space-4);
     }
 
     .site-footer__legal {
-      justify-self: start;
       white-space: normal;
       flex-wrap: wrap;
     }

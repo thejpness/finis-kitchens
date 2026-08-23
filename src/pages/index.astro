@@ -159,10 +159,12 @@ const steps = [
 
   .real-life__intro h2 {
     color: #fff;
+    font-family: var(--font-display);
     font-size: clamp(2.35rem, 4.4vw, 4.35rem);
-    font-weight: 580;
-    line-height: 0.98;
-    letter-spacing: -0.045em;
+    font-weight: 500;
+    line-height: 1.04;
+    letter-spacing: -0.022em;
+    font-optical-sizing: auto;
   }
 
   .real-life__summary {
@@ -239,10 +241,12 @@ const steps = [
 
   .calmer-way__intro h2 {
     color: #fff;
+    font-family: var(--font-display);
     font-size: clamp(2.35rem, 4.4vw, 4.35rem);
-    font-weight: 580;
-    line-height: 0.98;
-    letter-spacing: -0.045em;
+    font-weight: 500;
+    line-height: 1.04;
+    letter-spacing: -0.022em;
+    font-optical-sizing: auto;
   }
 
   .calmer-way__summary {
@@ -322,6 +326,14 @@ const steps = [
       align-items: start;
     }
 
+    .calmer-way__layout {
+      grid-template-columns: minmax(0, 0.86fr) minmax(22rem, 1.14fr);
+      align-items: start;
+    }
+
+  }
+
+  @media (min-width: 72rem) {
     .real-life__principles {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -329,11 +341,5 @@ const steps = [
     .real-life__principle:nth-child(even) {
       margin-top: clamp(2.5rem, 6vw, 4.75rem);
     }
-
-    .calmer-way__layout {
-      grid-template-columns: minmax(0, 0.86fr) minmax(22rem, 1.14fr);
-      align-items: start;
-    }
-
   }
 </style>

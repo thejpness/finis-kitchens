@@ -91,6 +91,16 @@ const businessSchema = {
       crossorigin
     />
 
+    {headerOverlay && (
+      <link
+        rel="preload"
+        href="/fonts/NewsreaderVariable.woff2"
+        as="font"
+        type="font/woff2"
+        crossorigin
+      />
+    )}
+
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="en_GB" />
     <meta property="og:site_name" content="Fini's Kitchens" />
