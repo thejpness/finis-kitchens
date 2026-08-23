@@ -128,47 +128,6 @@ const faqs = [
 
   <ProcessSteps steps={steps} />
 
-  <section class="section section--tight">
-    <div class="container section-frame stack stack--loose">
-      <header class="section-intro">
-        <div class="stack stack--tight">
-          <p class="eyebrow">Why it matters</p>
-          <h2>The kitchen should work better on a normal day, not just look good in photographs.</h2>
-        </div>
-        <p class="muted text-measure">
-          A well-planned kitchen should feel easier, calmer and more natural to live with from the moment you start using it.
-        </p>
-      </header>
-
-      <div class="home-lifestyle__grid">
-        <article class="home-lifestyle__feature home-lifestyle__feature--large">
-          <p class="eyebrow">For busy families</p>
-          <h3>Better flow. Better storage. Less friction.</h3>
-          <p class="muted">
-            Create space for packed lunches, homework spillover, family dinners and the half-chaos of ordinary evenings
-            without the room feeling overloaded.
-          </p>
-        </article>
-
-        <article class="home-lifestyle__feature">
-          <p class="eyebrow">For long-term homeowners</p>
-          <h3>A kitchen you can live with for years</h3>
-          <p class="muted">
-            Thoughtful choices in layout, materials and finish help the room feel right now and still feel right later.
-          </p>
-        </article>
-
-        <article class="home-lifestyle__feature">
-          <p class="eyebrow">For downsizers or renovators</p>
-          <h3>Make every inch work harder</h3>
-          <p class="muted">
-            Smaller rooms and reworked spaces need sharper planning, smart storage and careful use of every corner.
-          </p>
-        </article>
-      </div>
-    </div>
-  </section>
-
   <ProjectPreviewGrid projects={featuredProjects} />
 
   <section class="section section--tight">
@@ -258,7 +217,6 @@ const faqs = [
 </BaseLayout>
 
 <style>
-  .home-lifestyle__grid,
   .trust-grid {
     display: grid;
     gap: var(--space-6);
@@ -349,20 +307,6 @@ const faqs = [
     line-height: var(--lh-snug);
   }
 
-  .home-lifestyle__feature {
-    padding: var(--space-7);
-    border: var(--border-1) solid var(--c-border);
-    border-radius: var(--radius-xl);
-    background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(246, 241, 234, 0.92) 100%);
-    box-shadow: var(--shadow-1);
-  }
-
-  .home-lifestyle__feature h3 {
-    margin-top: var(--space-2);
-    margin-bottom: var(--space-3);
-  }
-
   .founder-panel {
     display: grid;
     gap: var(--space-7);
@@ -401,15 +345,6 @@ const faqs = [
 
     .real-life__principle:nth-child(even) {
       margin-top: clamp(2.5rem, 6vw, 4.75rem);
-    }
-
-    .home-lifestyle__grid {
-      grid-template-columns: 1.4fr 1fr 1fr;
-      align-items: stretch;
-    }
-
-    .home-lifestyle__feature--large {
-      grid-row: 1 / span 2;
     }
 
     .founder-panel {
