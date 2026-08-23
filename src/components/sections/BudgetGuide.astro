@@ -51,14 +51,14 @@ const budgetTiers = [
 
 <style>
   .budget-guidance {
-    padding-block: clamp(4.5rem, 9vw, 8rem);
-    background: var(--c-oat-100);
+    padding-block: var(--home-section-y-tight);
+    background: var(--c-canvas-warm);
     scroll-margin-top: 6rem;
   }
 
   .budget-guidance__frame {
     display: grid;
-    gap: clamp(3rem, 6vw, 5rem);
+    gap: var(--home-layout-gap-tight);
   }
 
   .budget-guidance__intro {
@@ -69,16 +69,17 @@ const budgetTiers = [
 
   .budget-guidance__eyebrow {
     margin-bottom: var(--space-4);
-    color: var(--c-brand-700);
-    font-size: 0.72rem;
-    font-weight: 650;
-    letter-spacing: var(--ls-wide);
+    color: var(--c-blue);
+    font-size: var(--eyebrow-size);
+    font-weight: var(--eyebrow-weight);
+    letter-spacing: var(--eyebrow-tracking);
     text-transform: uppercase;
+    line-height: var(--eyebrow-line-height);
   }
 
   .budget-guidance__intro h2 {
     max-width: 12ch;
-    color: var(--c-brand-900);
+    color: var(--c-ink);
     font-size: clamp(2.35rem, 4.4vw, 4.35rem);
     font-weight: 580;
     line-height: 0.98;
@@ -87,7 +88,7 @@ const budgetTiers = [
 
   .budget-guidance__summary {
     max-width: 34ch;
-    color: var(--c-brand-800);
+    color: var(--c-navy);
     font-size: var(--fs-2);
     line-height: var(--lh-snug);
   }
@@ -97,7 +98,7 @@ const budgetTiers = [
     padding: 0;
     margin: 0;
     list-style: none;
-    border-top: 1px solid var(--c-brand-300);
+    border-top: var(--border-1) solid var(--c-rule-blue);
   }
 
   .budget-guidance__tier {
@@ -106,11 +107,11 @@ const budgetTiers = [
     gap: var(--space-3);
     min-height: 12.5rem;
     padding: var(--space-6) 0;
-    border-bottom: 1px solid var(--c-brand-300);
+    border-bottom: var(--border-1) solid var(--c-rule-blue);
   }
 
   .budget-guidance__range {
-    color: var(--c-brand-800);
+    color: var(--c-navy);
     font-size: clamp(2.65rem, 4.8vw, 4.85rem);
     font-weight: 590;
     line-height: 0.9;
@@ -119,7 +120,7 @@ const budgetTiers = [
 
   .budget-guidance__tier h3 {
     max-width: 19ch;
-    color: var(--c-brand-900);
+    color: var(--c-ink);
     font-size: clamp(1.1rem, 1.4vw, 1.3rem);
     font-weight: 600;
     line-height: 1.18;
@@ -131,7 +132,7 @@ const budgetTiers = [
     align-items: center;
     gap: var(--space-3);
     width: fit-content;
-    color: var(--c-brand-800);
+    color: var(--c-navy);
     font-size: var(--fs-0);
     font-weight: 650;
     text-decoration: none;
@@ -151,7 +152,7 @@ const budgetTiers = [
   }
 
   .budget-guidance__link:focus-visible {
-    outline-color: var(--c-brand-700);
+    outline-color: var(--c-blue);
     outline-offset: 5px;
   }
 
@@ -165,19 +166,19 @@ const budgetTiers = [
     }
 
     .budget-guidance__tier {
-      min-height: clamp(14rem, 22vw, 18rem);
-      padding: clamp(var(--space-6), 3vw, var(--space-8));
+      min-height: clamp(11.5rem, 16vw, 13.5rem);
+      padding: clamp(var(--space-5), 2vw, var(--space-7));
       border-bottom: 0;
     }
 
     .budget-guidance__tier + .budget-guidance__tier {
-      border-left: 1px solid var(--c-brand-300);
+      border-left: var(--border-1) solid var(--c-rule-blue);
     }
 
     .budget-guidance__tiers::after {
       content: "";
       grid-column: 1 / -1;
-      border-bottom: 1px solid var(--c-brand-300);
+      border-bottom: var(--border-1) solid var(--c-rule-blue);
     }
   }
 

@@ -45,13 +45,13 @@ const { steps = [] } = Astro.props;
 
 <style>
   .process-teaser {
-    padding-block: clamp(4.5rem, 9vw, 8rem);
-    background: var(--c-bg);
+    padding-block: var(--home-section-y-tight);
+    background: var(--c-paper);
   }
 
   .process-teaser__frame {
     display: grid;
-    gap: clamp(3rem, 6vw, 5rem);
+    gap: var(--home-layout-gap-tight);
   }
 
   .process-teaser__intro {
@@ -62,16 +62,17 @@ const { steps = [] } = Astro.props;
 
   .process-teaser__eyebrow {
     margin-bottom: var(--space-4);
-    color: var(--c-brand-700);
-    font-size: 0.72rem;
-    font-weight: 650;
-    letter-spacing: var(--ls-wide);
+    color: var(--c-blue);
+    font-size: var(--eyebrow-size);
+    font-weight: var(--eyebrow-weight);
+    letter-spacing: var(--eyebrow-tracking);
     text-transform: uppercase;
+    line-height: var(--eyebrow-line-height);
   }
 
   .process-teaser__intro h2 {
     max-width: 14ch;
-    color: var(--c-brand-900);
+    color: var(--c-ink);
     font-size: clamp(2.35rem, 4.4vw, 4.35rem);
     font-weight: 580;
     line-height: 0.98;
@@ -80,7 +81,7 @@ const { steps = [] } = Astro.props;
 
   .process-teaser__summary {
     max-width: 33ch;
-    color: var(--c-brand-800);
+    color: var(--c-navy);
     font-size: var(--fs-2);
     line-height: var(--lh-snug);
   }
@@ -91,7 +92,7 @@ const { steps = [] } = Astro.props;
     padding: 0 0 0 var(--space-8);
     margin: 0;
     list-style: none;
-    border-left: 1px solid var(--c-brand-300);
+    border-left: var(--border-1) solid var(--c-rule-blue);
   }
 
   .process-rail__step {
@@ -113,12 +114,12 @@ const { steps = [] } = Astro.props;
     width: 0.62rem;
     height: 0.62rem;
     border-radius: 50%;
-    background: var(--c-brand-600);
-    box-shadow: 0 0 0 4px var(--c-bg);
+    background: var(--c-blue-muted);
+    box-shadow: 0 0 0 4px var(--c-paper);
   }
 
   .process-rail__number {
-    color: var(--c-brand-700);
+    color: var(--c-blue);
     font-size: clamp(2.45rem, 5vw, 4rem);
     font-weight: 590;
     line-height: 0.84;
@@ -127,7 +128,7 @@ const { steps = [] } = Astro.props;
 
   .process-rail__copy h3 {
     max-width: 22ch;
-    color: var(--c-brand-900);
+    color: var(--c-ink);
     font-size: clamp(1.2rem, 1.6vw, 1.45rem);
     font-weight: 600;
     line-height: 1.12;
@@ -147,7 +148,7 @@ const { steps = [] } = Astro.props;
     align-items: center;
     gap: var(--space-3);
     width: fit-content;
-    color: var(--c-brand-800);
+    color: var(--c-navy);
     font-size: var(--fs-0);
     font-weight: 650;
     text-decoration: none;
@@ -167,7 +168,7 @@ const { steps = [] } = Astro.props;
   }
 
   .process-teaser__link:focus-visible {
-    outline-color: var(--c-brand-700);
+    outline-color: var(--c-blue);
     outline-offset: 5px;
   }
 
@@ -193,7 +194,7 @@ const { steps = [] } = Astro.props;
       right: clamp(1.1rem, 2vw, 1.65rem);
       left: 0;
       height: 1px;
-      background: var(--c-brand-300);
+      background: var(--c-rule-blue);
     }
 
     .process-rail__step {
@@ -202,11 +203,12 @@ const { steps = [] } = Astro.props;
     }
 
     .process-rail__step::before {
+      z-index: 2;
       top: clamp(2.72rem, 3.7vw, 3.35rem);
       left: 0;
       width: 0.68rem;
       height: 0.68rem;
-      box-shadow: 0 0 0 4px var(--c-bg);
+      box-shadow: 0 0 0 4px var(--c-paper);
     }
 
     .process-rail__number {
@@ -214,7 +216,7 @@ const { steps = [] } = Astro.props;
       z-index: 1;
       width: fit-content;
       padding-right: var(--space-3);
-      background: var(--c-bg);
+      background: var(--c-paper);
     }
 
     .process-rail__copy {

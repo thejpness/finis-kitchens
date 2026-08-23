@@ -68,13 +68,13 @@ const description = featuredProject?.data.description ?? "A completed Fini’s K
 
 <style>
   .project-preview {
-    padding-block: clamp(4.5rem, 9vw, 8rem);
-    background: var(--c-oat-100);
+    padding-block: var(--home-section-y);
+    background: var(--c-canvas);
   }
 
   .project-preview__frame {
     display: grid;
-    gap: clamp(2.5rem, 5vw, 4.5rem);
+    gap: var(--home-layout-gap);
   }
 
   .project-preview__intro {
@@ -83,10 +83,11 @@ const description = featuredProject?.data.description ?? "A completed Fini’s K
 
   .project-preview__eyebrow,
   .project-feature__location {
-    color: var(--c-brand-700);
-    font-size: 0.72rem;
-    font-weight: 650;
-    letter-spacing: var(--ls-wide);
+    color: var(--c-blue);
+    font-size: var(--eyebrow-size);
+    font-weight: var(--eyebrow-weight);
+    line-height: var(--eyebrow-line-height);
+    letter-spacing: var(--eyebrow-tracking);
     text-transform: uppercase;
   }
 
@@ -95,7 +96,7 @@ const description = featuredProject?.data.description ?? "A completed Fini’s K
   }
 
   .project-preview__intro h2 {
-    color: var(--c-brand-900);
+    color: var(--c-ink);
     font-size: clamp(2.35rem, 4.4vw, 4.35rem);
     font-weight: 580;
     line-height: 0.98;
@@ -104,14 +105,14 @@ const description = featuredProject?.data.description ?? "A completed Fini’s K
 
   .project-feature {
     display: grid;
-    gap: clamp(2rem, 5vw, 5.5rem);
-    align-items: end;
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: center;
   }
 
   .project-feature__image {
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 5 / 6;
     overflow: hidden;
-    border-radius: var(--radius-l);
+    border-radius: 0.75rem;
     background: var(--c-surface-2);
   }
 
@@ -134,7 +135,7 @@ const description = featuredProject?.data.description ?? "A completed Fini’s K
   }
 
   .project-feature__content h3 {
-    color: var(--c-brand-900);
+    color: var(--c-ink);
     font-size: clamp(1.75rem, 2.5vw, 2.7rem);
     font-weight: 580;
     line-height: 1.02;
@@ -153,7 +154,7 @@ const description = featuredProject?.data.description ?? "A completed Fini’s K
     align-items: center;
     gap: var(--space-3);
     width: fit-content;
-    color: var(--c-brand-800);
+    color: var(--c-navy);
     font-size: var(--fs-0);
     font-weight: 650;
   }
@@ -180,7 +181,7 @@ const description = featuredProject?.data.description ?? "A completed Fini’s K
 
   .project-feature__link:focus-visible,
   .project-preview__all-link:focus-visible {
-    outline-color: var(--c-brand-700);
+    outline-color: var(--c-blue);
     outline-offset: 5px;
   }
 
@@ -196,7 +197,7 @@ const description = featuredProject?.data.description ?? "A completed Fini’s K
     }
 
     .project-feature__content {
-      padding-bottom: clamp(1rem, 4vw, 4rem);
+      padding-bottom: 0;
     }
   }
 

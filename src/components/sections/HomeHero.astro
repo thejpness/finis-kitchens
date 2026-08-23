@@ -19,7 +19,7 @@ const { image } = Astro.props;
       class="home-hero__image"
       src={image}
       alt="A warm contemporary kitchen with pale cabinetry, timber shelving and an island."
-      widths={[640, 960, 1376]}
+      widths={[640, 960, 1376, 1920, 2560]}
       sizes="100vw"
       priority
     />
@@ -95,11 +95,12 @@ const { image } = Astro.props;
 
   .home-hero__eyebrow {
     margin-bottom: var(--space-4);
-    font-size: 0.72rem;
-    font-weight: 650;
-    letter-spacing: var(--ls-wide);
+    font-size: var(--eyebrow-size);
+    font-weight: var(--eyebrow-weight);
+    letter-spacing: var(--eyebrow-tracking);
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.78);
+    color: rgba(255, 255, 255, 0.82);
+    line-height: var(--eyebrow-line-height);
   }
 
   .home-hero__title {

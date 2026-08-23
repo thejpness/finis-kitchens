@@ -133,15 +133,15 @@ const steps = [
 
 <style>
   .real-life {
-    padding-block: clamp(4.5rem, 9vw, 8rem);
+    padding-block: var(--home-section-y);
     color: var(--c-brand-50);
-    background: var(--c-brand-900);
+    background: var(--c-navy);
     scroll-margin-top: 6rem;
   }
 
   .real-life__layout {
     display: grid;
-    gap: clamp(3.5rem, 7vw, 7rem);
+    gap: var(--home-layout-gap);
   }
 
   .real-life__intro {
@@ -150,11 +150,12 @@ const steps = [
 
   .real-life__eyebrow {
     margin-bottom: var(--space-4);
-    color: var(--c-brand-300);
-    font-size: 0.72rem;
-    font-weight: 650;
-    letter-spacing: var(--ls-wide);
+    color: var(--c-blue-pale);
+    font-size: var(--eyebrow-size);
+    font-weight: var(--eyebrow-weight);
+    letter-spacing: var(--eyebrow-tracking);
     text-transform: uppercase;
+    line-height: var(--eyebrow-line-height);
   }
 
   .real-life__intro h2 {
@@ -169,7 +170,7 @@ const steps = [
 
   .real-life__summary {
     margin-top: var(--space-6);
-    color: var(--c-brand-100);
+    color: rgba(255, 253, 250, 0.82);
     font-size: var(--fs-2);
     line-height: var(--lh-loose);
   }
@@ -186,13 +187,13 @@ const steps = [
     display: grid;
     grid-template-columns: 2.5rem minmax(0, 1fr);
     gap: var(--space-3);
-    padding-block: var(--space-6) var(--space-7);
-    border-top: 1px solid rgba(185, 208, 239, 0.32);
+    padding-block: var(--space-5) var(--space-6);
+    border-top: var(--border-1) solid var(--c-rule-on-dark);
   }
 
   .real-life__number {
     padding-top: 0.24rem;
-    color: var(--c-brand-300);
+    color: var(--c-blue-pale);
     font-size: var(--fs-0);
     font-weight: 650;
     letter-spacing: 0.08em;
@@ -210,20 +211,20 @@ const steps = [
   .real-life__principle p {
     max-width: 34ch;
     margin-top: var(--space-3);
-    color: var(--c-brand-100);
+    color: rgba(255, 253, 250, 0.82);
     font-size: var(--fs-0);
     line-height: var(--lh-snug);
   }
 
   .calmer-way {
-    padding-block: clamp(4.5rem, 9vw, 8rem);
+    padding-block: var(--home-section-y);
     color: var(--c-brand-50);
-    background: var(--c-brand-900);
+    background: var(--c-navy);
   }
 
   .calmer-way__layout {
     display: grid;
-    gap: clamp(3rem, 7vw, 7rem);
+    gap: var(--home-layout-gap);
   }
 
   .calmer-way__intro {
@@ -232,11 +233,12 @@ const steps = [
 
   .calmer-way__eyebrow {
     margin-bottom: var(--space-4);
-    color: var(--c-brand-300);
-    font-size: 0.72rem;
-    font-weight: 650;
-    letter-spacing: var(--ls-wide);
+    color: var(--c-blue-pale);
+    font-size: var(--eyebrow-size);
+    font-weight: var(--eyebrow-weight);
+    letter-spacing: var(--eyebrow-tracking);
     text-transform: uppercase;
+    line-height: var(--eyebrow-line-height);
   }
 
   .calmer-way__intro h2 {
@@ -252,14 +254,14 @@ const steps = [
   .calmer-way__summary {
     max-width: 35ch;
     margin-top: var(--space-6);
-    color: var(--c-brand-100);
+    color: rgba(255, 253, 250, 0.82);
     font-size: var(--fs-2);
     line-height: var(--lh-loose);
   }
 
   .calmer-way__detail {
     display: grid;
-    gap: clamp(2.5rem, 5vw, 4rem);
+    gap: var(--home-layout-gap-tight);
     align-content: start;
   }
 
@@ -271,8 +273,8 @@ const steps = [
 
   .calmer-way__points li {
     position: relative;
-    padding: var(--space-5) 0 var(--space-5) 1.45rem;
-    border-top: 1px solid rgba(185, 208, 239, 0.32);
+    padding: var(--space-4) 0 var(--space-4) 1.45rem;
+    border-top: var(--border-1) solid var(--c-rule-on-dark);
     color: #fff;
     font-size: clamp(1.05rem, 1.4vw, 1.2rem);
     font-weight: 560;
@@ -282,16 +284,17 @@ const steps = [
   .calmer-way__points li::before {
     content: "";
     position: absolute;
-    top: 1.2rem;
+    top: calc(var(--space-4) + 0.68em);
     left: 0;
     width: 0.5rem;
     height: 0.5rem;
+    transform: translateY(-50%);
     border-radius: 50%;
-    background: var(--c-brand-300);
+    background: var(--c-blue-pale);
   }
 
   .calmer-way__points li:last-child {
-    border-bottom: 1px solid rgba(185, 208, 239, 0.32);
+    border-bottom: var(--border-1) solid var(--c-rule-on-dark);
   }
 
   .calmer-way__actions {
@@ -302,7 +305,7 @@ const steps = [
   }
 
   .calmer-way__about-link {
-    color: var(--c-brand-100);
+    color: rgba(255, 253, 250, 0.82);
     font-size: var(--fs-0);
     font-weight: 600;
     text-decoration: underline;
@@ -339,7 +342,7 @@ const steps = [
     }
 
     .real-life__principle:nth-child(even) {
-      margin-top: clamp(2.5rem, 6vw, 4.75rem);
+      margin-top: clamp(1.5rem, 3vw, 3rem);
     }
   }
 </style>
