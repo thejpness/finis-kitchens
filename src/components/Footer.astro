@@ -3,6 +3,7 @@
 import WhatsAppButton from "./WhatsAppButton.astro";
 
 const currentYear = new Date().getFullYear();
+const { flushTop = false } = Astro.props;
 
 const pathname = Astro.url?.pathname ?? "/";
 const isActive = (href: string) => {
@@ -24,7 +25,7 @@ const legalLinks: { href: string; label: string }[] = [
 ];
 ---
 
-<footer class="site-footer">
+<footer class:list={["site-footer", flushTop && "site-footer--flush"]}>
   <div class="container site-footer__inner">
     <div class="site-footer__grid">
       <!-- Brand -->
@@ -186,6 +187,10 @@ const legalLinks: { href: string; label: string }[] = [
       radial-gradient(circle at top left, rgba(157, 184, 233, 0.18) 0%, rgba(157, 184, 233, 0) 34%),
       linear-gradient(180deg, #132234 0%, #0f1b2a 100%);
     color: #eaf0f7;
+  }
+
+  .site-footer--flush {
+    margin-top: 0;
   }
 
   .site-footer p,
@@ -473,6 +478,10 @@ const legalLinks: { href: string; label: string }[] = [
   @media (max-width: 560px) {
     .site-footer {
       margin-top: var(--space-10);
+    }
+
+    .site-footer--flush {
+      margin-top: 0;
     }
 
     .site-footer__grid {
