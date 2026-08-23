@@ -19,7 +19,7 @@ const { image } = Astro.props;
       class="home-hero__image"
       src={image}
       alt="A warm contemporary kitchen with pale cabinetry, timber shelving and an island."
-      widths={[640, 960, 1376]}
+      widths={[640, 960, 1376, 1920, 2560]}
       sizes="100vw"
       priority
     />
@@ -95,22 +95,25 @@ const { image } = Astro.props;
 
   .home-hero__eyebrow {
     margin-bottom: var(--space-4);
-    font-size: 0.72rem;
-    font-weight: 650;
-    letter-spacing: var(--ls-wide);
+    font-size: var(--eyebrow-size);
+    font-weight: var(--eyebrow-weight);
+    letter-spacing: var(--eyebrow-tracking);
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.78);
+    color: rgba(255, 255, 255, 0.82);
+    line-height: var(--eyebrow-line-height);
   }
 
   .home-hero__title {
     max-width: 10ch;
     color: #fff;
-    font-size: clamp(3.15rem, 7vw, 6.5rem);
-    font-weight: 600;
-    line-height: 0.94;
-    letter-spacing: -0.055em;
+    font-family: var(--font-display);
+    font-size: clamp(3.15rem, 6.6vw, 6.1rem);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.022em;
     text-wrap: balance;
     text-shadow: 0 2px 24px rgba(7, 18, 30, 0.2);
+    font-optical-sizing: auto;
   }
 
   .home-hero__supporting {

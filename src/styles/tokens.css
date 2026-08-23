@@ -24,6 +24,32 @@
     --c-wood-400: #b9926f;
     --c-wood-500: #9b7758;
 
+    /* v1.1 editorial palette
+       Semantic additions: migrate deliberately rather than
+       replacing the legacy brand ramp globally. */
+    --c-ink: #0c2031;
+    --c-navy: #15364f;
+    --c-blue: #366b91;
+    --c-blue-muted: #6f94af;
+    --c-blue-pale: #b9d1df;
+    --c-canvas: #fbf9f4;
+    --c-canvas-warm: #f3eee5;
+    --c-paper: #fffdfc;
+    --c-rule-blue: rgba(111, 148, 175, 0.28);
+    --c-rule-on-dark: rgba(185, 209, 223, 0.26);
+
+    /* Editorial micro-type */
+    --eyebrow-size: 0.7rem;
+    --eyebrow-weight: 650;
+    --eyebrow-tracking: 0.16em;
+    --eyebrow-line-height: 1.2;
+
+    /* Homepage vertical rhythm */
+    --home-section-y: clamp(3.75rem, 6vw, 5.75rem);
+    --home-section-y-tight: clamp(3.5rem, 5vw, 5rem);
+    --home-layout-gap: clamp(2.5rem, 4.5vw, 4.25rem);
+    --home-layout-gap-tight: clamp(2rem, 3.5vw, 3.25rem);
+
     /* Semantic surfaces */
     --c-bg: #fcfaf6;
     --c-surface: #ffffff;
@@ -59,6 +85,7 @@
       system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
       "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
 
+    --font-display: "Newsreader", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
     --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
       "Liberation Mono", "Courier New", monospace;

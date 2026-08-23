@@ -121,7 +121,7 @@ const contactActive = isActive("/contact");
       const navLabel = header.querySelector("[data-nav-label]");
       if (!(nav instanceof HTMLElement) || !(btn instanceof HTMLButtonElement)) return;
 
-      const mq = window.matchMedia("(min-width: 860px)");
+      const mq = window.matchMedia("(min-width: 960px)");
       let lastFocused = null;
 
       let pageBackdrop = document.querySelector(".site-nav-page-backdrop");
@@ -322,64 +322,27 @@ const contactActive = isActive("/contact");
     top: 0;
     z-index: 80;
     isolation: isolate;
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    background: rgba(247, 250, 255, 0.78);
-    border-bottom: 1px solid rgba(217, 227, 238, 0.55);
-    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+    background: rgba(252, 250, 246, 0.97);
+    border-bottom: 1px solid rgba(31, 41, 51, 0.09);
+    box-shadow: none;
     transition:
       background var(--dur-2) var(--ease-out),
-      border-color var(--dur-2) var(--ease-out),
-      box-shadow var(--dur-2) var(--ease-out);
+      border-color var(--dur-2) var(--ease-out);
   }
 
   .site-header::before,
   .site-header::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 1px;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity var(--dur-2) var(--ease-out);
-  }
-
-  .site-header::before {
-    top: 0;
-    background: linear-gradient(
-      to right,
-      transparent,
-      rgba(255, 255, 255, 0.72),
-      transparent
-    );
-  }
-
-  .site-header::after {
-    bottom: -1px;
-    background: linear-gradient(
-      to right,
-      transparent,
-      rgba(15, 23, 42, 0.08),
-      transparent
-    );
+    display: none;
   }
 
   .site-header.is-top {
-    background: rgba(247, 250, 255, 0.52);
-    border-bottom-color: rgba(217, 227, 238, 0.35);
-    box-shadow: none;
+    background: rgba(252, 250, 246, 0.94);
+    border-bottom-color: rgba(31, 41, 51, 0.07);
   }
 
   .site-header.is-scrolled {
-    background: rgba(247, 250, 255, 0.92);
-    border-bottom-color: rgba(217, 227, 238, 0.78);
-    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.1);
-  }
-
-  .site-header.is-scrolled::before,
-  .site-header.is-scrolled::after {
-    opacity: 1;
+    background: rgba(252, 250, 246, 0.99);
+    border-bottom-color: rgba(31, 41, 51, 0.12);
   }
 
   @supports not ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
@@ -402,8 +365,8 @@ const contactActive = isActive("/contact");
   }
 
   .site-header--hero.is-top .site-header__brand-mark-wrap {
-    background: rgba(21, 45, 65, 0.62);
-    border-color: rgba(255, 255, 255, 0.36);
+    background: transparent;
+    border-color: transparent;
     box-shadow: none;
   }
 
@@ -411,7 +374,7 @@ const contactActive = isActive("/contact");
   .site-header--hero.is-top .site-header__brand-tag,
   .site-header--hero.is-top .site-nav__link {
     color: #fff;
-    text-shadow: 0 2px 12px rgba(7, 18, 30, 0.35);
+    text-shadow: none;
   }
 
   .site-header--hero.is-top .site-header__brand-copy::after {
@@ -423,8 +386,8 @@ const contactActive = isActive("/contact");
   .site-header--hero.is-top .site-nav__link.is-active,
   .site-header--hero.is-top .site-nav__link[aria-current="page"] {
     color: #fff;
-    background: rgba(255, 255, 255, 0.14);
-    border-color: rgba(255, 255, 255, 0.24);
+    background: transparent;
+    border-color: transparent;
     box-shadow: none;
   }
 
@@ -479,16 +442,10 @@ const contactActive = isActive("/contact");
     place-items: center;
     width: clamp(46px, 5.2vw, 54px);
     aspect-ratio: 1;
-    border-radius: 1rem;
-    background: linear-gradient(
-      180deg,
-      rgba(157, 184, 233, 0.24),
-      rgba(157, 184, 233, 0.1)
-    );
-    border: 1px solid rgba(157, 184, 233, 0.34);
-    box-shadow:
-      0 8px 18px rgba(15, 23, 42, 0.07),
-      inset 0 1px 0 rgba(255, 255, 255, 0.55);
+    border-radius: 0.5rem;
+    background: transparent;
+    border: 1px solid transparent;
+    box-shadow: none;
     overflow: hidden;
     transition: transform var(--dur-2) var(--ease-out);
     flex-shrink: 0;
@@ -511,18 +468,7 @@ const contactActive = isActive("/contact");
   }
 
   .site-header__brand-copy::after {
-    content: "";
-    width: 3rem;
-    height: 0.24rem;
-    margin-top: 0.12rem;
-    border-radius: 999px;
-    background: linear-gradient(
-      90deg,
-      rgba(157, 184, 233, 0.18),
-      rgba(78, 109, 149, 0.95),
-      rgba(157, 184, 233, 0.18)
-    );
-    box-shadow: 0 4px 10px rgba(78, 109, 149, 0.16);
+    display: none;
   }
 
   .site-header__brand-name {
@@ -532,9 +478,7 @@ const contactActive = isActive("/contact");
     line-height: 0.86;
     letter-spacing: -0.03em;
     color: #1f2a37;
-    text-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.5),
-      0 8px 18px rgba(15, 23, 42, 0.06);
+    text-shadow: none;
     white-space: nowrap;
   }
 
@@ -546,7 +490,7 @@ const contactActive = isActive("/contact");
     transform: translateY(-0.04rem);
     padding-left: 0.16rem;
     white-space: nowrap;
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45);
+    text-shadow: none;
   }
 
   .site-header.is-compact .site-header__brand-mark-wrap {
@@ -559,24 +503,19 @@ const contactActive = isActive("/contact");
     justify-content: center;
     width: 46px;
     height: 46px;
-    border-radius: 999px;
-    border: 1px solid rgba(157, 184, 233, 0.28);
-    background: rgba(255, 255, 255, 0.82);
+    border-radius: 0.5rem;
+    border: 1px solid rgba(31, 41, 51, 0.14);
+    background: rgba(255, 255, 255, 0.72);
     color: var(--c-text);
-    box-shadow:
-      0 10px 20px rgba(15, 23, 42, 0.08),
-      inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    box-shadow: none;
     cursor: pointer;
     transition:
-      transform var(--dur-2) var(--ease-out),
       background var(--dur-2) var(--ease-out),
-      border-color var(--dur-2) var(--ease-out),
-      box-shadow var(--dur-2) var(--ease-out);
+      border-color var(--dur-2) var(--ease-out);
   }
 
   .site-nav__toggle:hover {
-    transform: translateY(-1px);
-    border-color: rgba(157, 184, 233, 0.45);
+    border-color: rgba(31, 41, 51, 0.24);
     background: rgba(255, 255, 255, 0.94);
   }
 
@@ -665,24 +604,20 @@ const contactActive = isActive("/contact");
 
   .site-nav__link {
     color: var(--c-text);
-    padding: 0.72rem 0.9rem 0.9rem;
-    border-radius: 999px;
+    padding: 0.72rem 0.82rem 0.88rem;
+    border-radius: 0.375rem;
     text-decoration: none;
     position: relative;
     white-space: nowrap;
     background: transparent;
     border: 1px solid transparent;
-    transition:
-      color var(--dur-2) var(--ease-out),
-      background var(--dur-2) var(--ease-out),
-      border-color var(--dur-2) var(--ease-out),
-      transform var(--dur-2) var(--ease-out);
+    transition: color var(--dur-2) var(--ease-out);
   }
 
   .site-nav__link:hover {
     color: var(--c-accent);
-    background: rgba(157, 184, 233, 0.1);
-    border-color: rgba(157, 184, 233, 0.14);
+    background: transparent;
+    border-color: transparent;
   }
 
   .site-nav__link:focus-visible {
@@ -696,14 +631,9 @@ const contactActive = isActive("/contact");
     left: 50%;
     bottom: 0.46rem;
     width: min(2.4rem, calc(100% - 1.4rem));
-    height: 3px;
-    border-radius: 999px;
-    background: linear-gradient(
-      90deg,
-      rgba(157, 184, 233, 0.2),
-      rgba(78, 109, 149, 0.96),
-      rgba(157, 184, 233, 0.2)
-    );
+    height: 1px;
+    border-radius: 0;
+    background: currentColor;
     transform: translateX(-50%) scaleX(0.42);
     opacity: 0;
     transition:
@@ -713,10 +643,10 @@ const contactActive = isActive("/contact");
 
   .site-nav__link.is-active,
   .site-nav__link[aria-current="page"] {
-    color: var(--c-text);
-    background: rgba(157, 184, 233, 0.12);
-    border-color: rgba(157, 184, 233, 0.18);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.56);
+    color: var(--c-accent-strong);
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
   }
 
   .site-nav__link.is-active::after,
@@ -728,15 +658,19 @@ const contactActive = isActive("/contact");
   .site-nav__cta {
     margin-left: 0.25rem;
     white-space: nowrap;
-    box-shadow: 0 10px 22px rgba(78, 109, 149, 0.18);
+    border-radius: 0.5rem;
+    box-shadow: none;
+  }
+
+  .site-nav__cta:hover {
+    transform: none;
+    box-shadow: none;
   }
 
   .site-nav__cta.is-active,
   .site-nav__cta[aria-current="page"] {
-    filter: saturate(1.05);
-    box-shadow:
-      0 12px 24px rgba(78, 109, 149, 0.22),
-      inset 0 1px 0 rgba(255, 255, 255, 0.28);
+    filter: none;
+    box-shadow: none;
   }
 
   :global(body.nav-open) {
@@ -802,7 +736,7 @@ const contactActive = isActive("/contact");
     }
   }
 
-  @media (max-width: 859px) {
+  @media (max-width: 959px) {
     .site-header__inner {
       grid-template-columns: 1fr auto;
       gap: 0.75rem;
@@ -846,12 +780,15 @@ const contactActive = isActive("/contact");
 
     .site-nav {
       position: fixed;
-      inset: 0;
+      top: 4.7rem;
+      right: 0;
+      bottom: 0;
+      left: 0;
       z-index: 81;
       display: grid;
       place-items: start center;
       padding: 0;
-      background: transparent;
+      background: #faf7f1;
       pointer-events: none;
       opacity: 0;
       transition: opacity var(--dur-2) var(--ease-out);
@@ -863,28 +800,28 @@ const contactActive = isActive("/contact");
     }
 
     .site-header.nav-open {
-      background: rgba(247, 250, 255, 0.96);
-      border-bottom-color: rgba(217, 227, 238, 0.78);
-      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+      background: #fbf9f4;
+      border-bottom-color: rgba(31, 41, 51, 0.1);
+      box-shadow: none;
     }
 
     .site-header.nav-open .site-header__brand {
-      opacity: 0;
-      transform: translateY(-0.2rem);
-      pointer-events: none;
+      opacity: 1;
+      transform: none;
+      pointer-events: auto;
     }
 
     .site-nav__panel {
       position: relative;
       z-index: 1;
       display: grid;
-      gap: 0.9rem;
-      width: min(calc(100% - 2rem), 32rem);
-      margin:
-        max(5.5rem, calc(env(safe-area-inset-top) + 4.9rem))
-        auto
-        0;
-      transform: translateY(0.85rem) scale(0.985);
+      grid-template-rows: auto auto 1fr;
+      gap: 1.55rem;
+      width: min(calc(100% - 2.75rem), 32rem);
+      min-height: calc(100dvh - 6.5rem);
+      margin: 0 auto;
+      padding: 1.8rem 0 1.45rem;
+      transform: translateY(0.35rem);
       opacity: 0;
       pointer-events: none;
       transition:
@@ -893,47 +830,46 @@ const contactActive = isActive("/contact");
     }
 
     .site-header.nav-open .site-nav__panel {
-      transform: translateY(0) scale(1);
+      transform: translateY(0);
       opacity: 1;
       pointer-events: auto;
     }
 
     .site-nav__meta {
-      display: grid;
-      gap: 0.18rem;
-      padding: 0 0.2rem;
+      display: block;
+      padding: 0;
     }
 
     .site-nav__eyebrow {
       margin: 0;
-      font-size: 0.72rem;
-      letter-spacing: 0.16em;
+      color: var(--c-brand-700);
+      font-size: 0.7rem;
+      font-weight: 650;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: var(--c-muted);
     }
 
     .site-nav__title {
-      margin: 0;
-      font-family: "Baloo 2", var(--font-sans, Inter, system-ui, sans-serif);
-      font-size: 1.2rem;
-      line-height: 0.95;
-      color: var(--c-text);
+      display: none;
     }
 
     .site-nav__list {
       display: grid;
-      gap: 0.55rem;
-      padding: 0.78rem;
-      border-radius: 1.4rem;
-      background: rgba(255, 255, 255, 0.995);
-      border: 1px solid rgba(157, 184, 233, 0.22);
-      box-shadow:
-        0 24px 50px rgba(15, 23, 42, 0.18),
-        inset 0 1px 0 rgba(255, 255, 255, 0.88);
+      gap: 0;
+      padding: 0.3rem 0;
+      border-radius: 0;
+      background: transparent;
+      border-top: 1px solid rgba(31, 41, 51, 0.14);
+      border-bottom: 1px solid rgba(31, 41, 51, 0.14);
+      box-shadow: none;
     }
 
     .site-nav__item {
       display: block;
+    }
+
+    .site-nav__item + .site-nav__item {
+      border-top: 0;
     }
 
     .site-nav__link {
@@ -942,11 +878,13 @@ const contactActive = isActive("/contact");
       justify-content: space-between;
       width: 100%;
       min-height: 3.35rem;
-      padding: 0.95rem 1rem;
-      border-radius: 1rem;
+      padding: 0.76rem 0.15rem;
+      border-radius: 0;
       background: transparent;
-      border: 1px solid transparent;
-      font-size: 1rem;
+      border: 0;
+      font-size: 1.08rem;
+      font-weight: 520;
+      letter-spacing: -0.012em;
     }
 
     .site-nav__link span {
@@ -955,32 +893,28 @@ const contactActive = isActive("/contact");
 
     .site-nav__link::after {
       left: auto;
-      right: 1rem;
+      right: 0.15rem;
       bottom: 50%;
-      width: 0.5rem;
-      height: 0.5rem;
-      border-radius: 999px;
-      background: rgba(78, 109, 149, 0.92);
+      width: 1.45rem;
+      height: 1px;
+      border-radius: 0;
+      background: var(--c-brand-600);
       transform: translateY(50%) scale(0);
       opacity: 0;
     }
 
     .site-nav__link:hover {
-      background: rgba(157, 184, 233, 0.08);
-      border-color: rgba(157, 184, 233, 0.1);
+      color: var(--c-accent);
+      background: transparent;
+      border-color: transparent;
     }
 
     .site-nav__link.is-active,
     .site-nav__link[aria-current="page"] {
-      background: linear-gradient(
-        180deg,
-        rgba(157, 184, 233, 0.22),
-        rgba(157, 184, 233, 0.12)
-      );
-      border-color: rgba(157, 184, 233, 0.24);
-      box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.7),
-        0 8px 20px rgba(15, 23, 42, 0.05);
+      color: var(--c-accent-strong);
+      background: transparent;
+      border-color: transparent;
+      box-shadow: none;
     }
 
     .site-nav__link.is-active::after,
@@ -991,22 +925,22 @@ const contactActive = isActive("/contact");
 
     .site-nav__footer {
       display: grid;
-      gap: 0.8rem;
-      padding: 1rem;
-      border-radius: 1.2rem;
-      background: rgba(255, 255, 255, 0.992);
-      border: 1px solid rgba(157, 184, 233, 0.18);
-      box-shadow:
-        0 18px 38px rgba(15, 23, 42, 0.12),
-        inset 0 1px 0 rgba(255, 255, 255, 0.82);
+      gap: 1.05rem;
+      align-self: end;
+      padding: 1.25rem 0 0;
+      border-top: 1px solid rgba(31, 41, 51, 0.14);
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
     }
 
     .site-nav__note {
       display: block;
+      max-width: 28ch;
       margin: 0;
-      font-size: 0.95rem;
-      line-height: 1.45;
-      color: var(--c-muted);
+      color: var(--c-text-muted);
+      font-size: 0.92rem;
+      line-height: 1.5;
     }
 
     .site-nav__cta {
@@ -1014,10 +948,13 @@ const contactActive = isActive("/contact");
       justify-content: center;
       margin-left: 0;
       min-height: 3.25rem;
-      border-radius: 1rem;
-      box-shadow:
-        0 16px 26px rgba(78, 109, 149, 0.22),
-        inset 0 1px 0 rgba(255, 255, 255, 0.24);
+      border-radius: 0.5rem;
+      box-shadow: none;
+    }
+
+    .site-nav__cta:hover {
+      transform: none;
+      box-shadow: none;
     }
 
     /* Keep the solid, expanded menu readable when the header started over the hero. */
@@ -1026,19 +963,19 @@ const contactActive = isActive("/contact");
       text-shadow: none;
     }
 
-    .site-header--hero.nav-open .site-nav__link:hover,
+    .site-header--hero.nav-open .site-nav__link:hover {
+      color: var(--c-accent);
+      background: transparent;
+      border-color: transparent;
+      box-shadow: none;
+    }
+
     .site-header--hero.nav-open .site-nav__link.is-active,
     .site-header--hero.nav-open .site-nav__link[aria-current="page"] {
-      color: var(--c-text);
-      background: linear-gradient(
-        180deg,
-        rgba(157, 184, 233, 0.22),
-        rgba(157, 184, 233, 0.12)
-      );
-      border-color: rgba(157, 184, 233, 0.24);
-      box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.7),
-        0 8px 20px rgba(15, 23, 42, 0.05);
+      color: var(--c-accent-strong);
+      background: transparent;
+      border-color: transparent;
+      box-shadow: none;
     }
 
     .site-header--hero.nav-open .site-nav__link::after {
@@ -1047,11 +984,77 @@ const contactActive = isActive("/contact");
 
     .site-header--hero.nav-open .site-nav__toggle {
       color: var(--c-text);
-      background: rgba(157, 184, 233, 0.18);
-      border-color: rgba(157, 184, 233, 0.5);
-      box-shadow:
-        0 12px 22px rgba(15, 23, 42, 0.12),
-        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+      background: transparent;
+      border-color: rgba(31, 41, 51, 0.18);
+      box-shadow: none;
+    }
+  }
+
+  /* Final mobile navigation refinement:
+     keep the open header legible and use typography, not UI markers,
+     to communicate the current page. */
+  @media (max-width: 959px) {
+    .site-nav {
+      width: min(22rem, 72vw);
+      max-width: 100%;
+      margin-left: auto;
+      justify-self: end;
+      overflow-y: auto;
+      border-left: 1px solid rgba(31, 41, 51, 0.08);
+      box-shadow: -20px 0 40px rgba(15, 23, 42, 0.10);
+    }
+
+    .site-header--hero.nav-open .site-header__brand-name {
+      color: #1f2a37;
+      text-shadow: none;
+    }
+
+    .site-header--hero.nav-open .site-header__brand-mark-wrap {
+      background: transparent;
+      border-color: transparent;
+      box-shadow: none;
+    }
+
+    .site-header.nav-open .site-nav__toggle,
+    .site-header--hero.nav-open .site-nav__toggle {
+      color: #1f2a37;
+      background: transparent;
+      border-color: rgba(31, 41, 51, 0.11);
+      box-shadow: none;
+    }
+
+    .site-header.nav-open .site-nav__toggle:hover,
+    .site-header--hero.nav-open .site-nav__toggle:hover {
+      background: rgba(31, 41, 51, 0.035);
+      border-color: rgba(31, 41, 51, 0.19);
+    }
+
+    .site-nav__link::after,
+    .site-nav__link.is-active::after,
+    .site-nav__link[aria-current="page"]::after {
+      display: none;
+    }
+
+    .site-nav__link span {
+      position: relative;
+      display: inline-block;
+    }
+
+    .site-nav__link.is-active,
+    .site-nav__link[aria-current="page"] {
+      color: var(--c-brand-700);
+      font-weight: 600;
+    }
+
+    .site-nav__link.is-active span::after,
+    .site-nav__link[aria-current="page"] span::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      bottom: -0.3rem;
+      left: 0;
+      height: 1px;
+      background: var(--c-brand-600);
     }
   }
 
