@@ -21,31 +21,71 @@ Never run a production command in the staging checkout or vice versa.
 
 Docker Compose project scoping isolates Docker resources; it does **not**
 protect a host secret file that is readable by another host user. Keep each
-deployment's secret directory at `0700`, each secret file at `0600`, and each
-environment file at `0600`.
+deployment's secret directory restricted (normally `0700`) and each environment
+file at `0600`. A secret source file must also be readable by the non-root
+runtime UID/GID that consumes its `/run/secrets/...` mount; `0600` owned only by
+the deploying operator is not a safe default for these distroless services.
 
 Before changing permissions on existing files, inspect their current owner and
-mode. Do not change ownership as part of this procedure; if the owner is not
-the intended deployment account, ask that account's administrator to make the
-change.
+mode *and* inspect the runtime user configured in each image. Do not change
+ownership as part of this procedure; if the owner or runtime identity is not
+understood, ask that account's administrator to make the change.
 
 ```sh
 # Run in the relevant checkout. This reads metadata only, not secret contents.
 stat -c '%A %a %U:%G %n' .env.production secrets 2>/dev/null || true
 find secrets -maxdepth 1 -type f -name '*.txt' -exec stat -c '%A %a %U:%G %n' {} +
+
+# Run after the images have been built. This reads image metadata only.
+docker image inspect finis-production-enquiry:latest \
+  --format '{{.Config.User}}'
+docker image inspect finis-production-enquiry-proxy:latest \
+  --format '{{.Config.User}}'
 ```
 
-Once ownership is confirmed and the operator is authorised to alter the files:
+Once ownership and the consuming runtime UID/GID are confirmed, set narrowly
+restricted owner/group/mode combinations that allow that runtime identity to
+read each required secret file. Do not apply a blanket `chmod 0600` to
+operator-owned secret files. Staging was successfully configured using narrowly
+restricted source files that were readable by the runtime user.
+
+The secret directory may remain `0700`; Docker mounts the selected source files
+into the containers. The host source files themselves still need the correct
+owner/group/mode for the runtime identity. Set the environment file mode
+separately:
 
 ```sh
 chmod 0700 secrets
 chmod 0600 .env.production
-find secrets -maxdepth 1 -type f -name '*.txt' -exec chmod 0600 {} +
 ```
 
 Use the equivalent staging paths and `.env.staging` in the staging checkout.
 The secret values themselves must be provisioned through an approved secure
 method; these commands neither print nor create them.
+
+### Troubleshooting: `permission denied reading /run/secrets/...`
+
+This indicates that a Go service started as its non-root runtime user cannot
+read a mounted source file. Inspect service status/logs, image runtime users,
+and source-file metadata without reading secret contents:
+
+```sh
+docker compose --project-name finis-staging --env-file .env.staging \
+  -f docker-compose.yml ps
+docker compose --project-name finis-staging --env-file .env.staging \
+  -f docker-compose.yml logs --tail=50 enquiry enquiry-proxy
+docker image inspect finis-staging-enquiry:latest --format '{{.Config.User}}'
+docker image inspect finis-staging-enquiry-proxy:latest --format '{{.Config.User}}'
+stat -c '%A %a %U:%G %n' .env.staging secrets-staging 2>/dev/null || true
+find secrets-staging -maxdepth 1 -type f -name '*.txt' \
+  -exec stat -c '%A %a %U:%G %n' {} +
+```
+
+Have an authorised operator correct only the affected source file's
+owner/group/mode so it remains narrowly restricted while readable by the
+documented runtime UID/GID, then recreate the affected services through the
+normal deployment procedure. Do not weaken all secret files to world-readable
+permissions.
 
 ## Production
 
@@ -56,8 +96,9 @@ Expected Compose project name: `finis-production`.
    production non-secret configuration. Set its mode to `0600`.
 2. Provision the four files in the directory named by `SECRETS_DIR` (normally
    `./secrets`): `turnstile_secret.txt`, `smtp_user.txt`, `smtp_pass.txt`, and
-   `internal_enquiry_secret.txt`. The directory must be `0700` and each file
-   must be `0600`.
+   `internal_enquiry_secret.txt`. Keep the directory restricted and provision
+   each source file with narrowly restricted permissions readable by the
+   service runtime UID/GID.
 3. Inspect the rendered configuration before any lifecycle command:
 
    ```sh
@@ -156,9 +197,10 @@ the existing `.env`.
 
 Prepare `/opt/finis-kitchens-production` independently at the selected release
 revision. An authorised operator must provision its production `.env.production`
-and `secrets/` files with the required modes; do not copy production values into
-the staging checkout. Build the new production images first; they have distinct
-`finis-production-*` tags and do not overwrite the old `finis-*:prod` images.
+and `secrets/` files with permissions appropriate to the service runtime
+UID/GID; do not copy production values into the staging checkout. Build the new
+production images first; they have distinct `finis-production-*` tags and do
+not overwrite the old `finis-*:prod` images.
 
 At cutover, stop the old project and start `finis-production` immediately from
 `/opt/finis-kitchens-production`. Both projects must not run production routers
