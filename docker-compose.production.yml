@@ -1,0 +1,15 @@
+# Production-only routing: preserve www -> apex while the base file serves
+# only SITE_DOMAIN. Do not use this override for staging.
+services:
+  web:
+    labels:
+      - traefik.http.routers.${TRAEFIK_RESOURCE_PREFIX}-web-www.rule=Host(`${WWW_DOMAIN}`)
+      - traefik.http.routers.${TRAEFIK_RESOURCE_PREFIX}-web-www.entrypoints=websecure
+      - traefik.http.routers.${TRAEFIK_RESOURCE_PREFIX}-web-www.tls.certresolver=myresolver
+      - traefik.http.routers.${TRAEFIK_RESOURCE_PREFIX}-web-www.tls.options=modern@file
+      - traefik.http.routers.${TRAEFIK_RESOURCE_PREFIX}-web-www.priority=200
+      - traefik.http.routers.${TRAEFIK_RESOURCE_PREFIX}-web-www.middlewares=${TRAEFIK_RESOURCE_PREFIX}-chain@docker,${TRAEFIK_RESOURCE_PREFIX}-www-to-apex@docker
+      - traefik.http.routers.${TRAEFIK_RESOURCE_PREFIX}-web-www.service=${TRAEFIK_RESOURCE_PREFIX}-web
+      - traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-www-to-apex.redirectregex.regex=^https?://[^/]+/(.*)
+      - traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-www-to-apex.redirectregex.replacement=https://${SITE_DOMAIN}/$${1}
+      - traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-www-to-apex.redirectregex.permanent=true
