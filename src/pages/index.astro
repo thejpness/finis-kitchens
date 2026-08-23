@@ -46,6 +46,7 @@ const steps = [
   description="Thoughtful kitchen design, supply and installation for real homes. Clear process, practical guidance and premium results without the showroom pressure."
   ogImage={heroImage.src}
   headerOverlay
+  footerFlush
 >
   <HomeHero image={heroImage} />
 
@@ -128,24 +129,6 @@ const steps = [
     </div>
   </section>
 
-  <section class="section">
-    <div class="container">
-      <div class="final-cta">
-        <div class="stack stack--tight">
-          <p class="eyebrow">Start simply</p>
-          <h2>Start with a conversation, not a sales script.</h2>
-          <p class="muted text-measure">
-            If you are planning a new kitchen and want clear, grounded advice, the first step is a calm conversation about your home, your priorities and your budget.
-          </p>
-        </div>
-
-        <div class="cta-row">
-          <a class="btn btn--primary btn--large" href="/contact">Book a design call</a>
-          <a class="btn btn--secondary btn--large" href="#budgets">See typical project budgets</a>
-        </div>
-      </div>
-    </div>
-  </section>
 </BaseLayout>
 
 <style>
@@ -333,16 +316,6 @@ const steps = [
     outline-offset: 5px;
   }
 
-  .final-cta {
-    display: grid;
-    gap: var(--space-6);
-    padding: var(--space-8);
-    border-radius: var(--radius-xl);
-    border: var(--border-1) solid var(--c-border);
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(246, 241, 234, 0.94) 100%);
-    box-shadow: var(--shadow-1);
-  }
-
   @media (min-width: 48rem) {
     .real-life__layout {
       grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
@@ -362,9 +335,5 @@ const steps = [
       align-items: start;
     }
 
-    .final-cta {
-      grid-template-columns: 1fr auto;
-      align-items: center;
-    }
   }
 </style>

@@ -13,6 +13,7 @@ interface Props {
   ogImage?: string;
   noindex?: boolean;
   headerOverlay?: boolean;
+  footerFlush?: boolean;
 }
 
 const {
@@ -21,6 +22,7 @@ const {
   ogImage = "/images/hero/default-hero.jpg",
   noindex = false,
   headerOverlay = false,
+  footerFlush = false,
 } = Astro.props as Props;
 
 const siteOrigin = (Astro.site?.toString() ?? "https://finiskitchens.co.uk").replace(/\/$/, "");
@@ -115,6 +117,6 @@ const businessSchema = {
       <slot />
     </main>
 
-    <Footer />
+    <Footer flushTop={footerFlush} />
   </body>
 </html>
