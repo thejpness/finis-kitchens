@@ -345,16 +345,6 @@ const contactActive = isActive("/contact");
     border-bottom-color: rgba(31, 41, 51, 0.12);
   }
 
-  @supports not ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
-    .site-header {
-      background: rgba(247, 250, 255, 0.95);
-    }
-
-    .site-header.is-top {
-      background: rgba(247, 250, 255, 0.88);
-    }
-  }
-
   /* The homepage starts beneath this header; it becomes solid once the page moves. */
   .site-header--hero.is-top {
     background: linear-gradient(180deg, rgba(7, 18, 30, 0.34), rgba(7, 18, 30, 0));
@@ -1074,15 +1064,6 @@ const contactActive = isActive("/contact");
 
     .site-nav__panel {
       width: min(calc(100% - 1.64rem), 32rem);
-    }
-
-    .site-nav__list {
-      padding: 0.68rem;
-      border-radius: 1.2rem;
-    }
-
-    .site-nav__footer {
-      padding: 0.88rem;
     }
   }
 
