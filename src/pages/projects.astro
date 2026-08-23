@@ -1,218 +1,560 @@
 ---
-import PageLayout from "../layouts/PageLayout.astro";
-import ProjectGrid from "../components/ProjectGrid.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { Picture } from "astro:assets";
 import { getCollection } from "astro:content";
 
 const projects = await getCollection("projects", ({ data }) => data.featured ?? true);
 projects.sort((a, b) => (b.data.order ?? 0) - (a.data.order ?? 0));
 
-const projectCount = projects.length;
-const projectLabel = projectCount === 1 ? "project" : "projects";
+const [featuredProject, ...otherProjects] = projects;
+
+const featured = featuredProject?.data;
+const featuredHref = featuredProject ? `/projects/${featuredProject.id}/` : "/contact";
 ---
 
-<PageLayout
-  title="Kitchen projects"
-  metaTitle="Kitchen projects | Fini's Kitchens"
-  description="Real homes we’ve helped transform into calm, practical kitchens that work beautifully day to day."
-  eyebrow="Projects"
-  heroSize="tight"
+<BaseLayout
+  title="Kitchen case studies | Fini's Kitchens"
+  description="Real kitchen renovations shaped around storage, function, materials and the way people actually live."
+  ogImage={featured?.heroImage?.src}
 >
-  <section class="section section--tight projects-top">
-    <div class="container">
-      <div class="projects-intro">
-        <div class="projects-intro__main stack stack--loose">
-          <header class="projects-head stack stack--tight">
-            <h2 class="projects-head__title">A closer look at real kitchens</h2>
-            <p class="muted text-measure">
-              A closer look at real kitchens designed around flow, storage, everyday routines and rooms that feel easier to live in.
+  <section class="projects-hero">
+    <div class="container projects-hero__layout">
+      <div class="projects-hero__copy">
+        <p class="projects-eyebrow">Case studies</p>
+        <h1>Real kitchens, considered properly.</h1>
+
+        <p class="projects-hero__summary">
+          Finished projects are useful for more than choosing a style. They show how practical constraints,
+          storage, materials and everyday routines can become part of a better design.
+        </p>
+      </div>
+
+      <aside class="projects-hero__aside">
+        <p class="projects-eyebrow">What to look for</p>
+        <p>
+          Look beyond the colour of the doors. The useful details are often in how the room flows,
+          where storage has been gained and how the design responds to the home that was already there.
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  {
+    featuredProject && featured && (
+      <section class="projects-feature" aria-labelledby="featured-project-title">
+        <div class="container projects-feature__frame">
+          <header class="projects-feature__intro">
+            <div>
+              <p class="projects-eyebrow">Featured project</p>
+              <h2 id="featured-project-title">{featured.title}</h2>
+            </div>
+
+            <p>
+              A compact renovation where the footprint could not grow, so better storage,
+              stronger organisation and more considered materials had to do the work.
             </p>
           </header>
 
-          <div class="projects-head__cta">
-            <a class="btn btn--primary btn--large" href="/contact">Book a calm design call</a>
-            <a class="btn btn--ghost btn--large" href="/pricing">See pricing guidance</a>
-          </div>
+          <a
+            class="projects-feature__project"
+            href={featuredHref}
+            aria-label={`View case study: ${featured.title}`}
+          >
+            {featured.heroImage && (
+              <div class="projects-feature__media">
+                <Picture
+                  src={featured.heroImage}
+                  alt={`${featured.title} finished kitchen`}
+                  formats={["avif", "webp"]}
+                  widths={[640, 960, 1280, 1600]}
+                  sizes="(min-width: 64rem) 58vw, 100vw"
+                  loading="eager"
+                  decoding="async"
+                />
+              </div>
+            )}
+
+            <div class="projects-feature__content">
+              <dl class="projects-feature__meta">
+                {featured.location && (
+                  <div>
+                    <dt>Location</dt>
+                    <dd>{featured.location}</dd>
+                  </div>
+                )}
+
+                {featured.projectType && (
+                  <div>
+                    <dt>Project</dt>
+                    <dd>{featured.projectType}</dd>
+                  </div>
+                )}
+
+                {featured.completedAt && (
+                  <div>
+                    <dt>Completed</dt>
+                    <dd>{featured.completedAt}</dd>
+                  </div>
+                )}
+              </dl>
+
+              <div class="projects-feature__story">
+                <h3>A standard new-build kitchen made personal.</h3>
+
+                <p>
+                  The existing kitchen was beginning to fade and mismatch, with storage that had never
+                  really been planned around the client. The footprint was fixed, so the answer was not
+                  a dramatic reconfiguration - it was a more conscientious use of the space available.
+                </p>
+
+                <p>
+                  Aubergine handleless cabinetry, white quartz worktops, higher wall units, more drawers
+                  and carefully assigned storage created a kitchen with considerably more personality
+                  and usefulness.
+                </p>
+              </div>
+
+              <span class="projects-feature__link">
+                Read the Longleys Road case study
+                <span aria-hidden="true">→</span>
+              </span>
+            </div>
+          </a>
         </div>
-
-        <aside class="projects-summary panel" aria-label="Projects summary">
-          <div class="projects-summary__meta">
-            <span class="badge">{projectCount} featured {projectLabel}</span>
-            <span class="badge badge--quiet">Design, supply & installation</span>
-            <span class="badge badge--quiet">Horsham & surrounding areas</span>
-          </div>
-
-          <div class="card card--surface projects-summary__card">
-            <p class="eyebrow">What to notice</p>
-            <ul class="check-list" role="list">
-              <li>How the layout handles movement and prep</li>
-              <li>Where storage removes everyday friction</li>
-              <li>How materials and tone calm the room down</li>
-            </ul>
-          </div>
-        </aside>
-      </div>
-    </div>
-  </section>
-
-  <section id="project-grid" class="section section--tight">
-    <div class="container section-frame stack stack--loose">
-      <header class="section-head">
-        <div class="section-head__copy">
-          <p class="eyebrow">Recent installations</p>
-          <h2>Explore recent kitchen transformations</h2>
-          <p class="section-head__desc text-measure">
-            A closer look at kitchens we’ve designed and installed for real homes - with an emphasis on flow,
-            practical beauty and rooms that are easier to live in every day.
-          </p>
-        </div>
-
-        <a class="btn btn--primary section-head__link" href="/contact">Talk about your project</a>
-      </header>
-
-      <ProjectGrid projects={projects} />
-    </div>
-  </section>
-
-  <section class="section section--tight">
-    <div class="container">
-      <div class="panel projects-panel">
-        <div class="projects-panel__intro stack stack--tight">
-          <p class="eyebrow">Why this page matters</p>
-          <h2 class="projects-panel__title">Use the projects to judge fit, not just style.</h2>
-          <p class="muted text-measure">
-            The goal is not to push you toward a single look. It is to help you understand what feels calm, practical
-            and right for your own home - and what that might look like when done properly.
-          </p>
-        </div>
-
-        <div class="projects-panel__body stack stack--loose">
-          <div class="projects-panel__grid">
-            <article class="card card--surface projects-panel__item">
-              <h3>See how real rooms were solved</h3>
-              <p class="muted">
-                Look beyond the finishes and notice the spacing, storage, sightlines and balance of the room.
-              </p>
-            </article>
-
-            <article class="card card--surface projects-panel__item">
-              <h3>Spot what feels calm to you</h3>
-              <p class="muted">
-                Materials matter, but so do openness, clutter control and how naturally the space supports daily life.
-              </p>
-            </article>
-
-            <article class="card card--surface projects-panel__item">
-              <h3>Start your own brief more clearly</h3>
-              <p class="muted">
-                By the time you enquire, you should have a better sense of what you want the kitchen to do better.
-              </p>
-            </article>
-          </div>
-
-          <div class="cta-row">
-            <a class="btn btn--primary" href="/contact">Book a consultation</a>
-            <a class="text-link" href="/about">Read more about Fini’s Kitchens</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-</PageLayout>
-
-<style>
-  .projects-top {
-    padding-top: 0;
+      </section>
+    )
   }
 
-  .projects-intro,
-  .projects-panel__grid {
+  <section class="projects-principles" aria-labelledby="projects-principles-title">
+    <div class="container projects-principles__frame">
+      <header class="projects-principles__intro">
+        <div>
+          <p class="projects-principles__eyebrow">What matters in the work</p>
+          <h2 id="projects-principles-title">The finish matters. So does everything underneath it.</h2>
+        </div>
+
+        <p>
+          A kitchen should look right for the client, but the decisions behind the appearance
+          are what make it continue to work once everyday life moves back in.
+        </p>
+      </header>
+
+      <div class="projects-principles__grid">
+        <article>
+          <span aria-hidden="true">01</span>
+          <h3>Use the space properly</h3>
+          <p>
+            Existing constraints do not always need a bigger footprint. Sometimes the better answer
+            is making every cabinet, drawer and working area earn its place.
+          </p>
+        </article>
+
+        <article>
+          <span aria-hidden="true">02</span>
+          <h3>Make it personal</h3>
+          <p>
+            Colour and materials should reflect the people living with them rather than simply
+            reproducing whatever happens to be fashionable.
+          </p>
+        </article>
+
+        <article>
+          <span aria-hidden="true">03</span>
+          <h3>Design for ordinary days</h3>
+          <p>
+            Storage, appliance positioning and organisation matter because the kitchen still has
+            to work when nobody is standing back admiring the photographs.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  {
+    otherProjects.length > 0 && (
+      <section class="projects-more">
+        <div class="container projects-more__frame">
+          <p class="projects-eyebrow">More projects</p>
+
+          <div class="projects-more__list">
+            {otherProjects.map((project) => (
+              <a href={`/projects/${project.id}/`}>
+                <span>{project.data.title}</span>
+                <span aria-hidden="true">→</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="projects-closing" aria-labelledby="projects-closing-title">
+    <div class="container">
+      <div class="projects-closing__frame">
+        <div>
+          <p class="projects-eyebrow">Your kitchen</p>
+          <h2 id="projects-closing-title">Start with what needs to work better.</h2>
+        </div>
+
+        <div class="projects-closing__content">
+          <p>
+            Tell us about the room you have, what frustrates you and what you want it to feel like.
+            The design can grow from there.
+          </p>
+
+          <a class="btn btn--primary btn--large" href="/contact">Start a conversation</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .projects-hero {
+    padding-block: clamp(4rem, 7vw, 6.25rem);
+    background: var(--c-canvas-warm);
+  }
+
+  .projects-hero__layout,
+  .projects-feature__intro,
+  .projects-principles__intro,
+  .projects-closing__frame {
+    display: grid;
+    gap: var(--space-6);
+    align-items: end;
+  }
+
+  .projects-eyebrow,
+  .projects-principles__eyebrow {
+    margin-bottom: var(--space-4);
+    color: var(--c-blue);
+    font-size: var(--eyebrow-size);
+    font-weight: var(--eyebrow-weight);
+    line-height: var(--eyebrow-line-height);
+    letter-spacing: var(--eyebrow-tracking);
+    text-transform: uppercase;
+  }
+
+  .projects-hero h1 {
+    max-width: 10ch;
+    color: var(--c-ink);
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 6vw, 5.8rem);
+    font-weight: 450;
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+  }
+
+  .projects-hero__summary {
+    max-width: 42rem;
+    margin-top: var(--space-6);
+    color: var(--c-navy);
+    font-size: clamp(1.08rem, 1.7vw, 1.3rem);
+    line-height: var(--lh-snug);
+  }
+
+  .projects-hero__aside {
+    padding-top: var(--space-5);
+    border-top: var(--border-1) solid var(--c-rule-blue);
+  }
+
+  .projects-hero__aside p:last-child {
+    max-width: 36rem;
+    color: var(--c-navy);
+    font-size: clamp(1rem, 1.3vw, 1.12rem);
+    line-height: 1.55;
+  }
+
+  .projects-feature {
+    padding-block: var(--home-section-y-tight);
+    border-top: var(--border-1) solid var(--c-rule-blue);
+    background: var(--c-paper);
+  }
+
+  .projects-feature__frame {
+    display: grid;
+    gap: clamp(2.75rem, 5vw, 4.5rem);
+  }
+
+  .projects-feature__intro h2 {
+    max-width: 13ch;
+    color: var(--c-ink);
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 4.8vw, 4.6rem);
+    font-weight: 450;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  .projects-feature__intro > p {
+    max-width: 38ch;
+    color: var(--c-navy);
+    font-size: var(--fs-2);
+    line-height: var(--lh-snug);
+  }
+
+  .projects-feature__project {
+    display: grid;
+    overflow: hidden;
+    color: inherit;
+    text-decoration: none;
+    border-top: var(--border-1) solid var(--c-rule-blue);
+    border-bottom: var(--border-1) solid var(--c-rule-blue);
+  }
+
+  .projects-feature__media {
+    min-height: 22rem;
+    overflow: hidden;
+    background: var(--c-canvas-warm);
+  }
+
+  .projects-feature__media :global(picture),
+  .projects-feature__media :global(img) {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .projects-feature__media :global(img) {
+    object-fit: cover;
+    transition: transform 420ms var(--ease-out);
+  }
+
+  .projects-feature__project:hover .projects-feature__media :global(img) {
+    transform: scale(1.015);
+  }
+
+  .projects-feature__content {
+    display: grid;
+    align-content: center;
+    gap: clamp(2rem, 4vw, 3.5rem);
+    padding-block: clamp(2rem, 4vw, 3.5rem);
+  }
+
+  .projects-feature__meta {
+    display: grid;
+    margin: 0;
+    border-top: var(--border-1) solid var(--c-rule-blue);
+  }
+
+  .projects-feature__meta > div {
+    display: grid;
+    grid-template-columns: minmax(6rem, 0.4fr) minmax(0, 1fr);
+    gap: var(--space-4);
+    padding-block: var(--space-3);
+    border-bottom: var(--border-1) solid var(--c-rule-blue);
+  }
+
+  .projects-feature__meta dt {
+    color: var(--c-blue);
+    font-size: var(--fs--1);
+    font-weight: 650;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .projects-feature__meta dd {
+    margin: 0;
+    color: var(--c-ink);
+    font-weight: 600;
+  }
+
+  .projects-feature__story {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .projects-feature__story h3 {
+    max-width: 19ch;
+    color: var(--c-ink);
+    font-size: clamp(1.7rem, 2.7vw, 2.6rem);
+    font-weight: 580;
+    line-height: 1.03;
+    letter-spacing: -0.035em;
+  }
+
+  .projects-feature__story p {
+    max-width: 42rem;
+    color: var(--c-navy);
+    line-height: 1.6;
+  }
+
+  .projects-feature__link {
+    display: inline-flex;
+    width: fit-content;
+    gap: 0.5rem;
+    align-items: center;
+    color: var(--c-navy);
+    font-weight: 650;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.18em;
+  }
+
+  .projects-feature__project:hover .projects-feature__link {
+    color: var(--c-blue);
+    text-decoration-thickness: 2px;
+  }
+
+  .projects-principles {
+    padding-block: var(--home-section-y);
+    background: var(--c-navy);
+    color: var(--c-paper);
+  }
+
+  .projects-principles__frame {
+    display: grid;
+    gap: clamp(3rem, 6vw, 5rem);
+  }
+
+  .projects-principles__eyebrow {
+    color: var(--c-blue-pale);
+  }
+
+  .projects-principles__intro h2 {
+    max-width: 14ch;
+    color: var(--c-paper);
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 4.6vw, 4.5rem);
+    font-weight: 450;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  .projects-principles__intro > p {
+    max-width: 38ch;
+    color: var(--c-blue-pale);
+    font-size: var(--fs-2);
+    line-height: var(--lh-snug);
+  }
+
+  .projects-principles__grid {
+    display: grid;
+    border-top: var(--border-1) solid var(--c-rule-on-dark);
+  }
+
+  .projects-principles__grid article {
+    padding-block: clamp(1.75rem, 3vw, 2.5rem);
+    border-bottom: var(--border-1) solid var(--c-rule-on-dark);
+  }
+
+  .projects-principles__grid article > span {
+    color: var(--c-blue-pale);
+    font-size: var(--fs--1);
+    font-weight: 650;
+    letter-spacing: 0.08em;
+  }
+
+  .projects-principles__grid h3 {
+    margin-top: var(--space-5);
+    color: var(--c-paper);
+    font-size: clamp(1.3rem, 2vw, 1.7rem);
+    font-weight: 600;
+    line-height: 1.05;
+  }
+
+  .projects-principles__grid p {
+    max-width: 32rem;
+    margin-top: var(--space-3);
+    color: var(--c-blue-pale);
+    line-height: 1.55;
+  }
+
+  .projects-more {
+    padding-block: var(--home-section-y-tight);
+    background: var(--c-paper);
+  }
+
+  .projects-more__frame {
     display: grid;
     gap: var(--space-6);
   }
 
-  .projects-intro {
-    align-items: start;
+  .projects-more__list {
+    border-top: var(--border-1) solid var(--c-rule-blue);
   }
 
-  .projects-head__title {
-    font-size: clamp(1.35rem, 1.2vw + 1.1rem, 1.9rem);
-    line-height: 1.15;
-    letter-spacing: var(--ls-tight);
-    margin: 0;
-  }
-
-  .projects-head__cta {
+  .projects-more__list a {
     display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-3);
-    margin-top: var(--space-2);
-  }
-
-  .projects-summary {
-    display: grid;
+    justify-content: space-between;
     gap: var(--space-5);
-    padding: var(--space-7);
+    padding-block: var(--space-5);
+    border-bottom: var(--border-1) solid var(--c-rule-blue);
+    color: var(--c-ink);
+    font-weight: 600;
+    text-decoration: none;
   }
 
-  .projects-summary__meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
+  .projects-more__list a:hover {
+    color: var(--c-blue);
   }
 
-  .projects-summary__card {
-    padding: var(--space-6);
+  .projects-closing {
+    padding-block: var(--home-section-y-tight);
+    background: var(--c-canvas);
   }
 
-  .projects-summary__card .check-list {
-    margin-top: var(--space-4);
+  .projects-closing__frame {
+    padding-top: clamp(2rem, 4vw, 3.5rem);
+    border-top: var(--border-1) solid var(--c-rule-blue);
   }
 
-  .projects-panel {
-    display: grid;
-    gap: var(--space-7);
-    padding: var(--space-7);
+  .projects-closing h2 {
+    max-width: 12ch;
+    color: var(--c-ink);
+    font-size: clamp(2.4rem, 4.6vw, 4.4rem);
+    font-weight: 580;
+    line-height: 0.98;
+    letter-spacing: -0.045em;
   }
 
-  .projects-panel__title {
-    margin: 0;
-    font-size: 1.15rem;
-    letter-spacing: var(--ls-tight);
+  .projects-closing__content {
+    max-width: 38rem;
   }
 
-  .projects-panel__item h3 {
-    margin: 0 0 var(--space-3);
+  .projects-closing__content p {
+    margin-bottom: var(--space-7);
+    color: var(--c-navy);
+    font-size: clamp(1.05rem, 1.4vw, 1.2rem);
+    line-height: 1.55;
   }
 
   @media (min-width: 48rem) {
-    .projects-intro {
-      grid-template-columns: minmax(20rem, 1.08fr) minmax(18rem, 0.92fr);
-    }
-
-    .projects-panel__grid {
+    .projects-principles__grid {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
-    .projects-panel {
-      grid-template-columns: minmax(18rem, 0.9fr) minmax(0, 1.1fr);
-      align-items: start;
+    .projects-principles__grid article {
+      padding-inline: clamp(1.5rem, 3vw, 2.5rem);
+      border-right: var(--border-1) solid var(--c-rule-on-dark);
+    }
+
+    .projects-principles__grid article:first-child {
+      padding-left: 0;
+    }
+
+    .projects-principles__grid article:last-child {
+      padding-right: 0;
+      border-right: 0;
     }
   }
 
-  @media (max-width: 640px) {
-    .projects-head__cta {
-      flex-direction: column;
-      align-items: stretch;
+  @media (min-width: 64rem) {
+    .projects-hero__layout,
+    .projects-feature__intro,
+    .projects-principles__intro,
+    .projects-closing__frame {
+      grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 0.85fr);
     }
 
-    .projects-head__cta .btn {
-      width: 100%;
-      justify-content: center;
+    .projects-feature__project {
+      grid-template-columns: minmax(0, 1.15fr) minmax(22rem, 0.85fr);
+      min-height: 38rem;
     }
 
-    .projects-summary,
-    .projects-panel {
-      padding: var(--space-6);
+    .projects-feature__content {
+      padding-inline: clamp(2.5rem, 5vw, 5rem);
     }
   }
 </style>
