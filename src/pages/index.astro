@@ -130,31 +130,27 @@ const faqs = [
 
   <ProjectPreviewGrid projects={featuredProjects} />
 
-  <section class="section section--tight">
-    <div class="container">
-      <div class="founder-panel">
-        <div class="stack stack--tight">
-          <p class="eyebrow">A calmer way to buy</p>
-          <h2>Low pressure is not just a tone of voice. It is built into the process.</h2>
-        </div>
+  <section class="calmer-way" aria-labelledby="calmer-way-title">
+    <div class="container calmer-way__layout">
+      <header class="calmer-way__intro">
+        <p class="calmer-way__eyebrow">A calmer way to buy</p>
+        <h2 id="calmer-way-title">Premium kitchens without the showroom pressure.</h2>
+        <p class="calmer-way__summary">
+          Clear, grounded advice and a joined-up process, from the first conversation to the finished kitchen.
+        </p>
+      </header>
 
-        <div class="founder-panel__body stack stack--tight">
-          <p class="muted text-measure">
-            From the first conversation to the finished kitchen, the aim is to make the process feel clear,
-            grounded and easier to trust - with practical advice, honest guidance and attention to how the room will really be used.
-          </p>
+      <div class="calmer-way__detail">
+        <ul class="calmer-way__points">
+          <li>Clear next steps from the outset</li>
+          <li>Budget and feasibility discussed early</li>
+          <li>Design decisions grounded in daily life</li>
+          <li>A joined-up supply and installation journey</li>
+        </ul>
 
-          <ul class="check-list" role="list">
-            <li>Clear next steps from the outset</li>
-            <li>Budget and feasibility discussed early</li>
-            <li>Design decisions grounded in daily life</li>
-            <li>A joined-up supply and installation journey</li>
-          </ul>
-
-          <div class="cta-row">
-            <a class="btn btn--primary" href="/contact">Book a call</a>
-            <a class="text-link" href="/about">Read more about Fini’s Kitchens</a>
-          </div>
+        <div class="calmer-way__actions">
+          <a class="btn btn--accent" href="/contact">Start a conversation</a>
+          <a class="calmer-way__about-link" href="/about">Read more about Fini’s Kitchens</a>
         </div>
       </div>
     </div>
@@ -307,16 +303,107 @@ const faqs = [
     line-height: var(--lh-snug);
   }
 
-  .founder-panel {
+  .calmer-way {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+    color: var(--c-brand-50);
+    background: var(--c-brand-900);
+  }
+
+  .calmer-way__layout {
     display: grid;
-    gap: var(--space-7);
-    padding: var(--space-8);
-    border: var(--border-1) solid var(--c-border);
-    border-radius: var(--radius-xl);
-    background:
-      radial-gradient(circle at top left, rgba(157, 184, 233, 0.18) 0%, rgba(157, 184, 233, 0) 42%),
-      linear-gradient(180deg, rgba(255, 255, 255, 0.94) 0%, rgba(246, 241, 234, 0.94) 100%);
-    box-shadow: var(--shadow-2);
+    gap: clamp(3rem, 7vw, 7rem);
+  }
+
+  .calmer-way__intro {
+    max-width: 34rem;
+  }
+
+  .calmer-way__eyebrow {
+    margin-bottom: var(--space-4);
+    color: var(--c-brand-300);
+    font-size: 0.72rem;
+    font-weight: 650;
+    letter-spacing: var(--ls-wide);
+    text-transform: uppercase;
+  }
+
+  .calmer-way__intro h2 {
+    color: #fff;
+    font-size: clamp(2.35rem, 4.4vw, 4.35rem);
+    font-weight: 580;
+    line-height: 0.98;
+    letter-spacing: -0.045em;
+  }
+
+  .calmer-way__summary {
+    max-width: 35ch;
+    margin-top: var(--space-6);
+    color: var(--c-brand-100);
+    font-size: var(--fs-2);
+    line-height: var(--lh-loose);
+  }
+
+  .calmer-way__detail {
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 4rem);
+    align-content: start;
+  }
+
+  .calmer-way__points {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .calmer-way__points li {
+    position: relative;
+    padding: var(--space-5) 0 var(--space-5) 1.45rem;
+    border-top: 1px solid rgba(185, 208, 239, 0.32);
+    color: #fff;
+    font-size: clamp(1.05rem, 1.4vw, 1.2rem);
+    font-weight: 560;
+    line-height: var(--lh-snug);
+  }
+
+  .calmer-way__points li::before {
+    content: "";
+    position: absolute;
+    top: 1.2rem;
+    left: 0;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--c-brand-300);
+  }
+
+  .calmer-way__points li:last-child {
+    border-bottom: 1px solid rgba(185, 208, 239, 0.32);
+  }
+
+  .calmer-way__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-5);
+    align-items: center;
+  }
+
+  .calmer-way__about-link {
+    color: var(--c-brand-100);
+    font-size: var(--fs-0);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.18em;
+  }
+
+  .calmer-way__about-link:hover {
+    color: #fff;
+    text-decoration-thickness: 2px;
+  }
+
+  .calmer-way__about-link:focus-visible {
+    outline-color: var(--c-brand-200);
+    outline-offset: 5px;
   }
 
   .final-cta {
@@ -347,8 +434,8 @@ const faqs = [
       margin-top: clamp(2.5rem, 6vw, 4.75rem);
     }
 
-    .founder-panel {
-      grid-template-columns: 0.9fr 1.1fr;
+    .calmer-way__layout {
+      grid-template-columns: minmax(0, 0.86fr) minmax(22rem, 1.14fr);
       align-items: start;
     }
 
