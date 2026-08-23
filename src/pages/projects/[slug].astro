@@ -34,6 +34,7 @@ const hasGallery = gallery.length > 0;
 const summaryPoints: { label: string; value: string }[] = [];
 
 if (data.location) summaryPoints.push({ label: "Location", value: data.location });
+if (data.projectType) summaryPoints.push({ label: "Project", value: data.projectType });
 if (data.style) summaryPoints.push({ label: "Style", value: data.style });
 if (data.completedAt) summaryPoints.push({ label: "Completed", value: data.completedAt });
 ---
