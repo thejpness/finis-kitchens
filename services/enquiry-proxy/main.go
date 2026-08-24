@@ -79,7 +79,7 @@ func main() {
 
 		token := strings.TrimSpace(payload.CaptchaToken)
 		if err := verifyTurnstile(r.Context(), cfg.TurnstileSecret, token); err != nil {
-			log.Printf("captcha failed: %v", err)
+			log.Printf("captcha verification failed")
 			httpError(w, http.StatusBadRequest, "captcha verification failed")
 			return
 		}

@@ -2,6 +2,8 @@ package main
 
 import (
 	"bytes"
+	"errors"
+	"log"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -202,5 +204,155 @@ func TestHandleEnquiryHoneypotReturnsAcceptedWithoutSMTP(t *testing.T) {
 
 	if !strings.Contains(rr.Body.String(), `"status":"ok"`) {
 		t.Fatalf("expected ok response, got %q", rr.Body.String())
+	}
+}
+
+func TestHandleEnquirySuccessLogExcludesCustomerData(t *testing.T) {
+	logs := captureEnquiryLogs(t)
+	configureEnquiryLoggingTest(t)
+
+	sent := false
+	withEnquiryMailSender(t, func(to, subject, plainBody, htmlBody, replyTo string) error {
+		sent = true
+		if to != "recipient@example.invalid" {
+			t.Fatalf("unexpected recipient %q", to)
+		}
+		if !strings.Contains(plainBody, "PRIVACY_TEST_MESSAGE") {
+			t.Fatal("expected email content to remain unchanged")
+		}
+		return nil
+	})
+
+	rr := postEnquiry(t, privacyTestEnquiry("marketing"))
+	if rr.Code != http.StatusAccepted {
+		t.Fatalf("expected 202, got %d", rr.Code)
+	}
+	if !sent {
+		t.Fatal("expected enquiry email to be sent")
+	}
+
+	assertPrivacySafeEnquiryLog(t, logs.String())
+	if !strings.Contains(logs.String(), `enquiry accepted channel="marketing"`) {
+		t.Fatalf("expected safe accepted log, got %q", logs.String())
+	}
+	if !strings.Contains(logs.String(), "duration_ms=") {
+		t.Fatalf("expected processing duration in log, got %q", logs.String())
+	}
+}
+
+func TestHandleEnquiryUnknownChannelLogDoesNotReflectInput(t *testing.T) {
+	logs := captureEnquiryLogs(t)
+	configureEnquiryLoggingTest(t)
+	withEnquiryMailSender(t, func(string, string, string, string, string) error { return nil })
+
+	rr := postEnquiry(t, privacyTestEnquiry("PRIVACY_TEST_UNKNOWN_CHANNEL"))
+	if rr.Code != http.StatusAccepted {
+		t.Fatalf("expected 202, got %d", rr.Code)
+	}
+
+	assertPrivacySafeEnquiryLog(t, logs.String())
+	if !strings.Contains(logs.String(), "unknown channel; treating as marketing") {
+		t.Fatalf("expected generic unknown-channel log, got %q", logs.String())
+	}
+	if strings.Contains(logs.String(), "PRIVACY_TEST_UNKNOWN_CHANNEL") {
+		t.Fatalf("unknown channel was reflected in log: %q", logs.String())
+	}
+}
+
+func TestHandleEnquiryDeliveryFailureLogExcludesCustomerData(t *testing.T) {
+	logs := captureEnquiryLogs(t)
+	configureEnquiryLoggingTest(t)
+	withEnquiryMailSender(t, func(string, string, string, string, string) error {
+		return errors.New("delivery failed for privacy-test@example.invalid")
+	})
+
+	rr := postEnquiry(t, privacyTestEnquiry("marketing"))
+	if rr.Code != http.StatusBadGateway {
+		t.Fatalf("expected 502, got %d", rr.Code)
+	}
+
+	assertPrivacySafeEnquiryLog(t, logs.String())
+	if !strings.Contains(logs.String(), "enquiry delivery failed") {
+		t.Fatalf("expected generic delivery-failure log, got %q", logs.String())
+	}
+}
+
+func captureEnquiryLogs(t *testing.T) *bytes.Buffer {
+	t.Helper()
+
+	var logs bytes.Buffer
+	oldWriter := log.Writer()
+	oldFlags := log.Flags()
+	oldPrefix := log.Prefix()
+	log.SetOutput(&logs)
+	log.SetFlags(0)
+	log.SetPrefix("")
+	t.Cleanup(func() {
+		log.SetOutput(oldWriter)
+		log.SetFlags(oldFlags)
+		log.SetPrefix(oldPrefix)
+	})
+	return &logs
+}
+
+func configureEnquiryLoggingTest(t *testing.T) {
+	t.Helper()
+
+	oldCfg := cfg
+	cfg = appConfig{
+		EnquiryTo:      "recipient@example.invalid",
+		RequireConsent: true,
+	}
+	t.Cleanup(func() { cfg = oldCfg })
+}
+
+func withEnquiryMailSender(t *testing.T, sender func(string, string, string, string, string) error) {
+	t.Helper()
+
+	oldSender := sendEnquiryMail
+	sendEnquiryMail = sender
+	t.Cleanup(func() { sendEnquiryMail = oldSender })
+}
+
+func postEnquiry(t *testing.T, body string) *httptest.ResponseRecorder {
+	t.Helper()
+
+	req := httptest.NewRequest(http.MethodPost, "/api/enquiry", strings.NewReader(body))
+	req.Header.Set("Content-Type", "application/json")
+	rr := httptest.NewRecorder()
+	handleEnquiry(rr, req)
+	return rr
+}
+
+func privacyTestEnquiry(channel string) string {
+	return `{
+		"name": "PRIVACY_TEST_NAME",
+		"email": "privacy-test@example.invalid",
+		"phone": "PRIVACY_TEST_PHONE",
+		"timeline": "PRIVACY_TEST_TIMELINE",
+		"message": "PRIVACY_TEST_MESSAGE",
+		"page": "https://example.invalid/contact?secret-query-marker=PRIVACY_TEST_QUERY",
+		"source": "PRIVACY_TEST_SOURCE",
+		"consent": true,
+		"channel": "` + channel + `"
+	}`
+}
+
+func assertPrivacySafeEnquiryLog(t *testing.T, logs string) {
+	t.Helper()
+
+	for _, prohibited := range []string{
+		"PRIVACY_TEST_NAME",
+		"privacy-test@example.invalid",
+		"PRIVACY_TEST_PHONE",
+		"PRIVACY_TEST_TIMELINE",
+		"PRIVACY_TEST_MESSAGE",
+		"https://example.invalid/contact?secret-query-marker=PRIVACY_TEST_QUERY",
+		"PRIVACY_TEST_QUERY",
+		"PRIVACY_TEST_SOURCE",
+	} {
+		if strings.Contains(logs, prohibited) {
+			t.Fatalf("prohibited customer data %q in log %q", prohibited, logs)
+		}
 	}
 }
