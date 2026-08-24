@@ -9,6 +9,7 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
 <BaseLayout
   title="Contact | Fini's Kitchens"
   description="Start with a conversation about your kitchen. Practical guidance and sensible next steps for homes in and around Horsham."
+  footerFlush={true}
 >
   <section class="contact-hero">
     <div class="container contact-hero__layout">
@@ -448,13 +449,18 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
     background: var(--c-canvas-warm);
   }
 
-  .contact-hero__layout,
+  .contact-hero__layout {
+    display: grid;
+    gap: clamp(3rem, 7vw, 7rem);
+    align-items: end;
+  }
+
   .contact-enquiry__layout,
   .contact-methods__intro,
   .contact-showroom__layout,
   .contact-next__intro {
     display: grid;
-    gap: clamp(2.75rem, 6vw, 6rem);
+    gap: var(--home-layout-gap);
     align-items: end;
   }
 
@@ -494,7 +500,7 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
   .contact-showroom__actions {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-3);
+    gap: var(--space-5);
     align-items: center;
     margin-top: var(--space-7);
   }
@@ -777,7 +783,8 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
 
   .contact-methods {
     padding-block: var(--home-section-y-tight);
-    background: var(--c-paper);
+    border-top: var(--border-1) solid var(--c-rule-blue);
+    background: var(--c-canvas);
   }
 
   .contact-methods__frame {
@@ -859,7 +866,7 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
   .contact-showroom {
     padding-block: var(--home-section-y-tight);
     border-top: var(--border-1) solid var(--c-rule-blue);
-    background: var(--c-canvas);
+    background: var(--c-paper);
   }
 
   .contact-showroom__content {

@@ -7,71 +7,235 @@ interface Props {
 }
 
 const { title, description } = Astro.props as Props;
+
+const currentPath = Astro.url.pathname;
+const legalLinks = [
+  { href: "/privacy", label: "Privacy policy" },
+  { href: "/terms", label: "Website terms" },
+];
 ---
 
 <BaseLayout title={`${title} | Fini's Kitchens`} description={description}>
-  <section class="legal-page">
-    <div class="container">
+  <section class="legal-hero">
+    <div class="container legal-hero__layout">
+      <header class="legal-hero__copy">
+        <p class="legal-eyebrow">Legal information</p>
+        <h1>{title}</h1>
+        <p class="legal-hero__summary">
+          <slot name="summary" />
+        </p>
+      </header>
+
+      <aside class="legal-hero__meta" aria-label="Document information">
+        <p class="legal-eyebrow">Document information</p>
+        <dl>
+          <div>
+            <dt>Applies to</dt>
+            <dd>Fini's Kitchens website</dd>
+          </div>
+          <div>
+            <dt>Last updated</dt>
+            <dd>August 2026</dd>
+          </div>
+        </dl>
+      </aside>
+    </div>
+  </section>
+
+  <section class="legal-body">
+    <div class="container legal-body__layout">
+      <aside class="legal-body__nav">
+        <p class="legal-eyebrow">Legal pages</p>
+        <nav aria-label="Legal pages">
+          {
+            legalLinks.map((link) => (
+              <a
+                href={link.href}
+                aria-current={currentPath === link.href ? "page" : undefined}
+              >
+                {link.label}
+              </a>
+            ))
+          }
+        </nav>
+      </aside>
+
       <article class="legal-page__content prose">
-        <header class="legal-page__intro">
-          <p class="legal-page__eyebrow">Legal information</p>
-          <h1 class="legal-page__title">{title}</h1>
-          <p class="legal-page__summary">
-            <slot name="summary" />
-          </p>
-        </header>
-
-        <hr class="divider legal-page__rule" />
-
         <slot />
-
-        <p class="legal-page__updated">Last updated: August 2026</p>
       </article>
     </div>
   </section>
 </BaseLayout>
 
 <style>
-  .legal-page {
-    padding-block: clamp(var(--space-9), 7vw, var(--space-11));
+  .legal-hero {
+    padding-block: clamp(4rem, 7vw, 6.25rem);
+    background: var(--c-canvas-warm);
   }
 
-  .legal-page__content {
-    max-width: 66ch;
+  .legal-hero__layout {
+    display: grid;
+    gap: clamp(3rem, 7vw, 7rem);
+    align-items: end;
   }
 
-  .legal-page__eyebrow {
+  .legal-hero__copy {
+    max-width: 48rem;
+  }
+
+  .legal-eyebrow {
+    margin-bottom: var(--space-4);
     color: var(--c-blue);
     font-size: var(--eyebrow-size);
     font-weight: var(--eyebrow-weight);
-    letter-spacing: var(--eyebrow-tracking);
     line-height: var(--eyebrow-line-height);
+    letter-spacing: var(--eyebrow-tracking);
     text-transform: uppercase;
   }
 
-  .legal-page__title {
+  .legal-hero h1 {
+    max-width: 11ch;
     color: var(--c-ink);
     font-family: var(--font-display);
-    font-weight: 500;
-    margin-top: var(--space-3);
+    font-size: clamp(3rem, 6vw, 5.8rem);
+    font-weight: 450;
+    line-height: 0.98;
+    letter-spacing: -0.035em;
   }
 
-  .legal-page__summary {
-    color: var(--c-text-muted);
-    font-size: var(--fs-2);
-    line-height: var(--lh-loose);
-    margin-top: var(--space-4);
-    max-width: 56ch;
+  .legal-hero__summary {
+    max-width: 42rem;
+    margin-top: var(--space-6);
+    color: var(--c-navy);
+    font-size: clamp(1.08rem, 1.7vw, 1.3rem);
+    line-height: var(--lh-snug);
   }
 
-  .legal-page__rule {
-    border-color: var(--c-rule-blue);
-    margin-top: var(--space-7);
+  .legal-hero__meta {
+    padding-top: var(--space-5);
+    border-top: var(--border-1) solid var(--c-rule-blue);
   }
 
-  .legal-page__updated {
-    color: var(--c-text-faint);
+  .legal-hero__meta dl {
+    margin: var(--space-5) 0 0;
+    border-top: var(--border-1) solid var(--c-rule-blue);
+  }
+
+  .legal-hero__meta dl > div {
+    display: grid;
+    grid-template-columns: minmax(6.5rem, 0.42fr) minmax(0, 1fr);
+    gap: var(--space-4);
+    padding-block: var(--space-3);
+    border-bottom: var(--border-1) solid var(--c-rule-blue);
+  }
+
+  .legal-hero__meta dt {
+    color: var(--c-blue);
+    font-size: var(--fs--1);
+    font-weight: 650;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .legal-hero__meta dd {
+    margin: 0;
+    color: var(--c-ink);
+    font-weight: 600;
+    line-height: var(--lh-snug);
+  }
+
+  .legal-body {
+    padding-block: var(--home-section-y);
+    border-top: var(--border-1) solid var(--c-rule-blue);
+    background: var(--c-paper);
+  }
+
+  .legal-body__layout {
+    display: grid;
+    gap: var(--home-layout-gap);
+    align-items: start;
+  }
+
+  .legal-body__nav {
+    padding-top: var(--space-5);
+    border-top: var(--border-1) solid var(--c-rule-blue);
+  }
+
+  .legal-body__nav nav {
+    display: grid;
+    margin-top: var(--space-5);
+    border-top: var(--border-1) solid var(--c-rule-blue);
+  }
+
+  .legal-body__nav a {
+    padding-block: var(--space-3);
+    border-bottom: var(--border-1) solid var(--c-rule-blue);
+    color: var(--c-navy);
     font-size: var(--fs-0);
-    margin-top: var(--space-7);
+    font-weight: 600;
+    line-height: var(--lh-snug);
+    text-decoration: none;
+  }
+
+  .legal-body__nav a:hover {
+    color: var(--c-blue);
+  }
+
+  .legal-body__nav a[aria-current="page"] {
+    color: var(--c-blue);
+    font-weight: 700;
+  }
+
+  .legal-page__content {
+    min-width: 0;
+    max-width: 70ch;
+  }
+
+  .legal-page__content :global(h2) {
+    max-width: 22ch;
+    margin-top: clamp(3rem, 5vw, 4rem);
+    color: var(--c-ink);
+    font-family: var(--font-display);
+    font-size: clamp(1.85rem, 3vw, 2.55rem);
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+  }
+
+  .legal-page__content :global(h2:first-child) {
+    margin-top: 0;
+  }
+
+  .legal-page__content :global(p),
+  .legal-page__content :global(li) {
+    line-height: 1.7;
+  }
+
+  .legal-page__content :global(strong) {
+    color: var(--c-ink);
+  }
+
+  .legal-page__content :global(a) {
+    color: var(--c-navy);
+  }
+
+  .legal-page__content :global(a:hover) {
+    color: var(--c-blue);
+  }
+
+  @media (min-width: 64rem) {
+    .legal-hero__layout {
+      grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 0.85fr);
+    }
+
+    .legal-body__layout {
+      grid-template-columns: minmax(12rem, 0.32fr) minmax(0, 0.68fr);
+      column-gap: clamp(3rem, 7vw, 7rem);
+    }
+
+    .legal-body__nav {
+      position: sticky;
+      top: 7rem;
+    }
   }
 </style>
