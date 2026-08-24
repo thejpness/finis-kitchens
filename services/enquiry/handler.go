@@ -15,6 +15,9 @@ import (
 var (
 	emailRx  = regexp.MustCompile(`^[^\s@]+@[^\s@]+\.[^\s@]+$`)
 	nameTrim = regexp.MustCompile(`\s+`)
+
+	// sendEnquiryMail keeps the delivery implementation replaceable in handler tests.
+	sendEnquiryMail = sendMail
 )
 
 type enquiry struct {
@@ -36,6 +39,8 @@ type apiError struct {
 }
 
 func handleEnquiry(w http.ResponseWriter, r *http.Request) {
+	started := time.Now()
+
 	if r.Method != http.MethodPost {
 		httpError(w, http.StatusMethodNotAllowed, "method not allowed")
 		return
@@ -102,7 +107,7 @@ func handleEnquiry(w http.ResponseWriter, r *http.Request) {
 	case "marketing":
 		// keep configured prefix
 	default:
-		log.Printf("unknown channel %q, treating as marketing", channel)
+		log.Printf("unknown channel; treating as marketing")
 		channel = "marketing"
 	}
 
@@ -151,14 +156,13 @@ func handleEnquiry(w http.ResponseWriter, r *http.Request) {
 		nl2br(esc(in.Message)),
 	)
 
-	if err := sendMail(to, subject, plain, htmlBody, in.Email); err != nil {
-		log.Printf("sendMail error: %v", err)
+	if err := sendEnquiryMail(to, subject, plain, htmlBody, in.Email); err != nil {
+		log.Printf("enquiry delivery failed")
 		httpError(w, http.StatusBadGateway, "failed to send")
 		return
 	}
 
-	log.Printf("enquiry accepted channel=%q name=%q email=%q timeline=%q page=%q source=%q",
-		channel, safe(in.Name), in.Email, safe(in.Timeline), safe(in.Page), safe(in.Source))
+	log.Printf("enquiry accepted channel=%q duration_ms=%d", channel, time.Since(started).Milliseconds())
 
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(http.StatusAccepted)

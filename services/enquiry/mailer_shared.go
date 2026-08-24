@@ -62,7 +62,12 @@ func sendMail(to, subject, plainBody, htmlBody, replyTo string) error {
 		HTML:    htmlBody,
 		ReplyTo: replyTo,
 	})
-	log.Printf("[enquiry] smtp_ms=%d to=%q err=%v", time.Since(t0).Milliseconds(), to, err)
+	if err != nil {
+		log.Printf("[enquiry] smtp delivery failed smtp_ms=%d", time.Since(t0).Milliseconds())
+		return err
+	}
 
-	return err
+	log.Printf("[enquiry] smtp delivery succeeded smtp_ms=%d", time.Since(t0).Milliseconds())
+
+	return nil
 }
