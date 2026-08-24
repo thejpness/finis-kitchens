@@ -1,0 +1,77 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props as Props;
+---
+
+<BaseLayout title={`${title} | Fini's Kitchens`} description={description}>
+  <section class="legal-page">
+    <div class="container">
+      <article class="legal-page__content prose">
+        <header class="legal-page__intro">
+          <p class="legal-page__eyebrow">Legal information</p>
+          <h1 class="legal-page__title">{title}</h1>
+          <p class="legal-page__summary">
+            <slot name="summary" />
+          </p>
+        </header>
+
+        <hr class="divider legal-page__rule" />
+
+        <slot />
+
+        <p class="legal-page__updated">Last updated: August 2026</p>
+      </article>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal-page {
+    padding-block: clamp(var(--space-9), 7vw, var(--space-11));
+  }
+
+  .legal-page__content {
+    max-width: 66ch;
+  }
+
+  .legal-page__eyebrow {
+    color: var(--c-blue);
+    font-size: var(--eyebrow-size);
+    font-weight: var(--eyebrow-weight);
+    letter-spacing: var(--eyebrow-tracking);
+    line-height: var(--eyebrow-line-height);
+    text-transform: uppercase;
+  }
+
+  .legal-page__title {
+    color: var(--c-ink);
+    font-family: var(--font-display);
+    font-weight: 500;
+    margin-top: var(--space-3);
+  }
+
+  .legal-page__summary {
+    color: var(--c-text-muted);
+    font-size: var(--fs-2);
+    line-height: var(--lh-loose);
+    margin-top: var(--space-4);
+    max-width: 56ch;
+  }
+
+  .legal-page__rule {
+    border-color: var(--c-rule-blue);
+    margin-top: var(--space-7);
+  }
+
+  .legal-page__updated {
+    color: var(--c-text-faint);
+    font-size: var(--fs-0);
+    margin-top: var(--space-7);
+  }
+</style>
