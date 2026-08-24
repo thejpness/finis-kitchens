@@ -17,6 +17,23 @@ Traefik, and its external `traefik` network. Each application deployment uses
 its own Compose project, images, private networks and Docker-secret objects.
 Never run a production command in the staging checkout or vice versa.
 
+## Runtime security verification
+
+Before staging deployment sign-off, run the read-only attestation from the
+staging checkout on the Docker host:
+
+```sh
+cd /opt/finis-kitchens-staging
+bash scripts/verify-runtime.sh staging
+```
+
+The script requires both the explicit `staging` argument and the staging
+checkout path, so it refuses to run from production. It reads Docker and file
+metadata only; it never reads environment or secret values and never performs
+Docker lifecycle actions. Investigate any `FAIL` result before deployment or
+sign-off. `WARN` results identify metadata that needs operator review without
+changing the runtime.
+
 ## Host-file ownership and permissions
 
 Docker Compose project scoping isolates Docker resources; it does **not**
