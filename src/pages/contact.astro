@@ -1,257 +1,307 @@
 ---
 // src/pages/contact.astro
-import PageLayout from "../layouts/PageLayout.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
 import WhatsAppButton from "../components/WhatsAppButton.astro";
 
 const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
 ---
 
-<PageLayout
-  title="Contact Fini's Kitchens"
-  metaTitle="Contact | Fini's Kitchens"
-  description="Get in touch for a free kitchen design consultation. Serving Horsham, Lewes, and surrounding areas."
-  eyebrow="Get in touch"
-  heroSize="tight"
+<BaseLayout
+  title="Contact | Fini's Kitchens"
+  description="Start with a conversation about your kitchen. Practical guidance and sensible next steps for homes in and around Horsham."
 >
-  <section class="section section--tight contact-top">
-    <div class="container">
-      <div class="contact-layout">
-        <!-- LEFT -->
-        <div class="contact-left stack stack--loose">
-          <header class="contact-head stack stack--tight">
-            <h2 class="contact-head__title">Tell us about your kitchen</h2>
-            <p class="muted text-measure">
-              A quick message is enough to get started. We’ll come back with sensible next steps and a calm plan.
-            </p>
+  <section class="contact-hero">
+    <div class="container contact-hero__layout">
+      <div class="contact-hero__copy">
+        <p class="contact-eyebrow">Get in touch</p>
+        <h1>Start with a conversation.</h1>
+        <p class="contact-hero__summary">
+          You do not need a finished brief or an exact specification before getting in touch.
+          A rough idea of your room, your priorities and what needs to work better is enough to begin.
+        </p>
 
-            <div class="contact-head__cta">
-              <WhatsAppButton
-                class="btn btn--accent btn--large"
-                label="Message on WhatsApp"
-                text="Hi! I’d like to chat about a kitchen project."
-              />
-              <a class="btn btn--ghost btn--large" href="#contact-form">Send an enquiry</a>
+        <div class="contact-hero__actions">
+          <a class="btn btn--primary btn--large" href="#enquiry">Send an enquiry</a>
+          <WhatsAppButton
+            class="btn btn--ghost btn--large"
+            label="Message on WhatsApp"
+            text="Hi! I’d like to chat about a kitchen project."
+          />
+        </div>
+      </div>
+
+      <aside class="contact-hero__reassurance" aria-label="A simple way to get in touch">
+        <p class="contact-eyebrow">A useful starting point</p>
+        <p>
+          Share what you know now. We can help make sense of the details and agree a sensible next step from there.
+        </p>
+        <a class="contact-hero__phone" href="tel:+447581390107">Call +44 7581 390 107</a>
+      </aside>
+    </div>
+  </section>
+
+  <section class="contact-enquiry" id="enquiry" aria-labelledby="contact-enquiry-title">
+    <div class="container contact-enquiry__layout">
+      <header class="contact-enquiry__intro">
+        <p class="contact-eyebrow">Your enquiry</p>
+        <h2 id="contact-enquiry-title">A little context is useful. Rough is fine.</h2>
+        <p>
+          A message helps us come prepared for the first conversation. There is no need to have every decision made;
+          the useful starting points are simply the space, the timing and what matters most to you.
+        </p>
+
+        <ul class="contact-enquiry__notes">
+          <li>Where the project is and what the room is like</li>
+          <li>What you would like the kitchen to do better</li>
+          <li>Any timing, budget or practical questions already on your mind</li>
+        </ul>
+      </header>
+
+      <div class="contact-form-wrap">
+        <header class="contact-form__head">
+          <p class="contact-eyebrow">Send a message</p>
+          <h3>Tell us what you know.</h3>
+          <p>Fields marked <span aria-hidden="true">*</span> are required.</p>
+        </header>
+
+        <form id="enquiryForm" class="contact-form" novalidate>
+          <!-- Honeypot: bots will fill this, humans won't see it -->
+          <div class="hp" aria-hidden="true">
+            <label for="company">Company</label>
+            <input type="text" id="company" name="company" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Your name <span aria-hidden="true">*</span></label>
+              <input type="text" id="name" name="name" autocomplete="name" required />
             </div>
-          </header>
 
-          <div class="panel contact-panel">
-            <div class="contact-cards stack stack--loose">
-              <div class="card card--surface contact-card">
-                <h3>Call or email</h3>
-                <p class="muted contact-card__links">
-                  <a class="link" href="tel:+447581390107">+44 7581 390 107</a><br />
-                  <a class="link" href="mailto:oli.wyatt@thefinigroup.co.uk">oli.wyatt@thefinigroup.co.uk</a>
-                </p>
-
-                <div class="contact-card__actions">
-                  <WhatsAppButton class="btn btn--accent" label="WhatsApp" />
-                  <a class="btn btn--ghost" href="tel:+447581390107">Call</a>
-                </div>
-
-                <p class="faint contact-card__fineprint">
-                  Prefer a call? Add a rough time window in your message.
-                </p>
-              </div>
-
-              <div class="card card--surface contact-card">
-                <h3>Visit</h3>
-
-                <p class="muted contact-card__links">
-                  <a
-                    class="link"
-                    href="https://www.google.com/maps/search/?api=1&query=Laughton%20Rd%2C%20Ringmer%2C%20Lewes%20BN8%205SY"
-                    target="_blank"
-                    rel="noopener"
-                  >
-                    Laughton Rd, Ringmer<br />
-                    Lewes BN8 5SY
-                  </a>
-                  <br />
-                  <span class="faint">By appointment</span>
-                </p>
-
-                <div class="contact-card__actions">
-                  <a
-                    class="btn btn--ghost"
-                    href="https://www.google.com/maps/search/?api=1&query=Laughton%20Rd%2C%20Ringmer%2C%20Lewes%20BN8%205SY"
-                    target="_blank"
-                    rel="noopener"
-                  >
-                    Open in Maps
-                  </a>
-
-                  <a
-                    class="btn btn--ghost"
-                    href="https://www.google.com/maps/dir/?api=1&destination=Laughton%20Rd%2C%20Ringmer%2C%20Lewes%20BN8%205SY"
-                    target="_blank"
-                    rel="noopener"
-                  >
-                    Get directions
-                  </a>
-                </div>
-
-                <p class="faint contact-card__fineprint">
-                  If you’d like to visit, tell us what days usually work for you.
-                </p>
-              </div>
+            <div class="form-group">
+              <label for="email">Email <span aria-hidden="true">*</span></label>
+              <input type="email" id="email" name="email" autocomplete="email" required />
             </div>
           </div>
-        </div>
 
-        <!-- MIDDLE -->
-        <div class="contact-form-wrap" id="contact-form">
-          <div class="card card--surface contact-form">
-            <header class="stack stack--tight contact-form__head">
-              <h2 class="contact-form__title">Send a quick enquiry</h2>
-              <p class="muted contact-form__desc">
-                A few details helps us come prepared with sensible ideas and timings.
-              </p>
-            </header>
-
-            <form id="enquiryForm" class="stack stack--tight" novalidate>
-              <!-- Honeypot: bots will fill this, humans won't see it -->
-              <div class="hp" aria-hidden="true">
-                <label for="company">Company</label>
-                <input type="text" id="company" name="company" tabindex="-1" autocomplete="off" />
-              </div>
-
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="name">Your name</label>
-                  <input type="text" id="name" name="name" autocomplete="name" required />
-                </div>
-
-                <div class="form-group">
-                  <label for="email">Email</label>
-                  <input type="email" id="email" name="email" autocomplete="email" required />
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="phone">Phone (optional)</label>
-                <input type="tel" id="phone" name="phone" autocomplete="tel" />
-                <p class="field-help faint">Useful if you’d prefer a quick call back.</p>
-              </div>
-
-              <div class="form-group">
-                <label for="timeline">How soon are you looking to have your new kitchen?</label>
-                <select id="timeline" name="timeline" required>
-                  <option value="">Select a timeframe</option>
-                  <option value="Less than 3 months">Less than 3 months</option>
-                  <option value="3-6 months">3-6 months</option>
-                  <option value="6-9 months">6-9 months</option>
-                  <option value="9+ months / I don't know">9+ months / I don't know</option>
-                </select>
-                <p class="field-help faint">This helps us suggest sensible next steps and timings.</p>
-              </div>
-
-              <div class="form-group">
-                <label for="message">Tell us about your project</label>
-                <textarea
-                  id="message"
-                  name="message"
-                  rows="6"
-                  required
-                  placeholder="Where are you based? What style do you like? Any must-haves or challenges?"
-                ></textarea>
-              </div>
-
-              <div class="form-group form-consent">
-                <label class="check">
-                  <input type="checkbox" id="consent" name="consent" required />
-                  <span>
-                    You can contact me about this enquiry.
-                    <span class="faint">No spam. Just kitchen stuff.</span>
-                  </span>
-                </label>
-
-                <p class="faint contact-form__privacy-note">
-                  We’ll only use the details you send to respond to your kitchen enquiry.
-                </p>
-              </div>
-
-              <!-- Turnstile -->
-              <div class="form-group">
-                <div
-                  class="cf-turnstile"
-                  data-sitekey={TURNSTILE_SITE_KEY}
-                  data-callback="finisTurnstileOk"
-                  data-expired-callback="finisTurnstileExpired"
-                  data-error-callback="finisTurnstileError"
-                ></div>
-
-                <input type="hidden" id="captchaToken" name="captchaToken" value="" />
-                <p class="faint turnstile-help" id="turnstileHelp" role="status" aria-live="polite"></p>
-              </div>
-
-              <button type="submit" class="btn btn--primary btn--large form-submit" id="submitBtn">
-                Send message
-              </button>
-
-              <div class="form-status" id="formStatus" role="status" aria-live="polite"></div>
-
-              <p class="faint contact-form__fineprint">
-                Prefer WhatsApp?
-                <a
-                  class="link"
-                  href="https://wa.me/447581390107?text=Hi!%20I%E2%80%99d%20like%20to%20chat%20about%20a%20kitchen%20project."
-                  target="_blank"
-                  rel="noopener"
-                >
-                  Message us
-                </a>.
-              </p>
-
-              <noscript>
-                <p class="faint">
-                  This form needs JavaScript enabled to send securely. If you prefer, email
-                  <a class="link" href="mailto:oli.wyatt@thefinigroup.co.uk">oli.wyatt@thefinigroup.co.uk</a>
-                  or use WhatsApp above.
-                </p>
-              </noscript>
-            </form>
+          <div class="form-group">
+            <label for="phone">Phone <span class="form-optional">(optional)</span></label>
+            <input type="tel" id="phone" name="phone" autocomplete="tel" aria-describedby="phoneHelp" />
+            <p class="field-help" id="phoneHelp">Useful if you would prefer a quick call back.</p>
           </div>
-        </div>
 
-        <!-- RIGHT -->
-        <aside class="next-steps panel">
-          <div class="next-steps__head stack stack--tight">
-            <h2 class="next-steps__title">What happens next</h2>
-            <p class="muted">
-              Simple, calm steps - so you always know what’s happening and when.
+          <div class="form-group">
+            <label for="timeline">How soon are you looking to have your new kitchen? <span aria-hidden="true">*</span></label>
+            <select id="timeline" name="timeline" required aria-describedby="timelineHelp">
+              <option value="">Select a timeframe</option>
+              <option value="Less than 3 months">Less than 3 months</option>
+              <option value="3-6 months">3-6 months</option>
+              <option value="6-9 months">6-9 months</option>
+              <option value="9+ months / I don't know">9+ months / I don't know</option>
+            </select>
+            <p class="field-help" id="timelineHelp">This helps us suggest sensible next steps and timings.</p>
+          </div>
+
+          <div class="form-group">
+            <label for="message">Tell us about your project <span aria-hidden="true">*</span></label>
+            <textarea
+              id="message"
+              name="message"
+              rows="6"
+              required
+              placeholder="Where are you based? What style do you like? Any must-haves or challenges?"
+            ></textarea>
+          </div>
+
+          <div class="form-group form-consent">
+            <label class="check">
+              <input type="checkbox" id="consent" name="consent" required />
+              <span>
+                You can contact me about this enquiry. <span aria-hidden="true">*</span>
+                <span class="form-consent__note">No spam. Just kitchen stuff.</span>
+              </span>
+            </label>
+
+            <p class="contact-form__privacy-note">
+              We’ll only use the details you send to respond to your kitchen enquiry.
             </p>
           </div>
 
-          <ol class="next-steps__list">
-            <li class="next-step card card--surface">
-              <p class="eyebrow next-step__kicker">Step 1</p>
-              <h3 class="next-step__title">Quick chat</h3>
-              <p class="muted">
-                We’ll talk through your space, what you want from the kitchen, and your rough timing.
-              </p>
-            </li>
+          <!-- Turnstile -->
+          <div class="form-group turnstile-group">
+            <div
+              class="cf-turnstile"
+              data-sitekey={TURNSTILE_SITE_KEY}
+              data-callback="finisTurnstileOk"
+              data-expired-callback="finisTurnstileExpired"
+              data-error-callback="finisTurnstileError"
+            ></div>
 
-            <li class="next-step card card--surface">
-              <p class="eyebrow next-step__kicker">Step 2</p>
-              <h3 class="next-step__title">Ideas & direction</h3>
-              <p class="muted">
-                We’ll suggest layout options and practical considerations - with clear next steps.
-              </p>
-            </li>
+            <input type="hidden" id="captchaToken" name="captchaToken" value="" />
+            <p class="turnstile-help" id="turnstileHelp" role="status" aria-live="polite"></p>
+          </div>
 
-            <li class="next-step card card--surface">
-              <p class="eyebrow next-step__kicker">Step 3</p>
-              <h3 class="next-step__title">Survey & design</h3>
-              <p class="muted">
-                If it’s a fit, we’ll arrange a site visit and start shaping a design that works day to day.
-              </p>
-            </li>
-          </ol>
-        </aside>
+          <button type="submit" class="btn btn--primary btn--large form-submit" id="submitBtn">
+            Send message
+          </button>
+
+          <div class="form-status" id="formStatus" role="status" aria-live="polite" aria-atomic="true"></div>
+
+          <p class="contact-form__fineprint">
+            Prefer WhatsApp?
+            <a
+              class="contact-text-link"
+              href="https://wa.me/447581390107?text=Hi!%20I%E2%80%99d%20like%20to%20chat%20about%20a%20kitchen%20project."
+              target="_blank"
+              rel="noopener"
+            >
+              Message us
+            </a>.
+          </p>
+
+          <noscript>
+            <p class="contact-form__fineprint">
+              This form needs JavaScript enabled to send securely. If you prefer, email
+              <a class="contact-text-link" href="mailto:oli.wyatt@thefinigroup.co.uk">oli.wyatt@thefinigroup.co.uk</a>
+              or use WhatsApp above.
+            </p>
+          </noscript>
+        </form>
       </div>
     </div>
   </section>
-</PageLayout>
+
+  <section class="contact-methods" aria-labelledby="contact-methods-title">
+    <div class="container contact-methods__frame">
+      <header class="contact-methods__intro">
+        <p class="contact-eyebrow">Direct contact</p>
+        <h2 id="contact-methods-title">Talk in the way that suits you.</h2>
+        <p>Choose the simplest route. If a call is easier, include a rough time that works for you.</p>
+      </header>
+
+      <div class="contact-methods__list">
+        <div class="contact-method">
+          <span class="contact-method__number" aria-hidden="true">01</span>
+          <div>
+            <h3>WhatsApp</h3>
+            <p>A quick message is enough to get the conversation started.</p>
+          </div>
+          <a
+            class="contact-method__link"
+            href="https://wa.me/447581390107?text=Hi!%20I%E2%80%99d%20like%20to%20chat%20about%20a%20kitchen%20project."
+            target="_blank"
+            rel="noopener"
+          >
+            Message on WhatsApp <span aria-hidden="true">→</span>
+          </a>
+        </div>
+
+        <div class="contact-method">
+          <span class="contact-method__number" aria-hidden="true">02</span>
+          <div>
+            <h3>Telephone</h3>
+            <p>For a direct conversation about your room or plans.</p>
+          </div>
+          <a class="contact-method__link" href="tel:+447581390107">+44 7581 390 107 <span aria-hidden="true">→</span></a>
+        </div>
+
+        <div class="contact-method">
+          <span class="contact-method__number" aria-hidden="true">03</span>
+          <div>
+            <h3>Email</h3>
+            <p>Useful when you would rather write things down in your own time.</p>
+          </div>
+          <a class="contact-method__link" href="mailto:oli.wyatt@thefinigroup.co.uk">
+            oli.wyatt@thefinigroup.co.uk <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact-showroom" aria-labelledby="contact-showroom-title">
+    <div class="container contact-showroom__layout">
+      <header>
+        <p class="contact-eyebrow">Visit the showroom</p>
+        <h2 id="contact-showroom-title">See the details in person.</h2>
+      </header>
+
+      <div class="contact-showroom__content">
+        <p>
+          Visiting the showroom is stage 02 of the process: a chance to see materials, finishes and options in person
+          before detailed design work begins.
+        </p>
+
+        <div class="contact-showroom__address">
+          <p class="contact-showroom__address-label">Ringmer showroom</p>
+          <a
+            href="https://www.google.com/maps/search/?api=1&query=Laughton%20Rd%2C%20Ringmer%2C%20Lewes%20BN8%205SY"
+            target="_blank"
+            rel="noopener"
+          >
+            Laughton Rd, Ringmer<br />
+            Lewes BN8 5SY
+          </a>
+          <p>By appointment</p>
+        </div>
+
+        <div class="contact-showroom__actions">
+          <a
+            class="btn btn--ghost"
+            href="https://www.google.com/maps/search/?api=1&query=Laughton%20Rd%2C%20Ringmer%2C%20Lewes%20BN8%205SY"
+            target="_blank"
+            rel="noopener"
+          >
+            Open in Maps
+          </a>
+          <a
+            class="btn btn--ghost"
+            href="https://www.google.com/maps/dir/?api=1&destination=Laughton%20Rd%2C%20Ringmer%2C%20Lewes%20BN8%205SY"
+            target="_blank"
+            rel="noopener"
+          >
+            Get directions
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact-next" aria-labelledby="contact-next-title">
+    <div class="container contact-next__frame">
+      <header class="contact-next__intro">
+        <p class="contact-eyebrow">What happens next</p>
+        <h2 id="contact-next-title">A clear first step, then the right next one.</h2>
+        <p>There is no need to map the whole project before you make contact.</p>
+      </header>
+
+      <ol class="contact-next__list">
+        <li>
+          <span aria-hidden="true">01</span>
+          <div>
+            <h3>We read your enquiry</h3>
+            <p>We take in the room, priorities and rough timing you have shared.</p>
+          </div>
+        </li>
+        <li>
+          <span aria-hidden="true">02</span>
+          <div>
+            <h3>We have an initial conversation</h3>
+            <p>We talk through the useful details and answer the practical questions you have now.</p>
+          </div>
+        </li>
+        <li>
+          <span aria-hidden="true">03</span>
+          <div>
+            <h3>We agree the sensible next step</h3>
+            <p>That might be a showroom visit, a survey or simply more guidance before deciding.</p>
+          </div>
+        </li>
+      </ol>
+
+      <a class="contact-next__link" href="/process">Read the full kitchen process <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+</BaseLayout>
 
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
@@ -393,228 +443,307 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
 </script>
 
 <style>
-  .contact-top {
-    padding-top: 0;
+  .contact-hero {
+    padding-block: clamp(4rem, 7vw, 6.25rem);
+    background: var(--c-canvas-warm);
   }
 
-  .contact-layout {
+  .contact-hero__layout,
+  .contact-enquiry__layout,
+  .contact-methods__intro,
+  .contact-showroom__layout,
+  .contact-next__intro {
     display: grid;
-    gap: var(--space-6);
-    grid-template-columns: minmax(18rem, 1.02fr) minmax(22rem, 1.24fr) minmax(18rem, 0.94fr);
-    grid-template-areas: "left form steps";
-    align-items: start;
+    gap: clamp(2.75rem, 6vw, 6rem);
+    align-items: end;
   }
 
-  .contact-left {
-    grid-area: left;
+  .contact-hero__copy {
+    max-width: 48rem;
+  }
+
+  .contact-eyebrow {
+    margin-bottom: var(--space-4);
+    color: var(--c-blue);
+    font-size: var(--eyebrow-size);
+    font-weight: var(--eyebrow-weight);
+    line-height: var(--eyebrow-line-height);
+    letter-spacing: var(--eyebrow-tracking);
+    text-transform: uppercase;
+  }
+
+  .contact-hero h1 {
+    max-width: 10ch;
+    color: var(--c-ink);
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 6vw, 5.8rem);
+    font-weight: 450;
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+  }
+
+  .contact-hero__summary {
+    max-width: 42rem;
+    margin-top: var(--space-6);
+    color: var(--c-navy);
+    font-size: clamp(1.08rem, 1.7vw, 1.3rem);
+    line-height: var(--lh-snug);
+  }
+
+  .contact-hero__actions,
+  .contact-showroom__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    align-items: center;
+    margin-top: var(--space-7);
+  }
+
+  .contact-hero__reassurance {
+    padding-top: var(--space-5);
+    border-top: var(--border-1) solid var(--c-rule-blue);
+  }
+
+  .contact-hero__reassurance .contact-eyebrow {
+    margin-bottom: var(--space-4);
+  }
+
+  .contact-hero__reassurance > p:not(.contact-eyebrow) {
+    max-width: 35rem;
+    color: var(--c-navy);
+    font-size: clamp(1rem, 1.3vw, 1.12rem);
+    line-height: 1.55;
+  }
+
+  .contact-hero__phone,
+  .contact-text-link,
+  .contact-next__link {
+    color: var(--c-navy);
+    font-weight: 650;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.18em;
+  }
+
+  .contact-hero__phone {
+    display: inline-block;
+    margin-top: var(--space-5);
+  }
+
+  .contact-hero__phone:hover,
+  .contact-text-link:hover {
+    color: var(--c-blue);
+    text-decoration-thickness: 2px;
+  }
+
+  .contact-enquiry {
+    padding-block: var(--home-section-y);
+    border-top: var(--border-1) solid var(--c-rule-blue);
+    background: var(--c-paper);
+  }
+
+  .contact-enquiry__intro h2,
+  .contact-showroom h2,
+  .contact-next h2 {
+    max-width: 13ch;
+    color: var(--c-ink);
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 4.8vw, 4.6rem);
+    font-weight: 450;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  .contact-enquiry__intro > p:not(.contact-eyebrow) {
+    max-width: 39rem;
+    margin-top: var(--space-6);
+    color: var(--c-navy);
+    font-size: clamp(1rem, 1.3vw, 1.12rem);
+    line-height: 1.65;
+  }
+
+  .contact-enquiry__notes {
+    max-width: 39rem;
+    padding: 0;
+    margin: var(--space-7) 0 0;
+    list-style: none;
+    border-top: var(--border-1) solid var(--c-rule-blue);
+  }
+
+  .contact-enquiry__notes li {
+    position: relative;
+    padding: var(--space-4) 0 var(--space-4) 1.35rem;
+    border-bottom: var(--border-1) solid var(--c-rule-blue);
+    color: var(--c-navy);
+    font-size: var(--fs-0);
+    font-weight: 560;
+    line-height: var(--lh-snug);
+  }
+
+  .contact-enquiry__notes li::before {
+    content: "";
+    position: absolute;
+    top: calc(var(--space-4) + 0.68em);
+    left: 0;
+    width: 0.45rem;
+    height: 0.45rem;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    background: var(--c-blue-muted);
   }
 
   .contact-form-wrap {
-    grid-area: form;
-  }
-
-  .next-steps {
-    grid-area: steps;
-  }
-
-  .contact-left,
-  .contact-form-wrap,
-  .next-steps {
     min-width: 0;
-  }
-
-  .contact-head__title {
-    font-size: clamp(1.35rem, 1.2vw + 1.1rem, 1.9rem);
-    line-height: 1.15;
-    letter-spacing: var(--ls-tight);
-    margin: 0;
-  }
-
-  .contact-head__cta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-3);
-    margin-top: var(--space-2);
-  }
-
-  .contact-panel {
-    padding: var(--space-7);
-  }
-
-  .contact-cards {
-    gap: var(--space-6);
-  }
-
-  .contact-card {
-    background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(246, 241, 234, 0.96) 100%);
-  }
-
-  .contact-card h3 {
-    margin: 0 0 var(--space-2);
-  }
-
-  .contact-card__links {
-    line-height: 1.75;
-  }
-
-  .contact-card__actions {
-    margin-top: var(--space-4);
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-3);
-  }
-
-  .contact-card__fineprint {
-    margin-top: var(--space-4);
-    font-size: 0.9rem;
-  }
-
-  .contact-card__links a,
-  .contact-form__fineprint a {
-    overflow-wrap: anywhere;
-    word-break: break-word;
-  }
-
-  .contact-form {
-    padding: var(--space-8);
-    border-radius: var(--radius-xl);
-    background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.985) 0%, rgba(246, 241, 234, 0.965) 100%);
-    box-shadow: var(--shadow-2);
+    padding: clamp(1.5rem, 4vw, 3.5rem);
+    background: var(--c-canvas-warm);
+    border-top: var(--border-1) solid var(--c-rule-blue);
+    border-bottom: var(--border-1) solid var(--c-rule-blue);
   }
 
   .contact-form__head {
-    padding-bottom: var(--space-2);
-    border-bottom: var(--border-1) solid color-mix(in srgb, var(--c-border) 72%, transparent);
+    padding-bottom: var(--space-5);
+    border-bottom: var(--border-1) solid var(--c-rule-blue);
   }
 
-  .contact-form__title {
-    margin: 0;
-    font-size: 1.15rem;
-    letter-spacing: var(--ls-tight);
+  .contact-form__head .contact-eyebrow {
+    margin-bottom: var(--space-3);
   }
 
-  .contact-form__desc {
-    margin: 0;
+  .contact-form__head h3 {
+    color: var(--c-ink);
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 2.8vw, 2.55rem);
+    font-weight: 450;
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+  }
+
+  .contact-form__head > p:last-child {
+    margin-top: var(--space-3);
+    color: var(--c-text-muted);
+    font-size: var(--fs-0);
+    line-height: var(--lh-snug);
+  }
+
+  .contact-form > * + * {
+    margin-top: var(--space-6);
   }
 
   .form-row {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--space-5);
-  }
-
-  .form-group {
-    margin-top: var(--space-6);
   }
 
   .form-group label {
     display: block;
     margin-bottom: var(--space-2);
+    color: var(--c-ink);
+    font-size: var(--fs-0);
     font-weight: 650;
-    color: var(--c-text);
-    font-size: 0.92rem;
+    line-height: var(--lh-snug);
   }
 
-  .field-help {
+  .form-optional,
+  .field-help,
+  .contact-form__privacy-note,
+  .turnstile-help,
+  .contact-form__fineprint,
+  .form-consent__note {
+    color: var(--c-text-muted);
+    font-size: var(--fs-0);
+    line-height: var(--lh-snug);
+  }
+
+  .field-help,
+  .contact-form__privacy-note,
+  .turnstile-help {
     margin-top: var(--space-2);
-    font-size: 0.88rem;
   }
 
   .form-group input,
   .form-group textarea,
   .form-group select {
     width: 100%;
-    padding: 0.85rem 1rem;
+    min-height: 3.1rem;
+    padding: 0.8rem 0.9rem;
     border: var(--border-1) solid var(--c-border-strong);
-    border-radius: var(--radius-m);
-    font-size: 0.98rem;
-    background: var(--c-surface);
+    border-radius: 0.35rem;
+    color: var(--c-ink);
+    background: var(--c-paper);
     transition:
       border-color var(--dur-2) var(--ease-out),
-      box-shadow var(--dur-2) var(--ease-out),
       background var(--dur-2) var(--ease-out);
   }
 
   .form-group input:hover,
   .form-group textarea:hover,
   .form-group select:hover {
-    border-color: color-mix(in srgb, var(--c-accent) 28%, var(--c-border-strong));
-    background: color-mix(in srgb, var(--c-surface) 94%, white);
+    border-color: var(--c-blue-muted);
   }
 
-  .form-group input:focus,
-  .form-group textarea:focus,
-  .form-group select:focus {
-    outline: none;
-    border-color: var(--c-accent);
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--c-accent) 18%, transparent);
+  .form-group input:focus-visible,
+  .form-group textarea:focus-visible,
+  .form-group select:focus-visible {
+    border-color: var(--c-blue);
+    outline: 3px solid color-mix(in srgb, var(--c-blue-pale) 78%, transparent);
+    outline-offset: 2px;
   }
 
   .form-group textarea {
-    resize: vertical;
-    font-family: inherit;
     min-height: 10rem;
+    resize: vertical;
   }
 
   .form-group select {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
     cursor: pointer;
-    background-image:
-      linear-gradient(45deg, transparent 50%, var(--c-text) 50%),
-      linear-gradient(135deg, var(--c-text) 50%, transparent 50%);
-    background-position:
-      calc(100% - 1.1rem) calc(50% - 0.15rem),
-      calc(100% - 0.8rem) calc(50% - 0.15rem);
-    background-size: 0.35rem 0.35rem, 0.35rem 0.35rem;
-    background-repeat: no-repeat;
-    padding-right: 2.5rem;
-  }
-
-  .form-submit {
-    width: 100%;
-    margin-top: var(--space-7);
-  }
-
-  .contact-form__fineprint {
-    margin-top: var(--space-4);
-    font-size: 0.9rem;
-  }
-
-  .contact-form__privacy-note {
-    margin-top: var(--space-2);
-    font-size: 0.88rem;
-    line-height: 1.5;
   }
 
   .form-consent .check {
     display: flex;
     gap: var(--space-3);
     align-items: flex-start;
+    color: var(--c-ink);
     cursor: pointer;
     user-select: none;
   }
 
   .form-consent input[type="checkbox"] {
+    width: 1.1rem;
+    min-width: 1.1rem;
+    min-height: 1.1rem;
+    height: 1.1rem;
+    padding: 0;
     margin-top: 0.2rem;
-    width: 1.05rem;
-    height: 1.05rem;
-    accent-color: var(--c-accent);
+    accent-color: var(--c-blue);
   }
 
-  .turnstile-help {
-    margin-top: var(--space-2);
+  .form-consent__note {
+    display: block;
+    margin-top: var(--space-1);
+  }
+
+  .turnstile-group {
+    min-width: 0;
+  }
+
+  .cf-turnstile,
+  .cf-turnstile iframe {
+    max-width: 100%;
+  }
+
+  .form-submit {
+    width: 100%;
   }
 
   .form-status {
-    margin-top: var(--space-4);
-    padding: 0.85rem 1rem;
-    border-radius: var(--radius-m);
-    border: var(--border-1) solid var(--c-border-strong);
-    background: color-mix(in srgb, var(--c-surface) 86%, var(--c-border) 14%);
+    padding: var(--space-3) var(--space-4);
+    border: var(--border-1) solid var(--c-rule-blue);
+    border-left: 3px solid var(--c-blue-muted);
+    color: var(--c-navy);
+    background: var(--c-paper);
+    font-weight: 560;
+    line-height: var(--lh-snug);
   }
 
   .form-status:empty {
@@ -622,103 +751,313 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
   }
 
   .form-status--success {
-    border-color: color-mix(in srgb, var(--c-accent) 45%, var(--c-border-strong));
+    border-color: color-mix(in srgb, var(--c-success) 46%, var(--c-rule-blue));
+    border-left-color: var(--c-success);
+    color: #14532d;
   }
 
   .form-status--error {
-    border-color: color-mix(in srgb, #d44 45%, var(--c-border-strong));
+    border-color: color-mix(in srgb, var(--c-danger) 48%, var(--c-rule-blue));
+    border-left-color: var(--c-danger);
+    color: var(--c-danger);
+  }
+
+  .contact-form__fineprint {
+    overflow-wrap: anywhere;
   }
 
   .hp {
     position: absolute;
-    left: -10000px;
     top: auto;
+    left: -10000px;
     width: 1px;
     height: 1px;
     overflow: hidden;
   }
 
-  .next-steps {
-    padding: var(--space-7);
+  .contact-methods {
+    padding-block: var(--home-section-y-tight);
+    background: var(--c-paper);
   }
 
-  .next-steps__title {
-    margin: 0;
-    letter-spacing: var(--ls-tight);
-    font-size: 1.15rem;
-  }
-
-  .next-steps__list {
-    list-style: none;
-    padding: 0;
-    margin: var(--space-6) 0 0;
+  .contact-methods__frame {
     display: grid;
-    gap: var(--space-5);
+    gap: clamp(2.75rem, 5vw, 4.5rem);
   }
 
-  .next-step {
-    padding: var(--space-6);
-    background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(246, 241, 234, 0.96) 100%);
+  .contact-methods__intro h2 {
+    max-width: 13ch;
+    color: var(--c-ink);
+    font-size: clamp(2.35rem, 4.4vw, 4.25rem);
+    font-weight: 580;
+    line-height: 0.98;
+    letter-spacing: -0.045em;
   }
 
-  .next-step__kicker {
-    margin: 0 0 var(--space-2);
+  .contact-methods__intro > p:not(.contact-eyebrow) {
+    max-width: 36ch;
+    color: var(--c-navy);
+    font-size: var(--fs-2);
+    line-height: var(--lh-snug);
   }
 
-  .next-step__title {
-    margin: 0;
-    font-size: 1.02rem;
+  .contact-methods__list {
+    border-top: var(--border-1) solid var(--c-rule-blue);
   }
 
-  .next-step p {
+  .contact-method {
+    display: grid;
+    grid-template-columns: 2.5rem minmax(0, 1fr);
+    gap: var(--space-3) var(--space-4);
+    padding-block: clamp(1.5rem, 3vw, 2.25rem);
+    border-bottom: var(--border-1) solid var(--c-rule-blue);
+  }
+
+  .contact-method__number {
+    color: var(--c-blue);
+    font-size: var(--fs-0);
+    font-weight: 650;
+    letter-spacing: 0.08em;
+  }
+
+  .contact-method h3 {
+    color: var(--c-ink);
+    font-size: clamp(1.25rem, 2vw, 1.55rem);
+    font-weight: 600;
+    line-height: 1.05;
+  }
+
+  .contact-method p {
+    max-width: 35rem;
+    margin-top: var(--space-2);
+    color: var(--c-text-muted);
+    font-size: var(--fs-0);
+    line-height: 1.55;
+  }
+
+  .contact-method__link {
+    grid-column: 2;
+    display: inline-flex;
+    width: fit-content;
+    max-width: 100%;
+    gap: var(--space-2);
+    align-items: center;
+    color: var(--c-navy);
+    font-weight: 650;
+    line-height: var(--lh-snug);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.18em;
+    overflow-wrap: anywhere;
+  }
+
+  .contact-method__link:hover {
+    color: var(--c-blue);
+    text-decoration-thickness: 2px;
+  }
+
+  .contact-showroom {
+    padding-block: var(--home-section-y-tight);
+    border-top: var(--border-1) solid var(--c-rule-blue);
+    background: var(--c-canvas);
+  }
+
+  .contact-showroom__content {
+    max-width: 42rem;
+  }
+
+  .contact-showroom__content > p {
+    color: var(--c-navy);
+    font-size: clamp(1.05rem, 1.4vw, 1.2rem);
+    line-height: 1.6;
+  }
+
+  .contact-showroom__address {
+    padding-block: var(--space-5);
+    margin-top: var(--space-7);
+    border-top: var(--border-1) solid var(--c-rule-blue);
+    border-bottom: var(--border-1) solid var(--c-rule-blue);
+  }
+
+  .contact-showroom__address-label {
+    color: var(--c-blue);
+    font-size: var(--eyebrow-size);
+    font-weight: var(--eyebrow-weight);
+    letter-spacing: var(--eyebrow-tracking);
+    text-transform: uppercase;
+  }
+
+  .contact-showroom__address a {
+    display: inline-block;
     margin-top: var(--space-3);
-    max-width: 65ch;
+    color: var(--c-ink);
+    font-size: clamp(1.1rem, 1.5vw, 1.3rem);
+    font-weight: 600;
+    line-height: 1.35;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.18em;
   }
 
-  @media (max-width: 980px) {
-    .contact-layout {
-      grid-template-columns: 1fr 1fr;
-      grid-template-areas:
-        "left form"
-        "steps steps";
+  .contact-showroom__address a:hover {
+    color: var(--c-blue);
+    text-decoration-thickness: 2px;
+  }
+
+  .contact-showroom__address p:last-child {
+    margin-top: var(--space-3);
+    color: var(--c-text-muted);
+    font-size: var(--fs-0);
+  }
+
+  .contact-showroom__actions {
+    margin-top: var(--space-5);
+  }
+
+  .contact-next {
+    padding-block: var(--home-section-y);
+    background: var(--c-navy);
+  }
+
+  .contact-next .contact-eyebrow {
+    color: var(--c-blue-pale);
+  }
+
+  .contact-next h2 {
+    color: var(--c-paper);
+  }
+
+  .contact-next__intro > p:not(.contact-eyebrow) {
+    max-width: 34ch;
+    color: var(--c-blue-pale);
+    font-size: var(--fs-2);
+    line-height: var(--lh-snug);
+  }
+
+  .contact-next__list {
+    display: grid;
+    padding: 0;
+    margin: clamp(2.75rem, 5vw, 4.5rem) 0 0;
+    list-style: none;
+    border-top: var(--border-1) solid var(--c-rule-on-dark);
+  }
+
+  .contact-next__list li {
+    display: grid;
+    grid-template-columns: 2.5rem minmax(0, 1fr);
+    gap: var(--space-4);
+    padding-block: clamp(1.75rem, 3vw, 2.5rem);
+    border-bottom: var(--border-1) solid var(--c-rule-on-dark);
+  }
+
+  .contact-next__list li > span {
+    color: var(--c-blue-pale);
+    font-size: var(--fs-0);
+    font-weight: 650;
+    letter-spacing: 0.08em;
+  }
+
+  .contact-next__list h3 {
+    color: var(--c-paper);
+    font-size: clamp(1.25rem, 2vw, 1.55rem);
+    font-weight: 600;
+    line-height: 1.05;
+  }
+
+  .contact-next__list p {
+    margin-top: var(--space-3);
+    color: var(--c-blue-pale);
+    line-height: 1.55;
+  }
+
+  .contact-next__link {
+    display: inline-flex;
+    width: fit-content;
+    gap: var(--space-2);
+    align-items: center;
+    margin-top: var(--space-7);
+    color: var(--c-paper);
+  }
+
+  .contact-next__link:hover {
+    color: var(--c-blue-pale);
+    text-decoration-thickness: 2px;
+  }
+
+  @media (min-width: 48rem) {
+    .contact-enquiry__layout {
+      grid-template-columns: minmax(0, 0.78fr) minmax(22rem, 1.22fr);
+      align-items: start;
     }
   }
 
-  @media (max-width: 640px) {
-    .contact-layout {
-      grid-template-columns: 1fr;
-      grid-template-areas:
-        "left"
-        "form"
-        "steps";
+  @media (min-width: 64rem) {
+    .contact-hero__layout,
+    .contact-methods__intro,
+    .contact-showroom__layout,
+    .contact-next__intro {
+      grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 0.85fr);
     }
 
-    .contact-head__cta {
+    .contact-method {
+      grid-template-columns: 3rem minmax(12rem, 0.75fr) minmax(0, 1.25fr);
+      gap: var(--space-5);
+      align-items: center;
+    }
+
+    .contact-method__link {
+      grid-column: 3;
+      justify-self: end;
+      text-align: right;
+    }
+  }
+
+  @media (min-width: 72rem) {
+    .contact-next__list {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .contact-next__list li {
+      display: block;
+      padding-inline: clamp(1.5rem, 2.5vw, 2.5rem);
+      border-right: var(--border-1) solid var(--c-rule-on-dark);
+    }
+
+    .contact-next__list li:first-child {
+      padding-left: 0;
+    }
+
+    .contact-next__list li:last-child {
+      padding-right: 0;
+      border-right: 0;
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .contact-hero__actions,
+    .contact-showroom__actions {
       flex-direction: column;
       align-items: stretch;
     }
 
-    .contact-head__cta .btn {
+    .contact-hero__actions .btn,
+    .contact-showroom__actions .btn {
       width: 100%;
-      justify-content: center;
-    }
-
-    .contact-panel {
-      padding: var(--space-6);
-    }
-
-    .contact-form {
-      padding: var(--space-7);
-    }
-
-    .next-steps {
-      padding: var(--space-6);
     }
 
     .form-row {
       grid-template-columns: 1fr;
-      gap: 0;
+      gap: var(--space-6);
+    }
+  }
+
+  @media (max-width: 23.5rem) {
+    .contact-enquiry .container {
+      padding-inline: var(--space-2);
+    }
+
+    .contact-form-wrap {
+      padding-inline: 0;
     }
   }
 </style>
