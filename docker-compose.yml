@@ -52,6 +52,7 @@ services:
       - traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-security.headers.stsIncludeSubdomains=false
       - traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-security.headers.stsPreload=false
       - traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-security.headers.customResponseHeaders.Permissions-Policy=camera=(), microphone=(), geolocation=()
+      - "traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-security.headers.contentSecurityPolicy=default-src 'self'; script-src 'self' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src https://challenges.cloudflare.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
 
       # Each environment owns exactly one canonical web hostname.
       - traefik.http.routers.${TRAEFIK_RESOURCE_PREFIX}-web.rule=Host(`${SITE_DOMAIN}`)

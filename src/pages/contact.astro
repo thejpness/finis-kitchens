@@ -306,7 +306,7 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
 
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
-<script is:inline>
+<script>
   window.finisTurnstileOk = (token) => {
     const input = document.getElementById("captchaToken");
     const help = document.getElementById("turnstileHelp");
@@ -375,7 +375,7 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
     }
   };
 
-  document.addEventListener("DOMContentLoaded", () => {
+  const initialiseForm = () => {
     const form = $("enquiryForm");
     if (!form) return;
 
@@ -440,7 +440,13 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
         setBusy(false);
       }
     });
-  });
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initialiseForm, { once: true });
+  } else {
+    initialiseForm();
+  }
 </script>
 
 <style>
