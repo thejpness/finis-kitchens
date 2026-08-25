@@ -27,6 +27,7 @@ func withProxyHeaders(cfg proxyConfig, next http.Handler) http.Handler {
 		}
 
 		if r.Method == http.MethodOptions {
+			setProxyOutcome(r, "preflight")
 			w.WriteHeader(http.StatusNoContent)
 			return
 		}

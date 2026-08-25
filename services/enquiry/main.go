@@ -24,7 +24,7 @@ func main() {
 	mux := http.NewServeMux()
 
 	// Enquiries must come through proxy (internal secret required)
-	mux.Handle("POST /api/enquiry", requireInternalSecret(cfg.InternalEnquirySecret, http.HandlerFunc(handleEnquiry)))
+	mux.Handle("POST /api/enquiry", withEnquiryObservability(requireInternalSecret(cfg.InternalEnquirySecret, http.HandlerFunc(handleEnquiry))))
 
 	// Health stays open
 	mux.HandleFunc("GET /healthz", healthHandler)
