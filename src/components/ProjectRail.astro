@@ -55,35 +55,42 @@ const safe = (projects ?? []).filter(Boolean);
       </div>
     </div>
 
-    <script is:inline>
+    <script>
       (() => {
-        const root = document.currentScript?.closest(".project-rail");
-        if (!root) return;
+        document.querySelectorAll(".project-rail").forEach((root) => {
+          if (!(root instanceof HTMLElement)) return;
 
-        const grid = root.querySelector('[data-project-grid="reel"]');
-        const prev = root.querySelector("[data-prev]");
-        const next = root.querySelector("[data-next]");
-        if (!grid || !prev || !next) return;
+          const grid = root.querySelector('[data-project-grid="reel"]');
+          const prev = root.querySelector("[data-prev]");
+          const next = root.querySelector("[data-next]");
+          if (
+            !(grid instanceof HTMLElement) ||
+            !(prev instanceof HTMLButtonElement) ||
+            !(next instanceof HTMLButtonElement)
+          ) {
+            return;
+          }
 
-        const getStep = () => {
-          const first = grid.querySelector(":scope > *");
-          if (!first) return Math.max(240, Math.round(grid.clientWidth * 0.8));
-          const w = first.getBoundingClientRect().width;
-          return Math.max(240, Math.round(w + 16));
-        };
+          const getStep = () => {
+            const first = grid.querySelector(":scope > *");
+            if (!first) return Math.max(240, Math.round(grid.clientWidth * 0.8));
+            const w = first.getBoundingClientRect().width;
+            return Math.max(240, Math.round(w + 16));
+          };
 
-        const scrollBy = (dir) => grid.scrollBy({ left: getStep() * dir, behavior: "smooth" });
+          const scrollBy = (dir) => grid.scrollBy({ left: getStep() * dir, behavior: "smooth" });
 
-        prev.addEventListener("click", () => scrollBy(-1));
-        next.addEventListener("click", () => scrollBy(1));
+          prev.addEventListener("click", () => scrollBy(-1));
+          next.addEventListener("click", () => scrollBy(1));
 
-        const sync = () => {
-          const overflow = grid.scrollWidth > grid.clientWidth + 4;
-          root.classList.toggle("project-rail--overflow", overflow);
-        };
+          const sync = () => {
+            const overflow = grid.scrollWidth > grid.clientWidth + 4;
+            root.classList.toggle("project-rail--overflow", overflow);
+          };
 
-        sync();
-        window.addEventListener("resize", sync, { passive: true });
+          sync();
+          window.addEventListener("resize", sync, { passive: true });
+        });
       })();
     </script>
   </section>
