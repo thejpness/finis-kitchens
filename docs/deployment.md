@@ -34,6 +34,13 @@ Docker lifecycle actions. Investigate any `FAIL` result before deployment or
 sign-off. `WARN` results identify metadata that needs operator review without
 changing the runtime.
 
+## Immutable container base images
+
+Dockerfiles keep their human-readable tags to show the intended image family
+and pin each external base image to a registry manifest digest. The digest is
+the immutable build input; update it only by deliberately resolving and
+reviewing the replacement digest from the upstream registry.
+
 ## Host-file ownership and permissions
 
 Docker Compose project scoping isolates Docker resources; it does **not**
