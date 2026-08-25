@@ -165,6 +165,17 @@ services:
       - traefik.http.routers.${TRAEFIK_RESOURCE_PREFIX}-enquiry.service=${TRAEFIK_RESOURCE_PREFIX}-enquiry
       - traefik.http.services.${TRAEFIK_RESOURCE_PREFIX}-enquiry.loadbalancer.server.port=8080
 
+      # This is first so it wraps edge rejections from the abuse controls below.
+      - traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-enquiry-security.headers.contentTypeNosniff=true
+      - traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-enquiry-security.headers.frameDeny=true
+      - traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-enquiry-security.headers.referrerPolicy=strict-origin-when-cross-origin
+      - traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-enquiry-security.headers.forceSTSHeader=true
+      - traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-enquiry-security.headers.stsSeconds=31536000
+      - traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-enquiry-security.headers.stsIncludeSubdomains=false
+      - traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-enquiry-security.headers.stsPreload=false
+      - traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-enquiry-security.headers.customResponseHeaders.Permissions-Policy=camera=(), microphone=(), geolocation=()
+      - "traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-enquiry-security.headers.contentSecurityPolicy=default-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'"
+
       # Contact form abuse controls.
       - traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-enquiry-ratelimit.ratelimit.average=5
       - traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-enquiry-ratelimit.ratelimit.period=1m
@@ -172,7 +183,7 @@ services:
       - traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-enquiry-bodylimit.buffering.maxRequestBodyBytes=32768
       - traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-enquiry-bodylimit.buffering.memRequestBodyBytes=32768
       - traefik.http.middlewares.${TRAEFIK_RESOURCE_PREFIX}-enquiry-inflight.inflightreq.amount=4
-      - traefik.http.routers.${TRAEFIK_RESOURCE_PREFIX}-enquiry.middlewares=${TRAEFIK_RESOURCE_PREFIX}-enquiry-ratelimit@docker,${TRAEFIK_RESOURCE_PREFIX}-enquiry-bodylimit@docker,${TRAEFIK_RESOURCE_PREFIX}-enquiry-inflight@docker
+      - traefik.http.routers.${TRAEFIK_RESOURCE_PREFIX}-enquiry.middlewares=${TRAEFIK_RESOURCE_PREFIX}-enquiry-security@docker,${TRAEFIK_RESOURCE_PREFIX}-enquiry-ratelimit@docker,${TRAEFIK_RESOURCE_PREFIX}-enquiry-bodylimit@docker,${TRAEFIK_RESOURCE_PREFIX}-enquiry-inflight@docker
 
 networks:
   # Intentionally shared only with the host's Traefik project.

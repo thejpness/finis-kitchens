@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.6
 
-FROM node:22-alpine AS build
+FROM node:22-alpine@sha256:c610fcdfb1d5b4740dd70c284ed3cb16bb857e0f7166196e36a5501df7a3aa32 AS build
 
 WORKDIR /app
 
@@ -22,7 +22,7 @@ RUN npm run build
 
 # Runtime: unprivileged Nginx.
 # The unprivileged image listens on 8080 and runs as the nginx user.
-FROM nginxinc/nginx-unprivileged:stable-alpine-slim AS runtime
+FROM nginxinc/nginx-unprivileged:stable-alpine-slim@sha256:bcf91d2c73ab64fa1c4ac7fbac5ac523057c8af7d553ab9251c7aef38c260979 AS runtime
 
 # Temporarily switch to root during image build only.
 # This lets us remove the startup script that tries to edit config at runtime,

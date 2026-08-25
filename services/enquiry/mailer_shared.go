@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"log"
 	"sync"
 	"time"
 
@@ -54,7 +53,6 @@ func sendMail(to, subject, plainBody, htmlBody, replyTo string) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 8*time.Second)
 	defer cancel()
 
-	t0 := time.Now()
 	err = c.Send(ctx, mailer.Message{
 		To:      []string{to},
 		Subject: subject,
@@ -63,11 +61,7 @@ func sendMail(to, subject, plainBody, htmlBody, replyTo string) error {
 		ReplyTo: replyTo,
 	})
 	if err != nil {
-		log.Printf("[enquiry] smtp delivery failed smtp_ms=%d", time.Since(t0).Milliseconds())
 		return err
 	}
-
-	log.Printf("[enquiry] smtp delivery succeeded smtp_ms=%d", time.Since(t0).Milliseconds())
-
 	return nil
 }

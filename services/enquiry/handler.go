@@ -39,14 +39,14 @@ type apiError struct {
 }
 
 func handleEnquiry(w http.ResponseWriter, r *http.Request) {
-	started := time.Now()
-
 	if r.Method != http.MethodPost {
+		setEnquiryOutcome(r, "rejected")
 		httpError(w, http.StatusMethodNotAllowed, "method not allowed")
 		return
 	}
 
 	if ct := r.Header.Get("Content-Type"); !strings.HasPrefix(ct, "application/json") {
+		setEnquiryOutcome(r, "invalid_content_type")
 		httpError(w, http.StatusUnsupportedMediaType, "use application/json")
 		return
 	}
@@ -55,6 +55,7 @@ func handleEnquiry(w http.ResponseWriter, r *http.Request) {
 	dec := json.NewDecoder(http.MaxBytesReader(w, r.Body, 64<<10))
 	dec.DisallowUnknownFields()
 	if err := dec.Decode(&in); err != nil {
+		setEnquiryOutcome(r, "invalid_json")
 		httpError(w, http.StatusBadRequest, "invalid json")
 		return
 	}
@@ -62,6 +63,7 @@ func handleEnquiry(w http.ResponseWriter, r *http.Request) {
 	// Ensure there isn't trailing junk / extra JSON values
 	var extra any
 	if err := dec.Decode(&extra); err != io.EOF {
+		setEnquiryOutcome(r, "invalid_json")
 		httpError(w, http.StatusBadRequest, "invalid json")
 		return
 	}
@@ -69,6 +71,7 @@ func handleEnquiry(w http.ResponseWriter, r *http.Request) {
 	// Honeypot: pretend success but do nothing
 	if in.HoneyPot != "" {
 		time.Sleep(500 * time.Millisecond)
+		setEnquiryOutcome(r, "honeypot_accepted")
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(http.StatusAccepted)
 		_ = json.NewEncoder(w).Encode(map[string]any{"status": "ok"})
@@ -86,6 +89,7 @@ func handleEnquiry(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := validate(&in, requireConsent); err != nil {
+		setEnquiryOutcome(r, "rejected")
 		httpError(w, http.StatusBadRequest, err.Error())
 		return
 	}
@@ -107,9 +111,13 @@ func handleEnquiry(w http.ResponseWriter, r *http.Request) {
 	case "marketing":
 		// keep configured prefix
 	default:
-		log.Printf("unknown channel; treating as marketing")
+		log.Printf(
+			"event=enquiry_channel service=enquiry request_id=%s outcome=unknown_channel_fallback",
+			enquiryRequestIDFromContext(r.Context()),
+		)
 		channel = "marketing"
 	}
+	setEnquiryChannel(r, channel)
 
 	subject := strings.TrimSpace(fmt.Sprintf("%s New %s message from %s",
 		subjectPrefix, channel, safe(in.Name)))
@@ -157,12 +165,12 @@ func handleEnquiry(w http.ResponseWriter, r *http.Request) {
 	)
 
 	if err := sendEnquiryMail(to, subject, plain, htmlBody, in.Email); err != nil {
-		log.Printf("enquiry delivery failed")
+		setEnquiryOutcome(r, "delivery_failed")
 		httpError(w, http.StatusBadGateway, "failed to send")
 		return
 	}
 
-	log.Printf("enquiry accepted channel=%q duration_ms=%d", channel, time.Since(started).Milliseconds())
+	setEnquiryOutcome(r, "accepted")
 
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(http.StatusAccepted)
