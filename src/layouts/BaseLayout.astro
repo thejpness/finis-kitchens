@@ -18,8 +18,8 @@ interface Props {
 
 const {
   title = "Fini's Kitchens | Thoughtful Kitchen Design for Real Homes",
-  description = "Fini's Kitchens designs and installs beautifully functional kitchens for real homes in and around Horsham.",
-  ogImage = "/images/hero/default-hero.jpg",
+  description = "Fini's Kitchens designs and installs beautifully functional kitchens for real homes across East and West Sussex.",
+  ogImage = "/images/og/finis-kitchens-og.jpg",
   noindex = false,
   headerOverlay = false,
   footerFlush = false,
@@ -54,8 +54,12 @@ const businessSchema = {
   priceRange: "£££",
   areaServed: [
     {
-      "@type": "Place",
-      name: "Horsham and surrounding areas",
+      "@type": "AdministrativeArea",
+      name: "East Sussex",
+    },
+    {
+      "@type": "AdministrativeArea",
+      name: "West Sussex",
     },
   ],
   serviceType: [

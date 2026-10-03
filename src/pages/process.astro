@@ -2,7 +2,6 @@
 // src/pages/process.astro
 import BaseLayout from "../layouts/BaseLayout.astro";
 import FAQList from "../components/sections/FAQList.astro";
-import phWide from "../assets/images/placeholders/kitchen-placeholder-wide-island.png";
 
 const processPromises = [
   {
@@ -29,7 +28,7 @@ const processPromises = [
 
 const stages = [
   {
-    number: "01",
+    label: "The starting point",
     title: "Initial conversation",
     intro:
       "We start with a straightforward conversation about your home, your priorities, your broad budget and what you need the kitchen to do better.",
@@ -40,7 +39,7 @@ const stages = [
     ],
   },
   {
-    number: "02",
+    label: "Explore in person",
     title: "Visit our showroom",
     intro:
       "The showroom gives you a chance to see and handle materials in person, compare options and begin shaping a direction that feels right for your home.",
@@ -51,7 +50,7 @@ const stages = [
     ],
   },
   {
-    number: "03",
+    label: "Consider the details",
     title: "Design & specification",
     intro:
       "With a clear direction established, the room is properly understood and the design is developed around flow, storage, materials and the way you actually live.",
@@ -62,7 +61,7 @@ const stages = [
     ],
   },
   {
-    number: "04",
+    label: "Bring it together",
     title: "Supply & installation",
     intro:
       "Once the design is agreed, ordering, scheduling, delivery and fitting move forward as one coordinated stage with clear communication throughout.",
@@ -73,7 +72,7 @@ const stages = [
     ],
   },
   {
-    number: "05",
+    label: "Life after fitting",
     title: "Follow-up & aftercare",
     intro:
       "The relationship does not stop when the fitting finishes. Final details are checked, questions are resolved and support remains available afterwards.",
@@ -117,7 +116,7 @@ const faqs = [
 <BaseLayout
   title="Our process | Fini’s Kitchens"
   description="A calm, clear kitchen process from first conversation to aftercare. Thoughtful design, practical guidance and joined-up installation for real homes."
-  ogImage={phWide.src}
+  ogImage="/images/og/finis-kitchens-process.jpg"
 >
   <section class="process-page-hero">
     <div class="container process-page-hero__layout">
@@ -165,9 +164,10 @@ const faqs = [
       <ol class="process-journey__list">
         {stages.map((stage) => (
           <li class="process-journey__stage">
-            <p class="process-journey__number" aria-hidden="true">{stage.number}</p>
-
-            <h3>{stage.title}</h3>
+            <div class="process-journey__heading">
+              <p class="process-journey__label">{stage.label}</p>
+              <h3>{stage.title}</h3>
+            </div>
 
             <div class="process-journey__detail">
               <p class="process-journey__stage-intro">{stage.intro}</p>
@@ -199,11 +199,8 @@ const faqs = [
       </header>
 
       <div class="process-reassurance__grid">
-        {processPromises.map((item, index) => (
+        {processPromises.map((item) => (
           <article class="process-reassurance__item">
-            <p class="process-reassurance__number" aria-hidden="true">
-              {String(index + 1).padStart(2, "0")}
-            </p>
             <h3>{item.title}</h3>
             <p>{item.text}</p>
           </article>
@@ -376,34 +373,63 @@ const faqs = [
   }
 
   .process-journey__list {
-    padding: 0;
+    padding: 0 0 0 clamp(1.5rem, 3vw, 2rem);
     margin: 0;
     list-style: none;
-    border-top: var(--border-1) solid var(--c-rule-blue);
+    border-left: var(--border-1) solid var(--c-rule-blue);
   }
 
   .process-journey__stage {
+    position: relative;
     display: grid;
     gap: var(--space-5);
     padding-block: clamp(2rem, 4vw, 3.25rem);
     border-bottom: var(--border-1) solid var(--c-rule-blue);
   }
 
-  .process-journey__number {
+  .process-journey__stage:first-child {
+    padding-top: 0;
+  }
+
+  .process-journey__stage:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .process-journey__stage::before {
+    content: "";
+    position: absolute;
+    top: clamp(2.3rem, 4vw, 3.55rem);
+    left: calc(-1 * clamp(1.5rem, 3vw, 2rem) - 0.36rem);
+    width: 0.68rem;
+    height: 0.68rem;
+    border-radius: 50%;
+    background: var(--c-blue-muted);
+    box-shadow: 0 0 0 4px var(--c-paper);
+  }
+
+  .process-journey__stage:first-child::before {
+    top: 0.28rem;
+  }
+
+  .process-journey__label {
+    margin-bottom: var(--space-3);
     color: var(--c-blue);
-    font-size: clamp(2.2rem, 3.4vw, 3.25rem);
-    font-weight: 580;
-    line-height: 0.9;
-    letter-spacing: -0.05em;
+    font-size: var(--eyebrow-size);
+    font-weight: var(--eyebrow-weight);
+    line-height: var(--eyebrow-line-height);
+    letter-spacing: var(--eyebrow-tracking);
+    text-transform: uppercase;
   }
 
   .process-journey__stage h3 {
     max-width: 16ch;
     color: var(--c-ink);
-    font-size: clamp(1.55rem, 2.5vw, 2.35rem);
-    font-weight: 580;
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 3vw, 2.75rem);
+    font-weight: 450;
     line-height: 1.04;
-    letter-spacing: -0.035em;
+    letter-spacing: -0.025em;
   }
 
   .process-journey__detail {
@@ -483,14 +509,6 @@ const faqs = [
   .process-reassurance__item {
     padding-block: clamp(1.75rem, 3vw, 2.5rem);
     border-bottom: var(--border-1) solid var(--c-rule-on-dark);
-  }
-
-  .process-reassurance__number {
-    margin-bottom: var(--space-5);
-    color: var(--c-blue-pale);
-    font-size: var(--fs--1);
-    font-weight: 650;
-    letter-spacing: 0.12em;
   }
 
   .process-reassurance__item h3 {
@@ -577,12 +595,8 @@ const faqs = [
     }
 
     .process-journey__stage {
-      grid-template-columns: minmax(3.5rem, 0.16fr) minmax(0, 1fr);
+      grid-template-columns: minmax(12rem, 0.8fr) minmax(0, 1.2fr);
       column-gap: clamp(1.75rem, 4vw, 3rem);
-    }
-
-    .process-journey__detail {
-      grid-column: 2;
     }
 
     .process-reassurance__grid {
@@ -609,16 +623,9 @@ const faqs = [
     }
 
     .process-journey__stage {
-      grid-template-columns:
-        minmax(3.5rem, 0.18fr)
-        minmax(13rem, 0.62fr)
-        minmax(0, 1.2fr);
+      grid-template-columns: minmax(13rem, 0.8fr) minmax(0, 1.2fr);
       gap: clamp(2rem, 4vw, 4.5rem);
       align-items: start;
-    }
-
-    .process-journey__detail {
-      grid-column: auto;
     }
 
     .process-closing__frame {

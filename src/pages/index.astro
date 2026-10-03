@@ -2,6 +2,11 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import HomeHero from "../components/sections/HomeHero.astro";
 import finiBlueKitchen from "../assets/images/hero/fini-blue-kitchen.jpg";
+import stagedKitchenIsland from "../assets/images/process/staged-kitchen-island.jpg";
+import materialFinishSamples from "../assets/images/process/material-finish-samples.jpg";
+import cabinetryWorktopDetail from "../assets/images/process/cabinetry-worktop-detail.jpg";
+import whiteDisplayKitchen from "../assets/images/process/white-display-kitchen.jpg";
+import furnishedKitchenDining from "../assets/images/process/furnished-kitchen-dining.jpg";
 
 import BudgetGuide from "../components/sections/BudgetGuide.astro";
 import ProcessSteps from "../components/sections/ProcessSteps.astro";
@@ -20,22 +25,40 @@ const steps = [
   {
     title: "Initial conversation",
     body: "Understand your project, priorities, broad budget and what you need from the space.",
+    label: "The starting point",
+    image: stagedKitchenIsland,
+    alt: "Light kitchen interior with a central island and upholstered seating.",
   },
   {
     title: "Visit our showroom",
     body: "See materials in person and begin shaping the direction.",
+    label: "Explore in person",
+    image: materialFinishSamples,
+    alt: "Rows of worktop and finish samples in a materials display.",
+    imagePosition: "center 48%",
   },
   {
     title: "Design & specification",
     body: "Bring layout, cabinetry, finishes and practical details together.",
+    label: "Consider the details",
+    image: cabinetryWorktopDetail,
+    alt: "Dark cabinetry beside a pale worktop and sink.",
+    imagePosition: "62% 80%",
   },
   {
     title: "Supply & installation",
     body: "Ordering, scheduling, delivery and fitting through one coordinated plan.",
+    label: "Bring it together",
+    image: whiteDisplayKitchen,
+    alt: "White fitted kitchen display with an integrated oven and worktop.",
   },
   {
     title: "Follow-up & aftercare",
     body: "Resolve final details and provide support after installation.",
+    label: "Life after fitting",
+    image: furnishedKitchenDining,
+    alt: "Furnished kitchen and dining room with flowers on the table.",
+    imagePosition: "center 55%",
   },
 ];
 
