@@ -457,8 +457,10 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
 
   .contact-hero__layout {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: clamp(3rem, 7vw, 7rem);
     align-items: end;
+    overflow-wrap: anywhere;
   }
 
   .contact-enquiry__layout,
@@ -509,6 +511,16 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
     gap: var(--space-5);
     align-items: center;
     margin-top: var(--space-7);
+  }
+
+  .contact-hero__actions :global(.btn),
+  .contact-showroom__actions .btn {
+    max-width: 100%;
+    white-space: normal;
+  }
+
+  .contact-hero__actions :global(.wa-label) {
+    line-height: var(--lh-snug);
   }
 
   .contact-hero__reassurance {
@@ -824,6 +836,7 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
     gap: var(--space-3) var(--space-4);
     padding-block: clamp(1.5rem, 3vw, 2.25rem);
     border-bottom: var(--border-1) solid var(--c-rule-blue);
+    overflow-wrap: anywhere;
   }
 
   .contact-method__number {
@@ -961,6 +974,7 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
     gap: var(--space-4);
     padding-block: clamp(1.75rem, 3vw, 2.5rem);
     border-bottom: var(--border-1) solid var(--c-rule-on-dark);
+    overflow-wrap: anywhere;
   }
 
   .contact-next__list li > span {

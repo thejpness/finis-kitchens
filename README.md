@@ -4,6 +4,20 @@ Website and enquiry platform for **Fini's Kitchens**.
 
 The application is built with Astro and deployed through Docker, with nginx serving the generated frontend, Traefik providing external routing, and separate Go services handling contact-form enquiries and Turnstile validation.
 
+## v1.4.0 - Site-wide visual alignment
+
+Services now uses the commercial site's editorial composition: a warm Newsreader
+hero, an open expectations column, four numbered offerings on one paper surface,
+a concise link into the full process and a navy closing section. Mobile uses
+content-led rows and a vertical process summary. Service meaning and SEO are preserved.
+
+The rendered commercial-page audit found the other pages already aligned. Contact
+receives local wrapping guards after enlarged-text checks exposed narrow-screen clipping;
+its enquiry form and behaviour are unchanged. Services moves from PageLayout to BaseLayout
+without altering either shared layout, the protected story experience, global primitives
+or the v1.3.1 homepage.
+No new JavaScript, motion, dependencies or image assets.
+
 ## v1.3.1 - Visual cohesion
 
 A restrained CSS refinement of the v1.3.0 baseline: the budget ranges share one square

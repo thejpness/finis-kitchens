@@ -1,377 +1,492 @@
 ---
-// src/pages/services.astro
-import PageLayout from "../layouts/PageLayout.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
 import WhatsAppButton from "../components/WhatsAppButton.astro";
+
+const services = [
+  {
+    title: "Kitchen design",
+    description: "A layout that fits your space and your routine: cooking, kids, hosting, the lot. We refine the design with you until it feels right.",
+    points: ["Measured survey and brief", "3D visuals and options", "Refinements as needed"],
+  },
+  {
+    title: "Supply & installation",
+    description: "We keep the project moving from preparation to final fitting, with a clear specification, tidy work and careful finishing.",
+    points: ["Clear spec & pricing", "Installation coordination", "Careful finishing touches"],
+  },
+  {
+    title: "Project management",
+    description: "We coordinate the trades and timing (appliances, electrics, plumbing, building work) so you don’t have to chase anyone.",
+    points: ["Trade coordination", "Appliance integration", "Quality checks throughout"],
+  },
+  {
+    title: "Aftercare",
+    description: "Once it’s installed, we’re still here. Any snags are handled quickly, and you’ll know exactly what’s covered.",
+    points: ["Snagging support", "Installation warranty", "Supplier warranties"],
+  },
+];
+
+const steps = [
+  { title: "Survey & brief", description: "We measure the room and talk through what you need from your kitchen." },
+  { title: "Design & refine", description: "We work through the layout, storage and finishes with you." },
+  { title: "Deliver & install", description: "We coordinate the moving parts and complete the installation cleanly." },
+];
 ---
 
-<PageLayout
-  title="Kitchen services"
-  metaTitle="Kitchen services | Fini's Kitchens"
+<BaseLayout
+  title="Kitchen services | Fini's Kitchens"
   description="Kitchen design, supply and installation across Sussex, with one point of contact to coordinate the work."
-  eyebrow="Our services"
-  heroSize="tight"
+  footerFlush={true}
 >
-  <!-- Intro + service cards -->
-  <section class="section section--tight">
-    <div class="container stack stack--loose">
-      <header class="services-head">
-        <div class="services-head__copy stack stack--tight">
-          <h2 class="services-head__title">Everything you need. Calmly handled.</h2>
-          <p class="muted text-measure">
-            We take care of design, supply, installation and the moving parts in between - so you get a beautiful,
-            practical kitchen without the stress.
-          </p>
+  <section class="services-hero" aria-labelledby="services-title">
+    <div class="container services-hero__layout">
+      <div>
+        <p class="services-eyebrow">Our services</p>
+        <h1 id="services-title">Everything you need. Calmly handled.</h1>
+        <p class="services-hero__summary">
+          Kitchen design, supply and installation across Sussex, with one point of contact to coordinate the work.
+        </p>
 
-          <div class="services-head__cta">
-            <a href="/contact" class="btn btn--primary btn--large">Book a consultation</a>
-            <WhatsAppButton class="btn btn--accent btn--large" label="WhatsApp us" />
-          </div>
-
-          <div class="services-head__badges" aria-label="Key highlights">
-            <span class="badge">Design • Supply • Install</span>
-            <span class="badge">Single point of contact</span>
-            <span class="badge badge--quiet">Typical timeline ~3 months</span>
-          </div>
+        <div class="services-actions">
+          <a class="btn btn--primary btn--large" href="/contact">Book a consultation</a>
+          <WhatsAppButton class="services-text-link" label="WhatsApp us" />
         </div>
 
-        <div class="panel services-head__panel">
-          <h3 class="services-head__panel-title">What you can expect</h3>
-          <ul class="services-points">
-            <li><strong>Clear steps</strong>: you’ll always know what’s next.</li>
-            <li><strong>Real-life layouts</strong>: storage and flow designed around your home.</li>
-            <li><strong>Clear specifications</strong>, with the choices explained.</li>
-            <li><strong>Clean finish</strong>: quality checks and tidy handover.</li>
-          </ul>
+        <dl class="services-hero__details">
+          <div>
+            <dt>Working together</dt>
+            <dd>Single point of contact</dd>
+          </div>
+          <div>
+            <dt>Typical timeline</dt>
+            <dd>Around 3 months</dd>
+          </div>
+        </dl>
+      </div>
+
+      <aside class="services-expectations" aria-labelledby="services-expectations-title">
+        <h2 id="services-expectations-title">What you can expect</h2>
+        <ul role="list">
+          <li><strong>Clear steps</strong>: you’ll always know what’s next.</li>
+          <li><strong>Real-life layouts</strong>: storage and flow designed around your home.</li>
+          <li><strong>Clear specifications</strong>, with the choices explained.</li>
+          <li><strong>Clean finish</strong>: quality checks and tidy handover.</li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <section class="services-offering" aria-labelledby="services-offering-title">
+    <div class="container">
+      <header class="services-section-intro">
+        <div>
+          <p class="services-eyebrow">From design to aftercare</p>
+          <h2 id="services-offering-title">Kitchen services</h2>
+        </div>
+        <p>
+          We take care of design, supply, installation and the moving parts in between - so you get a beautiful, practical kitchen without the stress.
+        </p>
+      </header>
+
+      <ol class="services-offering__list" role="list">
+        {services.map((service, index) => (
+          <li class="services-offering__row">
+            <div class="services-offering__heading">
+              <span class="services-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+              <h3>{service.title}</h3>
+            </div>
+            <div class="services-offering__detail">
+              <p>{service.description}</p>
+              <ul role="list" aria-label={`${service.title} includes`}>
+                {service.points.map((point) => <li>{point}</li>)}
+              </ul>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="services-process" aria-labelledby="services-process-title">
+    <div class="container">
+      <header class="services-section-intro">
+        <div>
+          <p class="services-eyebrow">How it works</p>
+          <h2 id="services-process-title">A simple process</h2>
+        </div>
+        <div class="services-process__intro">
+          <p>A calm, structured approach that keeps the project predictable.</p>
+          <a class="services-text-link" href="/process">Read the full kitchen process <span aria-hidden="true">→</span></a>
         </div>
       </header>
 
-      <div class="grid grid--2 services-grid">
-        <article class="card card--surface service">
-          <div class="service__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
-              <path d="M4 20h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-              <path d="M7 17l10-10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-              <path d="M9 7l8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-              <path d="M7.5 6.5 6 8l2 2 1.5-1.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
-          <h3>Kitchen design</h3>
-          <p class="muted">
-            A layout that fits your space and your routine: cooking, kids, hosting, the lot. We refine the design
-            with you until it feels right.
-          </p>
-          <ul class="service__features">
-            <li>Measured survey and brief</li>
-            <li>3D visuals and options</li>
-            <li>Refinements as needed</li>
-          </ul>
-        </article>
-
-        <article class="card card--surface service">
-          <div class="service__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
-              <path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1v-9.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
-            </svg>
-          </div>
-          <h3>Supply & installation</h3>
-          <p class="muted">
-            We keep the project moving from preparation to final fitting, with a clear specification, tidy work
-            and careful finishing.
-          </p>
-          <ul class="service__features">
-            <li>Clear spec & pricing</li>
-            <li>Installation coordination</li>
-            <li>Careful finishing touches</li>
-          </ul>
-        </article>
-
-        <article class="card card--surface service">
-          <div class="service__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
-              <path d="M12 3v3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-              <path d="M12 18v3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-              <path d="M4.5 7.5l2.1 2.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-              <path d="M17.4 14.4l2.1 2.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-              <path d="M3 12h3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-              <path d="M18 12h3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-              <path d="M4.5 16.5l2.1-2.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-              <path d="M17.4 9.6l2.1-2.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-              <path d="M12 8.2a3.8 3.8 0 1 0 0 7.6 3.8 3.8 0 0 0 0-7.6Z" stroke="currentColor" stroke-width="1.8"/>
-            </svg>
-          </div>
-          <h3>Project management</h3>
-          <p class="muted">
-            We coordinate the trades and timing (appliances, electrics, plumbing, building work) so you don’t have to
-            chase anyone.
-          </p>
-          <ul class="service__features">
-            <li>Trade coordination</li>
-            <li>Appliance integration</li>
-            <li>Quality checks throughout</li>
-          </ul>
-        </article>
-
-        <article class="card card--surface service">
-          <div class="service__icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
-              <path d="M20 12a8 8 0 1 1-4-6.9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-              <path d="m20 6-8.5 8.5L8 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
-          <h3>Aftercare</h3>
-          <p class="muted">
-            Once it’s installed, we’re still here. Any snags are handled quickly, and you’ll know exactly what’s covered.
-          </p>
-          <ul class="service__features">
-            <li>Snagging support</li>
-            <li>Installation warranty</li>
-            <li>Supplier warranties</li>
-          </ul>
-        </article>
-      </div>
+      <ol class="services-process__steps" role="list">
+        {steps.map((step, index) => (
+          <li>
+            <span class="services-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+            <div>
+              <h3>{step.title}</h3>
+              <p>{step.description}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
     </div>
   </section>
 
-  <!-- Process strip -->
-  <section class="section section--tight">
-    <div class="container">
-      <div class="panel process">
-        <header class="process__head">
-          <h2 class="process__title">A simple process</h2>
-          <p class="muted text-measure">
-            A calm, structured approach that keeps the project predictable.
-          </p>
-        </header>
-
-        <ol class="process__steps">
-          <li class="process-step">
-            <p class="eyebrow">Step 1</p>
-            <h3>Survey & brief</h3>
-            <p class="muted">We measure the room and talk through what you need from your kitchen.</p>
-          </li>
-          <li class="process-step">
-            <p class="eyebrow">Step 2</p>
-            <h3>Design & refine</h3>
-            <p class="muted">We work through the layout, storage and finishes with you.</p>
-          </li>
-          <li class="process-step">
-            <p class="eyebrow">Step 3</p>
-            <h3>Deliver & install</h3>
-            <p class="muted">We coordinate the moving parts and complete the installation cleanly.</p>
-          </li>
-        </ol>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="section section--tight">
-    <div class="container">
-      <div class="panel services-cta">
-        <div class="stack stack--tight">
-          <h2>Ready to start?</h2>
-          <p class="muted">Share a few details and we’ll arrange your free design consultation.</p>
-        </div>
-        <div class="services-cta__actions">
-          <a href="/contact" class="btn btn--primary btn--large">Get started</a>
-          <WhatsAppButton class="btn btn--accent btn--large" label="WhatsApp us" />
+  <section class="services-closing" aria-labelledby="services-closing-title">
+    <div class="container services-closing__layout">
+      <h2 id="services-closing-title">Ready to start?</h2>
+      <div>
+        <p>Share a few details and we’ll arrange your free design consultation.</p>
+        <div class="services-actions">
+          <a class="btn btn--accent btn--large" href="/contact">Get started</a>
+          <WhatsAppButton class="services-text-link" label="WhatsApp us" />
         </div>
       </div>
     </div>
   </section>
-</PageLayout>
+</BaseLayout>
 
 <style>
-  /* Head layout */
-  .services-head {
+  .services-hero,
+  .services-offering,
+  .services-process,
+  .services-closing {
+    overflow-wrap: anywhere;
+  }
+
+  .services-hero {
+    padding-block: clamp(4rem, 7vw, 6.25rem);
+    background: var(--c-canvas-warm);
+  }
+
+  .services-hero__layout,
+  .services-section-intro,
+  .services-closing__layout {
     display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
-    gap: var(--space-7);
-    align-items: start;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--home-layout-gap);
+    align-items: end;
   }
 
-  .services-head__title {
-    font-size: clamp(1.6rem, 1.6vw + 1.1rem, 2.3rem);
-    line-height: 1.12;
-    margin: 0;
+  .services-eyebrow,
+  .services-hero__details dt {
+    color: var(--c-blue);
+    font-size: var(--eyebrow-size);
+    font-weight: var(--eyebrow-weight);
+    line-height: var(--eyebrow-line-height);
+    letter-spacing: var(--eyebrow-tracking);
+    text-transform: uppercase;
   }
 
-  .services-head__cta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-3);
-    margin-top: var(--space-2);
-  }
-
-  .services-head__badges {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
-    margin-top: var(--space-4);
-  }
-
-  .services-head__panel {
-    padding: var(--space-7);
-  }
-
-  .services-head__panel-title {
-    margin: 0 0 var(--space-4);
-    letter-spacing: var(--ls-tight);
-    font-size: 1.05rem;
-  }
-
-  .services-points {
-    margin: 0;
-    padding-left: 1.15em;
-    color: var(--c-text-muted);
-    line-height: var(--lh-base);
-  }
-  .services-points li + li { margin-top: var(--space-3); }
-
-  /* Services grid */
-  .services-grid { align-items: start; }
-
-  .service {
-    position: relative;
-    overflow: hidden;
-  }
-
-  .service::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(600px 220px at 20% 0%, rgba(142, 182, 220, 0.20), transparent 60%),
-      radial-gradient(520px 240px at 110% 110%, rgba(0, 0, 0, 0.04), transparent 60%);
-    pointer-events: none;
-    opacity: 0.7;
-  }
-
-  .service > * { position: relative; }
-
-  .service__icon {
-    width: 52px;
-    height: 52px;
-    border-radius: var(--radius-s);
-    display: grid;
-    place-items: center;
-    color: var(--c-on-accent);
-    background: linear-gradient(135deg, var(--c-accent), var(--c-accent-strong));
-    box-shadow: var(--shadow-1);
+  .services-eyebrow {
     margin-bottom: var(--space-4);
   }
 
-  .service h3 { margin-top: var(--space-2); }
-
-  .service__features {
-    list-style: none;
-    padding: 0;
-    margin: var(--space-5) 0 0;
-    font-size: 0.9rem;
-    color: var(--c-text-muted);
+  .services-hero h1,
+  .services-section-intro h2,
+  .services-closing h2 {
+    color: var(--c-ink);
+    font-family: var(--font-display);
+    font-weight: 450;
+    line-height: 0.98;
+    letter-spacing: -0.035em;
   }
 
-  .service__features li {
-    position: relative;
-    padding-left: 1.25rem;
-    margin-top: var(--space-2);
+  .services-hero h1 {
+    max-width: 13ch;
+    font-size: clamp(3rem, 6vw, 5.8rem);
   }
 
-  .service__features li::before {
-    content: "✓";
-    position: absolute;
-    left: 0;
-    top: 0;
-    color: var(--c-accent);
-    font-weight: 800;
+  .services-hero__summary {
+    max-width: 42rem;
+    margin-top: var(--space-6);
+    color: var(--c-navy);
+    font-size: clamp(1.08rem, 1.7vw, 1.3rem);
+    line-height: var(--lh-snug);
   }
 
-  /* Process strip */
-  .process {
-    padding: var(--space-8);
-  }
-
-  .process__head {
+  .services-actions {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: var(--space-6);
-    margin-bottom: var(--space-6);
-  }
-
-  .process__title {
-    margin: 0;
-    letter-spacing: var(--ls-tight);
-  }
-
-  .process__steps {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: var(--space-6);
-  }
-
-  .process-step {
-    border-radius: var(--radius-m);
-    background: color-mix(in srgb, var(--c-surface) 78%, transparent);
-    border: 1px solid color-mix(in srgb, var(--c-border) 75%, transparent);
-    padding: var(--space-6);
-  }
-
-  .process-step h3 { margin-top: var(--space-2); }
-
-  /* CTA */
-  .services-cta {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-6);
-  }
-
-  .services-cta__actions {
-    display: inline-flex;
-    gap: var(--space-3);
     flex-wrap: wrap;
-    justify-content: flex-end;
+    gap: var(--space-5);
+    align-items: center;
+    margin-top: var(--space-7);
   }
 
-  /* Responsive */
-  @media (max-width: 980px) {
-    .services-head {
-      grid-template-columns: 1fr;
+  .services-actions :global(.btn) {
+    max-width: 100%;
+    white-space: normal;
+  }
+
+  .services-hero__details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-6) var(--space-9);
+    padding-top: var(--space-5);
+    margin: var(--space-7) 0 0;
+    border-top: var(--border-1) solid var(--c-rule-blue);
+  }
+
+  .services-hero__details dd {
+    margin: var(--space-2) 0 0;
+    color: var(--c-navy);
+    font-size: var(--fs-0);
+    line-height: var(--lh-snug);
+  }
+
+  .services-expectations {
+    padding-top: var(--space-5);
+    border-top: var(--border-1) solid var(--c-rule-blue);
+  }
+
+  .services-expectations h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 2.5vw, 2.4rem);
+    font-weight: 450;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+  }
+
+  .services-expectations ul {
+    display: grid;
+    gap: var(--space-5);
+    padding: 0;
+    margin: var(--space-6) 0 0;
+    list-style: none;
+  }
+
+  .services-expectations li {
+    max-width: 36ch;
+    color: var(--c-navy);
+    font-size: clamp(1rem, 1.3vw, 1.12rem);
+    line-height: 1.55;
+  }
+
+  .services-expectations strong {
+    font-weight: 650;
+  }
+
+  .services-offering {
+    padding-block: var(--home-section-y);
+    border-top: var(--border-1) solid var(--c-rule-blue);
+    background: var(--c-paper);
+  }
+
+  .services-section-intro h2,
+  .services-closing h2 {
+    max-width: 14ch;
+    font-size: clamp(2.5rem, 4.8vw, 4.6rem);
+  }
+
+  .services-section-intro > p,
+  .services-process__intro > p,
+  .services-closing__layout > div > p {
+    max-width: 38ch;
+    color: var(--c-navy);
+    font-size: var(--fs-2);
+    line-height: var(--lh-snug);
+  }
+
+  .services-offering__list {
+    padding: 0;
+    margin: var(--home-layout-gap) 0 0;
+    list-style: none;
+  }
+
+  .services-offering__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-6);
+    padding-block: clamp(2rem, 4vw, 3.25rem);
+    border-top: var(--border-1) solid var(--c-rule-blue);
+  }
+
+  .services-offering__row:last-child {
+    padding-bottom: 0;
+  }
+
+  .services-offering__heading {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--space-5);
+    align-items: baseline;
+  }
+
+  .services-number {
+    color: var(--c-blue);
+    font-size: var(--fs-0);
+    font-weight: 650;
+    line-height: var(--lh-snug);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .services-offering__heading h3 {
+    max-width: 14ch;
+    color: var(--c-ink);
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 3.2vw, 3.1rem);
+    font-weight: 450;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+  }
+
+  .services-offering__detail {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-6);
+  }
+
+  .services-offering__detail > p {
+    max-width: 44ch;
+    color: var(--c-navy);
+    font-size: clamp(1rem, 1.3vw, 1.12rem);
+    line-height: 1.6;
+  }
+
+  .services-offering__detail ul {
+    display: grid;
+    gap: var(--space-3);
+    align-content: start;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    color: var(--c-text-muted);
+    font-size: var(--fs-0);
+    line-height: 1.5;
+  }
+
+  .services-process {
+    padding-block: var(--home-section-y);
+    background: var(--c-canvas-warm);
+  }
+
+  .services-process__intro .services-text-link {
+    margin-top: var(--space-5);
+  }
+
+  .services-process__steps {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-7);
+    padding: var(--space-7) 0 0;
+    margin: var(--home-layout-gap) 0 0;
+    border-top: var(--border-1) solid var(--c-rule-blue);
+    list-style: none;
+  }
+
+  .services-process__steps > li {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--space-5);
+    align-items: baseline;
+  }
+
+  .services-process__steps h3 {
+    color: var(--c-ink);
+    font-size: clamp(1.2rem, 1.8vw, 1.5rem);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+  }
+
+  .services-process__steps p {
+    max-width: 34ch;
+    margin-top: var(--space-3);
+    color: var(--c-navy);
+    font-size: var(--fs-0);
+    line-height: 1.6;
+  }
+
+  .services-closing {
+    padding-block: var(--home-section-y);
+    background: var(--c-navy);
+  }
+
+  .services-closing h2,
+  .services-closing__layout > div > p {
+    color: var(--c-paper);
+  }
+
+  :global(.services-text-link) {
+    display: inline-flex;
+    gap: var(--space-2);
+    align-items: center;
+    min-height: 44px;
+    max-width: 100%;
+    color: var(--c-navy);
+    font-size: var(--fs-0);
+    font-weight: 650;
+    line-height: var(--lh-snug);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.18em;
+  }
+
+  :global(.services-text-link:hover) {
+    color: var(--c-blue);
+    text-decoration-thickness: 2px;
+  }
+
+  .services-closing :global(.services-text-link) {
+    color: var(--c-blue-pale);
+  }
+
+  .services-closing :global(.services-text-link:hover) {
+    color: var(--c-paper);
+  }
+
+  @media (min-width: 48rem) {
+    .services-offering__detail {
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: var(--space-7);
     }
-    .services-head__panel {
-      order: 2;
-    }
-    .process__steps {
-      grid-template-columns: 1fr;
-    }
-    .process__head {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    .services-cta {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    .services-cta__actions {
-      justify-content: flex-start;
+
+    .services-process__steps {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--home-layout-gap-tight);
     }
   }
 
-  @media (max-width: 640px) {
-    .services-head__cta .btn {
-      width: 100%;
-      justify-content: center;
+  @media (min-width: 64rem) {
+    .services-hero__layout {
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      gap: clamp(3rem, 7vw, 7rem);
     }
-    .services-cta__actions .btn {
-      width: 100%;
-      justify-content: center;
+
+    .services-section-intro,
+    .services-closing__layout {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     }
-    .process {
-      padding: var(--space-7);
+
+    .services-offering__row {
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      gap: var(--home-layout-gap);
+    }
+
+    .services-offering__detail {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (min-width: 80rem) {
+    .services-offering__detail {
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+      gap: var(--home-layout-gap-tight);
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .services-hero__details {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: var(--space-5);
+    }
+
+    .services-actions {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: var(--space-3);
     }
   }
 </style>
