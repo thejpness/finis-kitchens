@@ -59,6 +59,7 @@ Selected homepage/project, case-study lead/gallery and About origin photographs 
 the final 8% of their image mask while settling from 1.03 to 1. This takes 900ms once,
 without moving the layout container. A slow image waits until loaded to play its reveal.
 CSS hover transitions are suspended during the reveal and restored afterwards.
+Photographs already revealed stay settled across responsive/preference changes.
 
 ### Narrative
 

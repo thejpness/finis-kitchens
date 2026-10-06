@@ -5,6 +5,9 @@ import { motion } from "./settings";
 export function enhanceImages(root: HTMLElement) {
   const cleanups: Array<() => void> = [];
   root.querySelectorAll<HTMLElement>("[data-motion-image]").forEach((frame) => {
+    // A new responsive context should keep photography that has already
+    // entered settled, including after a reduced-motion preference change.
+    if (frame.dataset.motionRevealed) return;
     const image = frame.querySelector<HTMLImageElement>("img");
     if (!image) return;
     // A partial inset keeps the photograph perceptible. No layout changes and
@@ -15,6 +18,7 @@ export function enhanceImages(root: HTMLElement) {
     gsap.set(image, { transition: "none" });
     const reveal = gsap.timeline({
       paused: true,
+      onStart: () => { frame.dataset.motionRevealed = "true"; },
       defaults: { duration: motion.signature, ease: motion.ease },
     })
       .fromTo(frame, { clipPath: "inset(0% 0% 8% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", clearProps: "clipPath" }, 0)
