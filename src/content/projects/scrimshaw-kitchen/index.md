@@ -1,6 +1,6 @@
 ---
 title: Longleys Road
-description: A compact Chichester renovation transformed with aubergine cabinetry, white quartz worktops and a much more considered approach to storage and everyday function.
+description: A compact Chichester kitchen renovation with aubergine cabinetry, white quartz worktops and better storage for everyday use.
 location: Chichester
 style: Aubergine handleless
 projectType: Renovation
@@ -16,7 +16,7 @@ order: 10
 
 The existing kitchen was a basic new-build installation where colours had begun to fade and mismatch, storage had not been prioritised and the room no longer felt personal to the client.
 
-The footprint itself could not change dramatically, so the project was less about reinventing the room and more about making every decision more considered - improving both form and function within the space available.
+The footprint could not change dramatically, so the focus was on improving how the kitchen looked and worked within the space available.
 
 ## The brief
 

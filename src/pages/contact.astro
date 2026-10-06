@@ -228,7 +228,7 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
 
       <div class="contact-showroom__content">
         <p>
-          Visiting the showroom is stage 02 of the process: a chance to see materials, finishes and options in person
+          Visiting the showroom is the second stage of the process: a chance to see materials, finishes and options in person
           before detailed design work begins.
         </p>
 
@@ -271,7 +271,7 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
     <div class="container contact-next__frame">
       <header class="contact-next__intro">
         <p class="contact-eyebrow">What happens next</p>
-        <h2 id="contact-next-title">A clear first step, then the right next one.</h2>
+        <h2 id="contact-next-title">A clear first step, then we work out what comes next.</h2>
         <p>There is no need to map the whole project before you make contact.</p>
       </header>
 
@@ -320,7 +320,7 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
     const help = document.getElementById("turnstileHelp");
 
     if (input) input.value = "";
-    if (help) help.textContent = "Security check expired - please try again.";
+    if (help) help.textContent = "Security check expired. Please try again.";
   };
 
   window.finisTurnstileError = () => {
@@ -431,11 +431,11 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
           return;
         }
 
-        setStatus("Thanks - message sent. We’ll be in touch shortly.", "success");
+        setStatus("Thanks, message sent. We’ll be in touch shortly.", "success");
         form.reset();
         resetTurnstile();
       } catch (err) {
-        setStatus("Network issue - please try again in a moment.", "error");
+        setStatus("Network issue. Please try again in a moment.", "error");
       } finally {
         setBusy(false);
       }
