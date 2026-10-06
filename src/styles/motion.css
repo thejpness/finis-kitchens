@@ -10,7 +10,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  [data-motion-image] { clip-path: none !important; }
+  [data-motion-image], [data-story-photo] { clip-path: none !important; }
   [data-motion-image] img,
+  [data-story-photo] img,
   .home-hero__image { transform: none !important; }
 }

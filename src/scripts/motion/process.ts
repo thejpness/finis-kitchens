@@ -1,7 +1,7 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-export function enhanceProcessRail(rail: HTMLElement, desktop: boolean) {
+export function enhanceProcessRail(rail: HTMLElement) {
   const stages = Array.from(rail.querySelectorAll<HTMLElement>("[data-process-stage]"));
   const nodes = Array.from(rail.querySelectorAll<HTMLElement>("[data-process-node]"));
   const line = rail.querySelector<HTMLElement>("[data-process-line]");
@@ -21,12 +21,9 @@ export function enhanceProcessRail(rail: HTMLElement, desktop: boolean) {
     // Geometry is read only at setup/refresh, never on each scroll update.
     gsap.set(track, {
       left: first.x, top: first.y, bottom: "auto",
-      width: desktop ? last.x - first.x : 1,
-      height: desktop ? 1 : last.y - first.y,
+      width: 1, height: last.y - first.y,
     });
-    thresholds = centres.map((centre, i) => desktop
-      ? i / (centres.length - 1)
-      : (centre.y - first.y) / (last.y - first.y));
+    thresholds = centres.map((centre) => (centre.y - first.y) / (last.y - first.y));
   };
   const activate = (progress: number, started: boolean) => {
     const next = started ? Math.max(0, thresholds.findLastIndex((value) => value <= progress + 0.001)) : -1;
@@ -41,13 +38,12 @@ export function enhanceProcessRail(rail: HTMLElement, desktop: boolean) {
 
   measure();
   rail.classList.add("motion-ready");
-  gsap.fromTo(line, { scaleX: desktop ? 0 : 1, scaleY: desktop ? 1 : 0 }, {
-    scaleX: 1, scaleY: 1, ease: "none",
+  gsap.fromTo(line, { scaleY: 0 }, {
+    scaleY: 1, ease: "none",
     scrollTrigger: {
-      id: "motion-process-rail", trigger: desktop ? rail : nodes[0],
-      endTrigger: desktop ? rail : nodes[nodes.length - 1],
-      start: desktop ? "top 85%" : "center 65%",
-      end: desktop ? "top 35%" : "center 65%",
+      id: "motion-process-rail", trigger: nodes[0],
+      endTrigger: nodes[nodes.length - 1],
+      start: "center 65%", end: "center 65%",
       scrub: true, invalidateOnRefresh: true,
       onRefreshInit: measure,
       onRefresh: (self) => activate(self.progress, self.scroll() >= self.start),

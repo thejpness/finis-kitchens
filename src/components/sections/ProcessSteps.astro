@@ -1,296 +1,306 @@
 ---
+import { Picture } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
 interface Step {
   title: string;
   body: string;
+  label: string;
+  image: ImageMetadata;
+  alt: string;
+  imagePosition?: string;
+  imageCrop?: string;
 }
-
-interface Props {
-  steps: Step[];
-}
-
+interface Props { steps: Step[]; }
 const { steps = [] } = Astro.props;
 ---
 
-<section class="process-teaser" aria-labelledby="process-teaser-title">
-  <div class="container process-teaser__frame">
-    <header class="process-teaser__intro">
+<section class="process-story" aria-labelledby="process-story-title" data-motion-story>
+  <header class="process-story__intro">
+    <div class="container process-story__intro-grid">
       <div>
-        <p class="process-teaser__eyebrow">How it works</p>
-        <h2 id="process-teaser-title">A clear path from first conversation to finished kitchen.</h2>
+        <p class="process-story__eyebrow">The making of your kitchen</p>
+        <h2 id="process-story-title">From the first idea<br />to <em>everyday life.</em></h2>
       </div>
-
-      <p class="process-teaser__summary">
-        Five straightforward stages, with clear decisions and guidance at each step.
+      <p class="process-story__summary">
+        A clear path from first conversation to finished kitchen.
+        Five stages, with practical guidance along the way.
       </p>
-    </header>
+    </div>
+  </header>
 
-    <ol class="process-rail" data-motion-process>
-      <li class="process-rail__track" aria-hidden="true" role="presentation">
-        <span data-process-line></span>
-      </li>
+  <div class="container process-story__journey">
+    <!-- Decorative desktop canvas; the complete editorial layout is the default. -->
+    <div class="process-story__canvas-track" aria-hidden="true">
+      <div class="process-story__canvas">
+        <div class="process-story__layers"></div>
+        <p class="process-story__canvas-note">Made to be lived in.</p>
+      </div>
+    </div>
+    <div class="process-story__thread" aria-hidden="true"><span data-process-line></span></div>
+    <ol class="process-story__chapters" role="list">
       {steps.map((step, index) => (
-        <li class="process-rail__step" data-process-stage>
-          <span class="process-rail__node" aria-hidden="true" data-process-node></span>
-          <p class="process-rail__number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</p>
-          <div class="process-rail__copy">
+        <li class="process-story__chapter" data-process-stage>
+          <div class="process-story__photo" data-story-photo style={{ "--image-position": step.imagePosition ?? "center" }}>
+            <Picture
+              src={step.image}
+              alt={step.alt}
+              formats={["avif", "webp"]}
+              width={1280}
+              height={1085}
+              fit="cover"
+              position={step.imageCrop ?? "center"}
+              widths={[400, 640, 960, 1280]}
+              sizes="(min-width: 80rem) 650px, (min-width: 68rem) 52vw, (min-width: 48rem) 50vw, calc(100vw - 2rem)"
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="process-story__edge-haze" aria-hidden="true"></span>
+            <span class="process-story__veil" aria-hidden="true"></span>
+          </div>
+          <div class="process-story__copy">
+            <span class="process-story__node" aria-hidden="true" data-process-node></span>
+            <p class="process-story__number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</p>
+            <p class="process-story__label">{step.label}</p>
             <h3>{step.title}</h3>
-            <p>{step.body}</p>
+            <p class="process-story__body">{step.body}</p>
           </div>
         </li>
       ))}
     </ol>
+  </div>
 
-    <a class="process-teaser__link" href="/process">
-      <span>See the full process</span>
-      <span aria-hidden="true">→</span>
+  <div class="container process-story__outro">
+    <p>Made for the life you live.</p>
+    <a class="process-story__link" href="/process">
+      <span>See the full process</span><span aria-hidden="true">↗</span>
     </a>
   </div>
 </section>
 
 <style>
-  .process-teaser {
-    padding-block: var(--home-section-y-tight);
+  .process-story {
+    --photo-share: 56%;
+    --chapter-space: clamp(3rem, 6vw, 5rem);
+    --chapter-gap: clamp(2rem, 5vw, 4rem);
     background: var(--c-paper);
+    color: var(--c-navy);
+    scroll-margin-top: 5rem;
   }
-
-  .process-teaser__frame {
-    display: grid;
-    gap: var(--home-layout-gap-tight);
+  .process-story__intro {
+    padding-block: clamp(3.5rem, 6vw, 5.5rem) clamp(5.5rem, 8vw, 8rem);
+    color: var(--c-paper);
+    background: var(--c-navy);
   }
-
-  .process-teaser__intro {
-    display: grid;
-    gap: var(--space-6);
-    align-items: end;
-  }
-
-  .process-teaser__eyebrow {
-    margin-bottom: var(--space-4);
-    color: var(--c-blue);
+  .process-story__intro-grid { display: grid; gap: 1.75rem; }
+  .process-story__eyebrow,
+  .process-story__label {
     font-size: var(--eyebrow-size);
     font-weight: var(--eyebrow-weight);
     letter-spacing: var(--eyebrow-tracking);
+    line-height: 1.3;
     text-transform: uppercase;
-    line-height: var(--eyebrow-line-height);
+  }
+  .process-story__eyebrow { margin-bottom: 1.5rem; color: var(--c-blue-pale); }
+  .process-story__intro h2 {
+    max-width: 20ch;
+    font-family: var(--font-display);
+    font-size: clamp(2.75rem, 5.25vw, 4.8rem);
+    font-weight: 450;
+    line-height: 1.04;
+    letter-spacing: -0.035em;
+    text-wrap: initial;
+  }
+  .process-story__intro h2 em { color: var(--c-blue-pale); font-weight: inherit; }
+  .process-story__summary {
+    max-width: 29ch;
+    color: var(--c-brand-100);
+    font-size: clamp(1rem, 1.25vw, 1.125rem);
+    line-height: 1.65;
+  }
+  .process-story__journey { position: relative; margin-top: -3rem; }
+  .process-story__canvas-track { display: none; }
+  .process-story__thread { position: absolute; top: 0; bottom: 0; left: var(--container-pad); width: 1px; background: var(--c-rule-blue); }
+  .process-story__thread span { display: block; width: 100%; height: 100%; background: var(--c-blue); transform-origin: top; }
+  .process-story__chapters { list-style: none; padding: 0; margin: 0; padding-left: 1.5rem; }
+  .process-story__chapter { min-width: 0; margin-bottom: var(--chapter-space); }
+  .process-story__photo {
+    position: relative;
+    isolation: isolate;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--c-canvas-warm);
+  }
+  .process-story__photo :global(picture),
+  .process-story__photo :global(img) { display: block; width: 100%; height: 100%; }
+  .process-story__photo :global(img) { object-fit: cover; object-position: var(--image-position); }
+  .process-story__edge-haze,
+  .process-story__veil { position: absolute; inset: 0; pointer-events: none; }
+  .process-story__edge-haze {
+    background:
+      linear-gradient(90deg, var(--c-paper), transparent 18%, transparent 86%, var(--c-brand-100)),
+      linear-gradient(0deg, var(--c-paper), transparent 24%, transparent 90%, var(--c-paper));
+    opacity: 0.16;
+  }
+  .process-story__veil {
+    background:
+      radial-gradient(ellipse at 25% 30%, var(--c-paper), transparent 72%),
+      linear-gradient(130deg, var(--c-canvas-warm), var(--c-brand-100));
+    opacity: 0;
+  }
+  .process-story__copy { position: relative; padding: 1.75rem 0 0; }
+  .process-story__label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    color: var(--c-blue);
   }
 
-  .process-teaser__intro h2 {
-    max-width: 14ch;
-    color: var(--c-ink);
-    font-size: clamp(2.35rem, 4.4vw, 4.35rem);
-    font-weight: 580;
-    line-height: 0.98;
-    letter-spacing: -0.045em;
+  .process-story__copy h3 {
+    max-width: 18ch;
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 3.1vw, 3rem);
+    font-weight: 450;
+    letter-spacing: -0.03em;
+    line-height: 1.08;
+    text-wrap: initial;
   }
-
-  .process-teaser__summary {
-    max-width: 33ch;
+  .process-story__body {
+    max-width: 32ch;
+    margin-top: 1.25rem;
     color: var(--c-navy);
-    font-size: var(--fs-2);
-    line-height: var(--lh-snug);
+    font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+    line-height: 1.7;
   }
-
-  .process-rail {
-    position: relative;
-    display: grid;
-    gap: 0;
-    padding: 0 0 0 var(--space-8);
-    margin: 0;
-    list-style: none;
+  .process-story__chapter:nth-child(2) .process-story__photo { margin-left: 1.25rem; aspect-ratio: 1.12; }
+  .process-story__chapter:nth-child(3) .process-story__photo { margin-right: 1.25rem; }
+  .process-story__chapter:last-child .process-story__photo { aspect-ratio: 1.15; }
+  .process-story__outro {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-block: 0.5rem var(--home-section-y-tight);
   }
-
-  .process-rail__track {
-    position: absolute;
-    top: 1.06rem;
-    bottom: 0;
-    left: 0;
-    width: 1px;
-    background: var(--c-rule-blue);
-    pointer-events: none;
-  }
-
-  .process-rail__track span {
-    display: block;
-    width: 100%;
-    height: 100%;
-    background: var(--c-blue);
-    transform-origin: top left;
-  }
-
-  .process-rail__step {
-    position: relative;
-    display: grid;
-    gap: var(--space-3);
-    padding: 0 0 var(--space-8);
-  }
-
-  .process-rail__step:last-child {
-    padding-bottom: 0;
-  }
-
-  .process-rail__node {
-    position: absolute;
-    top: 0.75rem;
-    left: calc(-1 * var(--space-8) - 0.31rem);
-    width: 0.62rem;
-    height: 0.62rem;
-    border-radius: 50%;
-    background: var(--c-blue-muted);
-    box-shadow: 0 0 0 4px var(--c-paper);
-  }
-
-  .process-rail.motion-ready .process-rail__node {
-    background: var(--c-blue-pale);
-    transition: background var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out);
-  }
-
-  .process-rail.motion-ready .process-rail__number {
-    color: var(--c-blue-muted);
-    transition: color var(--dur-2) var(--ease-out);
-  }
-
-  .process-rail .is-complete .process-rail__node,
-  .process-rail .is-current .process-rail__node {
-    background: var(--c-blue);
-  }
-
-  .process-rail .is-current .process-rail__node {
-    transform: scale(1.3);
-  }
-
-  .process-rail.motion-ready .is-current .process-rail__number,
-  .process-rail.motion-ready .is-complete .process-rail__number {
-    color: var(--c-blue);
-  }
-
-  .process-rail .is-seen .process-rail__number,
-  .process-rail .is-seen h3,
-  .process-rail .is-seen .process-rail__copy p {
-    animation: motion-resolve var(--dur-narrative) var(--ease-out) both;
-  }
-
-  .process-rail .is-seen h3 { animation-delay: 60ms; }
-  .process-rail .is-seen .process-rail__copy p { animation-delay: 120ms; }
-
-  .process-rail__number {
-    color: var(--c-blue);
-    font-size: clamp(2.45rem, 5vw, 4rem);
-    font-weight: 590;
-    line-height: 0.84;
-    letter-spacing: -0.06em;
-  }
-
-  .process-rail__copy h3 {
-    max-width: 22ch;
-    color: var(--c-ink);
-    font-size: clamp(1.2rem, 1.6vw, 1.45rem);
-    font-weight: 600;
-    line-height: 1.12;
+  .process-story__outro > p {
+    font-family: var(--font-display);
+    font-size: clamp(1.65rem, 2.5vw, 2.25rem);
+    font-style: italic;
+    font-weight: 400;
     letter-spacing: -0.025em;
   }
+  .process-story__link { display: inline-flex; gap: 1.5rem; align-items: center; font-size: var(--fs-0); font-weight: 600; }
+  .process-story__link span:first-child { border-bottom: 1px solid var(--c-blue-muted); padding-bottom: 0.2rem; }
+  .process-story__link span:last-child { font-size: 1.5rem; }
+  .process-story__link:hover,
+  .process-story__link:focus-visible { color: var(--c-blue); }
+  .process-story__link:focus-visible { outline-offset: 6px; }
 
-  .process-rail__copy p {
-    max-width: 48ch;
-    margin-top: var(--space-2);
-    color: var(--c-text-muted);
-    font-size: var(--fs-0);
-    line-height: var(--lh-snug);
-  }
-
-  .process-teaser__link {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-3);
-    width: fit-content;
-    color: var(--c-navy);
-    font-size: var(--fs-0);
-    font-weight: 650;
-    text-decoration: none;
-  }
-
-  .process-teaser__link span:first-child {
-    padding-bottom: 0.16rem;
-    border-bottom: 1px solid currentColor;
-  }
-
-  .process-teaser__link span:last-child {
-    transition: transform var(--dur-2) var(--ease-out);
-  }
-
-  .process-teaser__link:hover span:last-child,
-  .process-teaser__link:focus-visible span:last-child {
-    transform: translateX(0.2rem);
-  }
-
-  .process-teaser__link:focus-visible {
-    outline-color: var(--c-blue);
-    outline-offset: 5px;
+  @media (max-width: 47.99rem) {
+    .process-story__intro h2 { font-size: clamp(2.35rem, 11.7vw, 3.25rem); }
   }
 
   @media (min-width: 48rem) {
-    .process-teaser__intro {
-      grid-template-columns: minmax(0, 1.15fr) minmax(16rem, 0.85fr);
+    .process-story__intro-grid { grid-template-columns: 1.6fr 1fr; align-items: end; gap: 3rem; }
+    .process-story__summary { padding-bottom: 0.5rem; }
+    .process-story__chapter {
+      display: grid;
+      grid-template-columns: 1.12fr 0.88fr;
+      gap: var(--chapter-gap);
+      align-items: center;
     }
+    .process-story__photo { aspect-ratio: 1.12; }
+    .process-story__copy { padding: 1rem 0; }
+    .process-story__chapter:nth-child(2) .process-story__photo,
+    .process-story__chapter:nth-child(3) .process-story__photo { margin: 0; }
+    .process-story__thread { left: calc(var(--container-pad) + (100% - 2 * var(--container-pad) - 1.5rem - var(--chapter-gap)) * 0.56 + var(--chapter-gap)); }
   }
 
-  @media (min-width: 72rem) {
-    .process-rail {
-      --process-gap: clamp(var(--space-5), 2.4vw, var(--space-7));
-      --process-node-y: clamp(3rem, 4vw, 3.6rem);
-      position: relative;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: var(--process-gap);
-      padding: 0;
-      border-left: 0;
+  @media (min-width: 68rem) and (min-height: 38rem) {
+    .process-story {
+      --photo-height: min(calc(min(var(--container-max), 100vw - 2 * var(--container-pad)) * 0.56 / 1.18), calc(100svh - 11rem));
     }
-
-    .process-rail__track {
-      top: var(--process-node-y);
-      bottom: auto;
-      left: 0.34rem;
-      width: calc(80% + var(--process-gap) * 0.8);
-      height: 1px;
-      background: var(--c-rule-blue);
-    }
-
-    .process-rail__step {
+    .process-story__intro-grid { grid-template-columns: var(--photo-share) 1fr; gap: 0; }
+    .process-story__chapters { padding-left: 0; }
+    .process-story__summary { margin-left: clamp(3rem, 6vw, 5.5rem); }
+    .process-story__journey { margin-top: -3.5rem; }
+    .process-story__chapter,
+    .process-story__chapter:nth-child(even) {
+      grid-template-columns: var(--photo-share) 1fr;
       gap: 0;
-      padding: 0;
+      min-height: max(76svh, calc(var(--photo-height) + 4rem));
+      margin: 0;
+    }
+    .process-story__photo,
+    .process-story__chapter:nth-child(even) .process-story__photo,
+    .process-story__chapter:nth-child(2) .process-story__photo,
+    .process-story__chapter:last-child .process-story__photo { aspect-ratio: auto; height: var(--photo-height); grid-column: 1; grid-row: 1; }
+    .process-story__copy,
+    .process-story__chapter:nth-child(even) .process-story__copy {
+      grid-column: 2;
+      grid-row: 1;
+      padding: 2rem 0 2rem clamp(3rem, 6vw, 5.5rem);
+    }
+    .process-story__chapter:first-child { align-items: start; min-height: max(82svh, calc(var(--photo-height) + 4rem)); }
+    .process-story__chapter:nth-child(2),
+    .process-story__chapter:nth-child(4) { min-height: max(60svh, calc(var(--photo-height) + 4rem)); }
+    .process-story__chapter:last-child { min-height: max(96svh, calc(var(--photo-height) + 4rem)); }
+    .process-story__chapter:first-child .process-story__copy { align-self: center; }
+    .process-story__outro { padding-top: 2.5rem; }
+    /* Keep small labels readable beside the photographic canvas. */
+    .process-story.is-enhanced .process-story__label { color: var(--c-navy); }
+    .process-story.is-enhanced .process-story__canvas-track {
+      display: block;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: var(--container-pad);
+      width: calc((100% - 2 * var(--container-pad)) * 0.56);
+    }
+    .process-story__canvas { position: sticky; top: max(5rem, calc((100svh - var(--photo-height)) / 2 - 1rem)); }
+    .process-story__layers { position: relative; height: var(--photo-height); overflow: hidden; background: var(--c-canvas-warm); }
+    .process-story.is-enhanced .process-story__photo {
+      position: absolute;
+      inset: 0;
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      aspect-ratio: auto;
+    }
+    .process-story__canvas-note {
+      margin-top: 1rem;
+      color: var(--c-blue);
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-style: italic;
     }
 
-    .process-rail__node {
-      z-index: 2;
-      top: calc(var(--process-node-y) - 0.34rem);
-      left: 0;
-      width: 0.68rem;
-      height: 0.68rem;
-      box-shadow: 0 0 0 4px var(--c-paper);
-    }
-
-    .process-rail__number {
-      position: relative;
-      z-index: 1;
-      width: fit-content;
-      padding-right: var(--space-3);
-      background: var(--c-paper);
-    }
-
-    .process-rail__copy {
-      padding-top: clamp(2.8rem, 4vw, 3.75rem);
-    }
-
-    .process-rail__copy p {
-      max-width: 20ch;
-    }
   }
-
+  .process-story__node { position: absolute; left: -1.85rem; top: 2.05rem; width: 0.7rem; height: 0.7rem; border-radius: 50%; background: var(--c-blue-muted); box-shadow: 0 0 0 5px var(--c-paper); transition: background var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out); }
+  .process-story__number { margin-bottom: 0.75rem; color: var(--c-blue); font-size: 1.5rem; font-weight: 500; line-height: 1; letter-spacing: -0.04em; }
+  .motion-ready .process-story__node { background: var(--c-brand-200); }
+  .process-story__chapter.is-complete .process-story__node,
+  .process-story__chapter.is-current .process-story__node { background: var(--c-blue); }
+  .process-story__chapter.is-current .process-story__node { transform: scale(1.25); }
+  .process-story__chapter.is-current .process-story__number { color: var(--c-ink); }
+  .process-story__chapter.is-seen .process-story__number,
+  .process-story__chapter.is-seen h3,
+  .process-story__chapter.is-seen .process-story__body { animation: motion-resolve var(--dur-narrative) var(--ease-out) both; }
+  .process-story__chapter.is-seen h3 { animation-delay: 60ms; }
+  .process-story__chapter.is-seen .process-story__body { animation-delay: 120ms; }
+  @media (min-width: 48rem) {
+    .process-story__node { top: 1.15rem; }
+  }
+  @media (min-width: 68rem) and (min-height: 38rem) {
+    .process-story__node { left: calc(clamp(3rem, 6vw, 5.5rem) - 1.6rem); top: 2.15rem; }
+    .process-story__thread { left: calc(var(--container-pad) + (100% - 2 * var(--container-pad)) * 0.56 + clamp(3rem, 6vw, 5.5rem) - 1.25rem); }
+  }
   @media (prefers-reduced-motion: reduce) {
-    .process-teaser__link span:last-child {
-      transition: none;
-    }
-
-    .process-teaser__link:hover span:last-child {
-      transform: none;
-    }
+    .process-story__node { transition: none; }
+    .process-story__chapter.is-seen .process-story__number,
+    .process-story__chapter.is-seen h3,
+    .process-story__chapter.is-seen .process-story__body { animation: none; }
   }
 </style>

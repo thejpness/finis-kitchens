@@ -31,7 +31,7 @@ export function enhanceHero(hero: HTMLElement, desktop: boolean) {
     defaults: { ease: "none" },
     scrollTrigger: {
       id: "motion-hero", trigger: hero, start: 0,
-      end: () => hero.offsetHeight * (desktop ? 0.55 : 0.45),
+      end: () => Math.min(hero.offsetHeight, window.innerHeight) * (desktop ? motion.heroReveal.desktop : motion.heroReveal.mobile),
       scrub: true, invalidateOnRefresh: true,
       onUpdate: (self) => { if (self.progress > 0.025) settleArrival(); },
     },

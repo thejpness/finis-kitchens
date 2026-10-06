@@ -2,9 +2,9 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motion } from "./settings";
 
-export function enhanceImages(root: HTMLElement) {
+export function enhanceImages(root: HTMLElement, selector = "[data-motion-image]") {
   const cleanups: Array<() => void> = [];
-  root.querySelectorAll<HTMLElement>("[data-motion-image]").forEach((frame) => {
+  root.querySelectorAll<HTMLElement>(selector).forEach((frame) => {
     // A new responsive context should keep photography that has already
     // entered settled, including after a reduced-motion preference change.
     if (frame.dataset.motionRevealed) return;

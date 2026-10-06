@@ -25,7 +25,7 @@ const description =
   data.description ??
   "A real kitchen project designed and installed by Fini's Kitchens.";
 
-const ogImage = data?.heroImage?.src ?? "/images/hero/default-hero.jpg";
+const ogImage = data?.heroImage?.src ?? "/images/og/finis-kitchens-og.jpg";
 
 const gallery = Array.isArray(data.gallery) ? data.gallery : [];
 const hasGallery = gallery.length > 0;
@@ -98,7 +98,7 @@ if (data.completedAt) summaryPoints.push({ label: "Completed", value: data.compl
 
         <p>
           The footprint did not need reinvention. The opportunity was to make the existing space
-          more useful, more considered and much more personal to the client.
+          more useful and much more personal to the client.
         </p>
       </header>
 

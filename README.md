@@ -8,7 +8,9 @@ The application is built with Astro and deployed through Docker, with nginx serv
 
 Introduces a new responsive motion system, including the homepage frosted-glass arrival,
 scroll-linked hero reveal, animated process journeys and improved mobile interaction parity.
-Selected editorial photography shares a restrained mask reveal and scale settle. Reduced
+The photographic process chapters and Kitchen Montage form part of this same release.
+The blue kitchen clears during the first 20–22% of hero travel. Selected editorial
+photography shares a restrained mask reveal and scale settle. Reduced
 motion and JavaScript-disabled visitors receive complete, readable content and navigation.
 
 Application release naming is documented here; the npm package retains its existing

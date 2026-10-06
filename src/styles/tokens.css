@@ -142,7 +142,7 @@
     --border-1: 1px;
     --dur-1: 120ms;
     --dur-2: 180ms;
-    /* Narrative activation; GSAP equivalents live in scripts/motion/settings.ts. */
+    /* Short, in-place stage activation. */
     --dur-narrative: 550ms;
     --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
 
