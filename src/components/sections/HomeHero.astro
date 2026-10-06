@@ -25,6 +25,7 @@ const { image } = Astro.props;
     />
   </div>
 
+  <div class="home-hero__atmosphere" aria-hidden="true"></div>
   <div class="home-hero__overlay" aria-hidden="true"></div>
 
   <div class="container home-hero__inner">
@@ -43,8 +44,23 @@ const { image } = Astro.props;
   </div>
 </section>
 
+<script>
+  // CSS owns the opening. A restored page returns to its completed composition.
+  const hero = document.querySelector(".home-hero");
+  const settle = () => hero?.classList.add("is-settled");
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) settle();
+  hero?.querySelector(".home-hero__image")?.addEventListener("animationend", (event) => {
+    if ((event as AnimationEvent).animationName === "hero-settle") settle();
+  }, { once: true });
+  window.addEventListener("pageshow", (event) => {
+    if (event.persisted) settle();
+  });
+</script>
+
 <style>
   .home-hero {
+    --hero-clear-x: 62%;
+    --hero-clear-y: 44%;
     position: relative;
     isolation: isolate;
     display: grid;
@@ -60,6 +76,59 @@ const { image } = Astro.props;
   .home-hero__overlay {
     position: absolute;
     inset: 0;
+  }
+
+  .home-hero__atmosphere {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .home-hero__atmosphere::before,
+  .home-hero__atmosphere::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+  }
+
+  /* Central diffusion clears first; the larger edge veil opens around it. */
+  .home-hero__atmosphere::before {
+    background: radial-gradient(ellipse at var(--hero-clear-x) var(--hero-clear-y), var(--c-brand-100), transparent 78%);
+  }
+
+  .home-hero__atmosphere::after {
+    transform-origin: var(--hero-clear-x) var(--hero-clear-y);
+    background:
+      radial-gradient(ellipse 66% 72% at var(--hero-clear-x) var(--hero-clear-y), transparent 35%, color-mix(in srgb, var(--c-brand-100) 20%, transparent) 54%, var(--c-brand-200) 85%, var(--c-brand-100)),
+      linear-gradient(110deg, var(--c-blue-muted), transparent 36%, transparent 74%, var(--c-paper));
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .home-hero:not(.is-settled) .home-hero__image {
+      animation: hero-settle 2000ms cubic-bezier(0.22, 0.65, 0.2, 1) 200ms both;
+    }
+    .home-hero:not(.is-settled) .home-hero__atmosphere::before {
+      animation: hero-clear-centre 1100ms cubic-bezier(0.2, 0.55, 0.25, 1) 300ms both;
+    }
+    .home-hero:not(.is-settled) .home-hero__atmosphere::after {
+      animation: hero-clear-edges 1550ms cubic-bezier(0.3, 0.42, 0.25, 1) 600ms both;
+    }
+    .home-hero:not(.is-settled) .home-hero__eyebrow,
+    .home-hero:not(.is-settled) .home-hero__title,
+    .home-hero:not(.is-settled) .home-hero__supporting,
+    .home-hero:not(.is-settled) .home-hero__scroll {
+      animation: hero-copy-settle 1100ms cubic-bezier(0.22, 0.75, 0.18, 1) both;
+    }
+    .home-hero:not(.is-settled) .home-hero__eyebrow { --hero-copy-y: 3px; animation-delay: 180ms; animation-duration: 900ms; }
+    .home-hero:not(.is-settled) .home-hero__title { --hero-copy-y: 7px; animation-delay: 400ms; }
+    .home-hero:not(.is-settled) .home-hero__supporting { animation-delay: 550ms; }
+    .home-hero:not(.is-settled) .home-hero__scroll { --hero-copy-y: 4px; animation-delay: 800ms; animation-duration: 1000ms; }
+    @keyframes hero-settle { from { transform: scale(1.06); } to { transform: scale(1); } }
+    @keyframes hero-clear-centre { from { opacity: 0.46; } to { opacity: 0; } }
+    @keyframes hero-clear-edges { from { opacity: 0.76; transform: scale(1); } to { opacity: 0; transform: scale(1.38); } }
+    @keyframes hero-copy-settle { from { opacity: 0.96; transform: translateY(var(--hero-copy-y, 5px)); } to { opacity: 1; transform: translateY(0); } }
   }
 
   .home-hero__media {
@@ -179,6 +248,8 @@ const { image } = Astro.props;
 
   @media (max-width: 53.74rem) {
     .home-hero {
+      --hero-clear-x: 52%;
+      --hero-clear-y: 40%;
       margin-top: -4.15rem;
     }
 
