@@ -147,7 +147,8 @@ const budgetTiers = [
     transition: transform var(--dur-2) var(--ease-out);
   }
 
-  .budget-guidance__link:hover span:last-child {
+  .budget-guidance__link:hover span:last-child,
+  .budget-guidance__link:focus-visible span:last-child {
     transform: translateX(0.2rem);
   }
 

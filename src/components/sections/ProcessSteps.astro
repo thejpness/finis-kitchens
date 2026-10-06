@@ -24,9 +24,13 @@ const { steps = [] } = Astro.props;
       </p>
     </header>
 
-    <ol class="process-rail">
+    <ol class="process-rail" data-motion-process>
+      <li class="process-rail__track" aria-hidden="true" role="presentation">
+        <span data-process-line></span>
+      </li>
       {steps.map((step, index) => (
-        <li class="process-rail__step">
+        <li class="process-rail__step" data-process-stage>
+          <span class="process-rail__node" aria-hidden="true" data-process-node></span>
           <p class="process-rail__number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</p>
           <div class="process-rail__copy">
             <h3>{step.title}</h3>
@@ -87,12 +91,30 @@ const { steps = [] } = Astro.props;
   }
 
   .process-rail {
+    position: relative;
     display: grid;
     gap: 0;
     padding: 0 0 0 var(--space-8);
     margin: 0;
     list-style: none;
-    border-left: var(--border-1) solid var(--c-rule-blue);
+  }
+
+  .process-rail__track {
+    position: absolute;
+    top: 1.06rem;
+    bottom: 0;
+    left: 0;
+    width: 1px;
+    background: var(--c-rule-blue);
+    pointer-events: none;
+  }
+
+  .process-rail__track span {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: var(--c-blue);
+    transform-origin: top left;
   }
 
   .process-rail__step {
@@ -106,8 +128,7 @@ const { steps = [] } = Astro.props;
     padding-bottom: 0;
   }
 
-  .process-rail__step::before {
-    content: "";
+  .process-rail__node {
     position: absolute;
     top: 0.75rem;
     left: calc(-1 * var(--space-8) - 0.31rem);
@@ -117,6 +138,39 @@ const { steps = [] } = Astro.props;
     background: var(--c-blue-muted);
     box-shadow: 0 0 0 4px var(--c-paper);
   }
+
+  .process-rail.motion-ready .process-rail__node {
+    background: var(--c-blue-pale);
+    transition: background var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out);
+  }
+
+  .process-rail.motion-ready .process-rail__number {
+    color: var(--c-blue-muted);
+    transition: color var(--dur-2) var(--ease-out);
+  }
+
+  .process-rail .is-complete .process-rail__node,
+  .process-rail .is-current .process-rail__node {
+    background: var(--c-blue);
+  }
+
+  .process-rail .is-current .process-rail__node {
+    transform: scale(1.3);
+  }
+
+  .process-rail.motion-ready .is-current .process-rail__number,
+  .process-rail.motion-ready .is-complete .process-rail__number {
+    color: var(--c-blue);
+  }
+
+  .process-rail .is-seen .process-rail__number,
+  .process-rail .is-seen h3,
+  .process-rail .is-seen .process-rail__copy p {
+    animation: motion-resolve var(--dur-narrative) var(--ease-out) both;
+  }
+
+  .process-rail .is-seen h3 { animation-delay: 60ms; }
+  .process-rail .is-seen .process-rail__copy p { animation-delay: 120ms; }
 
   .process-rail__number {
     color: var(--c-blue);
@@ -163,7 +217,8 @@ const { steps = [] } = Astro.props;
     transition: transform var(--dur-2) var(--ease-out);
   }
 
-  .process-teaser__link:hover span:last-child {
+  .process-teaser__link:hover span:last-child,
+  .process-teaser__link:focus-visible span:last-child {
     transform: translateX(0.2rem);
   }
 
@@ -180,19 +235,20 @@ const { steps = [] } = Astro.props;
 
   @media (min-width: 72rem) {
     .process-rail {
+      --process-gap: clamp(var(--space-5), 2.4vw, var(--space-7));
+      --process-node-y: clamp(3rem, 4vw, 3.6rem);
       position: relative;
       grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: clamp(var(--space-5), 2.4vw, var(--space-7));
+      gap: var(--process-gap);
       padding: 0;
       border-left: 0;
     }
 
-    .process-rail::before {
-      content: "";
-      position: absolute;
-      top: clamp(3rem, 4vw, 3.6rem);
-      right: clamp(1.1rem, 2vw, 1.65rem);
-      left: 0;
+    .process-rail__track {
+      top: var(--process-node-y);
+      bottom: auto;
+      left: 0.34rem;
+      width: calc(80% + var(--process-gap) * 0.8);
       height: 1px;
       background: var(--c-rule-blue);
     }
@@ -202,9 +258,9 @@ const { steps = [] } = Astro.props;
       padding: 0;
     }
 
-    .process-rail__step::before {
+    .process-rail__node {
       z-index: 2;
-      top: clamp(2.72rem, 3.7vw, 3.35rem);
+      top: calc(var(--process-node-y) - 0.34rem);
       left: 0;
       width: 0.68rem;
       height: 0.68rem;

@@ -61,7 +61,7 @@ const featuredHref = featuredProject ? `/projects/${featuredProject.id}/` : "/co
             aria-label={`View case study: ${featured.title}`}
           >
             {featured.heroImage && (
-              <div class="projects-feature__media">
+              <div class="projects-feature__media" data-motion-image>
                 <Picture
                   src={featured.heroImage}
                   alt={`${featured.title} finished kitchen`}
@@ -321,8 +321,11 @@ const featuredHref = featuredProject ? `/projects/${featuredProject.id}/` : "/co
     transition: transform 420ms var(--ease-out);
   }
 
-  .projects-feature__project:hover .projects-feature__media :global(img) {
-    transform: scale(1.015);
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .projects-feature__project:hover .projects-feature__media :global(img),
+    .projects-feature__project:focus-visible .projects-feature__media :global(img) {
+      transform: scale(1.015);
+    }
   }
 
   .projects-feature__content {

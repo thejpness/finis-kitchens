@@ -162,9 +162,10 @@ const faqs = [
         </p>
       </header>
 
-      <ol class="process-journey__list">
+      <ol class="process-journey__list" data-motion-journey>
         {stages.map((stage) => (
-          <li class="process-journey__stage">
+          <li class="process-journey__stage" data-process-row>
+            <span class="process-journey__rule" aria-hidden="true" data-process-rule></span>
             <p class="process-journey__number" aria-hidden="true">{stage.number}</p>
 
             <h3>{stage.title}</h3>
@@ -383,11 +384,39 @@ const faqs = [
   }
 
   .process-journey__stage {
+    position: relative;
     display: grid;
     gap: var(--space-5);
     padding-block: clamp(2rem, 4vw, 3.25rem);
     border-bottom: var(--border-1) solid var(--c-rule-blue);
   }
+
+  .process-journey__rule {
+    position: absolute;
+    right: 0;
+    bottom: -1px;
+    left: 0;
+    height: 1px;
+    background: var(--c-blue-muted);
+    transform-origin: left;
+  }
+
+  .process-journey__stage.is-current .process-journey__number {
+    color: var(--c-ink);
+  }
+
+  .process-journey__stage.is-complete .process-journey__rule {
+    background: var(--c-blue);
+  }
+
+  .process-journey__stage.is-seen .process-journey__number,
+  .process-journey__stage.is-seen h3,
+  .process-journey__stage.is-seen .process-journey__stage-intro {
+    animation: motion-resolve var(--dur-narrative) var(--ease-out) both;
+  }
+
+  .process-journey__stage.is-seen h3 { animation-delay: 60ms; }
+  .process-journey__stage.is-seen .process-journey__stage-intro { animation-delay: 120ms; }
 
   .process-journey__number {
     color: var(--c-blue);

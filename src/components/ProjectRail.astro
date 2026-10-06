@@ -78,7 +78,10 @@ const safe = (projects ?? []).filter(Boolean);
             return Math.max(240, Math.round(w + 16));
           };
 
-          const scrollBy = (dir) => grid.scrollBy({ left: getStep() * dir, behavior: "smooth" });
+          const scrollBy = (dir) => grid.scrollBy({
+            left: getStep() * dir,
+            behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+          });
 
           prev.addEventListener("click", () => scrollBy(-1));
           next.addEventListener("click", () => scrollBy(1));

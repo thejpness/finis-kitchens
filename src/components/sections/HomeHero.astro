@@ -13,7 +13,7 @@ interface Props {
 const { image } = Astro.props;
 ---
 
-<section class="home-hero" aria-labelledby="home-hero-title">
+<section class="home-hero" aria-labelledby="home-hero-title" data-motion-hero>
   <div class="home-hero__media">
     <Image
       class="home-hero__image"
@@ -22,6 +22,18 @@ const { image } = Astro.props;
       widths={[640, 960, 1376, 1920, 2560]}
       sizes="100vw"
       priority
+    />
+  </div>
+
+  <div class="home-hero__glazing" aria-hidden="true" data-hero-glazing>
+    <Image
+      src={image}
+      alt=""
+      widths={[160]}
+      sizes="100vw"
+      loading="eager"
+      decoding="async"
+      fetchpriority="low"
     />
   </div>
 
@@ -62,8 +74,37 @@ const { image } = Astro.props;
     inset: 0;
   }
 
-  .home-hero__media {
+  /* A small, static soft-focus image is rasterised once. Only the glazing's
+     opacity changes; the full-resolution LCP image is never blurred. */
+  .home-hero__glazing {
+    position: absolute;
+    inset: 0;
     z-index: -2;
+    overflow: hidden;
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  .home-hero__glazing :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 57% center;
+    filter: blur(8px);
+    transform: scale(1.06);
+  }
+
+  .home-hero__glazing::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(110deg, rgba(196, 208, 207, 0.2), rgba(215, 222, 215, 0.08) 54%, rgba(131, 158, 169, 0.22)),
+      repeating-linear-gradient(90deg, transparent 0, transparent calc(33.333% - 1px), rgba(239, 242, 233, 0.12) calc(33.333% - 1px), rgba(239, 242, 233, 0.12) 33.333%);
+  }
+
+  .home-hero__media {
+    z-index: -3;
   }
 
   .home-hero__image {
@@ -168,7 +209,8 @@ const { image } = Astro.props;
     transform: scaleX(1);
   }
 
-  .home-hero__scroll:hover svg {
+  .home-hero__scroll:hover svg,
+  .home-hero__scroll:focus-visible svg {
     transform: translateY(0.18rem);
   }
 
@@ -182,7 +224,8 @@ const { image } = Astro.props;
       margin-top: -4.15rem;
     }
 
-    .home-hero__image {
+    .home-hero__image,
+    .home-hero__glazing :global(img) {
       object-position: 62% center;
     }
 
@@ -208,6 +251,9 @@ const { image } = Astro.props;
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .home-hero__glazing {
+      display: none;
+    }
     .home-hero__scroll::after,
     .home-hero__scroll svg {
       transition: none;

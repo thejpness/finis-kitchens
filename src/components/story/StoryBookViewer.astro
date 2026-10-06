@@ -318,7 +318,7 @@ const {
 
         const activeThumb = thumbs[index];
         activeThumb?.scrollIntoView({
-          behavior: "smooth",
+          behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
           inline: "center",
           block: "nearest",
         });

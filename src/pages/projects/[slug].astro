@@ -74,7 +74,7 @@ if (data.completedAt) summaryPoints.push({ label: "Completed", value: data.compl
     data.heroImage && (
       <section class="project-lead-image">
         <div class="container">
-          <div class="project-lead-image__frame">
+          <div class="project-lead-image__frame" data-motion-image>
             <Picture
               src={data.heroImage}
               alt={`Finished ${title} kitchen`}
@@ -125,7 +125,7 @@ if (data.completedAt) summaryPoints.push({ label: "Completed", value: data.compl
 
           <div class="project-gallery__grid">
             {gallery.map((image, index) => (
-              <figure>
+              <figure data-motion-image>
                 <Picture
                   src={image}
                   alt={`${title} finished kitchen view ${index + 1}`}
