@@ -211,11 +211,21 @@ const steps = [
   }
 
   .real-life__principle {
+    position: relative;
     display: grid;
     grid-template-columns: 2.5rem minmax(0, 1fr);
     gap: var(--space-3);
     padding-block: var(--space-5) var(--space-6);
-    border-top: var(--border-1) solid var(--c-rule-on-dark);
+  }
+
+  .real-life__principle::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: var(--space-5);
+    left: calc(2.5rem + var(--space-3));
+    height: var(--border-1);
+    background: var(--c-rule-on-dark);
   }
 
   .real-life__number {
@@ -251,7 +261,9 @@ const steps = [
 
   .calmer-way__layout {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--home-layout-gap);
+    overflow-wrap: anywhere;
   }
 
   .calmer-way__intro {
@@ -296,12 +308,12 @@ const steps = [
     padding: 0;
     margin: 0;
     list-style: none;
+    border-block: var(--border-1) solid var(--c-rule-on-dark);
   }
 
   .calmer-way__points li {
     position: relative;
     padding: var(--space-4) 0 var(--space-4) 1.45rem;
-    border-top: var(--border-1) solid var(--c-rule-on-dark);
     color: #fff;
     font-size: clamp(1.05rem, 1.4vw, 1.2rem);
     font-weight: 560;
@@ -320,15 +332,16 @@ const steps = [
     background: var(--c-blue-pale);
   }
 
-  .calmer-way__points li:last-child {
-    border-bottom: var(--border-1) solid var(--c-rule-on-dark);
-  }
-
   .calmer-way__actions {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-5);
     align-items: center;
+  }
+
+  .calmer-way__actions .btn {
+    max-width: 100%;
+    white-space: normal;
   }
 
   .calmer-way__about-link {

@@ -366,7 +366,9 @@ const faqs = [
 
   .process-journey__frame {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: clamp(2.75rem, 5vw, 4.5rem);
+    overflow-wrap: anywhere;
   }
 
   .process-journey__intro {
@@ -472,15 +474,14 @@ const faqs = [
   }
 
   .process-journey__detail ul {
+    display: grid;
+    gap: var(--space-4);
     padding: 0;
     margin: var(--space-6) 0 0;
     list-style: none;
-    border-top: var(--border-1) solid var(--c-rule-blue);
   }
 
   .process-journey__detail li {
-    padding-block: var(--space-3);
-    border-bottom: var(--border-1) solid var(--c-rule-blue);
     color: var(--c-text-muted);
     font-size: var(--fs-0);
     line-height: var(--lh-snug);

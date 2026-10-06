@@ -4,6 +4,19 @@ Website and enquiry platform for **Fini's Kitchens**.
 
 The application is built with Astro and deployed through Docker, with nginx serving the generated frontend, Traefik providing external routing, and separate Go services handling contact-form enquiries and Turnstile validation.
 
+## v1.3.1 - Visual cohesion
+
+A restrained CSS refinement of the v1.3.0 baseline: the budget ranges share one square
+tonal surface with inset dividers and content-led mobile heights. Homepage principle
+rules stop within the copy area, closing reassurance keeps only its outer rules, and
+supporting process points use whitespace instead of repeated separators. The featured
+project connects its photograph and copy through a shallow backing plane, simplifying
+to a normal-flow caption surface on mobile. Local wrapping guards keep the closing
+and process stages readable with enlarged text on narrow screens.
+
+The approved hero, header, homepage process photography, Kitchen Montage, typography,
+footer and motion system remain intact. No JavaScript, dependency or image changes.
+
 ## v1.3.0 — Motion & interaction system
 
 Introduces a new responsive motion system, including the homepage frosted-glass arrival,
