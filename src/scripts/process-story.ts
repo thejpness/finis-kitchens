@@ -1,23 +1,6 @@
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { gsap, ScrollTrigger, createScrollMotionOwner } from "./scroll-motion-runtime";
 
 const desktop = "(min-width: 68rem) and (min-height: 38rem) and (prefers-reduced-motion: no-preference)";
-let registered = false;
-let awake = false;
-
-// Keep plugin state across cached-page restores and Astro navigation lifecycles.
-// This is the site's only ScrollTrigger user, so suspend its housekeeping too.
-function sleep() {
-  if (!awake) return;
-  ScrollTrigger.disable(false);
-  awake = false;
-}
-function wake() {
-  if (awake) return;
-  ScrollTrigger.enable();
-  awake = true;
-}
-
 export async function initProcessStory(section: HTMLElement, signal: AbortSignal) {
   const chapters = Array.from(section.querySelectorAll<HTMLElement>(".process-story__chapter"));
   const photos = chapters.map((chapter) => chapter.querySelector<HTMLElement>(".process-story__photo")!);
@@ -34,15 +17,11 @@ export async function initProcessStory(section: HTMLElement, signal: AbortSignal
   }));
   if (signal.aborted || !section.isConnected) return () => {};
 
-  if (!registered) {
-    gsap.registerPlugin(ScrollTrigger);
-    registered = true;
-    awake = true;
-  }
+  const owner = createScrollMotionOwner();
   const media = gsap.matchMedia();
   try {
     media.add(desktop, () => {
-      wake();
+      owner.setActive(true);
       photos.forEach((photo) => layers.append(photo));
       section.classList.add("is-enhanced");
       gsap.set(photos.slice(1), { autoAlpha: 0 });
@@ -70,6 +49,7 @@ export async function initProcessStory(section: HTMLElement, signal: AbortSignal
         // Keep the outgoing photograph underneath the dissolve. Each layer has
         // one opacity owner, including when the visitor reverses direction.
         triggers.push(transition.scrollTrigger!);
+        owner.add(transition.scrollTrigger!);
       });
 
       chapters.forEach((chapter) => {
@@ -84,40 +64,42 @@ export async function initProcessStory(section: HTMLElement, signal: AbortSignal
           .to(copy, { opacity: 1, duration: 0.3 })
           .to(copy, { opacity: 0.72, duration: 0.3 });
         triggers.push(emphasis.scrollTrigger!);
+        owner.add(emphasis.scrollTrigger!);
       });
       const progression = gsap.fromTo(thread, { scaleY: 0 }, {
         scaleY: 1, ease: "none",
         scrollTrigger: { trigger: journey, start: "top center", end: "bottom center", scrub: true },
       });
       triggers.push(progression.scrollTrigger!);
+      owner.add(progression.scrollTrigger!);
 
       // Leave no process scroll handlers/scrubbing active away from the section.
       // Re-enabling the plugin remeasures once on re-entry, including any resize
       // that happened while its resize/scroll listeners were suspended.
       const relevance = new IntersectionObserver(([entry]) => {
         if (entry.isIntersecting) {
-          wake();
+          owner.setActive(true);
           triggers.forEach((trigger) => trigger.update());
-        } else sleep();
+        } else owner.setActive(false);
       }, { rootMargin: "300px 0px" });
       relevance.observe(section);
 
       return () => {
         relevance.disconnect();
-        sleep();
+        owner.clear();
         section.classList.remove("is-enhanced");
         photos.forEach((photo, index) => chapters[index].prepend(photo));
       };
     });
-    if (!window.matchMedia(desktop).matches) sleep();
+    if (!window.matchMedia(desktop).matches) owner.setActive(false);
   } catch (error) {
     media.revert();
-    sleep();
+    owner.destroy();
     section.classList.remove("is-enhanced");
     photos.forEach((photo, index) => chapters[index].prepend(photo));
     throw error;
   }
-  const dispose = () => { media.revert(); sleep(); };
+  const dispose = () => { media.revert(); owner.destroy(); };
   signal.addEventListener("abort", dispose, { once: true });
   return () => {
     signal.removeEventListener("abort", dispose);

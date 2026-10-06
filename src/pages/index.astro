@@ -11,6 +11,7 @@ import furnishedKitchenDining from "../assets/images/process/furnished-kitchen-d
 import BudgetGuide from "../components/sections/BudgetGuide.astro";
 import ProcessSteps from "../components/sections/ProcessSteps.astro";
 import ProjectPreviewGrid from "../components/sections/ProjectPreviewGrid.astro";
+import KitchenMontage from "../components/sections/KitchenMontage.astro";
 import { getCollection } from "astro:content";
 
 const allProjects = await getCollection("projects");
@@ -126,6 +127,8 @@ const steps = [
   <ProcessSteps steps={steps} />
 
   <ProjectPreviewGrid projects={featuredProjects} />
+
+  <KitchenMontage />
 
   <section class="calmer-way" aria-labelledby="calmer-way-title">
     <div class="container calmer-way__layout">

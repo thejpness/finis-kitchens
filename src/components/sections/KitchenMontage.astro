@@ -1,0 +1,139 @@
+---
+import { Picture } from "astro:assets";
+import islandAndSeating from "../../assets/images/montage/island-and-seating.jpg";
+import navyDisplayKitchen from "../../assets/images/montage/navy-display-kitchen.jpg";
+import darkKitchenRoom from "../../assets/images/montage/dark-kitchen-room.jpg";
+import cabinetryDetail from "../../assets/images/montage/worktop-and-tap.jpg";
+import materialSamples from "../../assets/images/process/material-finish-samples.jpg";
+import diningRoom from "../../assets/images/process/furnished-kitchen-dining.jpg";
+
+const photographs = [
+  { image: islandAndSeating, alt: "Pale kitchen cabinetry and a dressed island with upholstered stools.", kind: "wide", width: 1200, height: 840, widths: [480, 800, 1200], sizes: "(min-width: 80rem) 520px, (min-width: 48rem) 40vw, 88vw", position: "bottom" },
+  { image: cabinetryDetail, alt: "A pale worktop and curved tap beneath dark cabinetry.", kind: "detail", width: 640, height: 900, widths: [320, 480, 640], sizes: "(min-width: 80rem) 210px, (min-width: 48rem) 17vw, 50vw", position: "bottom" },
+  { image: navyDisplayKitchen, alt: "Navy kitchen cabinetry with pale worktops arranged around a corner.", kind: "room", width: 1000, height: 700, widths: [400, 640, 1000], sizes: "(min-width: 80rem) 420px, (min-width: 48rem) 33vw, 84vw", position: "bottom" },
+  { image: materialSamples, alt: "A close view of pale worktop and finish samples.", kind: "materials", width: 480, height: 840, widths: [240, 360, 480], sizes: "(min-width: 80rem) 150px, (min-width: 48rem) 12vw, 42vw", position: "center" },
+  { image: darkKitchenRoom, alt: "A dark fitted kitchen with a pale worktop, wood-toned floor and a window.", kind: "portrait", width: 800, height: 1000, widths: [400, 640, 800], sizes: "(min-width: 80rem) 300px, (min-width: 48rem) 24vw, 66vw", position: "right" },
+  { image: diningRoom, alt: "Kitchen cabinetry beyond a dining table with flowers and woven chairs.", kind: "living", width: 1200, height: 780, widths: [480, 800, 1200], sizes: "(min-width: 80rem) 520px, (min-width: 48rem) 40vw, 90vw", position: "center" },
+];
+---
+
+<section class="kitchen-montage" aria-labelledby="kitchen-montage-title" data-kitchen-montage>
+  <!-- Establish the strip before its HTML is laid out; animation still loads later.
+       Without JS (or with reduced motion), the complete static gallery is used. -->
+  <script is:inline>
+    if (window.matchMedia("(prefers-reduced-motion: no-preference)").matches) {
+      document.currentScript.parentElement.classList.add("has-reel-layout");
+    }
+  </script>
+  <header class="container kitchen-montage__intro">
+    <div>
+      <p class="kitchen-montage__eyebrow">Consider the possibilities</p>
+      <h2 id="kitchen-montage-title">Room for <em>possibility.</em></h2>
+    </div>
+    <p class="kitchen-montage__summary">Materials, details and spaces<br />to make your own.</p>
+  </header>
+  <div class="kitchen-montage__viewport" role="group" aria-label="Kitchen photographs">
+    <div class="kitchen-montage__track">
+      {[photographs.slice(0, 3), photographs.slice(3)].map((band) => (
+        <div class="kitchen-montage__band">
+          {band.map((photo) => (
+            <figure class={`kitchen-montage__photo kitchen-montage__photo--${photo.kind}`}>
+              <Picture src={photo.image} alt={photo.alt} formats={["avif", "webp"]}
+                width={photo.width} height={photo.height} widths={photo.widths} sizes={photo.sizes}
+                fit="cover" position={photo.position} loading="lazy" decoding="async" />
+              {(photo.kind === "detail" || photo.kind === "materials") && <span class="kitchen-montage__haze" aria-hidden="true"></span>}
+            </figure>
+          ))}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  const preference = window.matchMedia("(prefers-reduced-motion: no-preference)");
+  let teardown: (() => void) | undefined;
+  function watchMontage() {
+    teardown?.();
+    const section = document.querySelector<HTMLElement>("[data-kitchen-montage]");
+    if (!section || !("IntersectionObserver" in window)) return;
+    const viewport = section.querySelector<HTMLElement>(".kitchen-montage__viewport")!;
+    const syncLayout = () => {
+      section.classList.toggle("has-reel-layout", preference.matches);
+      if (preference.matches && !section.classList.contains("is-enhanced")) viewport.tabIndex = 0;
+      else viewport.removeAttribute("tabindex");
+    };
+    syncLayout();
+    const controller = new AbortController();
+    let near = false;
+    let requested = false;
+    let dispose: (() => void) | undefined;
+    const load = async () => {
+      syncLayout();
+      if (!near || !preference.matches || requested) return;
+      requested = true;
+      try {
+        const { initKitchenMontage } = await import("../../scripts/kitchen-montage");
+        if (!controller.signal.aborted) dispose = await initKitchenMontage(section, controller.signal);
+      } catch { requested = false; }
+    };
+    const observer = new IntersectionObserver(([entry]) => { near = entry.isIntersecting; if (near) void load(); }, { rootMargin: "600px 0px" });
+    observer.observe(section);
+    preference.addEventListener("change", load);
+    teardown = () => { controller.abort(); observer.disconnect(); preference.removeEventListener("change", load); dispose?.(); };
+  }
+  watchMontage();
+  window.addEventListener("pagehide", () => teardown?.());
+  window.addEventListener("pageshow", (event) => { if (event.persisted) watchMontage(); });
+  document.addEventListener("astro:before-swap", () => teardown?.());
+  document.addEventListener("astro:page-load", watchMontage);
+</script>
+
+<style>
+  .kitchen-montage { background: var(--c-brand-100); color: var(--c-navy); padding-block: var(--home-section-y) clamp(3.5rem, 6vw, 5.5rem); overflow: clip; }
+  .kitchen-montage__intro { display: flex; flex-wrap: wrap; gap: 1.5rem 4rem; align-items: end; justify-content: space-between; margin-bottom: clamp(2.5rem, 4vw, 4rem); }
+  .kitchen-montage__eyebrow { margin-bottom: 1.25rem; font-size: var(--eyebrow-size); font-weight: var(--eyebrow-weight); letter-spacing: var(--eyebrow-tracking); text-transform: uppercase; color: var(--c-blue); }
+  .kitchen-montage h2 { font-family: var(--font-display); font-weight: 450; font-size: clamp(2.7rem, 4.5vw, 4.25rem); line-height: 1.05; letter-spacing: -0.03em; text-wrap: initial; }
+  .kitchen-montage h2 em { font-weight: inherit; }
+  .kitchen-montage__summary { font-size: 1rem; line-height: 1.65; padding-bottom: 0.2rem; }
+  .kitchen-montage__viewport { width: 100%; }
+  .kitchen-montage__track { display: grid; grid-template-columns: 1.4fr 0.65fr 1.1fr; gap: 2rem; width: min(calc(100% - 3.5rem), 76rem); margin-inline: auto; }
+  .kitchen-montage__band { display: contents; }
+  .kitchen-montage__photo { position: relative; overflow: hidden; margin: 0; min-width: 0; height: 18rem; background: var(--c-canvas-warm); }
+  .kitchen-montage__photo :global(picture), .kitchen-montage__photo :global(img) { width: 100%; height: 100%; display: block; }
+  .kitchen-montage__photo :global(img) { object-fit: cover; }
+  .kitchen-montage__photo--portrait { grid-column: 1; grid-row: 2; }
+  .kitchen-montage__photo--materials { grid-column: 2; grid-row: 2; }
+  .kitchen-montage__photo--living { grid-column: 3; grid-row: 2; }
+  .kitchen-montage__haze { position: absolute; inset: 0; pointer-events: none; opacity: 0.18; background: linear-gradient(90deg, var(--c-brand-100), transparent 34%, transparent 74%, var(--c-paper)); }
+  .kitchen-montage__viewport:focus-visible { outline-offset: -4px; }
+
+  @media (max-width: 47.99rem) {
+    .kitchen-montage__track { width: calc(100% - 2rem); grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+    .kitchen-montage__photo { height: 15rem; }
+    .kitchen-montage__photo--portrait, .kitchen-montage__photo--materials, .kitchen-montage__photo--living { grid-column: auto; grid-row: auto; }
+    .kitchen-montage__photo--wide, .kitchen-montage__photo--living { grid-column: 1 / -1; height: 16rem; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .has-reel-layout .kitchen-montage__viewport { overflow-x: auto; scrollbar-width: thin; scrollbar-color: var(--c-blue-muted) transparent; }
+    .has-reel-layout.is-enhanced .kitchen-montage__viewport { overflow: clip; }
+    .has-reel-layout .kitchen-montage__track { display: flex; align-items: start; gap: 1.4rem; width: max-content; margin: 0; padding-inline: 0; height: max(calc(min(28vw, 22rem) + 5rem), min(33vw, 26rem)); }
+    .has-reel-layout .kitchen-montage__photo { flex: none; }
+    .has-reel-layout .kitchen-montage__photo--wide { width: min(40vw, 32.5rem); height: min(28vw, 23rem); margin-top: 1.5rem; }
+    .has-reel-layout .kitchen-montage__photo--detail { width: min(17vw, 13.125rem); height: min(28vw, 22rem); margin-top: 5rem; }
+    .has-reel-layout .kitchen-montage__photo--room { width: min(33vw, 26.25rem); height: min(24vw, 19.5rem); margin-top: 0.5rem; }
+    .has-reel-layout .kitchen-montage__photo--materials { width: min(12vw, 9.375rem); height: min(26vw, 20rem); margin-top: 4rem; }
+    .has-reel-layout .kitchen-montage__photo--portrait { width: min(24vw, 18.75rem); height: min(33vw, 26rem); margin-top: 0; }
+    .has-reel-layout .kitchen-montage__photo--living { width: min(40vw, 32.5rem); height: min(28vw, 23rem); margin-top: 2.5rem; }
+    @media (max-width: 47.99rem) {
+      .has-reel-layout .kitchen-montage__track { display: grid; grid-template-columns: 1fr; gap: 2rem; width: 100%; height: auto; }
+      .has-reel-layout .kitchen-montage__band { display: flex; gap: 1rem; width: max-content; height: 20rem; align-items: start; }
+      .has-reel-layout .kitchen-montage__photo--wide { width: 88vw; height: 16rem; margin-top: 1rem; }
+      .has-reel-layout .kitchen-montage__photo--detail { width: 50vw; height: 18rem; margin-top: 2rem; }
+      .has-reel-layout .kitchen-montage__photo--room { width: 84vw; height: 15.5rem; margin-top: 0; }
+      .has-reel-layout .kitchen-montage__photo--materials { width: 42vw; height: 16rem; margin-top: 2rem; }
+      .has-reel-layout .kitchen-montage__photo--portrait { width: 66vw; height: 19rem; margin-top: 0; }
+      .has-reel-layout .kitchen-montage__photo--living { width: 90vw; height: 16.5rem; margin-top: 1.5rem; }
+    }
+  }
+</style>
