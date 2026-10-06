@@ -1,4 +1,5 @@
 ---
+import "../styles/commercial.css";
 // src/pages/contact.astro
 import BaseLayout from "../layouts/BaseLayout.astro";
 import WhatsAppButton from "../components/WhatsAppButton.astro";
@@ -11,6 +12,7 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
   description="Start with a conversation about your kitchen. Practical guidance and sensible next steps for homes across East and West Sussex."
   footerFlush={true}
 >
+  <div class="commercial">
   <section class="contact-hero">
     <div class="container contact-hero__layout">
       <div class="contact-hero__copy">
@@ -181,7 +183,7 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
 
       <div class="contact-methods__list">
         <div class="contact-method">
-          <span class="contact-method__number" aria-hidden="true">01</span>
+          <span class="contact-method__number commercial-index" aria-hidden="true">01</span>
           <div>
             <h3>WhatsApp</h3>
             <p>A quick message is enough to get the conversation started.</p>
@@ -197,7 +199,7 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
         </div>
 
         <div class="contact-method">
-          <span class="contact-method__number" aria-hidden="true">02</span>
+          <span class="contact-method__number commercial-index" aria-hidden="true">02</span>
           <div>
             <h3>Telephone</h3>
             <p>For a direct conversation about your room or plans.</p>
@@ -206,7 +208,7 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
         </div>
 
         <div class="contact-method">
-          <span class="contact-method__number" aria-hidden="true">03</span>
+          <span class="contact-method__number commercial-index" aria-hidden="true">03</span>
           <div>
             <h3>Email</h3>
             <p>Useful when you would rather write things down in your own time.</p>
@@ -277,21 +279,21 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
 
       <ol class="contact-next__list">
         <li>
-          <span aria-hidden="true">01</span>
+          <span class="commercial-index" aria-hidden="true">01</span>
           <div>
             <h3>We read your enquiry</h3>
             <p>We take in the room, priorities and rough timing you have shared.</p>
           </div>
         </li>
         <li>
-          <span aria-hidden="true">02</span>
+          <span class="commercial-index" aria-hidden="true">02</span>
           <div>
             <h3>We have an initial conversation</h3>
             <p>We talk through the useful details and answer the practical questions you have now.</p>
           </div>
         </li>
         <li>
-          <span aria-hidden="true">03</span>
+          <span class="commercial-index" aria-hidden="true">03</span>
           <div>
             <h3>We agree the sensible next step</h3>
             <p>That might be a showroom visit, a survey or simply more guidance before deciding.</p>
@@ -302,6 +304,7 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
       <a class="contact-next__link" href="/process">Read the full kitchen process <span aria-hidden="true">→</span></a>
     </div>
   </section>
+  </div>
 </BaseLayout>
 
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
@@ -468,7 +471,7 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
   .contact-showroom__layout,
   .contact-next__intro {
     display: grid;
-    gap: var(--home-layout-gap);
+    gap: var(--commercial-layout-gap);
     align-items: end;
   }
 
@@ -525,7 +528,7 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
 
   .contact-hero__reassurance {
     padding-top: var(--space-5);
-    border-top: var(--border-1) solid var(--c-rule-blue);
+    border-top: var(--commercial-rule);
   }
 
   .contact-hero__reassurance .contact-eyebrow {
@@ -561,8 +564,8 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
   }
 
   .contact-enquiry {
-    padding-block: var(--home-section-y);
-    border-top: var(--border-1) solid var(--c-rule-blue);
+    padding-block: var(--commercial-section-y);
+    border-top: var(--commercial-rule);
     background: var(--c-paper);
   }
 
@@ -591,13 +594,13 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
     padding: 0;
     margin: var(--space-7) 0 0;
     list-style: none;
-    border-top: var(--border-1) solid var(--c-rule-blue);
+    border-top: var(--commercial-rule);
   }
 
   .contact-enquiry__notes li {
     position: relative;
     padding: var(--space-4) 0 var(--space-4) 1.35rem;
-    border-bottom: var(--border-1) solid var(--c-rule-blue);
+    border-bottom: var(--commercial-rule);
     color: var(--c-navy);
     font-size: var(--fs-0);
     font-weight: 560;
@@ -620,13 +623,13 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
     min-width: 0;
     padding: clamp(1.5rem, 4vw, 3.5rem);
     background: var(--c-canvas-warm);
-    border-top: var(--border-1) solid var(--c-rule-blue);
-    border-bottom: var(--border-1) solid var(--c-rule-blue);
+    border-top: var(--commercial-rule);
+    border-bottom: var(--commercial-rule);
   }
 
   .contact-form__head {
     padding-bottom: var(--space-5);
-    border-bottom: var(--border-1) solid var(--c-rule-blue);
+    border-bottom: var(--commercial-rule);
   }
 
   .contact-form__head .contact-eyebrow {
@@ -762,7 +765,7 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
 
   .form-status {
     padding: var(--space-3) var(--space-4);
-    border: var(--border-1) solid var(--c-rule-blue);
+    border: var(--commercial-rule);
     border-left: 3px solid var(--c-blue-muted);
     color: var(--c-navy);
     background: var(--c-paper);
@@ -800,8 +803,8 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
   }
 
   .contact-methods {
-    padding-block: var(--home-section-y-tight);
-    border-top: var(--border-1) solid var(--c-rule-blue);
+    padding-block: var(--commercial-section-y-tight);
+    border-top: var(--commercial-rule);
     background: var(--c-canvas);
   }
 
@@ -827,7 +830,7 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
   }
 
   .contact-methods__list {
-    border-top: var(--border-1) solid var(--c-rule-blue);
+    border-top: var(--commercial-rule);
   }
 
   .contact-method {
@@ -835,15 +838,12 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
     grid-template-columns: 2.5rem minmax(0, 1fr);
     gap: var(--space-3) var(--space-4);
     padding-block: clamp(1.5rem, 3vw, 2.25rem);
-    border-bottom: var(--border-1) solid var(--c-rule-blue);
+    border-bottom: var(--commercial-rule);
     overflow-wrap: anywhere;
   }
 
   .contact-method__number {
     color: var(--c-blue);
-    font-size: var(--fs-0);
-    font-weight: 650;
-    letter-spacing: 0.08em;
   }
 
   .contact-method h3 {
@@ -883,8 +883,8 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
   }
 
   .contact-showroom {
-    padding-block: var(--home-section-y-tight);
-    border-top: var(--border-1) solid var(--c-rule-blue);
+    padding-block: var(--commercial-section-y-tight);
+    border-top: var(--commercial-rule);
     background: var(--c-paper);
   }
 
@@ -901,8 +901,8 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
   .contact-showroom__address {
     padding-block: var(--space-5);
     margin-top: var(--space-7);
-    border-top: var(--border-1) solid var(--c-rule-blue);
-    border-bottom: var(--border-1) solid var(--c-rule-blue);
+    border-top: var(--commercial-rule);
+    border-bottom: var(--commercial-rule);
   }
 
   .contact-showroom__address-label {
@@ -941,7 +941,7 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
   }
 
   .contact-next {
-    padding-block: var(--home-section-y);
+    padding-block: var(--commercial-section-y);
     background: var(--c-navy);
   }
 
@@ -965,7 +965,7 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
     padding: 0;
     margin: clamp(2.75rem, 5vw, 4.5rem) 0 0;
     list-style: none;
-    border-top: var(--border-1) solid var(--c-rule-on-dark);
+    border-top: var(--commercial-rule-dark);
   }
 
   .contact-next__list li {
@@ -973,15 +973,12 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
     grid-template-columns: 2.5rem minmax(0, 1fr);
     gap: var(--space-4);
     padding-block: clamp(1.75rem, 3vw, 2.5rem);
-    border-bottom: var(--border-1) solid var(--c-rule-on-dark);
+    border-bottom: var(--commercial-rule-dark);
     overflow-wrap: anywhere;
   }
 
   .contact-next__list li > span {
     color: var(--c-blue-pale);
-    font-size: var(--fs-0);
-    font-weight: 650;
-    letter-spacing: 0.08em;
   }
 
   .contact-next__list h3 {
@@ -1047,7 +1044,7 @@ const TURNSTILE_SITE_KEY = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? "";
     .contact-next__list li {
       display: block;
       padding-inline: clamp(1.5rem, 2.5vw, 2.5rem);
-      border-right: var(--border-1) solid var(--c-rule-on-dark);
+      border-right: var(--commercial-rule-dark);
     }
 
     .contact-next__list li:first-child {

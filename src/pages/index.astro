@@ -1,4 +1,5 @@
 ---
+import "../styles/commercial.css";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import HomeHero from "../components/sections/HomeHero.astro";
 import finiBlueKitchen from "../assets/images/hero/fini-blue-kitchen.jpg";
@@ -13,6 +14,7 @@ import ProcessSteps from "../components/sections/ProcessSteps.astro";
 import ProjectPreviewGrid from "../components/sections/ProjectPreviewGrid.astro";
 import KitchenMontage from "../components/sections/KitchenMontage.astro";
 import { getCollection } from "astro:content";
+import { socialImage } from "../lib/social-image";
 
 const allProjects = await getCollection("projects");
 const featuredProjects = allProjects
@@ -21,6 +23,7 @@ const featuredProjects = allProjects
   .slice(0, 1);
 
 const heroImage = finiBlueKitchen;
+const ogImage = await socialImage(heroImage);
 
 const steps = [
   {
@@ -69,10 +72,11 @@ const steps = [
 <BaseLayout
   title="Calm, real-life kitchens | Fini’s Kitchens"
   description="Thoughtful kitchen design, supply and installation across East and West Sussex. Practical guidance without the showroom pressure."
-  ogImage={heroImage.src}
+  ogImage={ogImage}
   headerOverlay
   footerFlush
 >
+  <div class="commercial">
   <HomeHero image={heroImage} />
 
   <section id="home-content" class="real-life" aria-labelledby="real-life-title">
@@ -84,11 +88,14 @@ const steps = [
           Kitchen design should start with ordinary life: breakfast, school runs, working, hosting, family meals,
           storage, movement and the details people often forget to design around.
         </p>
+        <a class="real-life__services commercial-editorial-link" href="/services">
+          Explore our kitchen services <span aria-hidden="true">→</span>
+        </a>
       </header>
 
       <ol class="real-life__principles">
         <li class="real-life__principle">
-          <span class="real-life__number" aria-hidden="true">01</span>
+          <span class="real-life__number commercial-index" aria-hidden="true">01</span>
           <div>
             <h3>Style, flow and function working together</h3>
             <p>A room that looks right because it works hard.</p>
@@ -96,7 +103,7 @@ const steps = [
         </li>
 
         <li class="real-life__principle">
-          <span class="real-life__number" aria-hidden="true">02</span>
+          <span class="real-life__number commercial-index" aria-hidden="true">02</span>
           <div>
             <h3>The little things that matter most</h3>
             <p>Storage, reach and movement considered before they become frustrations.</p>
@@ -104,7 +111,7 @@ const steps = [
         </li>
 
         <li class="real-life__principle">
-          <span class="real-life__number" aria-hidden="true">03</span>
+          <span class="real-life__number commercial-index" aria-hidden="true">03</span>
           <div>
             <h3>The love that makes it real</h3>
             <p>Designed around the people, routines and moments that make it yours.</p>
@@ -112,7 +119,7 @@ const steps = [
         </li>
 
         <li class="real-life__principle">
-          <span class="real-life__number" aria-hidden="true">04</span>
+          <span class="real-life__number commercial-index" aria-hidden="true">04</span>
           <div>
             <h3>Premium without the theatre</h3>
             <p>Beautiful materials and practical choices, without the showroom performance.</p>
@@ -156,11 +163,18 @@ const steps = [
     </div>
   </section>
 
+  </div>
 </BaseLayout>
 
 <style>
+  .real-life__services {
+    --commercial-link-color: var(--c-blue-pale);
+    --commercial-link-hover: var(--c-paper);
+    margin-top: var(--space-5);
+  }
+
   .real-life {
-    padding-block: var(--home-section-y);
+    padding-block: var(--commercial-section-y);
     color: var(--c-brand-50);
     background: var(--c-navy);
     scroll-margin-top: 6rem;
@@ -168,7 +182,7 @@ const steps = [
 
   .real-life__layout {
     display: grid;
-    gap: var(--home-layout-gap);
+    gap: var(--commercial-layout-gap);
   }
 
   .real-life__intro {
@@ -231,9 +245,6 @@ const steps = [
   .real-life__number {
     padding-top: 0.24rem;
     color: var(--c-blue-pale);
-    font-size: var(--fs-0);
-    font-weight: 650;
-    letter-spacing: 0.08em;
   }
 
   .real-life__principle h3 {
@@ -254,7 +265,7 @@ const steps = [
   }
 
   .calmer-way {
-    padding-block: var(--home-section-y);
+    padding-block: var(--commercial-section-y);
     color: var(--c-brand-50);
     background: var(--c-navy);
   }
@@ -262,7 +273,7 @@ const steps = [
   .calmer-way__layout {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    gap: var(--home-layout-gap);
+    gap: var(--commercial-layout-gap);
     overflow-wrap: anywhere;
   }
 
@@ -300,7 +311,7 @@ const steps = [
 
   .calmer-way__detail {
     display: grid;
-    gap: var(--home-layout-gap-tight);
+    gap: var(--commercial-layout-gap-tight);
     align-content: start;
   }
 
@@ -308,7 +319,7 @@ const steps = [
     padding: 0;
     margin: 0;
     list-style: none;
-    border-block: var(--border-1) solid var(--c-rule-on-dark);
+    border-block: var(--commercial-rule-dark);
   }
 
   .calmer-way__points li {

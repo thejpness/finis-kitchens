@@ -1,0 +1,78 @@
+/* Commercial pages opt in locally. Legacy tokens, layouts and the story stay untouched. */
+.commercial {
+  --commercial-section-y: var(--home-section-y);
+  --commercial-section-y-tight: var(--home-section-y-tight);
+  --commercial-layout-gap: var(--home-layout-gap);
+  --commercial-layout-gap-tight: var(--home-layout-gap-tight);
+  --commercial-inset: var(--space-6);
+  --commercial-module-y: clamp(var(--space-7), 4vw, 3.25rem);
+  --commercial-rule: var(--border-1) solid var(--c-rule-blue);
+  --commercial-rule-dark: var(--border-1) solid var(--c-rule-on-dark);
+  --commercial-index-size: var(--fs-0);
+  --commercial-metadata-size: var(--fs-0);
+  --commercial-stage-size: var(--fs-4);
+  --commercial-marker-size: 0.7rem;
+  --commercial-marker-halo: 5px;
+  --commercial-media-radius: var(--radius-s);
+}
+
+.commercial .commercial-index {
+  font-size: var(--commercial-index-size);
+  font-weight: 650;
+  line-height: var(--lh-snug);
+  letter-spacing: 0.08em;
+  font-variant-numeric: tabular-nums;
+}
+
+.commercial .commercial-stage-number {
+  font-size: var(--commercial-stage-size);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+.commercial .commercial-meta :where(dt) {
+  color: var(--c-blue);
+  font-size: var(--commercial-metadata-size);
+  font-weight: 650;
+  line-height: var(--lh-snug);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.commercial .commercial-meta :where(dt, dd) {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.commercial .commercial-editorial-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: fit-content;
+  min-height: 44px;
+  max-width: 100%;
+  color: var(--commercial-link-color, var(--c-navy));
+  font-size: var(--fs-0);
+  font-weight: 650;
+  line-height: var(--lh-snug);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+.commercial .commercial-editorial-link:is(:hover, :focus-visible) {
+  color: var(--commercial-link-hover, var(--c-blue));
+  text-decoration-thickness: 2px;
+}
+
+.commercial .commercial-editorial-link:focus-visible {
+  outline: 2px solid var(--commercial-link-color, var(--c-blue));
+  outline-offset: 5px;
+}
+
+.commercial .btn {
+  max-width: 100%;
+  white-space: normal;
+}

@@ -1,4 +1,5 @@
 ---
+import "../styles/commercial.css";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import WhatsAppButton from "../components/WhatsAppButton.astro";
 
@@ -26,9 +27,9 @@ const services = [
 ];
 
 const steps = [
-  { title: "Survey & brief", description: "We measure the room and talk through what you need from your kitchen." },
-  { title: "Design & refine", description: "We work through the layout, storage and finishes with you." },
-  { title: "Deliver & install", description: "We coordinate the moving parts and complete the installation cleanly." },
+  { title: "Conversation & survey", description: "We measure the room and talk through what you need from your kitchen." },
+  { title: "Design & specification", description: "We work through the layout, storage and finishes with you." },
+  { title: "Supply & installation", description: "We coordinate the moving parts and complete the installation cleanly." },
 ];
 ---
 
@@ -37,6 +38,7 @@ const steps = [
   description="Kitchen design, supply and installation across Sussex, with one point of contact to coordinate the work."
   footerFlush={true}
 >
+  <div class="commercial">
   <section class="services-hero" aria-labelledby="services-title">
     <div class="container services-hero__layout">
       <div>
@@ -48,10 +50,10 @@ const steps = [
 
         <div class="services-actions">
           <a class="btn btn--primary btn--large" href="/contact">Book a consultation</a>
-          <WhatsAppButton class="services-text-link" label="WhatsApp us" />
+          <WhatsAppButton class="services-text-link commercial-editorial-link" label="WhatsApp us" />
         </div>
 
-        <dl class="services-hero__details">
+        <dl class="services-hero__details commercial-meta">
           <div>
             <dt>Working together</dt>
             <dd>Single point of contact</dd>
@@ -91,7 +93,7 @@ const steps = [
         {services.map((service, index) => (
           <li class="services-offering__row">
             <div class="services-offering__heading">
-              <span class="services-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+              <span class="services-number commercial-index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
               <h3>{service.title}</h3>
             </div>
             <div class="services-offering__detail">
@@ -115,14 +117,14 @@ const steps = [
         </div>
         <div class="services-process__intro">
           <p>A calm, structured approach that keeps the project predictable.</p>
-          <a class="services-text-link" href="/process">Read the full kitchen process <span aria-hidden="true">→</span></a>
+          <a class="services-text-link commercial-editorial-link" href="/process">Read the full kitchen process <span aria-hidden="true">→</span></a>
         </div>
       </header>
 
       <ol class="services-process__steps" role="list">
         {steps.map((step, index) => (
           <li>
-            <span class="services-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+            <span class="services-number commercial-index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
             <div>
               <h3>{step.title}</h3>
               <p>{step.description}</p>
@@ -140,11 +142,12 @@ const steps = [
         <p>Share a few details and we’ll arrange your free design consultation.</p>
         <div class="services-actions">
           <a class="btn btn--accent btn--large" href="/contact">Get started</a>
-          <WhatsAppButton class="services-text-link" label="WhatsApp us" />
+          <WhatsAppButton class="services-text-link commercial-editorial-link" label="WhatsApp us" />
         </div>
       </div>
     </div>
   </section>
+  </div>
 </BaseLayout>
 
 <style>
@@ -165,12 +168,11 @@ const steps = [
   .services-closing__layout {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    gap: var(--home-layout-gap);
+    gap: var(--commercial-layout-gap);
     align-items: end;
   }
 
-  .services-eyebrow,
-  .services-hero__details dt {
+  .services-eyebrow {
     color: var(--c-blue);
     font-size: var(--eyebrow-size);
     font-weight: var(--eyebrow-weight);
@@ -225,7 +227,7 @@ const steps = [
     gap: var(--space-6) var(--space-9);
     padding-top: var(--space-5);
     margin: var(--space-7) 0 0;
-    border-top: var(--border-1) solid var(--c-rule-blue);
+    border-top: var(--commercial-rule);
   }
 
   .services-hero__details dd {
@@ -237,7 +239,7 @@ const steps = [
 
   .services-expectations {
     padding-top: var(--space-5);
-    border-top: var(--border-1) solid var(--c-rule-blue);
+    border-top: var(--commercial-rule);
   }
 
   .services-expectations h2 {
@@ -268,8 +270,8 @@ const steps = [
   }
 
   .services-offering {
-    padding-block: var(--home-section-y);
-    border-top: var(--border-1) solid var(--c-rule-blue);
+    padding-block: var(--commercial-section-y);
+    border-top: var(--commercial-rule);
     background: var(--c-paper);
   }
 
@@ -290,7 +292,7 @@ const steps = [
 
   .services-offering__list {
     padding: 0;
-    margin: var(--home-layout-gap) 0 0;
+    margin: var(--commercial-layout-gap) 0 0;
     list-style: none;
   }
 
@@ -298,8 +300,8 @@ const steps = [
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     gap: var(--space-6);
-    padding-block: clamp(2rem, 4vw, 3.25rem);
-    border-top: var(--border-1) solid var(--c-rule-blue);
+    padding-block: var(--commercial-module-y);
+    border-top: var(--commercial-rule);
   }
 
   .services-offering__row:last-child {
@@ -315,10 +317,6 @@ const steps = [
 
   .services-number {
     color: var(--c-blue);
-    font-size: var(--fs-0);
-    font-weight: 650;
-    line-height: var(--lh-snug);
-    font-variant-numeric: tabular-nums;
   }
 
   .services-offering__heading h3 {
@@ -357,7 +355,7 @@ const steps = [
   }
 
   .services-process {
-    padding-block: var(--home-section-y);
+    padding-block: var(--commercial-section-y);
     background: var(--c-canvas-warm);
   }
 
@@ -370,8 +368,8 @@ const steps = [
     grid-template-columns: minmax(0, 1fr);
     gap: var(--space-7);
     padding: var(--space-7) 0 0;
-    margin: var(--home-layout-gap) 0 0;
-    border-top: var(--border-1) solid var(--c-rule-blue);
+    margin: var(--commercial-layout-gap) 0 0;
+    border-top: var(--commercial-rule);
     list-style: none;
   }
 
@@ -399,7 +397,7 @@ const steps = [
   }
 
   .services-closing {
-    padding-block: var(--home-section-y);
+    padding-block: var(--commercial-section-y);
     background: var(--c-navy);
   }
 
@@ -408,32 +406,9 @@ const steps = [
     color: var(--c-paper);
   }
 
-  :global(.services-text-link) {
-    display: inline-flex;
-    gap: var(--space-2);
-    align-items: center;
-    min-height: 44px;
-    max-width: 100%;
-    color: var(--c-navy);
-    font-size: var(--fs-0);
-    font-weight: 650;
-    line-height: var(--lh-snug);
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 0.18em;
-  }
-
-  :global(.services-text-link:hover) {
-    color: var(--c-blue);
-    text-decoration-thickness: 2px;
-  }
-
   .services-closing :global(.services-text-link) {
-    color: var(--c-blue-pale);
-  }
-
-  .services-closing :global(.services-text-link:hover) {
-    color: var(--c-paper);
+    --commercial-link-color: var(--c-blue-pale);
+    --commercial-link-hover: var(--c-paper);
   }
 
   @media (min-width: 48rem) {
@@ -444,7 +419,7 @@ const steps = [
 
     .services-process__steps {
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: var(--home-layout-gap-tight);
+      gap: var(--commercial-layout-gap-tight);
     }
   }
 
@@ -461,7 +436,7 @@ const steps = [
 
     .services-offering__row {
       grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-      gap: var(--home-layout-gap);
+      gap: var(--commercial-layout-gap);
     }
 
     .services-offering__detail {
@@ -472,7 +447,7 @@ const steps = [
   @media (min-width: 80rem) {
     .services-offering__detail {
       grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
-      gap: var(--home-layout-gap-tight);
+      gap: var(--commercial-layout-gap-tight);
     }
   }
 

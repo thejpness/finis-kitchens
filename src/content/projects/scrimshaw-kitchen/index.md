@@ -6,10 +6,24 @@ style: Aubergine handleless
 projectType: Renovation
 completedAt: October 2025
 heroImage: ./images/scrimshaw-sideshot.jpg
+heroAlt: Aubergine handleless kitchen with white quartz worktops, an integrated oven and tall wall storage.
+featureTeaser: A compact renovation where the footprint could not grow, so better storage, stronger organisation and carefully chosen materials had to do the work.
+featureHeading: A standard new-build kitchen made personal.
+featureParagraphs:
+  - The existing kitchen was beginning to fade and mismatch, with storage that had never really been planned around the client. The footprint was fixed, so we made better use of the space available.
+  - Aubergine handleless cabinetry, white quartz worktops, higher wall units, more drawers and carefully assigned storage created a kitchen with considerably more personality and usefulness.
+featureLinkLabel: Read the Longleys Road case study
+introduction:
+  title: Designed around the space that was already there.
+  body: The footprint did not need reinvention. The opportunity was to make the existing space more useful and much more personal to the client.
+galleryHeading: A closer look at Longleys Road.
 gallery:
-  - ./images/scrimshaw-righttoleft.jpg
-  - ./images/scrimshaw-frontshot.jpg
-  - ./images/scrimshaw-finiskitchenpack.jpg
+  - image: ./images/scrimshaw-righttoleft.jpg
+    alt: View along the white quartz worktop, with a sink in the foreground, hob and aubergine wall cabinets above.
+  - image: ./images/scrimshaw-frontshot.jpg
+    alt: Front view of the aubergine kitchen run, with tall storage, an integrated oven, hob and sink behind the dining table.
+  - image: ./images/scrimshaw-finiskitchenpack.jpg
+    alt: Fini’s Kitchens handover bag beside the sink, with white quartz surfaces and lighting beneath the wall cabinets.
 featured: true
 order: 10
 ---

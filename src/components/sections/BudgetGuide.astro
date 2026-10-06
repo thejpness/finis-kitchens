@@ -42,7 +42,7 @@ const budgetTiers = [
       ))}
     </ol>
 
-    <a class="budget-guidance__link" href="/process">
+    <a class="budget-guidance__link commercial-editorial-link" href="/process">
       <span>See how our process works</span>
       <span aria-hidden="true">→</span>
     </a>
@@ -51,14 +51,14 @@ const budgetTiers = [
 
 <style>
   .budget-guidance {
-    padding-block: var(--home-section-y-tight);
+    padding-block: var(--commercial-section-y-tight);
     background: var(--c-canvas-warm);
     scroll-margin-top: 6rem;
   }
 
   .budget-guidance__frame {
     display: grid;
-    gap: var(--home-layout-gap-tight);
+    gap: var(--commercial-layout-gap-tight);
   }
 
   .budget-guidance__intro {
@@ -99,6 +99,7 @@ const budgetTiers = [
     margin: 0;
     list-style: none;
     background: color-mix(in srgb, var(--c-paper) 60%, var(--c-canvas-warm));
+    container-type: inline-size;
   }
 
   .budget-guidance__tier {
@@ -113,7 +114,7 @@ const budgetTiers = [
     content: "";
     position: absolute;
     inset: 0 0 auto;
-    border-top: var(--border-1) solid var(--c-rule-blue);
+    border-top: var(--commercial-rule);
   }
 
   .budget-guidance__range {
@@ -131,22 +132,6 @@ const budgetTiers = [
     font-weight: 600;
     line-height: 1.18;
     letter-spacing: -0.025em;
-  }
-
-  .budget-guidance__link {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-3);
-    width: fit-content;
-    color: var(--c-navy);
-    font-size: var(--fs-0);
-    font-weight: 650;
-    text-decoration: none;
-  }
-
-  .budget-guidance__link span:first-child {
-    border-bottom: 1px solid currentColor;
-    padding-bottom: 0.16rem;
   }
 
   .budget-guidance__link span:last-child {
@@ -167,21 +152,27 @@ const budgetTiers = [
     .budget-guidance__intro {
       grid-template-columns: minmax(0, 1.15fr) minmax(16rem, 0.85fr);
     }
+  }
 
+  /* Three ranges need room for their actual type and inset padding. */
+  @media (min-width: 62rem) {
     .budget-guidance__tiers {
       grid-template-columns: repeat(3, minmax(0, 1fr));
       padding: 0;
     }
 
     .budget-guidance__tier {
-      min-height: clamp(11.5rem, 16vw, 13.5rem);
       padding: clamp(var(--space-5), 2vw, var(--space-7));
     }
 
+    .budget-guidance__range {
+      font-size: clamp(2.35rem, 4.8cqi, 4.5rem);
+    }
+
     .budget-guidance__tier + .budget-guidance__tier::before {
-      inset: var(--space-6) auto var(--space-6) 0;
+      inset: var(--commercial-inset) auto var(--commercial-inset) 0;
       border-top: 0;
-      border-left: var(--border-1) solid var(--c-rule-blue);
+      border-left: var(--commercial-rule);
     }
   }
 

@@ -1,7 +1,9 @@
 ---
+import "../styles/commercial.css";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { Picture } from "astro:assets";
 import { getCollection } from "astro:content";
+import { socialImage } from "../lib/social-image";
 
 const projects = await getCollection("projects", ({ data }) => data.featured ?? true);
 projects.sort((a, b) => (b.data.order ?? 0) - (a.data.order ?? 0));
@@ -10,13 +12,15 @@ const [featuredProject, ...otherProjects] = projects;
 
 const featured = featuredProject?.data;
 const featuredHref = featuredProject ? `/projects/${featuredProject.id}/` : "/contact";
+const ogImage = await socialImage(featured?.heroImage);
 ---
 
 <BaseLayout
   title="Kitchen case studies | Fini's Kitchens"
   description="Real kitchen renovations shaped around storage, function, materials and the way people actually live."
-  ogImage={featured?.heroImage?.src}
+  ogImage={ogImage}
 >
+  <div class="commercial">
   <section class="projects-hero">
     <div class="container projects-hero__layout">
       <div class="projects-hero__copy">
@@ -49,10 +53,7 @@ const featuredHref = featuredProject ? `/projects/${featuredProject.id}/` : "/co
               <h2 id="featured-project-title">{featured.title}</h2>
             </div>
 
-            <p>
-              A compact renovation where the footprint could not grow, so better storage,
-              stronger organisation and carefully chosen materials had to do the work.
-            </p>
+            {featured.featureTeaser && <p>{featured.featureTeaser}</p>}
           </header>
 
           <a
@@ -64,10 +65,11 @@ const featuredHref = featuredProject ? `/projects/${featuredProject.id}/` : "/co
               <div class="projects-feature__media" data-motion-image>
                 <Picture
                   src={featured.heroImage}
-                  alt={`${featured.title} finished kitchen`}
+                  alt={featured.heroAlt ?? `${featured.title} finished kitchen`}
                   formats={["avif", "webp"]}
+                  width={1600}
                   widths={[640, 960, 1280, 1600]}
-                  sizes="(min-width: 64rem) 58vw, 100vw"
+                  sizes="(min-width: 79.5rem) 43.7rem, (min-width: 64rem) calc((100vw - 3.5rem) * 0.575), (min-width: 50rem) calc(100vw - 3.5rem), (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)"
                   loading="eager"
                   decoding="async"
                 />
@@ -75,7 +77,7 @@ const featuredHref = featuredProject ? `/projects/${featuredProject.id}/` : "/co
             )}
 
             <div class="projects-feature__content">
-              <dl class="projects-feature__meta">
+              {(featured.location || featured.projectType || featured.completedAt) && <dl class="projects-feature__meta commercial-meta">
                 {featured.location && (
                   <div>
                     <dt>Location</dt>
@@ -96,26 +98,17 @@ const featuredHref = featuredProject ? `/projects/${featuredProject.id}/` : "/co
                     <dd>{featured.completedAt}</dd>
                   </div>
                 )}
-              </dl>
+              </dl>}
 
-              <div class="projects-feature__story">
-                <h3>A standard new-build kitchen made personal.</h3>
-
-                <p>
-                  The existing kitchen was beginning to fade and mismatch, with storage that had never
-                  really been planned around the client. The footprint was fixed, so we made better use
-                  of the space available.
-                </p>
-
-                <p>
-                  Aubergine handleless cabinetry, white quartz worktops, higher wall units, more drawers
-                  and carefully assigned storage created a kitchen with considerably more personality
-                  and usefulness.
-                </p>
-              </div>
+              {(featured.featureHeading || featured.featureParagraphs?.length) && (
+                <div class="projects-feature__story">
+                  {featured.featureHeading && <h3>{featured.featureHeading}</h3>}
+                  {featured.featureParagraphs?.map((paragraph) => <p>{paragraph}</p>)}
+                </div>
+              )}
 
               <span class="projects-feature__link">
-                Read the Longleys Road case study
+                {featured.featureLinkLabel ?? `Read the ${featured.title} case study`}
                 <span aria-hidden="true">→</span>
               </span>
             </div>
@@ -141,7 +134,7 @@ const featuredHref = featuredProject ? `/projects/${featuredProject.id}/` : "/co
 
       <div class="projects-principles__grid">
         <article>
-          <span aria-hidden="true">01</span>
+          <span class="commercial-index" aria-hidden="true">01</span>
           <h3>Use the space properly</h3>
           <p>
             Existing constraints do not always need a bigger footprint. Sometimes the better answer
@@ -150,7 +143,7 @@ const featuredHref = featuredProject ? `/projects/${featuredProject.id}/` : "/co
         </article>
 
         <article>
-          <span aria-hidden="true">02</span>
+          <span class="commercial-index" aria-hidden="true">02</span>
           <h3>Make it personal</h3>
           <p>
             Colour and materials should reflect the people living with them rather than simply
@@ -159,7 +152,7 @@ const featuredHref = featuredProject ? `/projects/${featuredProject.id}/` : "/co
         </article>
 
         <article>
-          <span aria-hidden="true">03</span>
+          <span class="commercial-index" aria-hidden="true">03</span>
           <h3>Design for ordinary days</h3>
           <p>
             Storage, appliance positioning and organisation matter because the kitchen still has
@@ -208,6 +201,7 @@ const featuredHref = featuredProject ? `/projects/${featuredProject.id}/` : "/co
       </div>
     </div>
   </section>
+  </div>
 </BaseLayout>
 
 <style>
@@ -256,7 +250,7 @@ const featuredHref = featuredProject ? `/projects/${featuredProject.id}/` : "/co
 
   .projects-hero__aside {
     padding-top: var(--space-5);
-    border-top: var(--border-1) solid var(--c-rule-blue);
+    border-top: var(--commercial-rule);
   }
 
   .projects-hero__aside p:last-child {
@@ -267,8 +261,8 @@ const featuredHref = featuredProject ? `/projects/${featuredProject.id}/` : "/co
   }
 
   .projects-feature {
-    padding-block: var(--home-section-y-tight);
-    border-top: var(--border-1) solid var(--c-rule-blue);
+    padding-block: var(--commercial-section-y-tight);
+    border-top: var(--commercial-rule);
     background: var(--c-paper);
   }
 
@@ -299,8 +293,13 @@ const featuredHref = featuredProject ? `/projects/${featuredProject.id}/` : "/co
     overflow: hidden;
     color: inherit;
     text-decoration: none;
-    border-top: var(--border-1) solid var(--c-rule-blue);
-    border-bottom: var(--border-1) solid var(--c-rule-blue);
+    border-top: var(--commercial-rule);
+    border-bottom: var(--commercial-rule);
+  }
+
+  .projects-feature__project:focus-visible {
+    outline: 2px solid var(--c-blue);
+    outline-offset: 5px;
   }
 
   .projects-feature__media {
@@ -338,7 +337,7 @@ const featuredHref = featuredProject ? `/projects/${featuredProject.id}/` : "/co
   .projects-feature__meta {
     display: grid;
     margin: 0;
-    border-top: var(--border-1) solid var(--c-rule-blue);
+    border-top: var(--commercial-rule);
   }
 
   .projects-feature__meta > div {
@@ -346,15 +345,7 @@ const featuredHref = featuredProject ? `/projects/${featuredProject.id}/` : "/co
     grid-template-columns: minmax(6rem, 0.4fr) minmax(0, 1fr);
     gap: var(--space-4);
     padding-block: var(--space-3);
-    border-bottom: var(--border-1) solid var(--c-rule-blue);
-  }
-
-  .projects-feature__meta dt {
-    color: var(--c-blue);
-    font-size: var(--fs--1);
-    font-weight: 650;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    border-bottom: var(--commercial-rule);
   }
 
   .projects-feature__meta dd {
@@ -401,7 +392,7 @@ const featuredHref = featuredProject ? `/projects/${featuredProject.id}/` : "/co
   }
 
   .projects-principles {
-    padding-block: var(--home-section-y);
+    padding-block: var(--commercial-section-y);
     background: var(--c-navy);
     color: var(--c-paper);
   }
@@ -434,19 +425,16 @@ const featuredHref = featuredProject ? `/projects/${featuredProject.id}/` : "/co
 
   .projects-principles__grid {
     display: grid;
-    border-top: var(--border-1) solid var(--c-rule-on-dark);
+    border-top: var(--commercial-rule-dark);
   }
 
   .projects-principles__grid article {
     padding-block: clamp(1.75rem, 3vw, 2.5rem);
-    border-bottom: var(--border-1) solid var(--c-rule-on-dark);
+    border-bottom: var(--commercial-rule-dark);
   }
 
   .projects-principles__grid article > span {
     color: var(--c-blue-pale);
-    font-size: var(--fs--1);
-    font-weight: 650;
-    letter-spacing: 0.08em;
   }
 
   .projects-principles__grid h3 {
@@ -465,7 +453,7 @@ const featuredHref = featuredProject ? `/projects/${featuredProject.id}/` : "/co
   }
 
   .projects-more {
-    padding-block: var(--home-section-y-tight);
+    padding-block: var(--commercial-section-y-tight);
     background: var(--c-paper);
   }
 
@@ -475,7 +463,7 @@ const featuredHref = featuredProject ? `/projects/${featuredProject.id}/` : "/co
   }
 
   .projects-more__list {
-    border-top: var(--border-1) solid var(--c-rule-blue);
+    border-top: var(--commercial-rule);
   }
 
   .projects-more__list a {
@@ -483,7 +471,7 @@ const featuredHref = featuredProject ? `/projects/${featuredProject.id}/` : "/co
     justify-content: space-between;
     gap: var(--space-5);
     padding-block: var(--space-5);
-    border-bottom: var(--border-1) solid var(--c-rule-blue);
+    border-bottom: var(--commercial-rule);
     color: var(--c-ink);
     font-weight: 600;
     text-decoration: none;
@@ -494,13 +482,13 @@ const featuredHref = featuredProject ? `/projects/${featuredProject.id}/` : "/co
   }
 
   .projects-closing {
-    padding-block: var(--home-section-y-tight);
+    padding-block: var(--commercial-section-y-tight);
     background: var(--c-canvas);
   }
 
   .projects-closing__frame {
     padding-top: clamp(2rem, 4vw, 3.5rem);
-    border-top: var(--border-1) solid var(--c-rule-blue);
+    border-top: var(--commercial-rule);
   }
 
   .projects-closing h2 {
@@ -530,7 +518,7 @@ const featuredHref = featuredProject ? `/projects/${featuredProject.id}/` : "/co
 
     .projects-principles__grid article {
       padding-inline: clamp(1.5rem, 3vw, 2.5rem);
-      border-right: var(--border-1) solid var(--c-rule-on-dark);
+      border-right: var(--commercial-rule-dark);
     }
 
     .projects-principles__grid article:first-child {
@@ -551,7 +539,7 @@ const featuredHref = featuredProject ? `/projects/${featuredProject.id}/` : "/co
       grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 0.85fr);
     }
 
-    .projects-feature__project {
+    .projects-feature__project:has(.projects-feature__media) {
       grid-template-columns: minmax(0, 1.15fr) minmax(22rem, 0.85fr);
       min-height: 38rem;
     }

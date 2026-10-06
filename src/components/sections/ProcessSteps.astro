@@ -60,7 +60,7 @@ const { steps = [] } = Astro.props;
           </div>
           <div class="process-story__copy">
             <span class="process-story__node" aria-hidden="true" data-process-node></span>
-            <p class="process-story__number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</p>
+            <p class="process-story__number commercial-stage-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</p>
             <p class="process-story__label">{step.label}</p>
             <h3>{step.title}</h3>
             <p class="process-story__body">{step.body}</p>
@@ -72,7 +72,7 @@ const { steps = [] } = Astro.props;
 
   <div class="container process-story__outro">
     <p>Made for the life you live.</p>
-    <a class="process-story__link" href="/process">
+    <a class="process-story__link commercial-editorial-link" href="/process">
       <span>See the full process</span><span aria-hidden="true">↗</span>
     </a>
   </div>
@@ -182,7 +182,7 @@ const { steps = [] } = Astro.props;
     align-items: center;
     justify-content: space-between;
     gap: 1.5rem;
-    padding-block: 0.5rem var(--home-section-y-tight);
+    padding-block: 0.5rem var(--commercial-section-y-tight);
   }
   .process-story__outro > p {
     font-family: var(--font-display);
@@ -191,8 +191,7 @@ const { steps = [] } = Astro.props;
     font-weight: 400;
     letter-spacing: -0.025em;
   }
-  .process-story__link { display: inline-flex; gap: 1.5rem; align-items: center; font-size: var(--fs-0); font-weight: 600; }
-  .process-story__link span:first-child { border-bottom: 1px solid var(--c-blue-muted); padding-bottom: 0.2rem; }
+
   .process-story__link span:last-child { font-size: 1.5rem; }
   .process-story__link:hover,
   .process-story__link:focus-visible { color: var(--c-blue); }
@@ -278,8 +277,8 @@ const { steps = [] } = Astro.props;
     }
 
   }
-  .process-story__node { position: absolute; left: -1.85rem; top: 2.05rem; width: 0.7rem; height: 0.7rem; border-radius: 50%; background: var(--c-blue-muted); box-shadow: 0 0 0 5px var(--c-paper); transition: background var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out); }
-  .process-story__number { margin-bottom: 0.75rem; color: var(--c-blue); font-size: 1.5rem; font-weight: 500; line-height: 1; letter-spacing: -0.04em; }
+  .process-story__node { position: absolute; left: -1.85rem; top: 2.05rem; width: var(--commercial-marker-size); height: var(--commercial-marker-size); border-radius: 50%; background: var(--c-blue-muted); box-shadow: 0 0 0 var(--commercial-marker-halo) var(--c-paper); transition: background var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out); }
+  .process-story__number { margin-bottom: 0.75rem; color: var(--c-blue); }
   .motion-ready .process-story__node { background: var(--c-brand-200); }
   .process-story__chapter.is-complete .process-story__node,
   .process-story__chapter.is-current .process-story__node { background: var(--c-blue); }

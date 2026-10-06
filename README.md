@@ -4,6 +4,24 @@ Website and enquiry platform for **Fini's Kitchens**.
 
 The application is built with Astro and deployed through Docker, with nginx serving the generated frontend, Traefik providing external routing, and separate Go services handling contact-form enquiries and Turnstile validation.
 
+## v1.5.0 — Hidden Kitchen Architecture & Asset Optimisation
+
+Refines the existing commercial pages through four subtle motifs: Runs, Rails,
+Surfaces and Plans. Scoped commercial roles unify readable metadata, indices,
+stage numbers, rules and editorial links while retaining each page's composition.
+Home gains a contextual Services link and a budget layout based on content fit.
+
+Project data now owns feature copy, introductions, gallery headings and image
+alternatives. The case-study gallery uses natural image proportions in DOM order.
+Bounded social images and fallbacks reduce fresh generated output from 43,607,288
+to 19,659,008 bytes (54.9% less storage). Astro moves from 7.2.6 to 7.3.6, resolving
+Sharp 0.35.5 for the required image-processing security patch.
+
+The protected story, shared header/footer, fonts, motion source and enquiry
+contract remain unchanged. No new direct dependency or client-side gallery code.
+See the [release implementation and validation report](docs/v1.5.0-release.md)
+and [fresh before/after benchmark](docs/v1.5.0-benchmark.json).
+
 ## v1.4.0 - Site-wide visual alignment
 
 Services now uses the commercial site's editorial composition: a warm Newsreader

@@ -1,0 +1,1410 @@
+{
+  "release": "v1.5.0 \u2014 Hidden Kitchen Architecture & Asset Optimisation",
+  "startingSHA": "9b45fdde6147c44bb55cc8fef8d03b97f5684cce",
+  "branch": "codex/v1.5-kitchen-architecture-optimisation",
+  "measurement": "Exact file bytes; gzip uses gzip.compress(data, mtime=0). Raw storage is not browser transfer or a Core Web Vitals score.",
+  "before": {
+    "command": "npm ci && npm run build",
+    "bytes": 43607288,
+    "files": 322,
+    "imageFiles": 286,
+    "imageBytes": 40475333,
+    "bundles": [
+      {
+        "path": "_astro/process.Dj9ussc1.css",
+        "bytes": 14119,
+        "gzip": 2237
+      },
+      {
+        "path": "_astro/StoryBookViewer.astro_astro_type_script_index_0_lang.MnqRRd16.js",
+        "bytes": 2007,
+        "gzip": 834
+      },
+      {
+        "path": "_astro/contact.zNsrVZ3M.css",
+        "bytes": 15440,
+        "gzip": 2545
+      },
+      {
+        "path": "_astro/about.Bh4UwUr1.css",
+        "bytes": 7786,
+        "gzip": 1457
+      },
+      {
+        "path": "_astro/BaseLayout.astro_astro_type_script_index_0_lang.DsB4C-WO.js",
+        "bytes": 1674,
+        "gzip": 864
+      },
+      {
+        "path": "_astro/the-love-that-stays.CpUhf1IF.css",
+        "bytes": 9820,
+        "gzip": 1992
+      },
+      {
+        "path": "_astro/BaseLayout.BOmavDCd.css",
+        "bytes": 36688,
+        "gzip": 7194
+      },
+      {
+        "path": "_astro/_slug_.CUemiAFc.css",
+        "bytes": 6979,
+        "gzip": 1444
+      },
+      {
+        "path": "_astro/services.DCDFGfvL.css",
+        "bytes": 8087,
+        "gzip": 1423
+      },
+      {
+        "path": "_astro/projects.bimHc5Qk.css",
+        "bytes": 8534,
+        "gzip": 1538
+      },
+      {
+        "path": "_astro/motion.CN4QNixZ.js",
+        "bytes": 119294,
+        "gzip": 45772
+      },
+      {
+        "path": "_astro/contact.astro_astro_type_script_index_0_lang.CQj1cV4g.js",
+        "bytes": 2747,
+        "gzip": 1157
+      },
+      {
+        "path": "_astro/index.e-Sv2FxG.css",
+        "bytes": 33383,
+        "gzip": 5354
+      },
+      {
+        "path": "_astro/Header.astro_astro_type_script_index_0_lang.CC9o_Jwd.js",
+        "bytes": 2708,
+        "gzip": 1042
+      },
+      {
+        "path": "_astro/LegalLayout.CKNNk77O.css",
+        "bytes": 3833,
+        "gzip": 879
+      }
+    ],
+    "largest": [
+      {
+        "path": "_astro/fini-blue-kitchen.DRoLMFen.jpg",
+        "bytes": 15727472
+      },
+      {
+        "path": "_astro/scrimshaw-sideshot.orUUHCCz.jpg",
+        "bytes": 3124530
+      },
+      {
+        "path": "_astro/kitchen-placeholder-wide-island.Djztph7B.png",
+        "bytes": 1923684
+      },
+      {
+        "path": "_astro/fini-blue-kitchen.DRoLMFen_FyFVX.webp",
+        "bytes": 1642096
+      },
+      {
+        "path": "documents/the-love-that-stays.pdf",
+        "bytes": 1425548
+      },
+      {
+        "path": "_astro/scrimshaw-sideshot.orUUHCCz_1T4Pwd.jpg",
+        "bytes": 1087319
+      },
+      {
+        "path": "_astro/scrimshaw-frontshot.B63h-VEf_Z3ahos.jpg",
+        "bytes": 889488
+      },
+      {
+        "path": "_astro/scrimshaw-finiskitchenpack.CtEiICzs_1JTMTs.jpg",
+        "bytes": 819833
+      },
+      {
+        "path": "_astro/scrimshaw-righttoleft.jlgBGo9q_27jH1f.jpg",
+        "bytes": 758073
+      },
+      {
+        "path": "_astro/scrimshaw-sideshot.orUUHCCz_Z2pDTU4.webp",
+        "bytes": 459576
+      },
+      {
+        "path": "_astro/scrimshaw-sideshot.orUUHCCz_Z1wLFol.jpg",
+        "bytes": 392097
+      },
+      {
+        "path": "fonts/InterVariable-Italic.woff2",
+        "bytes": 387976
+      },
+      {
+        "path": "fonts/InterVariable.woff2",
+        "bytes": 352240
+      },
+      {
+        "path": "_astro/scrimshaw-sideshot.orUUHCCz_Z1CsDd2.jpg",
+        "bytes": 271077
+      },
+      {
+        "path": "_astro/scrimshaw-righttoleft.jlgBGo9q_HkD9f.jpg",
+        "bytes": 234055
+      },
+      {
+        "path": "_astro/material-finish-samples.0bb0Hpr__1WbckJ.jpg",
+        "bytes": 218262
+      },
+      {
+        "path": "fonts/NewsreaderVariable.woff2",
+        "bytes": 214880
+      },
+      {
+        "path": "_astro/furnished-kitchen-dining.75bMZOlU_Z1nJabl.jpg",
+        "bytes": 187027
+      },
+      {
+        "path": "_astro/scrimshaw-sideshot.orUUHCCz_ZLji1G.webp",
+        "bytes": 181332
+      },
+      {
+        "path": "_astro/scrimshaw-sideshot.orUUHCCz_Nyixz.jpg",
+        "bytes": 177456
+      }
+    ],
+    "keyImages": {
+      "homeSocial": [
+        {
+          "path": "_astro/fini-blue-kitchen.DRoLMFen.jpg",
+          "bytes": 15727472
+        }
+      ],
+      "projectSocial": [
+        {
+          "path": "_astro/scrimshaw-sideshot.orUUHCCz.jpg",
+          "bytes": 3124530
+        }
+      ],
+      "hero": {
+        "class": "site-header__brand-mark",
+        "src": "/images/logo-icon-blue.svg",
+        "alt": "",
+        "width": "96",
+        "height": "96",
+        "decoding": "async",
+        "data-astro-cid-nen7h5rs": null,
+        "bytes": 7228
+      },
+      "glazing": {
+        "src": "/_astro/fini-blue-kitchen.DRoLMFen_FyFVX.webp",
+        "srcset": "/_astro/fini-blue-kitchen.DRoLMFen_ZHMF0a.webp 640w, /_astro/fini-blue-kitchen.DRoLMFen_ZWxbuS.webp 960w, /_astro/fini-blue-kitchen.DRoLMFen_Z1hVad5.webp 1376w, /_astro/fini-blue-kitchen.DRoLMFen_Z1FOM4M.webp 1920w, /_astro/fini-blue-kitchen.DRoLMFen_Z1MTzUC.webp 2560w",
+        "alt": "Blue fitted kitchen with white worktops and a large peninsula.",
+        "sizes": "100vw",
+        "data-astro-cid-63llj4z6": "true",
+        "loading": "eager",
+        "decoding": "sync",
+        "fetchpriority": "high",
+        "width": "6720",
+        "height": "4480",
+        "class": "home-hero__image",
+        "bytes": 1642096
+      },
+      "homeProjectPreview": {
+        "src": "/_astro/scrimshaw-sideshot.orUUHCCz_Z2pDTU4.webp",
+        "srcset": "/_astro/scrimshaw-sideshot.orUUHCCz_1zm0B7.webp 720w, /_astro/scrimshaw-sideshot.orUUHCCz_JvGrb.webp 1200w, /_astro/scrimshaw-sideshot.orUUHCCz_ZR0fPn.webp 1600w",
+        "alt": null,
+        "sizes": "(min-width: 64rem) 56vw, (min-width: 48rem) 58vw, 100vw",
+        "loading": "lazy",
+        "data-astro-cid-rv4o4t62": "true",
+        "decoding": "async",
+        "width": "3072",
+        "height": "4096",
+        "bytes": 459576
+      },
+      "caseLead": {
+        "class": "site-header__brand-mark",
+        "src": "/images/logo-icon-blue.svg",
+        "alt": "",
+        "width": "96",
+        "height": "96",
+        "decoding": "async",
+        "data-astro-cid-nen7h5rs": null,
+        "bytes": 7228
+      },
+      "gallery": [
+        {
+          "src": "/_astro/scrimshaw-sideshot.orUUHCCz_1T4Pwd.jpg",
+          "srcset": "/_astro/scrimshaw-sideshot.orUUHCCz_Z10wasm.jpg 768w, /_astro/scrimshaw-sideshot.orUUHCCz_Z2z4tx.jpg 1024w, /_astro/scrimshaw-sideshot.orUUHCCz_Nyixz.jpg 1280w, /_astro/scrimshaw-sideshot.orUUHCCz_Z1CsDd2.jpg 1600w, /_astro/scrimshaw-sideshot.orUUHCCz_Z1wLFol.jpg 1920w",
+          "alt": "Finished Longleys Road kitchen",
+          "sizes": "(min-width: 80rem) 76rem, (min-width: 48rem) calc(100vw - 3.5rem), calc(100vw - 2rem)",
+          "loading": "eager",
+          "decoding": "async",
+          "data-astro-cid-yq2gsstb": "true",
+          "width": "3072",
+          "height": "4096",
+          "bytes": 1087319
+        },
+        {
+          "src": "/_astro/scrimshaw-righttoleft.jlgBGo9q_27jH1f.jpg",
+          "srcset": "/_astro/scrimshaw-righttoleft.jlgBGo9q_2ki0AY.jpg 480w, /_astro/scrimshaw-righttoleft.jlgBGo9q_Zxssb0.jpg 768w, /_astro/scrimshaw-righttoleft.jlgBGo9q_2hPBMV.jpg 1024w, /_astro/scrimshaw-righttoleft.jlgBGo9q_1DSLCJ.jpg 1280w, /_astro/scrimshaw-righttoleft.jlgBGo9q_HkD9f.jpg 1600w",
+          "alt": "Longleys Road finished kitchen view 1",
+          "sizes": "(min-width: 64rem) 50vw, 100vw",
+          "loading": "lazy",
+          "decoding": "async",
+          "data-astro-cid-yq2gsstb": "true",
+          "width": "3072",
+          "height": "4096",
+          "bytes": 758073
+        },
+        {
+          "src": "/_astro/scrimshaw-frontshot.B63h-VEf_Z3ahos.jpg",
+          "srcset": "/_astro/scrimshaw-frontshot.B63h-VEf_ZJeLG6.jpg 480w, /_astro/scrimshaw-frontshot.B63h-VEf_1ydPsJ.jpg 768w, /_astro/scrimshaw-frontshot.B63h-VEf_Z1mvnwa.jpg 1024w, /_astro/scrimshaw-frontshot.B63h-VEf_Z2gkqcN.jpg 1280w, /_astro/scrimshaw-frontshot.B63h-VEf_ZamwVg.jpg 1600w",
+          "alt": "Longleys Road finished kitchen view 2",
+          "sizes": "(min-width: 64rem) 50vw, 100vw",
+          "loading": "lazy",
+          "decoding": "async",
+          "data-astro-cid-yq2gsstb": "true",
+          "width": "4096",
+          "height": "3072",
+          "bytes": 889488
+        },
+        {
+          "src": "/_astro/scrimshaw-finiskitchenpack.CtEiICzs_1JTMTs.jpg",
+          "srcset": "/_astro/scrimshaw-finiskitchenpack.CtEiICzs_ZwWLxh.jpg 480w, /_astro/scrimshaw-finiskitchenpack.CtEiICzs_1VH6aK.jpg 768w, /_astro/scrimshaw-finiskitchenpack.CtEiICzs_yyADa.jpg 1024w, /_astro/scrimshaw-finiskitchenpack.CtEiICzs_2lUR49.jpg 1280w, /_astro/scrimshaw-finiskitchenpack.CtEiICzs_1CS5UB.jpg 1600w",
+          "alt": "Longleys Road finished kitchen view 3",
+          "sizes": "(min-width: 64rem) 50vw, 100vw",
+          "loading": "lazy",
+          "decoding": "async",
+          "data-astro-cid-yq2gsstb": "true",
+          "width": "3072",
+          "height": "4096",
+          "bytes": 819833
+        },
+        {
+          "class": "site-footer__logo-img",
+          "src": "/images/logo-icon-blue.svg",
+          "alt": "",
+          "width": "96",
+          "height": "96",
+          "decoding": "async",
+          "data-astro-cid-jo6i4kqk": null,
+          "bytes": 7228
+        }
+      ],
+      "caseSources": [
+        {
+          "srcset": "/_astro/scrimshaw-sideshot.orUUHCCz_cJX51.avif 768w, /_astro/scrimshaw-sideshot.orUUHCCz_26JfJB.avif 1024w, /_astro/scrimshaw-sideshot.orUUHCCz_Z27jv2d.avif 1280w, /_astro/scrimshaw-sideshot.orUUHCCz_vPG17.avif 1600w, /_astro/scrimshaw-sideshot.orUUHCCz_BwDON.avif 1920w",
+          "type": "image/avif",
+          "sizes": "(min-width: 80rem) 76rem, (min-width: 48rem) calc(100vw - 3.5rem), calc(100vw - 2rem)"
+        },
+        {
+          "srcset": "/_astro/scrimshaw-sideshot.orUUHCCz_Z284tp8.webp 768w, /_astro/scrimshaw-sideshot.orUUHCCz_HSiS7.webp 1024w, /_astro/scrimshaw-sideshot.orUUHCCz_1z1FUe.webp 1280w, /_astro/scrimshaw-sideshot.orUUHCCz_ZR0fPn.webp 1600w, /_astro/scrimshaw-sideshot.orUUHCCz_ZLji1G.webp 1920w",
+          "type": "image/webp",
+          "sizes": "(min-width: 80rem) 76rem, (min-width: 48rem) calc(100vw - 3.5rem), calc(100vw - 2rem)"
+        },
+        {
+          "srcset": "/_astro/scrimshaw-righttoleft.jlgBGo9q_Z27EIEw.avif 480w, /_astro/scrimshaw-righttoleft.jlgBGo9q_Z1rVysw.avif 768w, /_astro/scrimshaw-righttoleft.jlgBGo9q_ZsVQ0E.avif 1024w, /_astro/scrimshaw-righttoleft.jlgBGo9q_Z16SGaQ.avif 1280w, /_astro/scrimshaw-righttoleft.jlgBGo9q_Z23rOEl.avif 1600w",
+          "type": "image/avif",
+          "sizes": "(min-width: 64rem) 50vw, 100vw"
+        },
+        {
+          "srcset": "/_astro/scrimshaw-righttoleft.jlgBGo9q_vIa1D.webp 480w, /_astro/scrimshaw-righttoleft.jlgBGo9q_ZMY58o.webp 768w, /_astro/scrimshaw-righttoleft.jlgBGo9q_Zv1w3k.webp 1024w, /_astro/scrimshaw-righttoleft.jlgBGo9q_Z18Xmdw.webp 1280w, /_astro/scrimshaw-righttoleft.jlgBGo9q_Z25wuH1.webp 1600w",
+          "type": "image/webp",
+          "sizes": "(min-width: 64rem) 50vw, 100vw"
+        },
+        {
+          "srcset": "/_astro/scrimshaw-frontshot.B63h-VEf_t2lQh.avif 480w, /_astro/scrimshaw-frontshot.B63h-VEf_Z2iG9MO.avif 768w, /_astro/scrimshaw-frontshot.B63h-VEf_LMVGY.avif 1024w, /_astro/scrimshaw-frontshot.B63h-VEf_Z715XE.avif 1280w, /_astro/scrimshaw-frontshot.B63h-VEf_rQQBa.avif 1600w",
+          "type": "image/avif",
+          "sizes": "(min-width: 64rem) 50vw, 100vw"
+        },
+        {
+          "srcset": "/_astro/scrimshaw-frontshot.B63h-VEf_Z1QM5CR.webp 480w, /_astro/scrimshaw-frontshot.B63h-VEf_qFwvX.webp 768w, /_astro/scrimshaw-frontshot.B63h-VEf_ZB309v.webp 1024w, /_astro/scrimshaw-frontshot.B63h-VEf_Z1uR2P9.webp 1280w, /_astro/scrimshaw-frontshot.B63h-VEf_Z1XVnvB.webp 1600w",
+          "type": "image/webp",
+          "sizes": "(min-width: 64rem) 50vw, 100vw"
+        },
+        {
+          "srcset": "/_astro/scrimshaw-finiskitchenpack.CtEiICzs_HId28.avif 480w, /_astro/scrimshaw-finiskitchenpack.CtEiICzs_erIBY.avif 768w, /_astro/scrimshaw-finiskitchenpack.CtEiICzs_Z1yfpkn.avif 1024w, /_astro/scrimshaw-finiskitchenpack.CtEiICzs_e6Q5B.avif 1280w, /_astro/scrimshaw-finiskitchenpack.CtEiICzs_ZtUU2V.avif 1600w",
+          "type": "image/avif",
+          "sizes": "(min-width: 64rem) 50vw, 100vw"
+        },
+        {
+          "srcset": "/_astro/scrimshaw-finiskitchenpack.CtEiICzs_Z1tKR4n.webp 480w, /_astro/scrimshaw-finiskitchenpack.CtEiICzs_Z20eY2C.webp 768w, /_astro/scrimshaw-finiskitchenpack.CtEiICzs_9OptT.webp 1024w, /_astro/scrimshaw-finiskitchenpack.CtEiICzs_1WbFTS.webp 1280w, /_astro/scrimshaw-finiskitchenpack.CtEiICzs_1e8TLl.webp 1600w",
+          "type": "image/webp",
+          "sizes": "(min-width: 64rem) 50vw, 100vw"
+        }
+      ]
+    },
+    "selectedImages": [
+      {
+        "viewportWidth": 390,
+        "dpr": 1,
+        "route": "projects/scrimshaw-kitchen",
+        "selected": "/_astro/scrimshaw-sideshot.orUUHCCz_cJX51.avif",
+        "bytes": 22268,
+        "renderedWidth": 358,
+        "renderedHeight": 477.328125,
+        "sizes": "(min-width: 80rem) 76rem, (min-width: 48rem) calc(100vw - 3.5rem), calc(100vw - 2rem)"
+      },
+      {
+        "viewportWidth": 390,
+        "dpr": 1,
+        "route": "projects/scrimshaw-kitchen",
+        "selected": "/_astro/scrimshaw-righttoleft.jlgBGo9q_Z27EIEw.avif",
+        "bytes": 10906,
+        "renderedWidth": 358,
+        "renderedHeight": 477.328125,
+        "sizes": "(min-width: 64rem) 50vw, 100vw"
+      },
+      {
+        "viewportWidth": 390,
+        "dpr": 1,
+        "route": "projects/scrimshaw-kitchen",
+        "selected": "/_astro/scrimshaw-frontshot.B63h-VEf_t2lQh.avif",
+        "bytes": 6135,
+        "renderedWidth": 358,
+        "renderedHeight": 268.5,
+        "sizes": "(min-width: 64rem) 50vw, 100vw"
+      },
+      {
+        "viewportWidth": 390,
+        "dpr": 1,
+        "route": "projects/scrimshaw-kitchen",
+        "selected": "/_astro/scrimshaw-finiskitchenpack.CtEiICzs_HId28.avif",
+        "bytes": 7843,
+        "renderedWidth": 358,
+        "renderedHeight": 477.328125,
+        "sizes": "(min-width: 64rem) 50vw, 100vw"
+      },
+      {
+        "viewportWidth": 768,
+        "dpr": 1,
+        "route": "projects/scrimshaw-kitchen",
+        "selected": "/_astro/scrimshaw-sideshot.orUUHCCz_cJX51.avif",
+        "bytes": 22268,
+        "renderedWidth": 714.25,
+        "renderedHeight": 952.328125,
+        "sizes": "(min-width: 80rem) 76rem, (min-width: 48rem) calc(100vw - 3.5rem), calc(100vw - 2rem)"
+      },
+      {
+        "viewportWidth": 768,
+        "dpr": 1,
+        "route": "projects/scrimshaw-kitchen",
+        "selected": "/_astro/scrimshaw-righttoleft.jlgBGo9q_Z1rVysw.avif",
+        "bytes": 21894,
+        "renderedWidth": 347.53125,
+        "renderedHeight": 463.375,
+        "sizes": "(min-width: 64rem) 50vw, 100vw"
+      },
+      {
+        "viewportWidth": 768,
+        "dpr": 1,
+        "route": "projects/scrimshaw-kitchen",
+        "selected": "/_astro/scrimshaw-frontshot.B63h-VEf_Z2iG9MO.avif",
+        "bytes": 11290,
+        "renderedWidth": 347.53125,
+        "renderedHeight": 260.640625,
+        "sizes": "(min-width: 64rem) 50vw, 100vw"
+      },
+      {
+        "viewportWidth": 768,
+        "dpr": 1,
+        "route": "projects/scrimshaw-kitchen",
+        "selected": "/_astro/scrimshaw-finiskitchenpack.CtEiICzs_erIBY.avif",
+        "bytes": 13399,
+        "renderedWidth": 347.53125,
+        "renderedHeight": 463.375,
+        "sizes": "(min-width: 64rem) 50vw, 100vw"
+      },
+      {
+        "viewportWidth": 1440,
+        "dpr": 1,
+        "route": "projects/scrimshaw-kitchen",
+        "selected": "/_astro/scrimshaw-sideshot.orUUHCCz_Z27jv2d.avif",
+        "bytes": 51781,
+        "renderedWidth": 1216,
+        "renderedHeight": 1621.640625,
+        "sizes": "(min-width: 80rem) 76rem, (min-width: 48rem) calc(100vw - 3.5rem), calc(100vw - 2rem)"
+      },
+      {
+        "viewportWidth": 1440,
+        "dpr": 1,
+        "route": "projects/scrimshaw-kitchen",
+        "selected": "/_astro/scrimshaw-righttoleft.jlgBGo9q_Z1rVysw.avif",
+        "bytes": 21894,
+        "renderedWidth": 592,
+        "renderedHeight": 789.328125,
+        "sizes": "(min-width: 64rem) 50vw, 100vw"
+      },
+      {
+        "viewportWidth": 1440,
+        "dpr": 1,
+        "route": "projects/scrimshaw-kitchen",
+        "selected": "/_astro/scrimshaw-frontshot.B63h-VEf_Z2iG9MO.avif",
+        "bytes": 11290,
+        "renderedWidth": 592,
+        "renderedHeight": 444,
+        "sizes": "(min-width: 64rem) 50vw, 100vw"
+      },
+      {
+        "viewportWidth": 1440,
+        "dpr": 1,
+        "route": "projects/scrimshaw-kitchen",
+        "selected": "/_astro/scrimshaw-finiskitchenpack.CtEiICzs_erIBY.avif",
+        "bytes": 13399,
+        "renderedWidth": 592,
+        "renderedHeight": 789.328125,
+        "sizes": "(min-width: 64rem) 50vw, 100vw"
+      }
+    ]
+  },
+  "after": {
+    "command": "npm ci && npm run build",
+    "bytes": 19659008,
+    "files": 320,
+    "imageFiles": 283,
+    "imageBytes": 16522589,
+    "bundles": [
+      {
+        "path": "_astro/projects.CbziedC6.css",
+        "bytes": 8253,
+        "gzip": 1529
+      },
+      {
+        "path": "_astro/contact.D7ZVNjgo.css",
+        "bytes": 15052,
+        "gzip": 2534
+      },
+      {
+        "path": "_astro/motion.Vsvzt8n0.js",
+        "bytes": 119279,
+        "gzip": 45774
+      },
+      {
+        "path": "_astro/StoryBookViewer.astro_astro_type_script_index_0_lang.MnqRRd16.js",
+        "bytes": 2007,
+        "gzip": 834
+      },
+      {
+        "path": "_astro/LegalLayout.Df_GdfBq.css",
+        "bytes": 3543,
+        "gzip": 846
+      },
+      {
+        "path": "_astro/the-love-that-stays.CpUhf1IF.css",
+        "bytes": 9820,
+        "gzip": 1992
+      },
+      {
+        "path": "_astro/process.-pazlSya.css",
+        "bytes": 13918,
+        "gzip": 2257
+      },
+      {
+        "path": "_astro/_slug_.M8lzG_uv.css",
+        "bytes": 6859,
+        "gzip": 1406
+      },
+      {
+        "path": "_astro/BaseLayout.astro_astro_type_script_index_0_lang.Dmo-SSHH.js",
+        "bytes": 1861,
+        "gzip": 942
+      },
+      {
+        "path": "_astro/BaseLayout.BOmavDCd.css",
+        "bytes": 36688,
+        "gzip": 7194
+      },
+      {
+        "path": "_astro/contact.astro_astro_type_script_index_0_lang.CQj1cV4g.js",
+        "bytes": 2747,
+        "gzip": 1157
+      },
+      {
+        "path": "_astro/Header.astro_astro_type_script_index_0_lang.CC9o_Jwd.js",
+        "bytes": 2708,
+        "gzip": 1042
+      },
+      {
+        "path": "_astro/index.De3GMQt0.css",
+        "bytes": 32542,
+        "gzip": 5313
+      },
+      {
+        "path": "_astro/about.D8Ru_fdI.css",
+        "bytes": 7497,
+        "gzip": 1373
+      },
+      {
+        "path": "_astro/services.B2CGdyZx.css",
+        "bytes": 7474,
+        "gzip": 1291
+      },
+      {
+        "path": "_astro/commercial.BitgQxPt.css",
+        "bytes": 1896,
+        "gzip": 616
+      }
+    ],
+    "largest": [
+      {
+        "path": "_astro/kitchen-placeholder-wide-island.Djztph7B.png",
+        "bytes": 1923684
+      },
+      {
+        "path": "documents/the-love-that-stays.pdf",
+        "bytes": 1425548
+      },
+      {
+        "path": "_astro/scrimshaw-sideshot.orUUHCCz_Z1wLFol.jpg",
+        "bytes": 392097
+      },
+      {
+        "path": "fonts/InterVariable-Italic.woff2",
+        "bytes": 387976
+      },
+      {
+        "path": "fonts/InterVariable.woff2",
+        "bytes": 352240
+      },
+      {
+        "path": "_astro/scrimshaw-sideshot.orUUHCCz_Z1CsDd2.jpg",
+        "bytes": 271077
+      },
+      {
+        "path": "_astro/scrimshaw-righttoleft.jlgBGo9q_HkD9f.jpg",
+        "bytes": 234055
+      },
+      {
+        "path": "_astro/material-finish-samples.0bb0Hpr__1WbckJ.jpg",
+        "bytes": 218262
+      },
+      {
+        "path": "fonts/NewsreaderVariable.woff2",
+        "bytes": 214880
+      },
+      {
+        "path": "_astro/furnished-kitchen-dining.75bMZOlU_Z1nJabl.jpg",
+        "bytes": 187027
+      },
+      {
+        "path": "_astro/scrimshaw-sideshot.orUUHCCz_ZLji1G.webp",
+        "bytes": 181332
+      },
+      {
+        "path": "_astro/scrimshaw-sideshot.orUUHCCz_Z1jfDcs.jpg",
+        "bytes": 177591
+      },
+      {
+        "path": "_astro/scrimshaw-sideshot.orUUHCCz_Nyixz.jpg",
+        "bytes": 177456
+      },
+      {
+        "path": "images/story/book/04-seven-babies.jpg",
+        "bytes": 175933
+      },
+      {
+        "path": "_astro/scrimshaw-finiskitchenpack.CtEiICzs_1CS5UB.jpg",
+        "bytes": 174659
+      },
+      {
+        "path": "images/story/book/03-the-beginning.jpg",
+        "bytes": 173646
+      },
+      {
+        "path": "_astro/staged-kitchen-island.CvHYPJFg_YxcB7.jpg",
+        "bytes": 169834
+      },
+      {
+        "path": "_astro/scrimshaw-righttoleft.jlgBGo9q_Z1hSVgw.jpg",
+        "bytes": 162127
+      },
+      {
+        "path": "_astro/scrimshaw-sideshot.orUUHCCz_1csDez.jpg",
+        "bytes": 157325
+      },
+      {
+        "path": "_astro/material-finish-samples.0bb0Hpr__1ik173.jpg",
+        "bytes": 144293
+      }
+    ],
+    "keyImages": {
+      "homeSocial": [
+        {
+          "path": "_astro/fini-blue-kitchen.DRoLMFen_ZEpuGK.jpg",
+          "bytes": 74388
+        }
+      ],
+      "projectSocial": [
+        {
+          "path": "_astro/scrimshaw-sideshot.orUUHCCz_1csDez.jpg",
+          "bytes": 157325
+        }
+      ],
+      "hero": {
+        "class": "site-header__brand-mark",
+        "src": "/images/logo-icon-blue.svg",
+        "alt": "",
+        "width": "96",
+        "height": "96",
+        "decoding": "async",
+        "data-astro-cid-nen7h5rs": null,
+        "bytes": 7228
+      },
+      "glazing": {
+        "src": "/_astro/fini-blue-kitchen.DRoLMFen_Z1MTzUC.webp",
+        "srcset": "/_astro/fini-blue-kitchen.DRoLMFen_ZHMF0a.webp 640w, /_astro/fini-blue-kitchen.DRoLMFen_ZWxbuS.webp 960w, /_astro/fini-blue-kitchen.DRoLMFen_xecbs.webp 1376w, /_astro/fini-blue-kitchen.DRoLMFen_Z1FOM4M.webp 1920w, /_astro/fini-blue-kitchen.DRoLMFen_Z1MTzUC.webp 2560w",
+        "alt": "Blue fitted kitchen with white worktops and a large peninsula.",
+        "sizes": "100vw",
+        "data-astro-cid-63llj4z6": "true",
+        "loading": "eager",
+        "decoding": "sync",
+        "fetchpriority": "high",
+        "width": "2560",
+        "height": "1707",
+        "class": "home-hero__image",
+        "bytes": 132440
+      },
+      "homeProjectPreview": {
+        "src": "/_astro/scrimshaw-sideshot.orUUHCCz_ZR0fPn.webp",
+        "srcset": "/_astro/scrimshaw-sideshot.orUUHCCz_1zm0B7.webp 720w, /_astro/scrimshaw-sideshot.orUUHCCz_JvGrb.webp 1200w, /_astro/scrimshaw-sideshot.orUUHCCz_ZR0fPn.webp 1600w",
+        "alt": null,
+        "sizes": "(min-width: 100rem) 658.88px, (min-width: 79.5rem) calc((76rem - 5vw) * 0.58), (min-width: 50rem) calc((95vw - 3.5rem) * 0.58), (min-width: 48rem) 51.04vw, (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)",
+        "loading": "lazy",
+        "data-astro-cid-rv4o4t62": "true",
+        "decoding": "async",
+        "width": "1600",
+        "height": "2133",
+        "bytes": 134464
+      },
+      "caseLead": {
+        "class": "site-header__brand-mark",
+        "src": "/images/logo-icon-blue.svg",
+        "alt": "",
+        "width": "96",
+        "height": "96",
+        "decoding": "async",
+        "data-astro-cid-nen7h5rs": null,
+        "bytes": 7228
+      },
+      "gallery": [
+        {
+          "src": "/_astro/scrimshaw-sideshot.orUUHCCz_Z1wLFol.jpg",
+          "srcset": "/_astro/scrimshaw-sideshot.orUUHCCz_Z10wasm.jpg 768w, /_astro/scrimshaw-sideshot.orUUHCCz_Z2z4tx.jpg 1024w, /_astro/scrimshaw-sideshot.orUUHCCz_Nyixz.jpg 1280w, /_astro/scrimshaw-sideshot.orUUHCCz_Z1CsDd2.jpg 1600w, /_astro/scrimshaw-sideshot.orUUHCCz_Z1wLFol.jpg 1920w",
+          "alt": "Aubergine handleless kitchen with white quartz worktops, an integrated oven and tall wall storage.",
+          "sizes": "(min-width: 79.5rem) 76rem, (min-width: 50rem) calc(100vw - 3.5rem), (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)",
+          "loading": "eager",
+          "decoding": "async",
+          "data-astro-cid-yq2gsstb": "true",
+          "width": "1920",
+          "height": "2560",
+          "bytes": 392097
+        },
+        {
+          "src": "/_astro/scrimshaw-righttoleft.jlgBGo9q_HkD9f.jpg",
+          "srcset": "/_astro/scrimshaw-righttoleft.jlgBGo9q_2ki0AY.jpg 480w, /_astro/scrimshaw-righttoleft.jlgBGo9q_Zxssb0.jpg 768w, /_astro/scrimshaw-righttoleft.jlgBGo9q_2hPBMV.jpg 1024w, /_astro/scrimshaw-righttoleft.jlgBGo9q_Z1hSVgw.jpg 1280w, /_astro/scrimshaw-righttoleft.jlgBGo9q_HkD9f.jpg 1600w",
+          "alt": "View along the white quartz worktop, with a sink in the foreground, hob and aubergine wall cabinets above.",
+          "sizes": "(min-width: 79.5rem) 26.6400rem, (min-width: 50rem) calc((97.5vw - 3.5rem) * 0.36000000000000004), (min-width: 48rem) 32.5800vw, (min-width: 79.5rem) 76rem, (min-width: 50rem) calc(100vw - 3.5rem), (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)",
+          "loading": "lazy",
+          "decoding": "async",
+          "data-astro-cid-yq2gsstb": "true",
+          "width": "1600",
+          "height": "2133",
+          "bytes": 234055
+        },
+        {
+          "src": "/_astro/scrimshaw-frontshot.B63h-VEf_ZamwVg.jpg",
+          "srcset": "/_astro/scrimshaw-frontshot.B63h-VEf_ZJeLG6.jpg 480w, /_astro/scrimshaw-frontshot.B63h-VEf_1ydPsJ.jpg 768w, /_astro/scrimshaw-frontshot.B63h-VEf_Z1mvnwa.jpg 1024w, /_astro/scrimshaw-frontshot.B63h-VEf_Z2gkqcN.jpg 1280w, /_astro/scrimshaw-frontshot.B63h-VEf_ZamwVg.jpg 1600w",
+          "alt": "Front view of the aubergine kitchen run, with tall storage, an integrated oven, hob and sink behind the dining table.",
+          "sizes": "(min-width: 79.5rem) 47.3600rem, (min-width: 50rem) calc((97.5vw - 3.5rem) * 0.64), (min-width: 48rem) 57.9200vw, (min-width: 79.5rem) 76rem, (min-width: 50rem) calc(100vw - 3.5rem), (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)",
+          "loading": "lazy",
+          "decoding": "async",
+          "data-astro-cid-yq2gsstb": "true",
+          "width": "1600",
+          "height": "1200",
+          "bytes": 131268
+        },
+        {
+          "src": "/_astro/scrimshaw-finiskitchenpack.CtEiICzs_1CS5UB.jpg",
+          "srcset": "/_astro/scrimshaw-finiskitchenpack.CtEiICzs_ZwWLxh.jpg 480w, /_astro/scrimshaw-finiskitchenpack.CtEiICzs_1VH6aK.jpg 768w, /_astro/scrimshaw-finiskitchenpack.CtEiICzs_yyADa.jpg 1024w, /_astro/scrimshaw-finiskitchenpack.CtEiICzs_Z23jDYT.jpg 1280w, /_astro/scrimshaw-finiskitchenpack.CtEiICzs_1CS5UB.jpg 1600w",
+          "alt": "Fini\u2019s Kitchens handover bag beside the sink, with white quartz surfaces and lighting beneath the wall cabinets.",
+          "sizes": "(min-width: 48rem) 38rem, (min-width: 79.5rem) 76rem, (min-width: 50rem) calc(100vw - 3.5rem), (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)",
+          "loading": "lazy",
+          "decoding": "async",
+          "data-astro-cid-yq2gsstb": "true",
+          "width": "1600",
+          "height": "2133",
+          "bytes": 174659
+        },
+        {
+          "class": "site-footer__logo-img",
+          "src": "/images/logo-icon-blue.svg",
+          "alt": "",
+          "width": "96",
+          "height": "96",
+          "decoding": "async",
+          "data-astro-cid-jo6i4kqk": null,
+          "bytes": 7228
+        }
+      ],
+      "caseSources": [
+        {
+          "srcset": "/_astro/scrimshaw-sideshot.orUUHCCz_cJX51.avif 768w, /_astro/scrimshaw-sideshot.orUUHCCz_26JfJB.avif 1024w, /_astro/scrimshaw-sideshot.orUUHCCz_Z27jv2d.avif 1280w, /_astro/scrimshaw-sideshot.orUUHCCz_vPG17.avif 1600w, /_astro/scrimshaw-sideshot.orUUHCCz_BwDON.avif 1920w",
+          "type": "image/avif",
+          "sizes": "(min-width: 79.5rem) 76rem, (min-width: 50rem) calc(100vw - 3.5rem), (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)"
+        },
+        {
+          "srcset": "/_astro/scrimshaw-sideshot.orUUHCCz_Z284tp8.webp 768w, /_astro/scrimshaw-sideshot.orUUHCCz_HSiS7.webp 1024w, /_astro/scrimshaw-sideshot.orUUHCCz_1z1FUe.webp 1280w, /_astro/scrimshaw-sideshot.orUUHCCz_ZR0fPn.webp 1600w, /_astro/scrimshaw-sideshot.orUUHCCz_ZLji1G.webp 1920w",
+          "type": "image/webp",
+          "sizes": "(min-width: 79.5rem) 76rem, (min-width: 50rem) calc(100vw - 3.5rem), (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)"
+        },
+        {
+          "srcset": "/_astro/scrimshaw-righttoleft.jlgBGo9q_Z27EIEw.avif 480w, /_astro/scrimshaw-righttoleft.jlgBGo9q_Z1rVysw.avif 768w, /_astro/scrimshaw-righttoleft.jlgBGo9q_ZsVQ0E.avif 1024w, /_astro/scrimshaw-righttoleft.jlgBGo9q_11uIIO.avif 1280w, /_astro/scrimshaw-righttoleft.jlgBGo9q_Z23rOEl.avif 1600w",
+          "type": "image/avif",
+          "sizes": "(min-width: 79.5rem) 26.6400rem, (min-width: 50rem) calc((97.5vw - 3.5rem) * 0.36000000000000004), (min-width: 48rem) 32.5800vw, (min-width: 79.5rem) 76rem, (min-width: 50rem) calc(100vw - 3.5rem), (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)"
+        },
+        {
+          "srcset": "/_astro/scrimshaw-righttoleft.jlgBGo9q_vIa1D.webp 480w, /_astro/scrimshaw-righttoleft.jlgBGo9q_ZMY58o.webp 768w, /_astro/scrimshaw-righttoleft.jlgBGo9q_Zv1w3k.webp 1024w, /_astro/scrimshaw-righttoleft.jlgBGo9q_Yq3G9.webp 1280w, /_astro/scrimshaw-righttoleft.jlgBGo9q_Z25wuH1.webp 1600w",
+          "type": "image/webp",
+          "sizes": "(min-width: 79.5rem) 26.6400rem, (min-width: 50rem) calc((97.5vw - 3.5rem) * 0.36000000000000004), (min-width: 48rem) 32.5800vw, (min-width: 79.5rem) 76rem, (min-width: 50rem) calc(100vw - 3.5rem), (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)"
+        },
+        {
+          "srcset": "/_astro/scrimshaw-frontshot.B63h-VEf_t2lQh.avif 480w, /_astro/scrimshaw-frontshot.B63h-VEf_Z2iG9MO.avif 768w, /_astro/scrimshaw-frontshot.B63h-VEf_LMVGY.avif 1024w, /_astro/scrimshaw-frontshot.B63h-VEf_Z715XE.avif 1280w, /_astro/scrimshaw-frontshot.B63h-VEf_rQQBa.avif 1600w",
+          "type": "image/avif",
+          "sizes": "(min-width: 79.5rem) 47.3600rem, (min-width: 50rem) calc((97.5vw - 3.5rem) * 0.64), (min-width: 48rem) 57.9200vw, (min-width: 79.5rem) 76rem, (min-width: 50rem) calc(100vw - 3.5rem), (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)"
+        },
+        {
+          "srcset": "/_astro/scrimshaw-frontshot.B63h-VEf_Z1QM5CR.webp 480w, /_astro/scrimshaw-frontshot.B63h-VEf_qFwvX.webp 768w, /_astro/scrimshaw-frontshot.B63h-VEf_ZB309v.webp 1024w, /_astro/scrimshaw-frontshot.B63h-VEf_Z1uR2P9.webp 1280w, /_astro/scrimshaw-frontshot.B63h-VEf_Z1XVnvB.webp 1600w",
+          "type": "image/webp",
+          "sizes": "(min-width: 79.5rem) 47.3600rem, (min-width: 50rem) calc((97.5vw - 3.5rem) * 0.64), (min-width: 48rem) 57.9200vw, (min-width: 79.5rem) 76rem, (min-width: 50rem) calc(100vw - 3.5rem), (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)"
+        },
+        {
+          "srcset": "/_astro/scrimshaw-finiskitchenpack.CtEiICzs_HId28.avif 480w, /_astro/scrimshaw-finiskitchenpack.CtEiICzs_erIBY.avif 768w, /_astro/scrimshaw-finiskitchenpack.CtEiICzs_Z1yfpkn.avif 1024w, /_astro/scrimshaw-finiskitchenpack.CtEiICzs_T3sPu.avif 1280w, /_astro/scrimshaw-finiskitchenpack.CtEiICzs_ZtUU2V.avif 1600w",
+          "type": "image/avif",
+          "sizes": "(min-width: 48rem) 38rem, (min-width: 79.5rem) 76rem, (min-width: 50rem) calc(100vw - 3.5rem), (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)"
+        },
+        {
+          "srcset": "/_astro/scrimshaw-finiskitchenpack.CtEiICzs_Z1tKR4n.webp 480w, /_astro/scrimshaw-finiskitchenpack.CtEiICzs_Z20eY2C.webp 768w, /_astro/scrimshaw-finiskitchenpack.CtEiICzs_9OptT.webp 1024w, /_astro/scrimshaw-finiskitchenpack.CtEiICzs_Z2s3P9a.webp 1280w, /_astro/scrimshaw-finiskitchenpack.CtEiICzs_1e8TLl.webp 1600w",
+          "type": "image/webp",
+          "sizes": "(min-width: 48rem) 38rem, (min-width: 79.5rem) 76rem, (min-width: 50rem) calc(100vw - 3.5rem), (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)"
+        }
+      ]
+    },
+    "selectedImages": [
+      {
+        "viewportWidth": 390,
+        "dpr": 1,
+        "route": "home",
+        "selected": "/_astro/fini-blue-kitchen.DRoLMFen_ZHMF0a.webp",
+        "bytes": 14782,
+        "renderedWidth": 390,
+        "renderedHeight": 844,
+        "sizes": "100vw"
+      },
+      {
+        "viewportWidth": 390,
+        "dpr": 1,
+        "route": "projects/scrimshaw-kitchen",
+        "selected": "/_astro/scrimshaw-sideshot.orUUHCCz_cJX51.avif",
+        "bytes": 22268,
+        "renderedWidth": 358,
+        "renderedHeight": 477.328125,
+        "sizes": "(min-width: 79.5rem) 76rem, (min-width: 50rem) calc(100vw - 3.5rem), (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)"
+      },
+      {
+        "viewportWidth": 390,
+        "dpr": 1,
+        "route": "projects/scrimshaw-kitchen",
+        "selected": "/_astro/scrimshaw-righttoleft.jlgBGo9q_Z27EIEw.avif",
+        "bytes": 10906,
+        "renderedWidth": 358,
+        "renderedHeight": 477.328125,
+        "sizes": "(min-width: 79.5rem) 26.6400rem, (min-width: 50rem) calc((97.5vw - 3.5rem) * 0.36000000000000004), (min-width: 48rem) 32.5800vw, (min-width: 79.5rem) 76rem, (min-width: 50rem) calc(100vw - 3.5rem), (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)"
+      },
+      {
+        "viewportWidth": 390,
+        "dpr": 1,
+        "route": "projects/scrimshaw-kitchen",
+        "selected": "/_astro/scrimshaw-frontshot.B63h-VEf_t2lQh.avif",
+        "bytes": 6135,
+        "renderedWidth": 358,
+        "renderedHeight": 268.5,
+        "sizes": "(min-width: 79.5rem) 47.3600rem, (min-width: 50rem) calc((97.5vw - 3.5rem) * 0.64), (min-width: 48rem) 57.9200vw, (min-width: 79.5rem) 76rem, (min-width: 50rem) calc(100vw - 3.5rem), (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)"
+      },
+      {
+        "viewportWidth": 390,
+        "dpr": 1,
+        "route": "projects/scrimshaw-kitchen",
+        "selected": "/_astro/scrimshaw-finiskitchenpack.CtEiICzs_HId28.avif",
+        "bytes": 7843,
+        "renderedWidth": 358,
+        "renderedHeight": 477.328125,
+        "sizes": "(min-width: 48rem) 38rem, (min-width: 79.5rem) 76rem, (min-width: 50rem) calc(100vw - 3.5rem), (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)"
+      },
+      {
+        "viewportWidth": 768,
+        "dpr": 1,
+        "route": "home",
+        "selected": "/_astro/fini-blue-kitchen.DRoLMFen_ZWxbuS.webp",
+        "bytes": 27004,
+        "renderedWidth": 768,
+        "renderedHeight": 900,
+        "sizes": "100vw"
+      },
+      {
+        "viewportWidth": 768,
+        "dpr": 1,
+        "route": "projects/scrimshaw-kitchen",
+        "selected": "/_astro/scrimshaw-sideshot.orUUHCCz_cJX51.avif",
+        "bytes": 22268,
+        "renderedWidth": 714.25,
+        "renderedHeight": 952.328125,
+        "sizes": "(min-width: 79.5rem) 76rem, (min-width: 50rem) calc(100vw - 3.5rem), (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)"
+      },
+      {
+        "viewportWidth": 768,
+        "dpr": 1,
+        "route": "projects/scrimshaw-kitchen",
+        "selected": "/_astro/scrimshaw-righttoleft.jlgBGo9q_Z27EIEw.avif",
+        "bytes": 10906,
+        "renderedWidth": 250.21875,
+        "renderedHeight": 333.625,
+        "sizes": "(min-width: 79.5rem) 26.6400rem, (min-width: 50rem) calc((97.5vw - 3.5rem) * 0.36000000000000004), (min-width: 48rem) 32.5800vw, (min-width: 79.5rem) 76rem, (min-width: 50rem) calc(100vw - 3.5rem), (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)"
+      },
+      {
+        "viewportWidth": 768,
+        "dpr": 1,
+        "route": "projects/scrimshaw-kitchen",
+        "selected": "/_astro/scrimshaw-frontshot.B63h-VEf_t2lQh.avif",
+        "bytes": 6135,
+        "renderedWidth": 444.84375,
+        "renderedHeight": 333.625,
+        "sizes": "(min-width: 79.5rem) 47.3600rem, (min-width: 50rem) calc((97.5vw - 3.5rem) * 0.64), (min-width: 48rem) 57.9200vw, (min-width: 79.5rem) 76rem, (min-width: 50rem) calc(100vw - 3.5rem), (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)"
+      },
+      {
+        "viewportWidth": 768,
+        "dpr": 1,
+        "route": "projects/scrimshaw-kitchen",
+        "selected": "/_astro/scrimshaw-finiskitchenpack.CtEiICzs_erIBY.avif",
+        "bytes": 13399,
+        "renderedWidth": 608,
+        "renderedHeight": 810.65625,
+        "sizes": "(min-width: 48rem) 38rem, (min-width: 79.5rem) 76rem, (min-width: 50rem) calc(100vw - 3.5rem), (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)"
+      },
+      {
+        "viewportWidth": 1440,
+        "dpr": 1,
+        "route": "home",
+        "selected": "/_astro/fini-blue-kitchen.DRoLMFen_Z1FOM4M.webp",
+        "bytes": 80030,
+        "renderedWidth": 1440,
+        "renderedHeight": 900,
+        "sizes": "100vw"
+      },
+      {
+        "viewportWidth": 1440,
+        "dpr": 1,
+        "route": "projects/scrimshaw-kitchen",
+        "selected": "/_astro/scrimshaw-sideshot.orUUHCCz_Z27jv2d.avif",
+        "bytes": 51781,
+        "renderedWidth": 1216,
+        "renderedHeight": 1621.640625,
+        "sizes": "(min-width: 79.5rem) 76rem, (min-width: 50rem) calc(100vw - 3.5rem), (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)"
+      },
+      {
+        "viewportWidth": 1440,
+        "dpr": 1,
+        "route": "projects/scrimshaw-kitchen",
+        "selected": "/_astro/scrimshaw-righttoleft.jlgBGo9q_Z27EIEw.avif",
+        "bytes": 10906,
+        "renderedWidth": 426.234375,
+        "renderedHeight": 568.3125,
+        "sizes": "(min-width: 79.5rem) 26.6400rem, (min-width: 50rem) calc((97.5vw - 3.5rem) * 0.36000000000000004), (min-width: 48rem) 32.5800vw, (min-width: 79.5rem) 76rem, (min-width: 50rem) calc(100vw - 3.5rem), (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)"
+      },
+      {
+        "viewportWidth": 1440,
+        "dpr": 1,
+        "route": "projects/scrimshaw-kitchen",
+        "selected": "/_astro/scrimshaw-frontshot.B63h-VEf_Z2iG9MO.avif",
+        "bytes": 11290,
+        "renderedWidth": 757.765625,
+        "renderedHeight": 568.3125,
+        "sizes": "(min-width: 79.5rem) 47.3600rem, (min-width: 50rem) calc((97.5vw - 3.5rem) * 0.64), (min-width: 48rem) 57.9200vw, (min-width: 79.5rem) 76rem, (min-width: 50rem) calc(100vw - 3.5rem), (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)"
+      },
+      {
+        "viewportWidth": 1440,
+        "dpr": 1,
+        "route": "projects/scrimshaw-kitchen",
+        "selected": "/_astro/scrimshaw-finiskitchenpack.CtEiICzs_erIBY.avif",
+        "bytes": 13399,
+        "renderedWidth": 608,
+        "renderedHeight": 810.65625,
+        "sizes": "(min-width: 48rem) 38rem, (min-width: 79.5rem) 76rem, (min-width: 50rem) calc(100vw - 3.5rem), (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)"
+      },
+      {
+        "viewportWidth": 390,
+        "dpr": 2,
+        "route": "home",
+        "selected": "/_astro/fini-blue-kitchen.DRoLMFen_ZWxbuS.webp",
+        "bytes": 27004,
+        "renderedWidth": 390,
+        "renderedHeight": 844,
+        "sizes": "100vw"
+      },
+      {
+        "viewportWidth": 390,
+        "dpr": 2,
+        "route": "projects/scrimshaw-kitchen",
+        "selected": "/_astro/scrimshaw-sideshot.orUUHCCz_cJX51.avif",
+        "bytes": 22268,
+        "renderedWidth": 358,
+        "renderedHeight": 477.328125,
+        "sizes": "(min-width: 79.5rem) 76rem, (min-width: 50rem) calc(100vw - 3.5rem), (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)"
+      },
+      {
+        "viewportWidth": 390,
+        "dpr": 2,
+        "route": "projects/scrimshaw-kitchen",
+        "selected": "/_astro/scrimshaw-righttoleft.jlgBGo9q_Z1rVysw.avif",
+        "bytes": 21894,
+        "renderedWidth": 358,
+        "renderedHeight": 477.328125,
+        "sizes": "(min-width: 79.5rem) 26.6400rem, (min-width: 50rem) calc((97.5vw - 3.5rem) * 0.36000000000000004), (min-width: 48rem) 32.5800vw, (min-width: 79.5rem) 76rem, (min-width: 50rem) calc(100vw - 3.5rem), (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)"
+      },
+      {
+        "viewportWidth": 390,
+        "dpr": 2,
+        "route": "projects/scrimshaw-kitchen",
+        "selected": "/_astro/scrimshaw-frontshot.B63h-VEf_Z2iG9MO.avif",
+        "bytes": 11290,
+        "renderedWidth": 358,
+        "renderedHeight": 268.5,
+        "sizes": "(min-width: 79.5rem) 47.3600rem, (min-width: 50rem) calc((97.5vw - 3.5rem) * 0.64), (min-width: 48rem) 57.9200vw, (min-width: 79.5rem) 76rem, (min-width: 50rem) calc(100vw - 3.5rem), (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)"
+      },
+      {
+        "viewportWidth": 390,
+        "dpr": 2,
+        "route": "projects/scrimshaw-kitchen",
+        "selected": "/_astro/scrimshaw-finiskitchenpack.CtEiICzs_erIBY.avif",
+        "bytes": 13399,
+        "renderedWidth": 358,
+        "renderedHeight": 477.328125,
+        "sizes": "(min-width: 48rem) 38rem, (min-width: 79.5rem) 76rem, (min-width: 50rem) calc(100vw - 3.5rem), (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)"
+      },
+      {
+        "viewportWidth": 768,
+        "dpr": 2,
+        "route": "home",
+        "selected": "/_astro/fini-blue-kitchen.DRoLMFen_Z1FOM4M.webp",
+        "bytes": 80030,
+        "renderedWidth": 768,
+        "renderedHeight": 900,
+        "sizes": "100vw"
+      },
+      {
+        "viewportWidth": 768,
+        "dpr": 2,
+        "route": "projects/scrimshaw-kitchen",
+        "selected": "/_astro/scrimshaw-sideshot.orUUHCCz_vPG17.avif",
+        "bytes": 74254,
+        "renderedWidth": 714.25,
+        "renderedHeight": 952.171875,
+        "sizes": "(min-width: 79.5rem) 76rem, (min-width: 50rem) calc(100vw - 3.5rem), (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)"
+      },
+      {
+        "viewportWidth": 768,
+        "dpr": 2,
+        "route": "projects/scrimshaw-kitchen",
+        "selected": "/_astro/scrimshaw-righttoleft.jlgBGo9q_Z1rVysw.avif",
+        "bytes": 21894,
+        "renderedWidth": 250.21875,
+        "renderedHeight": 333.625,
+        "sizes": "(min-width: 79.5rem) 26.6400rem, (min-width: 50rem) calc((97.5vw - 3.5rem) * 0.36000000000000004), (min-width: 48rem) 32.5800vw, (min-width: 79.5rem) 76rem, (min-width: 50rem) calc(100vw - 3.5rem), (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)"
+      },
+      {
+        "viewportWidth": 768,
+        "dpr": 2,
+        "route": "projects/scrimshaw-kitchen",
+        "selected": "/_astro/scrimshaw-frontshot.B63h-VEf_LMVGY.avif",
+        "bytes": 17870,
+        "renderedWidth": 444.84375,
+        "renderedHeight": 333.625,
+        "sizes": "(min-width: 79.5rem) 47.3600rem, (min-width: 50rem) calc((97.5vw - 3.5rem) * 0.64), (min-width: 48rem) 57.9200vw, (min-width: 79.5rem) 76rem, (min-width: 50rem) calc(100vw - 3.5rem), (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)"
+      },
+      {
+        "viewportWidth": 768,
+        "dpr": 2,
+        "route": "projects/scrimshaw-kitchen",
+        "selected": "/_astro/scrimshaw-finiskitchenpack.CtEiICzs_T3sPu.avif",
+        "bytes": 24590,
+        "renderedWidth": 608,
+        "renderedHeight": 810.34375,
+        "sizes": "(min-width: 48rem) 38rem, (min-width: 79.5rem) 76rem, (min-width: 50rem) calc(100vw - 3.5rem), (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)"
+      },
+      {
+        "viewportWidth": 1440,
+        "dpr": 2,
+        "route": "home",
+        "selected": "/_astro/fini-blue-kitchen.DRoLMFen_Z1MTzUC.webp",
+        "bytes": 132440,
+        "renderedWidth": 1440,
+        "renderedHeight": 900,
+        "sizes": "100vw"
+      },
+      {
+        "viewportWidth": 1440,
+        "dpr": 2,
+        "route": "projects/scrimshaw-kitchen",
+        "selected": "/_astro/scrimshaw-sideshot.orUUHCCz_BwDON.avif",
+        "bytes": 99175,
+        "renderedWidth": 1216,
+        "renderedHeight": 1621.328125,
+        "sizes": "(min-width: 79.5rem) 76rem, (min-width: 50rem) calc(100vw - 3.5rem), (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)"
+      },
+      {
+        "viewportWidth": 1440,
+        "dpr": 2,
+        "route": "projects/scrimshaw-kitchen",
+        "selected": "/_astro/scrimshaw-righttoleft.jlgBGo9q_ZsVQ0E.avif",
+        "bytes": 33363,
+        "renderedWidth": 426.234375,
+        "renderedHeight": 568.171875,
+        "sizes": "(min-width: 79.5rem) 26.6400rem, (min-width: 50rem) calc((97.5vw - 3.5rem) * 0.36000000000000004), (min-width: 48rem) 32.5800vw, (min-width: 79.5rem) 76rem, (min-width: 50rem) calc(100vw - 3.5rem), (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)"
+      },
+      {
+        "viewportWidth": 1440,
+        "dpr": 2,
+        "route": "projects/scrimshaw-kitchen",
+        "selected": "/_astro/scrimshaw-frontshot.B63h-VEf_rQQBa.avif",
+        "bytes": 35247,
+        "renderedWidth": 757.765625,
+        "renderedHeight": 568.3125,
+        "sizes": "(min-width: 79.5rem) 47.3600rem, (min-width: 50rem) calc((97.5vw - 3.5rem) * 0.64), (min-width: 48rem) 57.9200vw, (min-width: 79.5rem) 76rem, (min-width: 50rem) calc(100vw - 3.5rem), (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)"
+      },
+      {
+        "viewportWidth": 1440,
+        "dpr": 2,
+        "route": "projects/scrimshaw-kitchen",
+        "selected": "/_astro/scrimshaw-finiskitchenpack.CtEiICzs_T3sPu.avif",
+        "bytes": 24590,
+        "renderedWidth": 608,
+        "renderedHeight": 810.34375,
+        "sizes": "(min-width: 48rem) 38rem, (min-width: 79.5rem) 76rem, (min-width: 50rem) calc(100vw - 3.5rem), (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)"
+      }
+    ]
+  },
+  "dependencies": {
+    "astroBefore": "7.2.6",
+    "astroAfter": "7.3.6",
+    "sharpBefore": "0.35.3",
+    "sharpAfter": "0.35.5",
+    "directPackagesAdded": 0,
+    "directPackagesRemoved": 0,
+    "lockEntriesAdded": [
+      {
+        "path": "node_modules/@astrojs/compiler-binding-android-arm64",
+        "version": "0.5.1"
+      },
+      {
+        "path": "node_modules/@bruits/satteri-wasm32-wasi/node_modules/@emnapi/runtime",
+        "version": "1.11.1"
+      },
+      {
+        "path": "node_modules/find-proc",
+        "version": "0.2.0"
+      },
+      {
+        "path": "node_modules/verkit",
+        "version": "0.5.0"
+      },
+      {
+        "path": "node_modules/yaml",
+        "version": "2.9.1"
+      }
+    ],
+    "lockEntriesRemoved": [
+      {
+        "path": "node_modules/ansi-styles",
+        "version": "4.3.0"
+      },
+      {
+        "path": "node_modules/argparse",
+        "version": "2.0.1"
+      },
+      {
+        "path": "node_modules/chalk",
+        "version": "4.1.2"
+      },
+      {
+        "path": "node_modules/color-convert",
+        "version": "2.0.1"
+      },
+      {
+        "path": "node_modules/color-name",
+        "version": "1.1.4"
+      },
+      {
+        "path": "node_modules/find-process",
+        "version": "2.1.1"
+      },
+      {
+        "path": "node_modules/find-process/node_modules/commander",
+        "version": "14.0.3"
+      },
+      {
+        "path": "node_modules/has-flag",
+        "version": "4.0.0"
+      },
+      {
+        "path": "node_modules/js-yaml",
+        "version": "4.3.1"
+      },
+      {
+        "path": "node_modules/loglevel",
+        "version": "1.9.2"
+      },
+      {
+        "path": "node_modules/supports-color",
+        "version": "7.2.0"
+      }
+    ]
+  },
+  "protectedAssetHashes": [
+    {
+      "path": "fonts/NewsreaderVariable.woff2",
+      "sha256": "1faa3380ac0e87e057b180e03fd94bd708a612afb67d2590677be4508909fae9"
+    },
+    {
+      "path": "fonts/Caveat-Regular.woff2",
+      "sha256": "cf1886b158766ed12f229303cadc6f40644328c4bf91921182cf28888022dd2e"
+    },
+    {
+      "path": "fonts/InterVariable.woff2",
+      "sha256": "693b77d4f32ee9b8bfc995589b5fad5e99adf2832738661f5402f9978429a8e3"
+    },
+    {
+      "path": "fonts/InterVariable-Italic.woff2",
+      "sha256": "e564f652916db6c139570fefb9524a77c4d48f30c92928de9db19b6b5c7a262a"
+    },
+    {
+      "path": "fonts/Baloo2-ExtraBold.woff2",
+      "sha256": "f6fd80001f1ccadeaba4a9f24e09789b5e8f692f62a8795a1b55b9aa5a68be7c"
+    },
+    {
+      "path": "fonts/Newsreader-OFL.txt",
+      "sha256": "fdfad38143ec470553cae82a1e45320bdd1b9ec70415d37bd0171051d8a4ded8"
+    },
+    {
+      "path": "images/story/book/07-rainbow.jpg",
+      "sha256": "f5d9472eddf40347f172a839ebb3797c33370616e7a158d26778550002200412"
+    },
+    {
+      "path": "images/story/book/08-grey-sky.jpg",
+      "sha256": "dc4515130768e8a5585854859bb2f97d0db2bafadb2bc536d37c2f2296030813"
+    },
+    {
+      "path": "images/story/book/05-bubbles-and-play.jpg",
+      "sha256": "a67a240209af29b7e3821ca9d768303fa6741db2e0aa88b5c1dede5b294bb62b"
+    },
+    {
+      "path": "images/story/book/01-cover.jpg",
+      "sha256": "5bead80bb2960e0b3c71939f742252c5f4fc3f75f24b5cd68ea2fb233c388717"
+    },
+    {
+      "path": "images/story/book/11-closing-poem.jpg",
+      "sha256": "c9b5937fed3b68337d8314edd2e9f9081cb0915b64cdabd943652f966c58b553"
+    },
+    {
+      "path": "images/story/book/02-dedication.jpg",
+      "sha256": "6a5e31417f8338441644e294ff24e3086a2c474810f28dbeb18cb3462069de4a"
+    },
+    {
+      "path": "images/story/book/09-six-friends.jpg",
+      "sha256": "797af2f00016cd490a10435b0ad3650287b616e53e24e7fb41deea4d00ddd167"
+    },
+    {
+      "path": "images/story/book/06-picnic.jpg",
+      "sha256": "969359209672783b592e5ec74816332d4ee594f7fcaca21d594dab95377f074c"
+    },
+    {
+      "path": "images/story/book/03-the-beginning.jpg",
+      "sha256": "4061ea7e6b146469afd09a155b4216d3c55ae76f0466c72fd6b3dec0265e76ed"
+    },
+    {
+      "path": "images/story/book/04-seven-babies.jpg",
+      "sha256": "7cad45a39419ff5fc6654c9382b42a1e025ed4159504fc0ea4eaed119b7359d0"
+    },
+    {
+      "path": "images/story/book/10-bright-star.jpg",
+      "sha256": "0df4e7e5bdcd37a87cbf89b943e47d7155bb3a1035b3a2b66c89123619dcd823"
+    },
+    {
+      "path": "documents/the-love-that-stays.pdf",
+      "sha256": "25cef222ef9c11a419ad23e23e77a9ec4a95cf3dd5f54b40d84d3372d4406dca"
+    },
+    {
+      "path": "_astro/StoryBookViewer.astro_astro_type_script_index_0_lang.MnqRRd16.js",
+      "sha256": "e32aa7a7926d1794710e2fa9a4e16a73f84415776ef4db8895fd626d62098458"
+    },
+    {
+      "path": "_astro/the-love-that-stays.CpUhf1IF.css",
+      "sha256": "e82f1d8f48bf676885645227942327f05f1e6e59808bb2ccae85955d58b2634c"
+    },
+    {
+      "path": "_astro/BaseLayout.BOmavDCd.css",
+      "sha256": "a0e546a8eec9834ed833d1fe150f7db881cc398666c6882ca971ec28522f8056"
+    }
+  ],
+  "storyPixelComparisons": [
+    {
+      "state": "story-before-page2-no-preference-1440.png",
+      "pixels": 92,
+      "maxChannelDelta": 1,
+      "bbox": [
+        272,
+        854,
+        988,
+        866
+      ],
+      "fraction": 7.098765432098765e-05
+    },
+    {
+      "state": "story-before-transcript-no-preference-1440.png",
+      "pixels": 0,
+      "maxChannelDelta": 0,
+      "bbox": null,
+      "fraction": 0.0
+    },
+    {
+      "state": "story-before-top-no-preference-1440.png",
+      "pixels": 0,
+      "maxChannelDelta": 0,
+      "bbox": null,
+      "fraction": 0.0
+    },
+    {
+      "state": "story-before-page2-reduce-1440.png",
+      "pixels": 141,
+      "maxChannelDelta": 2,
+      "bbox": [
+        116,
+        854,
+        988,
+        866
+      ],
+      "fraction": 0.0001087962962962963
+    },
+    {
+      "state": "story-before-open-no-preference-1440.png",
+      "pixels": 204,
+      "maxChannelDelta": 2,
+      "bbox": [
+        272,
+        767,
+        988,
+        866
+      ],
+      "fraction": 0.0001574074074074074
+    },
+    {
+      "state": "story-before-top-reduce-390.png",
+      "pixels": 0,
+      "maxChannelDelta": 0,
+      "bbox": null,
+      "fraction": 0.0
+    },
+    {
+      "state": "story-before-top-reduce-1440.png",
+      "pixels": 0,
+      "maxChannelDelta": 0,
+      "bbox": null,
+      "fraction": 0.0
+    },
+    {
+      "state": "story-before-transcript-reduce-390.png",
+      "pixels": 0,
+      "maxChannelDelta": 0,
+      "bbox": null,
+      "fraction": 0.0
+    },
+    {
+      "state": "story-before-page2-no-preference-390.png",
+      "pixels": 0,
+      "maxChannelDelta": 0,
+      "bbox": null,
+      "fraction": 0.0
+    },
+    {
+      "state": "story-before-page2-reduce-390.png",
+      "pixels": 38,
+      "maxChannelDelta": 2,
+      "bbox": [
+        17,
+        21,
+        340,
+        828
+      ],
+      "fraction": 0.00011544537610888322
+    },
+    {
+      "state": "story-before-transcript-no-preference-390.png",
+      "pixels": 0,
+      "maxChannelDelta": 0,
+      "bbox": null,
+      "fraction": 0.0
+    },
+    {
+      "state": "story-before-transcript-reduce-1440.png",
+      "pixels": 6,
+      "maxChannelDelta": 1,
+      "bbox": [
+        1326,
+        255,
+        1328,
+        262
+      ],
+      "fraction": 4.6296296296296296e-06
+    },
+    {
+      "state": "story-before-open-no-preference-390.png",
+      "pixels": 0,
+      "maxChannelDelta": 0,
+      "bbox": null,
+      "fraction": 0.0
+    },
+    {
+      "state": "story-before-top-no-preference-390.png",
+      "pixels": 0,
+      "maxChannelDelta": 0,
+      "bbox": null,
+      "fraction": 0.0
+    },
+    {
+      "state": "story-before-open-reduce-390.png",
+      "pixels": 0,
+      "maxChannelDelta": 0,
+      "bbox": null,
+      "fraction": 0.0
+    },
+    {
+      "state": "story-before-open-reduce-1440.png",
+      "pixels": 288,
+      "maxChannelDelta": 2,
+      "bbox": [
+        29,
+        767,
+        988,
+        866
+      ],
+      "fraction": 0.00022222222222222223
+    }
+  ],
+  "contactFormMarkupAndScriptUnchanged": true,
+  "seoPreservedFor": [
+    "index.html",
+    "the-love-that-stays/index.html",
+    "contact/index.html",
+    "privacy/index.html",
+    "services/index.html",
+    "projects/index.html",
+    "terms/index.html",
+    "process/index.html",
+    "about/index.html",
+    "projects/scrimshaw-kitchen/index.html"
+  ]
+}

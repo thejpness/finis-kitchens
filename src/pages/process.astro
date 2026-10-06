@@ -1,4 +1,5 @@
 ---
+import "../styles/commercial.css";
 // src/pages/process.astro
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { Picture } from "astro:assets";
@@ -139,6 +140,7 @@ const faqs = [
   description="How Fini’s Kitchens handles kitchen design, supply, installation and aftercare. Practical guidance and early budget advice for homes across Sussex."
   ogImage="/images/og/finis-kitchens-process.jpg"
 >
+  <div class="commercial">
   <section class="process-page-hero">
     <div class="container process-page-hero__layout">
       <div class="process-page-hero__copy">
@@ -187,7 +189,7 @@ const faqs = [
           <li class="process-journey__stage" data-process-row>
             <span class="process-journey__rule" aria-hidden="true" data-process-rule></span>
             <div class="process-journey__heading">
-              <p class="process-journey__number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</p>
+              <p class="process-journey__number commercial-stage-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</p>
               <p class="process-journey__label">{stage.label}</p>
               <h3>{stage.title}</h3>
               <div class="process-journey__photo" data-motion-image>
@@ -256,12 +258,13 @@ const faqs = [
 
           <div class="process-closing__actions">
             <a class="btn btn--primary btn--large" href="/contact">Start a conversation</a>
-            <a class="process-closing__link" href="/projects">See finished kitchens</a>
+            <a class="process-closing__link commercial-editorial-link" href="/projects">See finished kitchens</a>
           </div>
         </div>
       </div>
     </div>
   </section>
+  </div>
 </BaseLayout>
 
 <style>
@@ -336,7 +339,7 @@ const faqs = [
 
   .process-page-hero__guide {
     padding-top: var(--space-5);
-    border-top: var(--border-1) solid var(--c-rule-blue);
+    border-top: var(--commercial-rule);
   }
 
   .process-page-hero__guide ul {
@@ -347,7 +350,7 @@ const faqs = [
 
   .process-page-hero__guide li {
     padding-block: var(--space-4);
-    border-top: var(--border-1) solid var(--c-rule-blue);
+    border-top: var(--commercial-rule);
     color: var(--c-ink);
     font-size: clamp(1rem, 1.3vw, 1.12rem);
     font-weight: 560;
@@ -355,12 +358,12 @@ const faqs = [
   }
 
   .process-page-hero__guide li:last-child {
-    border-bottom: var(--border-1) solid var(--c-rule-blue);
+    border-bottom: var(--commercial-rule);
   }
 
   .process-journey {
-    padding-block: var(--home-section-y);
-    border-top: var(--border-1) solid var(--c-rule-blue);
+    padding-block: var(--commercial-section-y);
+    border-top: var(--commercial-rule);
     background: var(--c-paper);
   }
 
@@ -407,15 +410,15 @@ const faqs = [
     padding: 0 0 0 clamp(1.5rem, 3vw, 2rem);
     margin: 0;
     list-style: none;
-    border-left: var(--border-1) solid var(--c-rule-blue);
+    border-left: var(--commercial-rule);
   }
 
   .process-journey__stage {
     position: relative;
     display: grid;
     gap: var(--space-5);
-    padding-block: clamp(2rem, 4vw, 3.25rem);
-    border-bottom: var(--border-1) solid var(--c-rule-blue);
+    padding-block: var(--commercial-module-y);
+    border-bottom: var(--commercial-rule);
   }
 
   .process-journey__stage:first-child {
@@ -430,17 +433,17 @@ const faqs = [
   .process-journey__stage::before {
     content: "";
     position: absolute;
-    top: clamp(2.3rem, 4vw, 3.55rem);
-    left: calc(-1 * clamp(1.5rem, 3vw, 2rem) - 0.36rem);
-    width: 0.68rem;
-    height: 0.68rem;
+    top: calc(var(--commercial-module-y) + (var(--commercial-stage-size) - var(--commercial-marker-size)) / 2);
+    left: calc(-1 * clamp(1.5rem, 3vw, 2rem) - var(--commercial-marker-size) / 2);
+    width: var(--commercial-marker-size);
+    height: var(--commercial-marker-size);
     border-radius: 50%;
     background: var(--c-blue-muted);
-    box-shadow: 0 0 0 4px var(--c-paper);
+    box-shadow: 0 0 0 var(--commercial-marker-halo) var(--c-paper);
   }
 
   .process-journey__stage:first-child::before {
-    top: 0.28rem;
+    top: calc((var(--commercial-stage-size) - var(--commercial-marker-size)) / 2);
   }
 
   .process-journey__label {
@@ -488,7 +491,7 @@ const faqs = [
   }
 
   .process-reassurance {
-    padding-block: var(--home-section-y);
+    padding-block: var(--commercial-section-y);
     background: var(--c-navy);
     color: var(--c-paper);
   }
@@ -533,12 +536,12 @@ const faqs = [
 
   .process-reassurance__grid {
     display: grid;
-    border-top: var(--border-1) solid var(--c-rule-on-dark);
+    border-top: var(--commercial-rule-dark);
   }
 
   .process-reassurance__item {
     padding-block: clamp(1.75rem, 3vw, 2.5rem);
-    border-bottom: var(--border-1) solid var(--c-rule-on-dark);
+    border-bottom: var(--commercial-rule-dark);
   }
 
   .process-reassurance__item h3 {
@@ -557,7 +560,7 @@ const faqs = [
   }
 
   .process-closing {
-    padding-block: var(--home-section-y);
+    padding-block: var(--commercial-section-y);
     background: var(--c-canvas);
   }
 
@@ -565,7 +568,7 @@ const faqs = [
     display: grid;
     gap: clamp(2.5rem, 5vw, 5rem);
     padding-top: clamp(2rem, 4vw, 3.5rem);
-    border-top: var(--border-1) solid var(--c-rule-blue);
+    border-top: var(--commercial-rule);
   }
 
   .process-closing__eyebrow {
@@ -605,19 +608,6 @@ const faqs = [
     margin-top: var(--space-7);
   }
 
-  .process-closing__link {
-    color: var(--c-navy);
-    font-weight: 650;
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 0.18em;
-  }
-
-  .process-closing__link:hover {
-    color: var(--c-blue);
-    text-decoration-thickness: 2px;
-  }
-
   @media (min-width: 48rem) {
     .process-journey__intro,
     .process-reassurance__intro {
@@ -639,7 +629,7 @@ const faqs = [
 
     .process-reassurance__item:nth-child(odd) {
       padding-left: 0;
-      border-right: var(--border-1) solid var(--c-rule-on-dark);
+      border-right: var(--commercial-rule-dark);
     }
 
     .process-reassurance__item:nth-child(even) {
@@ -671,7 +661,7 @@ const faqs = [
 
     .process-reassurance__item {
       padding-inline: clamp(1.5rem, 2.5vw, 2.5rem);
-      border-right: var(--border-1) solid var(--c-rule-on-dark);
+      border-right: var(--commercial-rule-dark);
     }
 
     .process-reassurance__item:first-child {
@@ -683,7 +673,7 @@ const faqs = [
       border-right: 0;
     }
   }
-  .process-journey__number { margin-bottom: 0.85rem; color: var(--c-blue); font-size: 1.5rem; line-height: 1; }
+  .process-journey__number { margin-bottom: 0.85rem; color: var(--c-blue); }
   .process-journey__photo { margin-top: 1.75rem; aspect-ratio: 3 / 2; overflow: hidden; background: var(--c-canvas-warm); }
   .process-journey__photo :global(picture), .process-journey__photo :global(img) { display: block; width: 100%; height: 100%; object-fit: cover; }
   .process-journey__rule { position: absolute; right: 0; bottom: -1px; left: 0; height: 1px; background: var(--c-blue-muted); transform-origin: left; }

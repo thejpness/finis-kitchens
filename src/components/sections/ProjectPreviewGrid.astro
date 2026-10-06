@@ -40,8 +40,9 @@ const description = featuredProject?.data.description ?? "A completed Fini’s K
             <Image
               src={image}
               alt=""
+              width={1600}
               widths={[720, 1200, 1600]}
-              sizes="(min-width: 64rem) 56vw, (min-width: 48rem) 58vw, 100vw"
+              sizes="(min-width: 100rem) 658.88px, (min-width: 79.5rem) calc((76rem - 5vw) * 0.58), (min-width: 50rem) calc((95vw - 3.5rem) * 0.58), (min-width: 48rem) 51.04vw, (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)"
               loading="lazy"
             />
           </div>
@@ -50,7 +51,7 @@ const description = featuredProject?.data.description ?? "A completed Fini’s K
             {featuredProject.data.location && <p class="project-feature__location">{featuredProject.data.location}</p>}
             <h3>{featuredProject.data.title}</h3>
             <p class="project-feature__description">{description}</p>
-            <a class="project-feature__link" href={href}>
+            <a class="project-feature__link commercial-editorial-link" href={href}>
               <span>View the project</span>
               <span aria-hidden="true">→</span>
             </a>
@@ -59,7 +60,7 @@ const description = featuredProject?.data.description ?? "A completed Fini’s K
       )
     }
 
-    <a class="project-preview__all-link" href="/projects">
+    <a class="project-preview__all-link commercial-editorial-link" href="/projects">
       <span>View all projects</span>
       <span aria-hidden="true">→</span>
     </a>
@@ -67,14 +68,15 @@ const description = featuredProject?.data.description ?? "A completed Fini’s K
 </section>
 
 <style>
+  .project-feature__link { margin-top: var(--space-2); }
   .project-preview {
-    padding-block: var(--home-section-y);
+    padding-block: var(--commercial-section-y);
     background: var(--c-canvas);
   }
 
   .project-preview__frame {
     display: grid;
-    gap: var(--home-layout-gap);
+    gap: var(--commercial-layout-gap);
   }
 
   .project-preview__intro {
@@ -117,7 +119,7 @@ const description = featuredProject?.data.description ?? "A completed Fini’s K
     z-index: 1;
     aspect-ratio: 5 / 6;
     overflow: hidden;
-    border-radius: 0.75rem;
+    border-radius: var(--commercial-media-radius);
     background: var(--c-surface-2);
   }
 
@@ -153,27 +155,6 @@ const description = featuredProject?.data.description ?? "A completed Fini’s K
     color: var(--c-text-muted);
     font-size: var(--fs-1);
     line-height: var(--lh-snug);
-  }
-
-  .project-feature__link,
-  .project-preview__all-link {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-3);
-    width: fit-content;
-    color: var(--c-navy);
-    font-size: var(--fs-0);
-    font-weight: 650;
-  }
-
-  .project-feature__link {
-    margin-top: var(--space-2);
-  }
-
-  .project-feature__link span:first-child,
-  .project-preview__all-link span:first-child {
-    padding-bottom: 0.16rem;
-    border-bottom: 1px solid currentColor;
   }
 
   .project-feature__link span:last-child,

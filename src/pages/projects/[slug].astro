@@ -1,7 +1,10 @@
 ---
+import "../../styles/commercial.css";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCollection, render } from "astro:content";
 import { Picture } from "astro:assets";
+import { socialImage } from "../../lib/social-image";
+import { galleryRows, fullImageSizes } from "../../lib/project-gallery";
 
 export async function getStaticPaths() {
   const entries = await getCollection("projects");
@@ -25,10 +28,11 @@ const description =
   data.description ??
   "A real kitchen project designed and installed by Fini's Kitchens.";
 
-const ogImage = data?.heroImage?.src ?? "/images/og/finis-kitchens-og.jpg";
+const ogImage = await socialImage(data.heroImage);
 
 const gallery = Array.isArray(data.gallery) ? data.gallery : [];
 const hasGallery = gallery.length > 0;
+const rows = await galleryRows(gallery);
 
 const summaryPoints: { label: string; value: string }[] = [];
 
@@ -43,6 +47,7 @@ if (data.completedAt) summaryPoints.push({ label: "Completed", value: data.compl
   description={description}
   ogImage={ogImage}
 >
+  <div class="commercial">
   <section class="project-hero">
     <div class="container project-hero__frame">
       <div class="project-hero__copy">
@@ -57,7 +62,7 @@ if (data.completedAt) summaryPoints.push({ label: "Completed", value: data.compl
 
       {
         summaryPoints.length > 0 && (
-          <dl class="project-meta" aria-label="Project summary">
+          <dl class="project-meta commercial-meta" aria-label="Project summary">
             {summaryPoints.map((item) => (
               <div>
                 <dt>{item.label}</dt>
@@ -77,10 +82,11 @@ if (data.completedAt) summaryPoints.push({ label: "Completed", value: data.compl
           <div class="project-lead-image__frame" data-motion-image>
             <Picture
               src={data.heroImage}
-              alt={`Finished ${title} kitchen`}
+              alt={data.heroAlt ?? `Finished ${title} kitchen`}
               formats={["avif", "webp"]}
+              width={1920}
               widths={[768, 1024, 1280, 1600, 1920]}
-              sizes="(min-width: 80rem) 76rem, (min-width: 48rem) calc(100vw - 3.5rem), calc(100vw - 2rem)"
+              sizes={fullImageSizes}
               loading="eager"
               decoding="async"
             />
@@ -90,17 +96,13 @@ if (data.completedAt) summaryPoints.push({ label: "Completed", value: data.compl
     )
   }
 
-  <section class="project-story" aria-labelledby="project-story-title">
+  <section class="project-story" aria-label={data.introduction ? undefined : "Project story"} aria-labelledby={data.introduction ? "project-story-title" : undefined}>
     <div class="container project-story__layout">
-      <header class="project-story__intro">
+      {data.introduction && <header class="project-story__intro">
         <p class="project-eyebrow">The project</p>
-        <h2 id="project-story-title">Designed around the space that was already there.</h2>
-
-        <p>
-          The footprint did not need reinvention. The opportunity was to make the existing space
-          more useful and much more personal to the client.
-        </p>
-      </header>
+        <h2 id="project-story-title">{data.introduction.title}</h2>
+        {data.introduction.body && <p>{data.introduction.body}</p>}
+      </header>}
 
       <article class="project-prose">
         <Content />
@@ -115,7 +117,7 @@ if (data.completedAt) summaryPoints.push({ label: "Completed", value: data.compl
           <header class="project-gallery__intro">
             <div>
               <p class="project-eyebrow">Gallery</p>
-              <h2 id="project-gallery-title">A closer look at Longleys Road.</h2>
+              <h2 id="project-gallery-title">{data.galleryHeading ?? `A closer look at ${title}.`}</h2>
             </div>
 
             <p>
@@ -124,18 +126,27 @@ if (data.completedAt) summaryPoints.push({ label: "Completed", value: data.compl
           </header>
 
           <div class="project-gallery__grid">
-            {gallery.map((image, index) => (
-              <figure data-motion-image>
-                <Picture
-                  src={image}
-                  alt={`${title} finished kitchen view ${index + 1}`}
-                  formats={["avif", "webp"]}
-                  widths={[480, 768, 1024, 1280, 1600]}
-                  sizes="(min-width: 64rem) 50vw, 100vw"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </figure>
+            {rows.map((row) => (
+              <div class:list={["project-gallery__row", { "project-gallery__row--portrait": row.portrait }]} style={`--gallery-columns: ${row.columns}`}>
+                {row.items.map((item) => (
+                  <figure>
+                    <div data-motion-image>
+                      <Picture
+                        src={item.image}
+                        alt={item.alt}
+                        formats={["avif", "webp"]}
+                        fallbackFormat="jpg"
+                        width={1600}
+                        widths={[480, 768, 1024, 1280, 1600]}
+                        sizes={item.sizes}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </div>
+                    {item.caption && <figcaption>{item.caption}</figcaption>}
+                  </figure>
+                ))}
+              </div>
             ))}
           </div>
         </div>
@@ -162,7 +173,7 @@ if (data.completedAt) summaryPoints.push({ label: "Completed", value: data.compl
               Start a conversation
             </a>
 
-            <a class="project-text-link" href="/projects">
+            <a class="project-text-link commercial-editorial-link" href="/projects">
               Back to case studies
             </a>
           </div>
@@ -170,6 +181,7 @@ if (data.completedAt) summaryPoints.push({ label: "Completed", value: data.compl
       </div>
     </div>
   </section>
+  </div>
 </BaseLayout>
 
 <style>
@@ -215,7 +227,7 @@ if (data.completedAt) summaryPoints.push({ label: "Completed", value: data.compl
   .project-meta {
     display: grid;
     margin: 0;
-    border-top: var(--border-1) solid var(--c-rule-blue);
+    border-top: var(--commercial-rule);
   }
 
   .project-meta > div {
@@ -223,15 +235,7 @@ if (data.completedAt) summaryPoints.push({ label: "Completed", value: data.compl
     grid-template-columns: minmax(6rem, 0.42fr) minmax(0, 1fr);
     gap: var(--space-4);
     padding-block: var(--space-3);
-    border-bottom: var(--border-1) solid var(--c-rule-blue);
-  }
-
-  .project-meta dt {
-    color: var(--c-blue);
-    font-size: var(--fs--1);
-    font-weight: 650;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    border-bottom: var(--commercial-rule);
   }
 
   .project-meta dd {
@@ -241,14 +245,14 @@ if (data.completedAt) summaryPoints.push({ label: "Completed", value: data.compl
   }
 
   .project-lead-image {
-    padding-block: var(--home-section-y-tight);
-    border-top: var(--border-1) solid var(--c-rule-blue);
+    padding-block: var(--commercial-section-y-tight);
+    border-top: var(--commercial-rule);
     background: var(--c-paper);
   }
 
   .project-lead-image__frame {
     overflow: hidden;
-    border-radius: 0.75rem;
+    border-radius: var(--commercial-media-radius);
     background: var(--c-canvas-warm);
   }
 
@@ -263,7 +267,7 @@ if (data.completedAt) summaryPoints.push({ label: "Completed", value: data.compl
   }
 
   .project-story {
-    padding-block: var(--home-section-y);
+    padding-block: var(--commercial-section-y);
     background: var(--c-paper);
   }
 
@@ -324,13 +328,13 @@ if (data.completedAt) summaryPoints.push({ label: "Completed", value: data.compl
     margin: var(--space-5) 0 0;
     padding: 0;
     list-style: none;
-    border-top: var(--border-1) solid var(--c-rule-blue);
+    border-top: var(--commercial-rule);
   }
 
   .project-prose :global(li) {
     position: relative;
     padding: var(--space-3) 0 var(--space-3) 1.4rem;
-    border-bottom: var(--border-1) solid var(--c-rule-blue);
+    border-bottom: var(--commercial-rule);
     color: var(--c-navy);
     line-height: 1.55;
   }
@@ -349,8 +353,8 @@ if (data.completedAt) summaryPoints.push({ label: "Completed", value: data.compl
   .project-prose :global(blockquote) {
     margin: clamp(2rem, 5vw, 3.5rem) 0 0;
     padding: clamp(1.5rem, 3vw, 2.25rem) 0;
-    border-top: var(--border-1) solid var(--c-rule-blue);
-    border-bottom: var(--border-1) solid var(--c-rule-blue);
+    border-top: var(--commercial-rule);
+    border-bottom: var(--commercial-rule);
   }
 
   .project-prose :global(blockquote p) {
@@ -363,7 +367,7 @@ if (data.completedAt) summaryPoints.push({ label: "Completed", value: data.compl
   }
 
   .project-gallery {
-    padding-block: var(--home-section-y);
+    padding-block: var(--commercial-section-y);
     background: var(--c-canvas-warm);
   }
 
@@ -403,6 +407,21 @@ if (data.completedAt) summaryPoints.push({ label: "Completed", value: data.compl
 
   .project-gallery__grid figure {
     margin: 0;
+    min-width: 0;
+  }
+
+  .project-gallery__row {
+    display: grid;
+    gap: clamp(1rem, 2.5vw, 2rem);
+    width: 100%;
+    align-items: start;
+  }
+
+  .project-gallery__grid figcaption {
+    margin-top: var(--space-3);
+    color: var(--c-text-muted);
+    font-size: var(--commercial-metadata-size);
+    line-height: var(--lh-snug);
   }
 
   .project-gallery__grid :global(picture),
@@ -413,11 +432,11 @@ if (data.completedAt) summaryPoints.push({ label: "Completed", value: data.compl
 
   .project-gallery__grid :global(img) {
     height: auto;
-    border-radius: 0.65rem;
+    border-radius: var(--commercial-media-radius);
   }
 
   .project-closing {
-    padding-block: var(--home-section-y-tight);
+    padding-block: var(--commercial-section-y-tight);
     background: var(--c-canvas);
   }
 
@@ -425,7 +444,7 @@ if (data.completedAt) summaryPoints.push({ label: "Completed", value: data.compl
     display: grid;
     gap: clamp(2.5rem, 5vw, 5rem);
     padding-top: clamp(2rem, 4vw, 3.5rem);
-    border-top: var(--border-1) solid var(--c-rule-blue);
+    border-top: var(--commercial-rule);
   }
 
   .project-closing h2 {
@@ -455,35 +474,23 @@ if (data.completedAt) summaryPoints.push({ label: "Completed", value: data.compl
     margin-top: var(--space-7);
   }
 
-  .project-text-link {
-    color: var(--c-navy);
-    font-weight: 650;
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 0.18em;
-  }
-
-  .project-text-link:hover {
-    color: var(--c-blue);
-    text-decoration-thickness: 2px;
-  }
-
   @media (min-width: 48rem) {
-    .project-gallery__grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+    .project-gallery__row {
+      grid-template-columns: var(--gallery-columns);
     }
 
-    .project-gallery__grid figure:first-child {
-      grid-row: span 2;
+    .project-gallery__row--portrait {
+      max-width: 38rem;
+      justify-self: center;
     }
   }
 
   @media (min-width: 64rem) {
-    .project-hero__frame {
+    .project-hero__frame:has(.project-meta) {
       grid-template-columns: minmax(0, 1.2fr) minmax(20rem, 0.8fr);
     }
 
-    .project-story__layout {
+    .project-story__layout:has(.project-story__intro) {
       grid-template-columns: minmax(18rem, 0.7fr) minmax(0, 1.3fr);
       align-items: start;
     }

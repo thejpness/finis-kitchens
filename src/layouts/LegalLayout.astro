@@ -1,4 +1,5 @@
 ---
+import "../styles/commercial.css";
 import BaseLayout from "./BaseLayout.astro";
 
 interface Props {
@@ -16,6 +17,7 @@ const legalLinks = [
 ---
 
 <BaseLayout title={`${title} | Fini's Kitchens`} description={description}>
+  <div class="commercial">
   <section class="legal-hero">
     <div class="container legal-hero__layout">
       <header class="legal-hero__copy">
@@ -28,7 +30,7 @@ const legalLinks = [
 
       <aside class="legal-hero__meta" aria-label="Document information">
         <p class="legal-eyebrow">Document information</p>
-        <dl>
+        <dl class="commercial-meta">
           <div>
             <dt>Applies to</dt>
             <dd>Fini's Kitchens website</dd>
@@ -65,6 +67,7 @@ const legalLinks = [
       </article>
     </div>
   </section>
+  </div>
 </BaseLayout>
 
 <style>
@@ -113,12 +116,12 @@ const legalLinks = [
 
   .legal-hero__meta {
     padding-top: var(--space-5);
-    border-top: var(--border-1) solid var(--c-rule-blue);
+    border-top: var(--commercial-rule);
   }
 
   .legal-hero__meta dl {
     margin: var(--space-5) 0 0;
-    border-top: var(--border-1) solid var(--c-rule-blue);
+    border-top: var(--commercial-rule);
   }
 
   .legal-hero__meta dl > div {
@@ -126,15 +129,7 @@ const legalLinks = [
     grid-template-columns: minmax(6.5rem, 0.42fr) minmax(0, 1fr);
     gap: var(--space-4);
     padding-block: var(--space-3);
-    border-bottom: var(--border-1) solid var(--c-rule-blue);
-  }
-
-  .legal-hero__meta dt {
-    color: var(--c-blue);
-    font-size: var(--fs--1);
-    font-weight: 650;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    border-bottom: var(--commercial-rule);
   }
 
   .legal-hero__meta dd {
@@ -145,31 +140,31 @@ const legalLinks = [
   }
 
   .legal-body {
-    padding-block: var(--home-section-y);
-    border-top: var(--border-1) solid var(--c-rule-blue);
+    padding-block: var(--commercial-section-y);
+    border-top: var(--commercial-rule);
     background: var(--c-paper);
   }
 
   .legal-body__layout {
     display: grid;
-    gap: var(--home-layout-gap);
+    gap: var(--commercial-layout-gap);
     align-items: start;
   }
 
   .legal-body__nav {
     padding-top: var(--space-5);
-    border-top: var(--border-1) solid var(--c-rule-blue);
+    border-top: var(--commercial-rule);
   }
 
   .legal-body__nav nav {
     display: grid;
     margin-top: var(--space-5);
-    border-top: var(--border-1) solid var(--c-rule-blue);
+    border-top: var(--commercial-rule);
   }
 
   .legal-body__nav a {
     padding-block: var(--space-3);
-    border-bottom: var(--border-1) solid var(--c-rule-blue);
+    border-bottom: var(--commercial-rule);
     color: var(--c-navy);
     font-size: var(--fs-0);
     font-weight: 600;

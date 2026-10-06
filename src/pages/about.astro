@@ -1,4 +1,5 @@
 ---
+import "../styles/commercial.css";
 import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import finiOrigin from "../assets/images/about/fini-origin.jpg";
@@ -9,6 +10,7 @@ import finiOrigin from "../assets/images/about/fini-origin.jpg";
   description="Meet the people and experience behind Fini's Kitchens, and discover the personal story at the heart of the business."
   ogImage={finiOrigin.src}
 >
+  <div class="commercial">
   <section class="about-hero">
     <div class="container about-hero__layout">
       <div class="about-hero__copy">
@@ -48,7 +50,7 @@ import finiOrigin from "../assets/images/about/fini-origin.jpg";
           </p>
         </div>
 
-        <a class="about-text-link" href="/the-love-that-stays">Read the full story</a>
+        <a class="about-text-link commercial-editorial-link" href="/the-love-that-stays">Read the full story</a>
       </div>
 
       <figure class="about-origin__figure">
@@ -158,7 +160,7 @@ import finiOrigin from "../assets/images/about/fini-origin.jpg";
 
           <div class="about-confidence__list">
             <article>
-              <span aria-hidden="true">01</span>
+              <span class="commercial-index" aria-hidden="true">01</span>
               <div>
                 <h3>Deep industry experience</h3>
                 <p>
@@ -169,7 +171,7 @@ import finiOrigin from "../assets/images/about/fini-origin.jpg";
             </article>
 
             <article>
-              <span aria-hidden="true">02</span>
+              <span class="commercial-index" aria-hidden="true">02</span>
               <div>
                 <h3>Design backed by delivery knowledge</h3>
                 <p>
@@ -180,7 +182,7 @@ import finiOrigin from "../assets/images/about/fini-origin.jpg";
             </article>
 
             <article>
-              <span aria-hidden="true">03</span>
+              <span class="commercial-index" aria-hidden="true">03</span>
               <div>
                 <h3>Broad perspective across project types</h3>
                 <p>
@@ -191,7 +193,7 @@ import finiOrigin from "../assets/images/about/fini-origin.jpg";
             </article>
 
             <article>
-              <span aria-hidden="true">04</span>
+              <span class="commercial-index" aria-hidden="true">04</span>
               <div>
                 <h3>Commercial clarity</h3>
                 <p>
@@ -206,10 +208,11 @@ import finiOrigin from "../assets/images/about/fini-origin.jpg";
     </div>
   </section>
 
-
+  </div>
 </BaseLayout>
 
 <style>
+  .about-text-link { margin-top: var(--space-7); }
   .about-hero {
     padding-block: clamp(4rem, 7vw, 6.25rem);
     background: var(--c-canvas-warm);
@@ -259,7 +262,7 @@ import finiOrigin from "../assets/images/about/fini-origin.jpg";
 
   .about-hero__group {
     padding-top: var(--space-5);
-    border-top: var(--border-1) solid var(--c-rule-blue);
+    border-top: var(--commercial-rule);
   }
 
   .about-hero__group p:last-child {
@@ -270,8 +273,8 @@ import finiOrigin from "../assets/images/about/fini-origin.jpg";
   }
 
   .about-origin {
-    padding-block: var(--home-section-y-tight);
-    border-top: var(--border-1) solid var(--c-rule-blue);
+    padding-block: var(--commercial-section-y-tight);
+    border-top: var(--commercial-rule);
     background: var(--c-paper);
   }
 
@@ -302,21 +305,6 @@ import finiOrigin from "../assets/images/about/fini-origin.jpg";
     line-height: 1.65;
   }
 
-  .about-text-link {
-    display: inline-block;
-    margin-top: var(--space-7);
-    color: var(--c-navy);
-    font-weight: 650;
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 0.18em;
-  }
-
-  .about-text-link:hover {
-    color: var(--c-blue);
-    text-decoration-thickness: 2px;
-  }
-
   .about-origin__figure {
     width: min(100%, 32rem);
     margin: 0;
@@ -325,7 +313,7 @@ import finiOrigin from "../assets/images/about/fini-origin.jpg";
   .about-origin__image-wrap {
     overflow: hidden;
     aspect-ratio: 4 / 5;
-    border-radius: 0.75rem;
+    border-radius: var(--commercial-media-radius);
     background: var(--c-canvas-warm);
   }
 
@@ -339,12 +327,12 @@ import finiOrigin from "../assets/images/about/fini-origin.jpg";
   .about-origin__figure figcaption {
     margin-top: var(--space-3);
     color: var(--c-text-muted);
-    font-size: var(--fs--1);
+    font-size: var(--commercial-metadata-size);
     line-height: var(--lh-snug);
   }
 
   .about-leadership {
-    padding-block: var(--home-section-y);
+    padding-block: var(--commercial-section-y);
     background: var(--c-navy);
     color: var(--c-paper);
   }
@@ -389,7 +377,7 @@ import finiOrigin from "../assets/images/about/fini-origin.jpg";
 
   .about-leadership__people {
     display: grid;
-    border-top: var(--border-1) solid var(--c-rule-on-dark);
+    border-top: var(--commercial-rule-dark);
   }
 
   .about-person {
@@ -398,7 +386,7 @@ import finiOrigin from "../assets/images/about/fini-origin.jpg";
     gap: var(--space-5);
     align-items: center;
     padding-block: clamp(1.75rem, 3vw, 2.5rem);
-    border-bottom: var(--border-1) solid var(--c-rule-on-dark);
+    border-bottom: var(--commercial-rule-dark);
   }
 
   .about-person__image {
@@ -407,7 +395,7 @@ import finiOrigin from "../assets/images/about/fini-origin.jpg";
     display: block;
     object-fit: cover;
     object-position: center top;
-    border-radius: 0.75rem;
+    border-radius: var(--commercial-media-radius);
   }
 
   .about-person h3 {
@@ -420,7 +408,7 @@ import finiOrigin from "../assets/images/about/fini-origin.jpg";
   .about-person__role {
     margin-top: var(--space-2);
     color: var(--c-blue-pale);
-    font-size: var(--fs--1);
+    font-size: var(--commercial-metadata-size);
     font-weight: 650;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -433,7 +421,7 @@ import finiOrigin from "../assets/images/about/fini-origin.jpg";
   }
 
   .about-experience {
-    padding-block: var(--home-section-y-tight);
+    padding-block: var(--commercial-section-y-tight);
     background: var(--c-canvas);
   }
 
@@ -484,7 +472,7 @@ import finiOrigin from "../assets/images/about/fini-origin.jpg";
 
   .about-confidence__label {
     padding-bottom: var(--space-4);
-    border-bottom: var(--border-1) solid var(--c-rule-blue);
+    border-bottom: var(--commercial-rule);
     color: var(--c-blue);
     font-size: var(--eyebrow-size);
     font-weight: var(--eyebrow-weight);
@@ -498,14 +486,11 @@ import finiOrigin from "../assets/images/about/fini-origin.jpg";
     grid-template-columns: 2.5rem minmax(0, 1fr);
     gap: var(--space-4);
     padding-block: var(--space-5);
-    border-bottom: var(--border-1) solid var(--c-rule-blue);
+    border-bottom: var(--commercial-rule);
   }
 
   .about-confidence__list article > span {
     color: var(--c-blue);
-    font-size: var(--fs--1);
-    font-weight: 650;
-    letter-spacing: 0.08em;
   }
 
   .about-confidence h3 {
@@ -549,7 +534,7 @@ import finiOrigin from "../assets/images/about/fini-origin.jpg";
 
     .about-person:first-child {
       padding-left: 0;
-      border-right: var(--border-1) solid var(--c-rule-on-dark);
+      border-right: var(--commercial-rule-dark);
     }
 
     .about-person:last-child {

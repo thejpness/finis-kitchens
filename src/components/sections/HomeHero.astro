@@ -18,6 +18,7 @@ const { image } = Astro.props;
     <Image
       class="home-hero__image"
       src={image}
+      width={2560}
       alt="Blue fitted kitchen with white worktops and a large peninsula."
       widths={[640, 960, 1376, 1920, 2560]}
       sizes="100vw"
@@ -28,6 +29,7 @@ const { image } = Astro.props;
   <div class="home-hero__glazing" aria-hidden="true" data-hero-glazing>
     <Image
       src={image}
+      width={160}
       alt=""
       widths={[160]}
       sizes="100vw"
