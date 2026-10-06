@@ -2,10 +2,16 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import HomeHero from "../components/sections/HomeHero.astro";
 import finiBlueKitchen from "../assets/images/hero/fini-blue-kitchen.jpg";
+import stagedKitchenIsland from "../assets/images/process/staged-kitchen-island.jpg";
+import materialFinishSamples from "../assets/images/process/material-finish-samples.jpg";
+import cabinetryWorktopDetail from "../assets/images/process/cabinetry-worktop-detail.jpg";
+import whiteDisplayKitchen from "../assets/images/process/white-display-kitchen.jpg";
+import furnishedKitchenDining from "../assets/images/process/furnished-kitchen-dining.jpg";
 
 import BudgetGuide from "../components/sections/BudgetGuide.astro";
 import ProcessSteps from "../components/sections/ProcessSteps.astro";
 import ProjectPreviewGrid from "../components/sections/ProjectPreviewGrid.astro";
+import KitchenMontage from "../components/sections/KitchenMontage.astro";
 import { getCollection } from "astro:content";
 
 const allProjects = await getCollection("projects");
@@ -20,22 +26,41 @@ const steps = [
   {
     title: "Initial conversation",
     body: "Understand your project, priorities, broad budget and what you need from the space.",
+    label: "The starting point",
+    image: stagedKitchenIsland,
+    alt: "Light kitchen interior with a central island and upholstered seating.",
   },
   {
     title: "Visit our showroom",
-    body: "See materials in person and begin shaping the direction.",
+    body: "See materials in person and compare options for your kitchen.",
+    label: "Explore in person",
+    image: materialFinishSamples,
+    alt: "Rows of worktop and finish samples in a materials display.",
+    imagePosition: "center 48%",
   },
   {
     title: "Design & specification",
     body: "Bring layout, cabinetry, finishes and practical details together.",
+    label: "Consider the details",
+    image: cabinetryWorktopDetail,
+    alt: "Dark cabinetry beside a pale worktop and sink.",
+    imagePosition: "62% 80%",
+    imageCrop: "bottom",
   },
   {
     title: "Supply & installation",
     body: "Ordering, scheduling, delivery and fitting through one coordinated plan.",
+    label: "Bring it together",
+    image: whiteDisplayKitchen,
+    alt: "White fitted kitchen display with an integrated oven and worktop.",
   },
   {
     title: "Follow-up & aftercare",
     body: "Resolve final details and provide support after installation.",
+    label: "Life after fitting",
+    image: furnishedKitchenDining,
+    alt: "Furnished kitchen and dining room with flowers on the table.",
+    imagePosition: "center 55%",
   },
 ];
 
@@ -43,7 +68,7 @@ const steps = [
 
 <BaseLayout
   title="Calm, real-life kitchens | Fini’s Kitchens"
-  description="Thoughtful kitchen design, supply and installation for real homes. Clear process, practical guidance and premium results without the showroom pressure."
+  description="Thoughtful kitchen design, supply and installation across East and West Sussex. Practical guidance without the showroom pressure."
   ogImage={heroImage.src}
   headerOverlay
   footerFlush
@@ -56,7 +81,7 @@ const steps = [
         <p class="real-life__eyebrow">Designed for real life</p>
         <h2 id="real-life-title">Your kitchen rarely needs more… just better decisions.</h2>
         <p class="real-life__summary">
-          Kitchen design should start with ordinary life - breakfast, school runs, working, hosting, family meals,
+          Kitchen design should start with ordinary life: breakfast, school runs, working, hosting, family meals,
           storage, movement and the details people often forget to design around.
         </p>
       </header>
@@ -103,6 +128,8 @@ const steps = [
 
   <ProjectPreviewGrid projects={featuredProjects} />
 
+  <KitchenMontage />
+
   <section class="calmer-way" aria-labelledby="calmer-way-title">
     <div class="container calmer-way__layout">
       <header class="calmer-way__intro">
@@ -118,7 +145,7 @@ const steps = [
           <li>Clear next steps from the outset</li>
           <li>Budget and feasibility discussed early</li>
           <li>Design decisions grounded in daily life</li>
-          <li>A joined-up supply and installation journey</li>
+          <li>Supply and installation managed together</li>
         </ul>
 
         <div class="calmer-way__actions">

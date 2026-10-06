@@ -1,14 +1,19 @@
 ---
 // src/pages/process.astro
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { Picture } from "astro:assets";
+import stagedKitchenIsland from "../assets/images/process/staged-kitchen-island.jpg";
+import materialFinishSamples from "../assets/images/process/material-finish-samples.jpg";
+import cabinetryWorktopDetail from "../assets/images/process/cabinetry-worktop-detail.jpg";
+import whiteDisplayKitchen from "../assets/images/process/white-display-kitchen.jpg";
+import furnishedKitchenDining from "../assets/images/process/furnished-kitchen-dining.jpg";
 import FAQList from "../components/sections/FAQList.astro";
-import phWide from "../assets/images/placeholders/kitchen-placeholder-wide-island.png";
 
 const processPromises = [
   {
     title: "Clarity early",
     text:
-      "Likely scope, budget direction and next steps are discussed early, so you know where you stand before the detail begins.",
+      "Likely scope, budget and next steps are discussed early, so you know where you stand before the detail begins.",
   },
   {
     title: "Designed around real life",
@@ -18,7 +23,7 @@ const processPromises = [
   {
     title: "Joined-up delivery",
     text:
-      "Design, supply and installation are treated as one coordinated journey, with practical communication throughout.",
+      "We coordinate design, supply and installation, keeping you informed throughout.",
   },
   {
     title: "Support after fitting",
@@ -29,7 +34,10 @@ const processPromises = [
 
 const stages = [
   {
-    number: "01",
+    label: "The starting point",
+    image: stagedKitchenIsland,
+    alt: "Light kitchen interior with a central island and upholstered seating.",
+    imagePosition: "center",
     title: "Initial conversation",
     intro:
       "We start with a straightforward conversation about your home, your priorities, your broad budget and what you need the kitchen to do better.",
@@ -40,7 +48,10 @@ const stages = [
     ],
   },
   {
-    number: "02",
+    label: "Explore in person",
+    image: materialFinishSamples,
+    alt: "Rows of worktop and finish samples in a materials display.",
+    imagePosition: "center",
     title: "Visit our showroom",
     intro:
       "The showroom gives you a chance to see and handle materials in person, compare options and begin shaping a direction that feels right for your home.",
@@ -51,10 +62,13 @@ const stages = [
     ],
   },
   {
-    number: "03",
+    label: "Consider the details",
+    image: cabinetryWorktopDetail,
+    alt: "Dark cabinetry beside a pale worktop and sink.",
+    imagePosition: "bottom",
     title: "Design & specification",
     intro:
-      "With a clear direction established, the room is properly understood and the design is developed around flow, storage, materials and the way you actually live.",
+      "We survey the room and develop the design around flow, storage, materials and the way you use the kitchen.",
     points: [
       "Survey the room and understand its practical constraints",
       "Shape the layout around movement, preparation, storage and appliances",
@@ -62,7 +76,10 @@ const stages = [
     ],
   },
   {
-    number: "04",
+    label: "Bring it together",
+    image: whiteDisplayKitchen,
+    alt: "White fitted kitchen display with an integrated oven and worktop.",
+    imagePosition: "center",
     title: "Supply & installation",
     intro:
       "Once the design is agreed, ordering, scheduling, delivery and fitting move forward as one coordinated stage with clear communication throughout.",
@@ -73,7 +90,10 @@ const stages = [
     ],
   },
   {
-    number: "05",
+    label: "Life after fitting",
+    image: furnishedKitchenDining,
+    alt: "Furnished kitchen and dining room with flowers on the table.",
+    imagePosition: "center",
     title: "Follow-up & aftercare",
     intro:
       "The relationship does not stop when the fitting finishes. Final details are checked, questions are resolved and support remains available afterwards.",
@@ -89,7 +109,7 @@ const faqs = [
   {
     question: "How much should we budget before speaking to you?",
     answer:
-      "A rough figure is enough to start. The aim is not to force precision too early, but to understand the kind of project you are considering and give useful guidance as the brief becomes clearer.",
+      "A rough figure is enough to start. We’ll talk through the project you have in mind and give more detailed guidance as the plans develop.",
   },
   {
     question: "How long does the full process usually take?",
@@ -99,25 +119,25 @@ const faqs = [
   {
     question: "Will we be pushed into decisions quickly?",
     answer:
-      "No. The process is intended to feel calm and clear. Important decisions are made in sequence, with sensible guidance, rather than being rushed through in a sales-led way.",
+      "No. We’ll help you work through the important decisions in order, without pressure to rush.",
   },
   {
     question: "Do you handle installation as well as design?",
     answer:
-      "Yes. Fini’s Kitchens offers a joined-up design, supply and installation service so the project feels more coordinated from start to finish.",
+      "Yes. Fini’s Kitchens offers a joined-up design, supply and installation service so the project is coordinated from start to finish.",
   },
   {
     question: "Is this only for very large or high-end projects?",
     answer:
-      "No. The focus is on thoughtful, well-planned kitchens for real homes. Quality matters, but so does practicality, clarity and making the room work properly for everyday life.",
+      "No. The focus is on thoughtful, well-planned kitchens for real homes. Quality matters, but so do practicality, clarity and making the room work properly for everyday life.",
   },
 ];
 ---
 
 <BaseLayout
   title="Our process | Fini’s Kitchens"
-  description="A calm, clear kitchen process from first conversation to aftercare. Thoughtful design, practical guidance and joined-up installation for real homes."
-  ogImage={phWide.src}
+  description="How Fini’s Kitchens handles kitchen design, supply, installation and aftercare. Practical guidance and early budget advice for homes across Sussex."
+  ogImage="/images/og/finis-kitchens-process.jpg"
 >
   <section class="process-page-hero">
     <div class="container process-page-hero__layout">
@@ -125,7 +145,7 @@ const faqs = [
         <p class="process-page-hero__eyebrow">How it works</p>
         <h1>A clear kitchen process from first conversation to aftercare.</h1>
         <p class="process-page-hero__summary">
-          The right decisions, in the right order - with practical guidance, early budget conversations
+          The right decisions, in the right order, with practical guidance, early budget conversations
           and a joined-up route from design through installation and aftercare.
         </p>
 
@@ -136,7 +156,7 @@ const faqs = [
       </div>
 
       <aside class="process-page-hero__guide" aria-label="What you can expect from the process">
-        <p class="process-page-hero__guide-label">Throughout the journey</p>
+        <p class="process-page-hero__guide-label">Throughout the project</p>
         <ul>
           <li>Budget and feasibility discussed early</li>
           <li>Design grounded in the way you actually live</li>
@@ -162,12 +182,21 @@ const faqs = [
         </p>
       </header>
 
-      <ol class="process-journey__list">
-        {stages.map((stage) => (
-          <li class="process-journey__stage">
-            <p class="process-journey__number" aria-hidden="true">{stage.number}</p>
-
-            <h3>{stage.title}</h3>
+      <ol class="process-journey__list" data-motion-journey role="list">
+        {stages.map((stage, index) => (
+          <li class="process-journey__stage" data-process-row>
+            <span class="process-journey__rule" aria-hidden="true" data-process-rule></span>
+            <div class="process-journey__heading">
+              <p class="process-journey__number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</p>
+              <p class="process-journey__label">{stage.label}</p>
+              <h3>{stage.title}</h3>
+              <div class="process-journey__photo" data-motion-image>
+                <Picture src={stage.image} alt={stage.alt} formats={["avif", "webp"]}
+                  width={960} height={640} widths={[320, 480, 720, 960]}
+                  sizes="(min-width: 80rem) 440px, (min-width: 48rem) 35vw, calc(100vw - 4rem)"
+                  fit="cover" position={stage.imagePosition} loading="lazy" decoding="async" />
+              </div>
+            </div>
 
             <div class="process-journey__detail">
               <p class="process-journey__stage-intro">{stage.intro}</p>
@@ -194,16 +223,13 @@ const faqs = [
 
         <p class="process-reassurance__summary">
           You should always understand what is being decided, why it matters and what happens next.
-          The process is designed to keep the project practical, considered and easier to trust.
+          We explain the options and help you make practical choices.
         </p>
       </header>
 
       <div class="process-reassurance__grid">
-        {processPromises.map((item, index) => (
+        {processPromises.map((item) => (
           <article class="process-reassurance__item">
-            <p class="process-reassurance__number" aria-hidden="true">
-              {String(index + 1).padStart(2, "0")}
-            </p>
             <h3>{item.title}</h3>
             <p>{item.text}</p>
           </article>
@@ -376,34 +402,63 @@ const faqs = [
   }
 
   .process-journey__list {
-    padding: 0;
+    padding: 0 0 0 clamp(1.5rem, 3vw, 2rem);
     margin: 0;
     list-style: none;
-    border-top: var(--border-1) solid var(--c-rule-blue);
+    border-left: var(--border-1) solid var(--c-rule-blue);
   }
 
   .process-journey__stage {
+    position: relative;
     display: grid;
     gap: var(--space-5);
     padding-block: clamp(2rem, 4vw, 3.25rem);
     border-bottom: var(--border-1) solid var(--c-rule-blue);
   }
 
-  .process-journey__number {
+  .process-journey__stage:first-child {
+    padding-top: 0;
+  }
+
+  .process-journey__stage:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .process-journey__stage::before {
+    content: "";
+    position: absolute;
+    top: clamp(2.3rem, 4vw, 3.55rem);
+    left: calc(-1 * clamp(1.5rem, 3vw, 2rem) - 0.36rem);
+    width: 0.68rem;
+    height: 0.68rem;
+    border-radius: 50%;
+    background: var(--c-blue-muted);
+    box-shadow: 0 0 0 4px var(--c-paper);
+  }
+
+  .process-journey__stage:first-child::before {
+    top: 0.28rem;
+  }
+
+  .process-journey__label {
+    margin-bottom: var(--space-3);
     color: var(--c-blue);
-    font-size: clamp(2.2rem, 3.4vw, 3.25rem);
-    font-weight: 580;
-    line-height: 0.9;
-    letter-spacing: -0.05em;
+    font-size: var(--eyebrow-size);
+    font-weight: var(--eyebrow-weight);
+    line-height: var(--eyebrow-line-height);
+    letter-spacing: var(--eyebrow-tracking);
+    text-transform: uppercase;
   }
 
   .process-journey__stage h3 {
     max-width: 16ch;
     color: var(--c-ink);
-    font-size: clamp(1.55rem, 2.5vw, 2.35rem);
-    font-weight: 580;
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 3vw, 2.75rem);
+    font-weight: 450;
     line-height: 1.04;
-    letter-spacing: -0.035em;
+    letter-spacing: -0.025em;
   }
 
   .process-journey__detail {
@@ -483,14 +538,6 @@ const faqs = [
   .process-reassurance__item {
     padding-block: clamp(1.75rem, 3vw, 2.5rem);
     border-bottom: var(--border-1) solid var(--c-rule-on-dark);
-  }
-
-  .process-reassurance__number {
-    margin-bottom: var(--space-5);
-    color: var(--c-blue-pale);
-    font-size: var(--fs--1);
-    font-weight: 650;
-    letter-spacing: 0.12em;
   }
 
   .process-reassurance__item h3 {
@@ -577,12 +624,8 @@ const faqs = [
     }
 
     .process-journey__stage {
-      grid-template-columns: minmax(3.5rem, 0.16fr) minmax(0, 1fr);
+      grid-template-columns: minmax(12rem, 0.8fr) minmax(0, 1.2fr);
       column-gap: clamp(1.75rem, 4vw, 3rem);
-    }
-
-    .process-journey__detail {
-      grid-column: 2;
     }
 
     .process-reassurance__grid {
@@ -609,16 +652,9 @@ const faqs = [
     }
 
     .process-journey__stage {
-      grid-template-columns:
-        minmax(3.5rem, 0.18fr)
-        minmax(13rem, 0.62fr)
-        minmax(0, 1.2fr);
+      grid-template-columns: minmax(13rem, 0.8fr) minmax(0, 1.2fr);
       gap: clamp(2rem, 4vw, 4.5rem);
       align-items: start;
-    }
-
-    .process-journey__detail {
-      grid-column: auto;
     }
 
     .process-closing__frame {
@@ -645,5 +681,23 @@ const faqs = [
       padding-right: 0;
       border-right: 0;
     }
+  }
+  .process-journey__number { margin-bottom: 0.85rem; color: var(--c-blue); font-size: 1.5rem; line-height: 1; }
+  .process-journey__photo { margin-top: 1.75rem; aspect-ratio: 3 / 2; overflow: hidden; background: var(--c-canvas-warm); }
+  .process-journey__photo :global(picture), .process-journey__photo :global(img) { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .process-journey__rule { position: absolute; right: 0; bottom: -1px; left: 0; height: 1px; background: var(--c-blue-muted); transform-origin: left; }
+  .process-journey__stage:last-child .process-journey__rule { display: none; }
+  .process-journey__stage.is-current::before, .process-journey__stage.is-complete::before { background: var(--c-blue); }
+  .process-journey__stage.is-current .process-journey__number { color: var(--c-ink); }
+  .process-journey__stage.is-complete .process-journey__rule { background: var(--c-blue); }
+  .process-journey__stage.is-seen .process-journey__number,
+  .process-journey__stage.is-seen h3,
+  .process-journey__stage.is-seen .process-journey__stage-intro { animation: motion-resolve var(--dur-narrative) var(--ease-out) both; }
+  .process-journey__stage.is-seen h3 { animation-delay: 60ms; }
+  .process-journey__stage.is-seen .process-journey__stage-intro { animation-delay: 120ms; }
+  @media (prefers-reduced-motion: reduce) {
+    .process-journey__stage.is-seen .process-journey__number,
+    .process-journey__stage.is-seen h3,
+    .process-journey__stage.is-seen .process-journey__stage-intro { animation: none; }
   }
 </style>

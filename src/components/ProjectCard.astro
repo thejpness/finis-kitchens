@@ -54,7 +54,7 @@ const title = data.title ?? "Untitled project";
     data-style={styleKey}
     data-search={searchText}
   >
-    <div class="project-card__media media media--4x3">
+    <div class="project-card__media media media--4x3" data-motion-image>
       <Picture
         src={hero}
         alt={alt}
@@ -117,12 +117,6 @@ const title = data.title ?? "Untitled project";
       background var(--dur-2) var(--ease-out);
   }
 
-  .project-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-3);
-    border-color: color-mix(in srgb, var(--c-brand-300) 48%, var(--c-border));
-  }
-
   .project-card:focus-visible {
     box-shadow:
       0 0 0 3px rgba(157, 184, 233, 0.24),
@@ -137,16 +131,21 @@ const title = data.title ?? "Untitled project";
     background: var(--c-surface-2);
   }
 
-  .project-card__media :global(img),
-  .project-card__media :global(picture) {
-    transition:
-      transform 420ms var(--ease-out),
-      filter 220ms var(--ease-out);
+  .project-card__media :global(img) {
+    transition: transform 420ms var(--ease-out);
   }
 
-  .project-card:hover .project-card__media :global(img),
-  .project-card:hover .project-card__media :global(picture) {
-    transform: scale(1.03);
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .project-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-3);
+      border-color: color-mix(in srgb, var(--c-brand-300) 48%, var(--c-border));
+    }
+
+    .project-card:hover .project-card__media :global(img),
+    .project-card:focus-visible .project-card__media :global(img) {
+      transform: scale(1.03);
+    }
   }
 
   .project-card__media-overlay {
@@ -220,7 +219,8 @@ const title = data.title ?? "Untitled project";
       gap var(--dur-2) var(--ease-out);
   }
 
-  .project-card:hover .project-card__cta {
+  .project-card:hover .project-card__cta,
+  .project-card:focus-visible .project-card__cta {
     color: var(--c-link-hover);
     gap: 0.65rem;
   }
@@ -229,7 +229,8 @@ const title = data.title ?? "Untitled project";
     transition: transform var(--dur-2) var(--ease-out);
   }
 
-  .project-card:hover .project-card__arrow {
+  .project-card:hover .project-card__arrow,
+  .project-card:focus-visible .project-card__arrow {
     transform: translateX(2px);
   }
 

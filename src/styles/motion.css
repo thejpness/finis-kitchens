@@ -1,0 +1,17 @@
+/* Narrative copy never becomes invisible; ordinary paragraphs stay still. */
+@keyframes motion-resolve {
+  from { opacity: 0.82; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (hover: none) and (prefers-reduced-motion: no-preference) {
+  .home-hero__scroll::after { transform: scaleX(1); opacity: 0.6; }
+  .project-card__cta { color: var(--c-blue); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-motion-image], [data-story-photo] { clip-path: none !important; }
+  [data-motion-image] img,
+  [data-story-photo] img,
+  .home-hero__image { transform: none !important; }
+}

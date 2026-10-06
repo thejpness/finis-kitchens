@@ -240,7 +240,9 @@
     color: var(--c-on-accent);
   }
 
-  .btn--primary:hover {
+  .btn--primary:hover,
+  .btn--primary:focus-visible,
+  .btn--primary:active {
     background: var(--c-accent-strong);
   }
 
@@ -252,7 +254,11 @@
   }
 
   .btn--secondary:hover,
-  .btn--ghost:hover {
+  .btn--ghost:hover,
+  .btn--secondary:focus-visible,
+  .btn--ghost:focus-visible,
+  .btn--secondary:active,
+  .btn--ghost:active {
     background: var(--c-surface-2);
     border-color: var(--c-text-muted);
   }
@@ -262,7 +268,9 @@
     color: var(--c-brand-900);
   }
 
-  .btn--accent:hover {
+  .btn--accent:hover,
+  .btn--accent:focus-visible,
+  .btn--accent:active {
     background: var(--c-brand-300);
   }
 
@@ -279,7 +287,8 @@
     text-underline-offset: 0.18em;
   }
 
-  .text-link:hover {
+  .text-link:hover,
+  .text-link:focus-visible {
     color: var(--c-link-hover);
     text-decoration-thickness: 2px;
   }
@@ -301,7 +310,8 @@
     transition: width var(--dur-2) var(--ease-out);
   }
 
-  .link:hover::after {
+  .link:hover::after,
+  .link:focus-visible::after {
     width: 100%;
   }
 

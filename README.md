@@ -4,6 +4,21 @@ Website and enquiry platform for **Fini's Kitchens**.
 
 The application is built with Astro and deployed through Docker, with nginx serving the generated frontend, Traefik providing external routing, and separate Go services handling contact-form enquiries and Turnstile validation.
 
+## v1.3.0 — Motion & interaction system
+
+Introduces a new responsive motion system, including the homepage frosted-glass arrival,
+scroll-linked hero reveal, animated process journeys and improved mobile interaction parity.
+The photographic process chapters and Kitchen Montage form part of this same release.
+The blue kitchen clears during the first 20–22% of hero travel. Selected editorial
+photography shares a restrained mask reveal and scale settle. Reduced
+motion and JavaScript-disabled visitors receive complete, readable content and navigation.
+
+Application release naming is documented here; the npm package retains its existing
+`0.0.1` starter version. This repository has no existing package-based application release
+or changelog mechanism.
+
+See [motion architecture, audit findings and release validation](docs/motion-system.md).
+
 ## Technology
 
 * Astro

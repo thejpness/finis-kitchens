@@ -67,8 +67,7 @@ const contactActive = isActive("/contact");
       id="primary-nav"
       class="site-nav"
       aria-label="Primary navigation"
-      aria-hidden="true"
-      hidden
+      aria-hidden="false"
       data-nav
     >
       <div class="site-nav__panel">
@@ -120,6 +119,7 @@ const contactActive = isActive("/contact");
       const btn = header.querySelector("[data-nav-toggle]");
       const navLabel = header.querySelector("[data-nav-label]");
       if (!(nav instanceof HTMLElement) || !(btn instanceof HTMLButtonElement)) return;
+      header.classList.add("nav-ready");
 
       const mq = window.matchMedia("(min-width: 960px)");
       let lastFocused = null;
@@ -317,6 +317,67 @@ const contactActive = isActive("/contact");
     display: none !important;
   }
 
+  /* The normal links are the fallback. JavaScript adds the mobile dialog
+     behaviour only after it has the elements it needs. */
+  .site-header:not(.nav-ready) .site-nav__toggle {
+    display: none;
+  }
+
+  .site-header.site-header--hero:not(.nav-ready) {
+    background: var(--c-navy);
+  }
+
+  :global(.site-header:not(.nav-ready) + main .home-hero) {
+    margin-top: 0;
+  }
+
+  @media (max-width: 959px) {
+    .site-header:not(.nav-ready) {
+      position: relative;
+    }
+
+    .site-header:not(.nav-ready) .site-nav {
+      position: static;
+      grid-column: 1 / -1;
+      display: block;
+      padding: 0;
+      opacity: 1;
+      pointer-events: auto;
+      background: transparent;
+    }
+
+    .site-header:not(.nav-ready) .site-nav__panel {
+      display: block;
+      width: 100%;
+      min-height: 0;
+      padding: 0;
+      opacity: 1;
+      transform: none;
+      pointer-events: auto;
+    }
+
+    .site-header:not(.nav-ready) .site-nav__meta,
+    .site-header:not(.nav-ready) .site-nav__note {
+      display: none;
+    }
+
+    .site-header:not(.nav-ready) .site-nav__list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1rem;
+    }
+
+    .site-header:not(.nav-ready) .site-nav__link {
+      min-height: 2.75rem;
+      padding: 0.5rem 0;
+      font-size: 1rem;
+    }
+
+    .site-header:not(.nav-ready) .site-nav__footer {
+      padding: 0.5rem 0;
+    }
+  }
+
   .site-header {
     position: sticky;
     top: 0;
@@ -408,11 +469,8 @@ const contactActive = isActive("/contact");
     align-items: center;
     gap: var(--space-4);
     padding-block: 0.85rem;
-    transition: padding var(--dur-2) var(--ease-out);
-  }
-
-  .site-header.is-compact .site-header__inner {
-    padding-block: 0.6rem;
+    /* Keep header geometry stable while its colour/brand state changes.
+       Changing padding on scroll moves every downstream trigger and anchor. */
   }
 
   .site-header__brand {

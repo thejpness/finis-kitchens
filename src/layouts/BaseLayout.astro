@@ -3,6 +3,7 @@
 import "../styles/tokens.css";
 import "../styles/base.css";
 import "../styles/components.css";
+import "../styles/motion.css";
 
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
@@ -18,8 +19,8 @@ interface Props {
 
 const {
   title = "Fini's Kitchens | Thoughtful Kitchen Design for Real Homes",
-  description = "Fini's Kitchens designs and installs beautifully functional kitchens for real homes in and around Horsham.",
-  ogImage = "/images/hero/default-hero.jpg",
+  description = "Fini's Kitchens designs and installs beautifully functional kitchens for real homes across East and West Sussex.",
+  ogImage = "/images/og/finis-kitchens-og.jpg",
   noindex = false,
   headerOverlay = false,
   footerFlush = false,
@@ -54,8 +55,12 @@ const businessSchema = {
   priceRange: "£££",
   areaServed: [
     {
-      "@type": "Place",
-      name: "Horsham and surrounding areas",
+      "@type": "AdministrativeArea",
+      name: "East Sussex",
+    },
+    {
+      "@type": "AdministrativeArea",
+      name: "West Sussex",
     },
   ],
   serviceType: [
@@ -128,5 +133,14 @@ const businessSchema = {
     </main>
 
     <Footer flushTop={footerFlush} />
+    <script>
+      const root = document.querySelector<HTMLElement>("main");
+      if (root?.querySelector("[data-motion-hero], [data-motion-story], [data-motion-montage], [data-motion-journey], [data-motion-image]")) {
+        import("../scripts/motion").then(({ startMotion }) => startMotion(root)).catch((error) => {
+          // The server-rendered page is already the complete, visible fallback.
+          console.warn("Motion enhancement unavailable", error);
+        });
+      }
+    </script>
   </body>
 </html>

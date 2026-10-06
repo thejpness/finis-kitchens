@@ -30,13 +30,13 @@ const description = featuredProject?.data.description ?? "A completed Fini’s K
   <div class="container project-preview__frame">
     <header class="project-preview__intro">
       <p class="project-preview__eyebrow">Real-life kitchens</p>
-      <h2 id="projects-preview-title">See how thoughtful design comes to life in real homes.</h2>
+      <h2 id="projects-preview-title">See practical kitchen design in our finished projects.</h2>
     </header>
 
     {
       featuredProject && href && (
         <article class="project-feature">
-          <div class="project-feature__image">
+          <div class="project-feature__image" data-motion-image>
             <Image
               src={image}
               alt=""
@@ -175,7 +175,9 @@ const description = featuredProject?.data.description ?? "A completed Fini’s K
   }
 
   .project-feature__link:hover span:last-child,
-  .project-preview__all-link:hover span:last-child {
+  .project-preview__all-link:hover span:last-child,
+  .project-feature__link:focus-visible span:last-child,
+  .project-preview__all-link:focus-visible span:last-child {
     transform: translateX(0.2rem);
   }
 
