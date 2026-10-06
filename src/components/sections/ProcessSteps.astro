@@ -9,401 +9,326 @@ interface Step {
   image: ImageMetadata;
   alt: string;
   imagePosition?: string;
+  imageCrop?: string;
 }
-
-interface Props {
-  steps: Step[];
-}
-
+interface Props { steps: Step[]; }
 const { steps = [] } = Astro.props;
 ---
 
-<section class="process-teaser" aria-labelledby="process-teaser-title">
-  <div class="container process-teaser__frame">
-    <header class="process-teaser__intro">
+<section class="process-story" aria-labelledby="process-story-title" data-process-story>
+  <header class="process-story__intro">
+    <div class="container process-story__intro-grid">
       <div>
-        <p class="process-teaser__eyebrow">How it works</p>
-        <h2 id="process-teaser-title">A clear path from first conversation to finished kitchen.</h2>
+        <p class="process-story__eyebrow">The making of your kitchen</p>
+        <h2 id="process-story-title">From the first idea<br />to <em>everyday life.</em></h2>
       </div>
-      <p class="process-teaser__summary">
-        Five straightforward stages, with clear decisions and guidance at each step.
+      <p class="process-story__summary">
+        A clear path from first conversation to finished kitchen.
+        Five thoughtful stages, with guidance at every step.
       </p>
-    </header>
+    </div>
+  </header>
 
-    <ol class="process-journey-preview">
+  <div class="container process-story__journey">
+    <!-- Empty until enhancement is ready. The original photographs live in the ol. -->
+    <div class="process-story__canvas-track" aria-hidden="true">
+      <div class="process-story__canvas">
+        <div class="process-story__layers"></div>
+        <p class="process-story__canvas-note">Thoughtfully considered. Beautifully lived in.</p>
+      </div>
+    </div>
+    <div class="process-story__thread" aria-hidden="true"><span></span></div>
+    <ol class="process-story__chapters" role="list">
       {steps.map((step) => (
-        <li class="process-journey-preview__stage">
-          <div class="process-journey-preview__media" style={{ "--image-position": step.imagePosition ?? "center" }}>
+        <li class="process-story__chapter">
+          <div class="process-story__photo" style={{ "--image-position": step.imagePosition ?? "center" }}>
             <Picture
               src={step.image}
               alt={step.alt}
               formats={["avif", "webp"]}
-              widths={[360, 560, 760, 1000]}
-              sizes="(min-width: 48rem) min(44vw, 35rem), calc(100vw - 4.5rem)"
+              width={1280}
+              height={1085}
+              fit="cover"
+              position={step.imageCrop ?? "center"}
+              widths={[400, 640, 960, 1280]}
+              sizes="(min-width: 80rem) 650px, (min-width: 68rem) 52vw, (min-width: 48rem) 50vw, calc(100vw - 2rem)"
               loading="lazy"
               decoding="async"
             />
+            <span class="process-story__edge-haze" aria-hidden="true"></span>
+            <span class="process-story__veil" aria-hidden="true"></span>
           </div>
-          <div class="process-journey-preview__copy">
-            <p class="process-journey-preview__label">{step.label}</p>
+          <div class="process-story__copy">
+            <p class="process-story__label">{step.label}</p>
             <h3>{step.title}</h3>
-            <p class="process-journey-preview__body">{step.body}</p>
+            <p class="process-story__body">{step.body}</p>
           </div>
-          <span class="process-journey-preview__connector" aria-hidden="true"></span>
         </li>
       ))}
     </ol>
+  </div>
 
-    <a class="process-teaser__link" href="/process">
-      <span>See the full process</span>
-      <span aria-hidden="true">→</span>
+  <div class="container process-story__outro">
+    <p>Made for the life you live.</p>
+    <a class="process-story__link" href="/process">
+      <span>See the full process</span><span aria-hidden="true">↗</span>
     </a>
   </div>
 </section>
 
 <script>
-  const section = document.querySelector<HTMLElement>(".process-teaser");
-  if (section && "IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    const observer = new IntersectionObserver((entries) => {
-      for (const entry of entries) {
-        if (!entry.isIntersecting) continue;
-        entry.target.classList.add("is-visible");
-        observer.unobserve(entry.target);
-      }
-    }, { threshold: 0.3, rootMargin: "0px 0px -30% 0px" });
+  // This small gate is the only process code on the initial homepage path.
+  // Narrow screens and reduced-motion users never request the GSAP chunk.
+  const eligibility = window.matchMedia("(min-width: 68rem) and (min-height: 38rem) and (prefers-reduced-motion: no-preference)");
+  let teardown: (() => void) | undefined;
 
-    section.querySelectorAll(".process-journey-preview__stage").forEach((stage) => observer.observe(stage));
+  function watchProcess() {
+    teardown?.();
+    const section = document.querySelector<HTMLElement>("[data-process-story]");
+    if (!section || !("IntersectionObserver" in window)) return;
+    const controller = new AbortController();
+    let near = false;
+    let requested = false;
+    let disposeMotion: (() => void) | undefined;
+    const load = async () => {
+      if (!near || !eligibility.matches || requested) return;
+      requested = true;
+      try {
+        const { initProcessStory } = await import("../../scripts/process-story");
+        if (!controller.signal.aborted) {
+          disposeMotion = await initProcessStory(section, controller.signal);
+        }
+      } catch {
+        // Import/image failure retains the complete, visible editorial layout.
+        requested = false;
+      }
+    };
+    const observer = new IntersectionObserver(([entry]) => {
+      near = entry.isIntersecting;
+      if (near) void load();
+    }, { rootMargin: "600px 0px" });
+    observer.observe(section);
+    eligibility.addEventListener("change", load);
+    teardown = () => {
+      controller.abort();
+      observer.disconnect();
+      eligibility.removeEventListener("change", load);
+      disposeMotion?.();
+    };
   }
+  watchProcess();
+  window.addEventListener("pagehide", () => teardown?.());
+  window.addEventListener("pageshow", (event) => { if (event.persisted) watchProcess(); });
+  document.addEventListener("astro:before-swap", () => teardown?.());
+  document.addEventListener("astro:page-load", watchProcess);
 </script>
 
 <style>
-  .process-teaser {
-    padding-block: var(--home-section-y-tight);
+  .process-story {
+    --photo-share: 56%;
+    --chapter-space: clamp(3rem, 6vw, 5rem);
     background: var(--c-paper);
+    color: var(--c-navy);
+    scroll-margin-top: 5rem;
   }
-
-  .process-teaser__frame {
-    display: grid;
-    gap: var(--home-layout-gap-tight);
+  .process-story__intro {
+    padding-block: clamp(3.5rem, 6vw, 5.5rem) clamp(5.5rem, 8vw, 8rem);
+    color: var(--c-paper);
+    background: var(--c-navy);
   }
-
-  .process-teaser__intro {
-    display: grid;
-    gap: var(--space-6);
-    align-items: end;
-  }
-
-  .process-teaser__eyebrow {
-    margin-bottom: var(--space-4);
-    color: var(--c-blue);
+  .process-story__intro-grid { display: grid; gap: 1.75rem; }
+  .process-story__eyebrow,
+  .process-story__label {
     font-size: var(--eyebrow-size);
     font-weight: var(--eyebrow-weight);
     letter-spacing: var(--eyebrow-tracking);
+    line-height: 1.3;
     text-transform: uppercase;
-    line-height: var(--eyebrow-line-height);
   }
-
-  .process-teaser__intro h2 {
-    max-width: 14ch;
-    color: var(--c-ink);
-    font-size: clamp(2.35rem, 4.4vw, 4.35rem);
-    font-weight: 580;
-    line-height: 0.98;
-    letter-spacing: -0.045em;
+  .process-story__eyebrow { margin-bottom: 1.5rem; color: var(--c-blue-pale); }
+  .process-story__intro h2 {
+    max-width: 20ch;
+    font-family: var(--font-display);
+    font-size: clamp(2.75rem, 5.25vw, 4.8rem);
+    font-weight: 450;
+    line-height: 1.04;
+    letter-spacing: -0.035em;
+    text-wrap: initial;
   }
-
-  .process-teaser__summary {
-    max-width: 33ch;
-    color: var(--c-navy);
-    font-size: var(--fs-2);
-    line-height: var(--lh-snug);
+  .process-story__intro h2 em { color: var(--c-blue-pale); font-weight: inherit; }
+  .process-story__summary {
+    max-width: 29ch;
+    color: var(--c-brand-100);
+    font-size: clamp(1rem, 1.25vw, 1.125rem);
+    line-height: 1.65;
   }
-
-  .process-journey-preview {
-    --stage-gap: clamp(2rem, 4vw, 3.5rem);
-    position: relative;
-    display: grid;
-    gap: var(--stage-gap);
-    padding: 0 0 0 1.75rem;
-    margin: 0;
-    list-style: none;
-  }
-
-  .process-journey-preview::before {
-    content: "";
-    position: absolute;
-    top: 0.75rem;
-    bottom: 0.75rem;
-    left: 0.37rem;
-    width: 1px;
-    background: var(--c-rule-blue);
-  }
-
-  .process-journey-preview__stage {
-    position: relative;
-    display: grid;
-    gap: var(--space-5);
-    min-width: 0;
-  }
-
-  .process-journey-preview__stage::before {
-    content: "";
-    position: absolute;
-    top: 0.65rem;
-    left: -1.74rem;
-    width: 0.7rem;
-    height: 0.7rem;
-    border: 1px solid var(--c-blue-muted);
-    border-radius: 50%;
-    background: var(--c-paper);
-    box-shadow: 0 0 0 4px var(--c-paper);
-  }
-
-  .process-journey-preview__connector {
-    position: absolute;
-    z-index: 1;
-    top: 100%;
-    left: -1.76rem;
-    width: 0.75rem;
-    height: var(--stage-gap);
-    transform-origin: top;
-    transform: scaleY(0);
-  }
-
-  .process-journey-preview__stage:last-child .process-journey-preview__connector {
-    display: none;
-  }
-
-  .process-journey-preview__connector::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0.33rem;
-    left: 50%;
-    width: 1px;
-    background: var(--c-blue-muted);
-  }
-
-  .process-journey-preview__connector::after {
-    content: "";
-    position: absolute;
-    bottom: 0.2rem;
-    left: calc(50% - 0.13rem);
-    width: 0.27rem;
-    height: 0.27rem;
-    border-right: 1px solid var(--c-blue-muted);
-    border-bottom: 1px solid var(--c-blue-muted);
-    transform: rotate(45deg);
-  }
-
-  .process-journey-preview__media {
+  .process-story__journey { position: relative; margin-top: -3rem; }
+  .process-story__canvas-track,
+  .process-story__thread { display: none; }
+  .process-story__chapters { list-style: none; padding: 0; margin: 0; }
+  .process-story__chapter { min-width: 0; margin-bottom: var(--chapter-space); }
+  .process-story__photo {
     position: relative;
     isolation: isolate;
-    height: clamp(12.5rem, 50vw, 16rem);
-    min-width: 0;
+    aspect-ratio: 4 / 3;
     overflow: hidden;
     background: var(--c-canvas-warm);
   }
-
-  .process-journey-preview__media::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-    background: rgba(255, 253, 252, 0.88);
-    transform: translateX(-101%);
+  .process-story__photo :global(picture),
+  .process-story__photo :global(img) { display: block; width: 100%; height: 100%; }
+  .process-story__photo :global(img) { object-fit: cover; object-position: var(--image-position); }
+  .process-story__edge-haze,
+  .process-story__veil { position: absolute; inset: 0; pointer-events: none; }
+  .process-story__edge-haze {
+    background:
+      linear-gradient(90deg, var(--c-paper), transparent 18%, transparent 86%, var(--c-brand-100)),
+      linear-gradient(0deg, var(--c-paper), transparent 24%, transparent 90%, var(--c-paper));
+    opacity: 0.16;
   }
-
-  .process-journey-preview__stage:nth-child(even) .process-journey-preview__media::after {
-    transform: translateX(101%);
+  .process-story__veil {
+    background:
+      radial-gradient(ellipse at 25% 30%, var(--c-paper), transparent 72%),
+      linear-gradient(130deg, var(--c-canvas-warm), var(--c-brand-100));
+    opacity: 0;
   }
-
-  .process-journey-preview__media :global(picture),
-  .process-journey-preview__media :global(img) {
-    display: block;
-    width: 100%;
-    height: 100%;
-  }
-
-  .process-journey-preview__media :global(img) {
-    object-fit: cover;
-    object-position: var(--image-position);
-  }
-
-  .process-journey-preview__copy {
-    align-self: center;
-    min-width: 0;
-    padding-block: var(--space-2);
-  }
-
-  .process-journey-preview__label {
-    margin-bottom: var(--space-3);
+  .process-story__copy { padding: 1.75rem 0 0 1.25rem; }
+  .process-story__label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
     color: var(--c-blue);
-    font-size: var(--eyebrow-size);
-    font-weight: var(--eyebrow-weight);
-    letter-spacing: var(--eyebrow-tracking);
-    line-height: var(--eyebrow-line-height);
-    text-transform: uppercase;
   }
-
-  .process-journey-preview__copy h3 {
+  .process-story__label::before { content: ""; flex: 0 0 1.5rem; height: 1px; background: var(--c-blue-muted); }
+  .process-story__copy h3 {
     max-width: 18ch;
-    color: var(--c-ink);
     font-family: var(--font-display);
-    font-size: clamp(1.8rem, 3vw, 2.75rem);
+    font-size: clamp(2rem, 3.1vw, 3rem);
     font-weight: 450;
-    line-height: 1.04;
+    letter-spacing: -0.03em;
+    line-height: 1.08;
+    text-wrap: initial;
+  }
+  .process-story__body {
+    max-width: 32ch;
+    margin-top: 1.25rem;
+    color: var(--c-navy);
+    font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+    line-height: 1.7;
+  }
+  .process-story__chapter:nth-child(2) .process-story__photo { margin-left: 1.25rem; aspect-ratio: 1.12; }
+  .process-story__chapter:nth-child(3) .process-story__photo { margin-right: 1.25rem; }
+  .process-story__chapter:last-child .process-story__photo { aspect-ratio: 1.15; }
+  .process-story__outro {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-block: 0.5rem var(--home-section-y-tight);
+  }
+  .process-story__outro > p {
+    font-family: var(--font-display);
+    font-size: clamp(1.65rem, 2.5vw, 2.25rem);
+    font-style: italic;
+    font-weight: 400;
     letter-spacing: -0.025em;
   }
+  .process-story__link { display: inline-flex; gap: 1.5rem; align-items: center; font-size: var(--fs-0); font-weight: 600; }
+  .process-story__link span:first-child { border-bottom: 1px solid var(--c-blue-muted); padding-bottom: 0.2rem; }
+  .process-story__link span:last-child { font-size: 1.5rem; }
+  .process-story__link:hover { color: var(--c-blue); }
+  .process-story__link:focus-visible { outline-offset: 6px; }
 
-  .process-journey-preview__body {
-    max-width: 38ch;
-    margin-top: var(--space-4);
-    color: var(--c-text-muted);
-    font-size: clamp(0.94rem, 1.2vw, 1.06rem);
-    line-height: 1.55;
-  }
-
-  .process-teaser__link {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-3);
-    width: fit-content;
-    color: var(--c-navy);
-    font-size: var(--fs-0);
-    font-weight: 650;
-    text-decoration: none;
-  }
-
-  .process-teaser__link span:first-child {
-    padding-bottom: 0.16rem;
-    border-bottom: 1px solid currentColor;
-  }
-
-  .process-teaser__link span:last-child {
-    transition: transform var(--dur-2) var(--ease-out);
-  }
-
-  .process-teaser__link:hover span:last-child {
-    transform: translateX(0.2rem);
-  }
-
-  .process-teaser__link:focus-visible {
-    outline-color: var(--c-blue);
-    outline-offset: 5px;
+  @media (max-width: 47.99rem) {
+    .process-story__intro h2 { font-size: clamp(2.35rem, 11.7vw, 3.25rem); }
   }
 
   @media (min-width: 48rem) {
-    .process-teaser__intro {
-      grid-template-columns: minmax(0, 1.15fr) minmax(16rem, 0.85fr);
-    }
-
-    .process-journey-preview {
-      --stage-gap: clamp(1.5rem, 3vw, 2.5rem);
-      padding: 0;
-    }
-
-    .process-journey-preview::before {
-      top: 0;
-      bottom: 0;
-      left: 50%;
-    }
-
-    .process-journey-preview__stage {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: clamp(3rem, 7vw, 7rem);
+    .process-story__intro-grid { grid-template-columns: 1.6fr 1fr; align-items: end; gap: 3rem; }
+    .process-story__summary { padding-bottom: 0.5rem; }
+    .process-story__chapter {
+      display: grid;
+      grid-template-columns: 1.12fr 0.88fr;
+      gap: clamp(2rem, 5vw, 4rem);
       align-items: center;
     }
+    .process-story__photo { aspect-ratio: 1.12; }
+    .process-story__copy { padding: 1rem 0; }
+    .process-story__chapter:nth-child(2) .process-story__photo,
+    .process-story__chapter:nth-child(3) .process-story__photo { margin: 0; }
+    .process-story__chapter:nth-child(even) { grid-template-columns: 0.88fr 1.12fr; }
+    .process-story__chapter:nth-child(even) .process-story__photo { grid-column: 2; grid-row: 1; }
+    .process-story__chapter:nth-child(even) .process-story__copy { grid-column: 1; grid-row: 1; padding-left: 1rem; }
+  }
 
-    .process-journey-preview__stage::before {
-      z-index: 1;
-      top: calc(50% - 0.35rem);
-      left: calc(50% - 0.35rem);
+  @media (min-width: 68rem) and (min-height: 38rem) {
+    .process-story {
+      --photo-height: min(calc(min(var(--container-max), 100vw - 2 * var(--container-pad)) * 0.56 / 1.18), calc(100svh - 11rem));
     }
-
-    .process-journey-preview__connector {
-      left: calc(50% - 0.375rem);
+    .process-story__intro-grid { grid-template-columns: var(--photo-share) 1fr; gap: 0; }
+    .process-story__summary { margin-left: clamp(3rem, 6vw, 5.5rem); }
+    .process-story__journey { margin-top: -3.5rem; }
+    .process-story__chapter,
+    .process-story__chapter:nth-child(even) {
+      grid-template-columns: var(--photo-share) 1fr;
+      gap: 0;
+      min-height: max(76svh, calc(var(--photo-height) + 4rem));
+      margin: 0;
     }
-
-    .process-journey-preview__stage:nth-child(even) .process-journey-preview__media {
+    .process-story__photo,
+    .process-story__chapter:nth-child(even) .process-story__photo,
+    .process-story__chapter:nth-child(2) .process-story__photo,
+    .process-story__chapter:last-child .process-story__photo { aspect-ratio: auto; height: var(--photo-height); grid-column: 1; grid-row: 1; }
+    .process-story__copy,
+    .process-story__chapter:nth-child(even) .process-story__copy {
       grid-column: 2;
-    }
-
-    .process-journey-preview__stage:nth-child(even) .process-journey-preview__copy {
-      grid-column: 1;
       grid-row: 1;
-      justify-self: end;
-      width: min(100%, 29rem);
+      padding: 2rem 0 2rem clamp(3rem, 6vw, 5.5rem);
     }
-
-    .process-journey-preview__media {
-      height: clamp(13rem, 25vw, 18rem);
+    .process-story__chapter:first-child { align-items: start; min-height: max(82svh, calc(var(--photo-height) + 4rem)); }
+    .process-story__chapter:nth-child(2),
+    .process-story__chapter:nth-child(4) { min-height: max(60svh, calc(var(--photo-height) + 4rem)); }
+    .process-story__chapter:last-child { min-height: max(96svh, calc(var(--photo-height) + 4rem)); }
+    .process-story__chapter:first-child .process-story__copy { align-self: center; }
+    .process-story__outro { padding-top: 2.5rem; }
+    /* Navy keeps the small labels above 4.5:1 even as a chapter recedes. */
+    .process-story.is-enhanced .process-story__label { color: var(--c-navy); }
+    .process-story.is-enhanced .process-story__canvas-track {
+      display: block;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: var(--container-pad);
+      width: calc((100% - 2 * var(--container-pad)) * 0.56);
     }
-  }
-
-  @media (prefers-reduced-motion: no-preference) {
-    .process-journey-preview__stage.is-visible .process-journey-preview__media :global(img) {
-      animation: process-image-settle 1000ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    .process-story__canvas { position: sticky; top: max(5rem, calc((100svh - var(--photo-height)) / 2 - 1rem)); }
+    .process-story__layers { position: relative; height: var(--photo-height); overflow: hidden; background: var(--c-canvas-warm); }
+    .process-story.is-enhanced .process-story__photo {
+      position: absolute;
+      inset: 0;
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      aspect-ratio: auto;
     }
-
-    .process-journey-preview__stage.is-visible .process-journey-preview__media::after {
-      animation: process-wipe-left 1000ms cubic-bezier(0.55, 0, 0.2, 1) both;
+    .process-story__canvas-note {
+      margin-top: 1rem;
+      color: var(--c-blue);
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-style: italic;
     }
-
-    .process-journey-preview__stage.is-visible:nth-child(even) .process-journey-preview__media::after {
-      animation-name: process-wipe-right;
+    .process-story.is-enhanced .process-story__thread {
+      display: block;
+      position: absolute;
+      left: calc(var(--container-pad) + (100% - 2 * var(--container-pad)) * 0.56 + 2.5rem);
+      top: 9rem;
+      bottom: 9rem;
+      width: 1px;
+      overflow: hidden;
+      background: var(--c-rule-blue);
     }
-
-    .process-journey-preview__stage.is-visible .process-journey-preview__copy h3 {
-      animation: process-copy-rise 690ms 100ms cubic-bezier(0.16, 1, 0.3, 1) both;
-    }
-
-    .process-journey-preview__stage.is-visible .process-journey-preview__body {
-      animation: process-copy-rise 690ms 220ms cubic-bezier(0.16, 1, 0.3, 1) both;
-    }
-
-    .process-journey-preview__stage.is-visible::before {
-      animation: process-marker 650ms var(--ease-out) both;
-    }
-
-    .process-journey-preview__stage.is-visible .process-journey-preview__connector {
-      animation: process-connector 740ms 240ms var(--ease-out) both;
-    }
-
-    @keyframes process-image-settle {
-      from { opacity: 0.9; transform: scale(1.045); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    @keyframes process-wipe-left {
-      from { transform: translateX(-101%); }
-      to { transform: translateX(101%); }
-    }
-
-    @keyframes process-wipe-right {
-      from { transform: translateX(101%); }
-      to { transform: translateX(-101%); }
-    }
-
-    @keyframes process-copy-rise {
-      from { opacity: 0.38; transform: translateY(22px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes process-marker {
-      from { border-color: var(--c-blue-muted); background: var(--c-paper); }
-      to { border-color: var(--c-blue); background: var(--c-blue); }
-    }
-
-    @keyframes process-connector {
-      from { opacity: 0.5; transform: scaleY(0); }
-      to { opacity: 1; transform: scaleY(1); }
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .process-teaser__link span:last-child { transition: none; }
-    .process-teaser__link:hover span:last-child { transform: none; }
+    .process-story__thread span { display: block; width: 100%; height: 100%; background: var(--c-blue); transform-origin: top; }
   }
 </style>
