@@ -103,14 +103,16 @@ import finiOrigin from "../assets/images/about/fini-origin.jpg";
         </article>
 
         <article class="about-person">
-          <img
-            class="about-person__image"
-            src="/images/VN.png"
-            alt="Portrait of Viki Nasch"
-            width="96"
-            height="96"
-            loading="lazy"
-          />
+          <span class="about-person__portrait">
+            <img
+              class="about-person__image"
+              src="/images/VN.png"
+              alt="Portrait of Viki Nasch"
+              width="96"
+              height="96"
+              loading="lazy"
+            />
+          </span>
 
           <div>
             <h3>Viki Nasch</h3>
@@ -156,53 +158,41 @@ import finiOrigin from "../assets/images/about/fini-origin.jpg";
         </div>
 
         <div class="about-confidence">
-          <p class="about-confidence__label">Why clients can feel confident</p>
+          <p class="about-confidence__label" id="about-confidence-label">Why clients can feel confident</p>
 
-          <div class="about-confidence__list">
-            <article>
-              <span class="commercial-index" aria-hidden="true">01</span>
-              <div>
-                <h3>Deep industry experience</h3>
-                <p>
-                  Nearly 20 years inside the kitchen sector, from design roles through to senior
-                  commercial and contract leadership.
-                </p>
-              </div>
-            </article>
+          <ul class="about-confidence__list" role="list" aria-labelledby="about-confidence-label">
+            <li>
+              <h3>Deep industry experience</h3>
+              <p>
+                Nearly 20 years inside the kitchen sector, from design roles through to senior
+                commercial and contract leadership.
+              </p>
+            </li>
 
-            <article>
-              <span class="commercial-index" aria-hidden="true">02</span>
-              <div>
-                <h3>Design backed by delivery knowledge</h3>
-                <p>
-                  Ideas are shaped by real understanding of surveying, specifications, cost control,
-                  workflow and how projects actually move on site.
-                </p>
-              </div>
-            </article>
+            <li>
+              <h3>Design backed by delivery knowledge</h3>
+              <p>
+                Ideas are shaped by real understanding of surveying, specifications, cost control,
+                workflow and how projects actually move on site.
+              </p>
+            </li>
 
-            <article>
-              <span class="commercial-index" aria-hidden="true">03</span>
-              <div>
-                <h3>Broad perspective across project types</h3>
-                <p>
-                  Experience across private contracts, developer work, social housing and contract
-                  environments brings a balanced, practical approach to each kitchen.
-                </p>
-              </div>
-            </article>
+            <li>
+              <h3>Broad perspective across project types</h3>
+              <p>
+                Experience across private contracts, developer work, social housing and contract
+                environments brings a balanced, practical approach to each kitchen.
+              </p>
+            </li>
 
-            <article>
-              <span class="commercial-index" aria-hidden="true">04</span>
-              <div>
-                <h3>Commercial clarity</h3>
-                <p>
-                  Strong commercial and operational experience helps keep decisions grounded,
-                  communication clearer and expectations realistic.
-                </p>
-              </div>
-            </article>
-          </div>
+            <li>
+              <h3>Commercial clarity</h3>
+              <p>
+                Strong commercial and operational experience helps keep decisions grounded,
+                communication clearer and expectations realistic.
+              </p>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -339,6 +329,7 @@ import finiOrigin from "../assets/images/about/fini-origin.jpg";
 
   .about-leadership__frame {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: clamp(3rem, 6vw, 5rem);
   }
 
@@ -366,6 +357,7 @@ import finiOrigin from "../assets/images/about/fini-origin.jpg";
     font-weight: 450;
     line-height: 1;
     letter-spacing: -0.03em;
+    overflow-wrap: anywhere;
   }
 
   .about-leadership__intro > p {
@@ -396,6 +388,29 @@ import finiOrigin from "../assets/images/about/fini-origin.jpg";
     object-fit: cover;
     object-position: center top;
     border-radius: var(--commercial-media-radius);
+  }
+
+  .about-person__portrait {
+    position: relative;
+    display: block;
+    width: 5.5rem;
+    height: 5.5rem;
+    overflow: hidden;
+    border-radius: var(--commercial-media-radius);
+    background: var(--c-navy);
+  }
+
+  .about-person__portrait .about-person__image {
+    transform: scale(1.04);
+  }
+
+  .about-person__portrait::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 2px solid var(--c-navy);
+    border-radius: inherit;
+    pointer-events: none;
   }
 
   .about-person h3 {
@@ -481,16 +496,15 @@ import finiOrigin from "../assets/images/about/fini-origin.jpg";
     text-transform: uppercase;
   }
 
-  .about-confidence__list article {
-    display: grid;
-    grid-template-columns: 2.5rem minmax(0, 1fr);
-    gap: var(--space-4);
-    padding-block: var(--space-5);
-    border-bottom: var(--commercial-rule);
+  .about-confidence__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
 
-  .about-confidence__list article > span {
-    color: var(--c-blue);
+  .about-confidence__list li {
+    padding-block: var(--space-5);
+    border-bottom: var(--commercial-rule);
   }
 
   .about-confidence h3 {
@@ -500,10 +514,27 @@ import finiOrigin from "../assets/images/about/fini-origin.jpg";
     line-height: var(--lh-snug);
   }
 
-  .about-confidence article p {
+  .about-confidence li p {
     margin-top: var(--space-2);
     color: var(--c-text-muted);
     line-height: 1.55;
+  }
+
+  @media (max-width: 47.99rem) {
+    .about-person {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .about-person > .about-person__image,
+    .about-person__portrait {
+      flex: none;
+    }
+
+    .about-person > div {
+      flex: 1 1 8rem;
+      min-width: 0;
+    }
   }
 
   @media (min-width: 64rem) {
@@ -542,7 +573,7 @@ import finiOrigin from "../assets/images/about/fini-origin.jpg";
     }
 
     .about-experience__content {
-      grid-template-columns: minmax(0, 0.85fr) minmax(24rem, 1.15fr);
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
     }
   }
 
