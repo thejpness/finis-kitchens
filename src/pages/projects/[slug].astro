@@ -227,15 +227,29 @@ if (data.completedAt) summaryPoints.push({ label: "Completed", value: data.compl
   .project-meta {
     display: grid;
     margin: 0;
-    border-top: var(--commercial-rule);
+    padding: var(--space-2) var(--space-5);
+    border-top: 2px solid var(--c-blue);
+    background: var(--c-paper);
+    container-type: inline-size;
   }
 
   .project-meta > div {
     display: grid;
-    grid-template-columns: minmax(6rem, 0.42fr) minmax(0, 1fr);
-    gap: var(--space-4);
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-2);
     padding-block: var(--space-3);
     border-bottom: var(--commercial-rule);
+  }
+
+  .project-meta > div:last-child {
+    border-bottom: 0;
+  }
+
+  @container (min-width: 18rem) {
+    .project-meta > div {
+      grid-template-columns: minmax(7rem, 0.42fr) minmax(0, 1fr);
+      gap: var(--space-4);
+    }
   }
 
   .project-meta dd {

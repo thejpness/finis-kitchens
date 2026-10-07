@@ -313,19 +313,23 @@ const steps = [
     display: grid;
     gap: var(--commercial-layout-gap-tight);
     align-content: start;
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    border-top: 3px solid var(--c-blue-pale);
+    background: var(--c-canvas-warm);
+    color: var(--c-navy);
   }
 
   .calmer-way__points {
     padding: 0;
     margin: 0;
     list-style: none;
-    border-block: var(--commercial-rule-dark);
+    border-bottom: var(--commercial-rule);
   }
 
   .calmer-way__points li {
     position: relative;
     padding: var(--space-4) 0 var(--space-4) 1.45rem;
-    color: #fff;
+    color: var(--c-navy);
     font-size: clamp(1.05rem, 1.4vw, 1.2rem);
     font-weight: 560;
     line-height: var(--lh-snug);
@@ -340,14 +344,15 @@ const steps = [
     height: 0.5rem;
     transform: translateY(-50%);
     border-radius: 50%;
-    background: var(--c-blue-pale);
+    background: var(--c-blue);
   }
 
   .calmer-way__actions {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-5);
-    align-items: center;
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .calmer-way__actions .btn {
@@ -356,7 +361,7 @@ const steps = [
   }
 
   .calmer-way__about-link {
-    color: rgba(255, 253, 250, 0.82);
+    color: var(--c-navy);
     font-size: var(--fs-0);
     font-weight: 600;
     text-decoration: underline;
@@ -365,12 +370,12 @@ const steps = [
   }
 
   .calmer-way__about-link:hover {
-    color: #fff;
+    color: var(--c-blue);
     text-decoration-thickness: 2px;
   }
 
   .calmer-way__about-link:focus-visible {
-    outline-color: var(--c-brand-200);
+    outline-color: var(--c-blue);
     outline-offset: 5px;
   }
 

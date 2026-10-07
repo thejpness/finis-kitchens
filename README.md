@@ -4,6 +4,16 @@ Website and enquiry platform for **Fini's Kitchens**.
 
 The application is built with Astro and deployed through Docker, with nginx serving the generated frontend, Traefik providing external routing, and separate Go services handling contact-form enquiries and Turnstile validation.
 
+## v1.5.1 — Kitchen Architecture Expression
+
+Makes the existing kitchen logic visible in a few focused compositions: a guiding
+process rail, a continuous Services run, connected homepage action surfaces and
+project specification panels. Process titles and photographs lead; compact
+sequence references support them. The dream-flow opening, storybook, Contact
+behaviour and v1.5 asset work remain unchanged. No dependency or motion changes.
+
+See the [implementation and validation report](docs/v1.5.1-release.md).
+
 ## v1.5.0 — Hidden Kitchen Architecture & Asset Optimisation
 
 Refines the existing commercial pages through four subtle motifs: Runs, Rails,

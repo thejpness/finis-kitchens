@@ -24,7 +24,7 @@ const { steps = [] } = Astro.props;
       </div>
       <p class="process-story__summary">
         A clear path from first conversation to finished kitchen.
-        Five stages, with practical guidance along the way.
+        Practical guidance at each turn, with room to find what feels right.
       </p>
     </div>
   </header>
@@ -60,8 +60,10 @@ const { steps = [] } = Astro.props;
           </div>
           <div class="process-story__copy">
             <span class="process-story__node" aria-hidden="true" data-process-node></span>
-            <p class="process-story__number commercial-stage-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</p>
-            <p class="process-story__label">{step.label}</p>
+            <p class="process-story__label">
+              {step.label}
+              <span class="process-story__number commercial-index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+            </p>
             <h3>{step.title}</h3>
             <p class="process-story__body">{step.body}</p>
           </div>
@@ -71,10 +73,12 @@ const { steps = [] } = Astro.props;
   </div>
 
   <div class="container process-story__outro">
-    <p>Made for the life you live.</p>
-    <a class="process-story__link commercial-editorial-link" href="/process">
-      <span>See the full process</span><span aria-hidden="true">↗</span>
-    </a>
+    <div class="process-story__surface">
+      <p>Made for the life you live.</p>
+      <a class="process-story__link commercial-editorial-link" href="/process">
+        <span>See the full process</span><span aria-hidden="true">↗</span>
+      </a>
+    </div>
   </div>
 </section>
 
@@ -120,7 +124,7 @@ const { steps = [] } = Astro.props;
   }
   .process-story__journey { position: relative; margin-top: -3rem; }
   .process-story__canvas-track { display: none; }
-  .process-story__thread { position: absolute; top: 0; bottom: 0; left: var(--container-pad); width: 1px; background: var(--c-rule-blue); }
+  .process-story__thread { position: absolute; top: 0; bottom: 0; left: var(--container-pad); width: 1px; background: var(--c-blue-muted); }
   .process-story__thread span { display: block; width: 100%; height: 100%; background: var(--c-blue); transform-origin: top; }
   .process-story__chapters { list-style: none; padding: 0; margin: 0; padding-left: 1.5rem; }
   .process-story__chapter { min-width: 0; margin-bottom: var(--chapter-space); }
@@ -151,6 +155,7 @@ const { steps = [] } = Astro.props;
   .process-story__copy { position: relative; padding: 1.75rem 0 0; }
   .process-story__label {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 0.75rem;
     margin-bottom: 1rem;
@@ -177,14 +182,21 @@ const { steps = [] } = Astro.props;
   .process-story__chapter:nth-child(3) .process-story__photo { margin-right: 1.25rem; }
   .process-story__chapter:last-child .process-story__photo { aspect-ratio: 1.15; }
   .process-story__outro {
+    padding-block: 0.5rem var(--commercial-section-y-tight);
+  }
+  .process-story__surface {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: space-between;
-    gap: 1.5rem;
-    padding-block: 0.5rem var(--commercial-section-y-tight);
+    gap: 1rem 2.5rem;
+    width: fit-content;
+    max-width: 100%;
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    border-top: 3px solid var(--c-navy);
+    background: var(--c-canvas-warm);
+    overflow-wrap: anywhere;
   }
-  .process-story__outro > p {
+  .process-story__surface > p {
     font-family: var(--font-display);
     font-size: clamp(1.65rem, 2.5vw, 2.25rem);
     font-style: italic;
@@ -277,8 +289,8 @@ const { steps = [] } = Astro.props;
     }
 
   }
-  .process-story__node { position: absolute; left: -1.85rem; top: 2.05rem; width: var(--commercial-marker-size); height: var(--commercial-marker-size); border-radius: 50%; background: var(--c-blue-muted); box-shadow: 0 0 0 var(--commercial-marker-halo) var(--c-paper); transition: background var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out); }
-  .process-story__number { margin-bottom: 0.75rem; color: var(--c-blue); }
+  .process-story__node { position: absolute; left: -2rem; top: 2.2rem; width: 1rem; height: 3px; background: var(--c-blue-muted); box-shadow: 0 0 0 var(--commercial-marker-halo) var(--c-paper); transition: background var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out); }
+  .process-story__number { padding-left: 0.75rem; border-left: var(--commercial-rule); color: var(--c-blue); }
   .motion-ready .process-story__node { background: var(--c-brand-200); }
   .process-story__chapter.is-complete .process-story__node,
   .process-story__chapter.is-current .process-story__node { background: var(--c-blue); }
@@ -290,10 +302,10 @@ const { steps = [] } = Astro.props;
   .process-story__chapter.is-seen h3 { animation-delay: 60ms; }
   .process-story__chapter.is-seen .process-story__body { animation-delay: 120ms; }
   @media (min-width: 48rem) {
-    .process-story__node { top: 1.15rem; }
+    .process-story__node { top: 1.45rem; }
   }
   @media (min-width: 68rem) and (min-height: 38rem) {
-    .process-story__node { left: calc(clamp(3rem, 6vw, 5.5rem) - 1.6rem); top: 2.15rem; }
+    .process-story__node { left: calc(clamp(3rem, 6vw, 5.5rem) - 1.75rem); top: 2.45rem; }
     .process-story__thread { left: calc(var(--container-pad) + (100% - 2 * var(--container-pad)) * 0.56 + clamp(3rem, 6vw, 5.5rem) - 1.25rem); }
   }
   @media (prefers-reduced-motion: reduce) {

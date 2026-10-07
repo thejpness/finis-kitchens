@@ -122,9 +122,8 @@ const steps = [
       </header>
 
       <ol class="services-process__steps" role="list">
-        {steps.map((step, index) => (
+        {steps.map((step) => (
           <li>
-            <span class="services-number commercial-index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
             <div>
               <h3>{step.title}</h3>
               <p>{step.description}</p>
@@ -294,6 +293,9 @@ const steps = [
     padding: 0;
     margin: var(--commercial-layout-gap) 0 0;
     list-style: none;
+    border-top: 3px solid var(--c-navy);
+    border-bottom: var(--commercial-rule);
+    background: var(--c-canvas-warm);
   }
 
   .services-offering__row {
@@ -301,11 +303,10 @@ const steps = [
     grid-template-columns: minmax(0, 1fr);
     gap: var(--space-6);
     padding-block: var(--commercial-module-y);
-    border-top: var(--commercial-rule);
   }
 
-  .services-offering__row:last-child {
-    padding-bottom: 0;
+  .services-offering__row + .services-offering__row {
+    border-top: var(--commercial-rule);
   }
 
   .services-offering__heading {
@@ -313,6 +314,7 @@ const steps = [
     grid-template-columns: auto minmax(0, 1fr);
     gap: var(--space-5);
     align-items: baseline;
+    padding-inline: clamp(1.25rem, 2.5vw, 2rem);
   }
 
   .services-number {
@@ -333,6 +335,7 @@ const steps = [
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     gap: var(--space-6);
+    padding-inline: clamp(1.25rem, 2.5vw, 2rem);
   }
 
   .services-offering__detail > p {
@@ -374,10 +377,18 @@ const steps = [
   }
 
   .services-process__steps > li {
+    position: relative;
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--space-5);
     align-items: baseline;
+  }
+
+  .services-process__steps > li::before {
+    content: "";
+    width: 1rem;
+    height: 3px;
+    background: var(--c-blue);
   }
 
   .services-process__steps h3 {
@@ -436,7 +447,18 @@ const steps = [
 
     .services-offering__row {
       grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-      gap: var(--commercial-layout-gap);
+      gap: 0;
+      padding-block: 0;
+    }
+
+    .services-offering__heading {
+      align-content: start;
+      border-right: var(--commercial-rule);
+    }
+
+    .services-offering__heading,
+    .services-offering__detail {
+      padding-block: var(--commercial-module-y);
     }
 
     .services-offering__detail {

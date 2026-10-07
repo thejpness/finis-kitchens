@@ -31,6 +31,10 @@ const description = featuredProject?.data.description ?? "A completed Fini’s K
     <header class="project-preview__intro">
       <p class="project-preview__eyebrow">Real-life kitchens</p>
       <h2 id="projects-preview-title">See practical kitchen design in our finished projects.</h2>
+      <a class="project-preview__all-link commercial-editorial-link" href="/projects">
+        <span>View all projects</span>
+        <span aria-hidden="true">→</span>
+      </a>
     </header>
 
     {
@@ -60,14 +64,11 @@ const description = featuredProject?.data.description ?? "A completed Fini’s K
       )
     }
 
-    <a class="project-preview__all-link commercial-editorial-link" href="/projects">
-      <span>View all projects</span>
-      <span aria-hidden="true">→</span>
-    </a>
   </div>
 </section>
 
 <style>
+  .project-preview__all-link { margin-top: var(--space-5); }
   .project-feature__link { margin-top: var(--space-2); }
   .project-preview {
     padding-block: var(--commercial-section-y);
