@@ -4183,5 +4183,406 @@
     }
   ],
   "enlargedText": "Modified handoffs are contained at 200% root text. Protected opening and shared-footer overflow reproduce the baseline.",
-  "motion": "Existing GSAP parameters retained; temporary earlier-phase prototype reverted."
+  "motion": "Existing GSAP parameters retained; temporary earlier-phase prototype reverted.",
+  "finalValidation": {
+    "date": "2026-10-07",
+    "acceptedImplementationSha": "fa0a4e5494652f3d2275006b8e152d09eaf11df7",
+    "applicationSourceChanged": false,
+    "npmCi": "pass; zero vulnerabilities",
+    "build": "pass; 10 routes",
+    "go": "enquiry and enquiry-proxy pass; shared mailer compiles with no test files",
+    "layoutChecks": 62,
+    "layoutIssues": 0,
+    "candidateCaptureDirectory": "/home/jp/.codex/visualizations/2026/10/07/01a11648-7396-7ab2-9ae2-7ef595bf1a37/finis-v1.6/continuation-final",
+    "interactions": [
+      {
+        "w": 320,
+        "wheel": 360,
+        "key": 857,
+        "anchor": {
+          "hash": "#home-content",
+          "y": 476,
+          "target": 95.640625
+        },
+        "reduced": {
+          "enhanced": 0,
+          "photos": 5,
+          "track": "grid",
+          "transform": "none",
+          "glazing": "0"
+        },
+        "restored": true,
+        "focus": {
+          "href": "/contact",
+          "visible": true,
+          "outline": "2px",
+          "color": "rgb(95, 131, 173)",
+          "touch": true
+        },
+        "errors": []
+      },
+      {
+        "w": 390,
+        "wheel": 360,
+        "key": 1098,
+        "anchor": {
+          "hash": "#home-content",
+          "y": 752,
+          "target": 95.640625
+        },
+        "reduced": {
+          "enhanced": 0,
+          "photos": 5,
+          "track": "grid",
+          "transform": "none",
+          "glazing": "0"
+        },
+        "restored": true,
+        "focus": {
+          "href": "/contact",
+          "visible": true,
+          "outline": "2px",
+          "color": "rgb(95, 131, 173)",
+          "touch": true
+        },
+        "errors": []
+      },
+      {
+        "w": 768,
+        "wheel": 360,
+        "key": 1256,
+        "anchor": {
+          "hash": "#home-content",
+          "y": 932,
+          "target": 95.640625
+        },
+        "reduced": {
+          "enhanced": 0,
+          "photos": 5,
+          "track": "grid",
+          "transform": "none",
+          "glazing": "0"
+        },
+        "restored": true,
+        "focus": {
+          "href": "/contact",
+          "visible": true,
+          "outline": "2px",
+          "color": "rgb(95, 131, 173)",
+          "touch": true
+        },
+        "errors": []
+      },
+      {
+        "w": 1440,
+        "wheel": 360,
+        "key": 1147,
+        "anchor": {
+          "hash": "#home-content",
+          "y": 805,
+          "target": 95.59375
+        },
+        "reduced": {
+          "enhanced": 0,
+          "photos": 5,
+          "track": "grid",
+          "transform": "none",
+          "glazing": "0"
+        },
+        "restored": true,
+        "focus": {
+          "href": "/contact",
+          "visible": true,
+          "outline": "2px",
+          "color": "rgb(95, 131, 173)",
+          "touch": true
+        },
+        "errors": []
+      }
+    ],
+    "hero": [
+      {
+        "w": 390,
+        "equal": true
+      },
+      {
+        "w": 768,
+        "equal": true
+      },
+      {
+        "w": 1440,
+        "equal": true
+      }
+    ],
+    "storyInteractions": [
+      {
+        "w": 390,
+        "h": 844,
+        "motion": "no-preference",
+        "opened": {
+          "open": true,
+          "counter": "1 / 11",
+          "active": "0",
+          "hidden": 10,
+          "locked": true
+        },
+        "advanced": {
+          "open": true,
+          "counter": "2 / 11",
+          "active": "1",
+          "hidden": 10,
+          "locked": true
+        },
+        "backed": {
+          "open": true,
+          "counter": "1 / 11",
+          "active": "0",
+          "hidden": 10,
+          "locked": true
+        },
+        "escaped": {
+          "open": false,
+          "counter": "1 / 11",
+          "active": "0",
+          "hidden": 10,
+          "locked": false
+        },
+        "closed": {
+          "open": false,
+          "counter": "1 / 11",
+          "active": "0",
+          "hidden": 10,
+          "locked": false
+        },
+        "escapeFocus": true,
+        "closeFocus": true,
+        "transcriptCount": 5,
+        "bounds": {
+          "width": 390,
+          "scrollWidth": 390
+        },
+        "errors": [],
+        "js": [
+          "/_astro/Header.astro_astro_type_script_index_0_lang.CC9o_Jwd.js",
+          "/_astro/StoryBookViewer.astro_astro_type_script_index_0_lang.MnqRRd16.js",
+          "/_astro/BaseLayout.astro_astro_type_script_index_0_lang.Dmo-SSHH.js"
+        ]
+      },
+      {
+        "w": 390,
+        "h": 844,
+        "motion": "reduce",
+        "opened": {
+          "open": true,
+          "counter": "1 / 11",
+          "active": "0",
+          "hidden": 10,
+          "locked": true
+        },
+        "advanced": {
+          "open": true,
+          "counter": "2 / 11",
+          "active": "1",
+          "hidden": 10,
+          "locked": true
+        },
+        "backed": {
+          "open": true,
+          "counter": "1 / 11",
+          "active": "0",
+          "hidden": 10,
+          "locked": true
+        },
+        "escaped": {
+          "open": false,
+          "counter": "1 / 11",
+          "active": "0",
+          "hidden": 10,
+          "locked": false
+        },
+        "closed": {
+          "open": false,
+          "counter": "1 / 11",
+          "active": "0",
+          "hidden": 10,
+          "locked": false
+        },
+        "escapeFocus": true,
+        "closeFocus": true,
+        "transcriptCount": 5,
+        "bounds": {
+          "width": 390,
+          "scrollWidth": 390
+        },
+        "errors": [],
+        "js": [
+          "/_astro/Header.astro_astro_type_script_index_0_lang.CC9o_Jwd.js",
+          "/_astro/StoryBookViewer.astro_astro_type_script_index_0_lang.MnqRRd16.js",
+          "/_astro/BaseLayout.astro_astro_type_script_index_0_lang.Dmo-SSHH.js"
+        ]
+      },
+      {
+        "w": 1440,
+        "h": 900,
+        "motion": "no-preference",
+        "opened": {
+          "open": true,
+          "counter": "1 / 11",
+          "active": "0",
+          "hidden": 10,
+          "locked": true
+        },
+        "advanced": {
+          "open": true,
+          "counter": "2 / 11",
+          "active": "1",
+          "hidden": 10,
+          "locked": true
+        },
+        "backed": {
+          "open": true,
+          "counter": "1 / 11",
+          "active": "0",
+          "hidden": 10,
+          "locked": true
+        },
+        "escaped": {
+          "open": false,
+          "counter": "1 / 11",
+          "active": "0",
+          "hidden": 10,
+          "locked": false
+        },
+        "closed": {
+          "open": false,
+          "counter": "1 / 11",
+          "active": "0",
+          "hidden": 10,
+          "locked": false
+        },
+        "escapeFocus": true,
+        "closeFocus": true,
+        "transcriptCount": 5,
+        "bounds": {
+          "width": 1440,
+          "scrollWidth": 1440
+        },
+        "errors": [],
+        "js": [
+          "/_astro/Header.astro_astro_type_script_index_0_lang.CC9o_Jwd.js",
+          "/_astro/StoryBookViewer.astro_astro_type_script_index_0_lang.MnqRRd16.js",
+          "/_astro/BaseLayout.astro_astro_type_script_index_0_lang.Dmo-SSHH.js"
+        ]
+      },
+      {
+        "w": 1440,
+        "h": 900,
+        "motion": "reduce",
+        "opened": {
+          "open": true,
+          "counter": "1 / 11",
+          "active": "0",
+          "hidden": 10,
+          "locked": true
+        },
+        "advanced": {
+          "open": true,
+          "counter": "2 / 11",
+          "active": "1",
+          "hidden": 10,
+          "locked": true
+        },
+        "backed": {
+          "open": true,
+          "counter": "1 / 11",
+          "active": "0",
+          "hidden": 10,
+          "locked": true
+        },
+        "escaped": {
+          "open": false,
+          "counter": "1 / 11",
+          "active": "0",
+          "hidden": 10,
+          "locked": false
+        },
+        "closed": {
+          "open": false,
+          "counter": "1 / 11",
+          "active": "0",
+          "hidden": 10,
+          "locked": false
+        },
+        "escapeFocus": true,
+        "closeFocus": true,
+        "transcriptCount": 5,
+        "bounds": {
+          "width": 1440,
+          "scrollWidth": 1440
+        },
+        "errors": [],
+        "js": [
+          "/_astro/Header.astro_astro_type_script_index_0_lang.CC9o_Jwd.js",
+          "/_astro/StoryBookViewer.astro_astro_type_script_index_0_lang.MnqRRd16.js",
+          "/_astro/BaseLayout.astro_astro_type_script_index_0_lang.Dmo-SSHH.js"
+        ]
+      }
+    ],
+    "outputProtection": {
+      "javascript_identical": true,
+      "javascript_before": {
+        "_astro/motion.Vsvzt8n0.js": 119279,
+        "_astro/StoryBookViewer.astro_astro_type_script_index_0_lang.MnqRRd16.js": 2007,
+        "_astro/BaseLayout.astro_astro_type_script_index_0_lang.Dmo-SSHH.js": 1861,
+        "_astro/contact.astro_astro_type_script_index_0_lang.CQj1cV4g.js": 2747,
+        "_astro/Header.astro_astro_type_script_index_0_lang.CC9o_Jwd.js": 2708
+      },
+      "javascript_after": {
+        "_astro/motion.Vsvzt8n0.js": 119279,
+        "_astro/StoryBookViewer.astro_astro_type_script_index_0_lang.MnqRRd16.js": 2007,
+        "_astro/BaseLayout.astro_astro_type_script_index_0_lang.Dmo-SSHH.js": 1861,
+        "_astro/contact.astro_astro_type_script_index_0_lang.CQj1cV4g.js": 2747,
+        "_astro/Header.astro_astro_type_script_index_0_lang.CC9o_Jwd.js": 2708
+      },
+      "images_identical": true,
+      "image_files": 283,
+      "story_html_identical": true,
+      "story_refs_identical": true,
+      "story_refs_count": 21,
+      "untouched_html": {
+        "about/index.html": true,
+        "contact/index.html": true,
+        "privacy/index.html": true,
+        "terms/index.html": true,
+        "services/index.html": true,
+        "process/index.html": true
+      },
+      "bytes_before": 19659004,
+      "bytes_after": 19661291,
+      "html_routes": [
+        "index.html",
+        "the-love-that-stays/index.html",
+        "contact/index.html",
+        "privacy/index.html",
+        "services/index.html",
+        "projects/index.html",
+        "projects/scrimshaw-kitchen/index.html",
+        "terms/index.html",
+        "process/index.html",
+        "about/index.html"
+      ]
+    },
+    "coreWebVitalsMeasured": false,
+    "limitations": [
+      "Chromium desktop emulation; no physical Safari/iOS attestation",
+      "No live CAPTCHA or email-delivery test",
+      "Existing protected/shared overflow under 200% root-font stress remains documented",
+      "Staging-only verify-runtime.sh does not apply to this local build"
+    ],
+    "deferredPolish": [
+      "Process desktop reassurance grid: consistent left inset for Joined-up delivery; preserve tablet/mobile and four-column geometry",
+      "About COO portrait: hide pale source edge through crop/scale or frame/inset treatment; preserve source quality and balance with Oli; no replacement or fabrication",
+      "About confidence list: remove visible 01–04 numbering; retain four points, separators, hierarchy and non-sequential list semantics"
+    ]
+  }
 }
