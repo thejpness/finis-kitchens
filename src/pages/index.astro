@@ -265,7 +265,7 @@ const steps = [
   }
 
   .calmer-way {
-    padding-block: var(--commercial-section-y);
+    padding-block: clamp(2rem, 4vw, 3.5rem) var(--commercial-section-y);
     color: var(--c-brand-50);
     background: var(--c-navy);
   }
@@ -361,6 +361,9 @@ const steps = [
   }
 
   .calmer-way__about-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
     color: var(--c-navy);
     font-size: var(--fs-0);
     font-weight: 600;
@@ -385,8 +388,10 @@ const steps = [
       align-items: start;
     }
 
+    .calmer-way__intro { padding-top: 2rem; }
+
     .calmer-way__layout {
-      grid-template-columns: minmax(0, 0.86fr) minmax(22rem, 1.14fr);
+      grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr);
       align-items: start;
     }
 

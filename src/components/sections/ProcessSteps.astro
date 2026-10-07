@@ -72,8 +72,7 @@ const { steps = [] } = Astro.props;
   <div class="container process-story__outro">
     <div class="process-story__surface">
       <div class="process-story__next">
-        <h3>See how it all comes together.</h3>
-        <p>From first conversation to fitting and aftercare.</p>
+        <p>Explore design, supply, installation and aftercare in detail.</p>
       </div>
       <a class="process-story__link commercial-editorial-link" href="/process">
         <span>See the full process</span><span aria-hidden="true">→</span>
@@ -178,7 +177,7 @@ const { steps = [] } = Astro.props;
   .process-story__chapter:nth-child(3) .process-story__photo { margin-right: 1.25rem; }
   .process-story__chapter:last-child .process-story__photo { aspect-ratio: 1.15; }
   .process-story__outro {
-    padding-block: 0.5rem var(--commercial-section-y-tight);
+    padding-block: 0.5rem 0;
   }
   .process-story__surface {
     display: flex;
@@ -187,24 +186,16 @@ const { steps = [] } = Astro.props;
     gap: 0.75rem 2.5rem;
     width: fit-content;
     max-width: 100%;
-    padding: clamp(1rem, 1.75vw, 1.5rem) clamp(1rem, 2vw, 1.75rem);
-    border-top: 3px solid var(--c-navy);
-    background: var(--c-canvas-warm);
+    margin-left: 1.5rem;
+    padding-block: 1rem;
+    border-top: var(--commercial-rule);
     overflow-wrap: anywhere;
   }
   .process-story__next { min-width: 0; }
-  .process-story__next h3 {
-    font-family: var(--font-display);
-    font-size: clamp(1.4rem, 2.3vw, 1.85rem);
-    font-weight: 450;
-    line-height: 1.15;
-    letter-spacing: -0.025em;
-    text-wrap: initial;
-  }
   .process-story__next p {
-    margin-top: 0.5rem;
     font-size: var(--fs-0);
     line-height: 1.5;
+    color: var(--c-text-muted);
   }
 
   .process-story__link span:last-child { font-size: 1.5rem; }
@@ -217,6 +208,7 @@ const { steps = [] } = Astro.props;
   }
 
   @media (min-width: 48rem) {
+    .process-story__surface { margin-left: 0; }
     .process-story__intro-grid { grid-template-columns: 1.6fr 1fr; align-items: end; gap: 3rem; }
     .process-story__summary { padding-bottom: 0.5rem; }
     .process-story__chapter {
@@ -263,6 +255,11 @@ const { steps = [] } = Astro.props;
     .process-story__chapter:last-child { min-height: max(96svh, calc(var(--photo-height) + 4rem)); }
     .process-story__chapter:first-child .process-story__copy { align-self: center; }
     .process-story__outro { padding-top: 2.5rem; }
+    .process-story__surface {
+      margin-left: calc(56% + clamp(3rem, 6vw, 5.5rem));
+      display: grid;
+      gap: 0.25rem;
+    }
     /* Keep small labels readable beside the photographic canvas. */
     .process-story.is-enhanced .process-story__label { color: var(--c-navy); }
     .process-story.is-enhanced .process-story__canvas-track {

@@ -206,7 +206,7 @@ const ogImage = await socialImage(featured?.heroImage);
 
 <style>
   .projects-hero {
-    padding-block: clamp(4rem, 7vw, 6.25rem);
+    padding-block: clamp(4rem, 7vw, 6.25rem) clamp(2rem, 3vw, 3rem);
     background: var(--c-canvas-warm);
   }
 
@@ -261,9 +261,8 @@ const ogImage = await socialImage(featured?.heroImage);
   }
 
   .projects-feature {
-    padding-block: var(--commercial-section-y-tight);
-    border-top: var(--commercial-rule);
-    background: var(--c-paper);
+    padding-block: clamp(1.5rem, 3vw, 2.5rem) var(--commercial-section-y-tight);
+    background: linear-gradient(to bottom, var(--c-canvas-warm) 0 clamp(16rem, 28vw, 24rem), var(--c-paper) 0);
   }
 
   .projects-feature__frame {

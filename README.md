@@ -4,6 +4,18 @@ Website and enquiry platform for **Fini's Kitchens**.
 
 The application is built with Astro and deployed through Docker, with nginx serving the generated frontend, Traefik providing external routing, and separate Go services handling contact-form enquiries and Turnstile validation.
 
+## v1.6.0 — Dream Flow
+
+Connects the homepage process, finished-project proof, photographic possibilities
+and closing invitation through shared image planes, quiet surface shoulders and
+a photographic landing into navy. Mobile simplifies those relationships, and the
+complete static composition retains them with reduced motion or JavaScript disabled.
+Projects and the case study receive selective static continuity refinements.
+
+The approved opening, storybook, shared header/footer, motion scripts, enquiry
+behaviour and asset pipeline remain unchanged. No new dependency, JavaScript or
+image. See the [implementation, visual evidence and validation report](docs/v1.6.0-release.md).
+
 ## v1.5.1 — Kitchen Architecture Expression
 
 Makes the existing kitchen logic visible in a few focused compositions: a guiding

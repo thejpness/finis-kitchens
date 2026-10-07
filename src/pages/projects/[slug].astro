@@ -259,9 +259,8 @@ if (data.completedAt) summaryPoints.push({ label: "Completed", value: data.compl
   }
 
   .project-lead-image {
-    padding-block: var(--commercial-section-y-tight);
-    border-top: var(--commercial-rule);
-    background: var(--c-paper);
+    padding-block: clamp(2rem, 4vw, 3rem) 0;
+    background: linear-gradient(to bottom, var(--c-canvas-warm) 0 clamp(8rem, 16vw, 13rem), var(--c-paper) 0);
   }
 
   .project-lead-image__frame {
@@ -281,8 +280,12 @@ if (data.completedAt) summaryPoints.push({ label: "Completed", value: data.compl
   }
 
   .project-story {
-    padding-block: var(--commercial-section-y);
+    padding-block: clamp(3rem, 4vw, 4rem) var(--commercial-section-y);
     background: var(--c-paper);
+  }
+
+  .project-story:has(.project-prose > blockquote:last-child):has(+ .project-gallery) {
+    padding-bottom: 0;
   }
 
   .project-story__layout {
@@ -380,8 +383,14 @@ if (data.completedAt) summaryPoints.push({ label: "Completed", value: data.compl
     letter-spacing: -0.025em;
   }
 
+  .project-prose :global(blockquote:last-child) {
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    border: 0;
+    background: var(--c-canvas-warm);
+  }
+
   .project-gallery {
-    padding-block: var(--commercial-section-y);
+    padding-block: clamp(3rem, 4vw, 4rem);
     background: var(--c-canvas-warm);
   }
 
@@ -450,8 +459,8 @@ if (data.completedAt) summaryPoints.push({ label: "Completed", value: data.compl
   }
 
   .project-closing {
-    padding-block: var(--commercial-section-y-tight);
-    background: var(--c-canvas);
+    padding-block: 0 var(--commercial-section-y-tight);
+    background: var(--c-canvas-warm);
   }
 
   .project-closing__frame {

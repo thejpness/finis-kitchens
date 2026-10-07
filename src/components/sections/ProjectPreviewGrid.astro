@@ -28,42 +28,44 @@ const description = featuredProject?.data.description ?? "A completed Fini’s K
 
 <section id="projects" class="project-preview" aria-labelledby="projects-preview-title">
   <div class="container project-preview__frame">
-    <header class="project-preview__intro">
-      <p class="project-preview__eyebrow">Real-life kitchens</p>
-      <h2 id="projects-preview-title">See practical kitchen design in our finished projects.</h2>
-      <a class="project-preview__all-link commercial-editorial-link" href="/projects">
-        <span>View all projects</span>
-        <span aria-hidden="true">→</span>
-      </a>
-    </header>
+    <article class="project-feature">
+      <header class="project-preview__intro">
+        <p class="project-preview__eyebrow">Real-life kitchens</p>
+        <h2 id="projects-preview-title">See how kitchen design takes shape in a real home.</h2>
+        <a class="project-preview__all-link commercial-editorial-link" href="/projects">
+          <span>View all projects</span>
+          <span aria-hidden="true">→</span>
+        </a>
+      </header>
 
-    {
-      featuredProject && href && (
-        <article class="project-feature">
-          <div class="project-feature__image" data-motion-image>
-            <Image
-              src={image}
-              alt=""
-              width={1600}
-              widths={[720, 1200, 1600]}
-              sizes="(min-width: 100rem) 658.88px, (min-width: 79.5rem) calc((76rem - 5vw) * 0.58), (min-width: 50rem) calc((95vw - 3.5rem) * 0.58), (min-width: 48rem) 51.04vw, (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)"
-              loading="lazy"
-            />
-          </div>
+      {
+        featuredProject && href && (
+          <>
+            <div class="project-feature__image" data-motion-image>
+              <Image
+                src={image}
+                alt=""
+                width={1600}
+                widths={[720, 1200, 1600]}
+                sizes="(min-width: 79.5rem) 680.96px, (min-width: 68rem) calc((100vw - 3.5rem) * 0.56), (min-width: 50rem) calc((100vw - 5.5rem) / 2), (min-width: 48rem) calc((93vw - 2rem) / 2), (min-width: 28.5715rem) 93vw, calc(100vw - 2rem)"
+                loading="lazy"
+              />
+            </div>
 
-          <div class="project-feature__content">
-            {featuredProject.data.location && <p class="project-feature__location">{featuredProject.data.location}</p>}
-            <h3>{featuredProject.data.title}</h3>
-            <p class="project-feature__description">{description}</p>
-            <a class="project-feature__link commercial-editorial-link" href={href}>
-              <span>View the project</span>
-              <span aria-hidden="true">→</span>
-            </a>
-          </div>
-        </article>
-      )
-    }
+            <div class="project-feature__content">
+              {featuredProject.data.location && <p class="project-feature__location">{featuredProject.data.location}</p>}
+              <h3>{featuredProject.data.title}</h3>
+              <p class="project-feature__description">{description}</p>
+              <a class="project-feature__link commercial-editorial-link" href={href}>
+                <span>View the project</span>
+                <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          </>
+        )
+      }
 
+    </article>
   </div>
 </section>
 
@@ -71,17 +73,33 @@ const description = featuredProject?.data.description ?? "A completed Fini’s K
   .project-preview__all-link { margin-top: var(--space-5); }
   .project-feature__link { margin-top: var(--space-2); }
   .project-preview {
-    padding-block: var(--commercial-section-y);
-    background: var(--c-canvas);
+    padding-block: clamp(2.5rem, 5vw, 4.5rem) 0;
+    background: var(--c-paper);
   }
 
   .project-preview__frame {
+    position: relative;
+    isolation: isolate;
     display: grid;
     gap: var(--commercial-layout-gap);
   }
 
+  /* Possibility approaches beside the case study; its own caption stays warm. */
+  .project-preview__frame::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: auto 0 0;
+    height: 14rem;
+    background: var(--c-brand-100);
+    pointer-events: none;
+    display: none;
+  }
+
   .project-preview__intro {
     max-width: 39rem;
+    margin-left: 1.5rem;
+    margin-bottom: 2rem;
   }
 
   .project-preview__eyebrow,
@@ -99,11 +117,12 @@ const description = featuredProject?.data.description ?? "A completed Fini’s K
   }
 
   .project-preview__intro h2 {
-    color: var(--c-ink);
+    color: var(--c-navy);
+    font-family: var(--font-display);
     font-size: clamp(2.35rem, 4.4vw, 4.35rem);
-    font-weight: 580;
-    line-height: 0.98;
-    letter-spacing: -0.045em;
+    font-weight: 450;
+    line-height: 1.04;
+    letter-spacing: -0.03em;
   }
 
   .project-feature {
@@ -111,13 +130,34 @@ const description = featuredProject?.data.description ?? "A completed Fini’s K
     position: relative;
     isolation: isolate;
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: 0;
     align-items: center;
+  }
+
+  @media (max-width: 47.99rem) {
+    .project-preview__intro { grid-row: 1; }
+    .project-feature__image { grid-row: 2; }
+    .project-feature__content { grid-column: 1; grid-row: 3; }
+    .project-feature::after {
+      content: "";
+      grid-column: 1;
+      grid-row: 3;
+      align-self: stretch;
+      position: relative;
+      z-index: -1;
+      left: calc(-1 * var(--container-pad));
+      width: 100vw;
+      background: var(--c-brand-100);
+      pointer-events: none;
+    }
   }
 
   .project-feature__image {
     position: relative;
     z-index: 1;
+    min-width: 0;
+    width: 100%;
     aspect-ratio: 5 / 6;
     overflow: hidden;
     border-radius: var(--commercial-media-radius);
@@ -177,30 +217,62 @@ const description = featuredProject?.data.description ?? "A completed Fini’s K
   }
 
   @media (min-width: 48rem) {
-    .project-feature {
-      grid-template-columns: minmax(0, 1.16fr) minmax(17rem, 0.84fr);
-      gap: clamp(2rem, 5vw, 5rem);
+    .project-preview__frame::after {
+      display: block;
+      left: calc(var(--container-pad) + (100% - 2 * var(--container-pad) - 2rem) / 2);
+      right: calc((100% - 100vw) / 2);
+      height: clamp(9rem, 18vw, 15rem);
     }
-
+    .project-feature {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-rows: auto 1fr;
+      column-gap: 2rem;
+      row-gap: 2.5rem;
+      align-items: start;
+    }
+    .project-preview__intro {
+      grid-column: 2;
+      grid-row: 1;
+      margin: 0;
+    }
+    .project-feature__image {
+      grid-column: 1;
+      grid-row: 1 / span 2;
+      align-self: stretch;
+    }
     .project-feature__content {
-      max-width: 28rem;
-      padding-left: 0;
+      grid-column: 2;
+      grid-row: 2;
+      padding: 1.75rem;
+    }
+  }
+
+  @media (min-width: 68rem) {
+    .project-preview__frame::after {
+      left: calc(var(--container-pad) + (100% - 2 * var(--container-pad)) * 0.56);
+    }
+    /* The finished kitchen occupies the same photographic plane as the journey. */
+    .project-feature {
+      grid-template-columns: 56% minmax(0, 1fr);
+      column-gap: 0;
+    }
+    .project-preview__intro,
+    .project-feature__content {
+      margin-left: clamp(3rem, 6vw, 5.5rem);
+    }
+    .project-preview__intro { padding-top: 1rem; }
+    .project-feature__content {
+      position: relative;
+      padding: 2rem 1.5rem 2rem 0;
       background: transparent;
     }
-
     .project-feature__content::before {
       content: "";
       position: absolute;
       z-index: -1;
       inset: 0;
-      left: calc(-1 * (clamp(2rem, 5vw, 5rem) + var(--space-5)));
+      left: calc(-1 * (clamp(3rem, 6vw, 5.5rem) + var(--space-5)));
       background: var(--project-plane);
-    }
-  }
-
-  @media (min-width: 64rem) {
-    .project-preview__intro {
-      max-width: 46rem;
     }
   }
 
