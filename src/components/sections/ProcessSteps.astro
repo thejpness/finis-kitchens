@@ -39,7 +39,7 @@ const { steps = [] } = Astro.props;
     </div>
     <div class="process-story__thread" aria-hidden="true"><span data-process-line></span></div>
     <ol class="process-story__chapters" role="list">
-      {steps.map((step, index) => (
+      {steps.map((step) => (
         <li class="process-story__chapter" data-process-stage>
           <div class="process-story__photo" data-story-photo style={{ "--image-position": step.imagePosition ?? "center" }}>
             <Picture
@@ -60,10 +60,7 @@ const { steps = [] } = Astro.props;
           </div>
           <div class="process-story__copy">
             <span class="process-story__node" aria-hidden="true" data-process-node></span>
-            <p class="process-story__label">
-              {step.label}
-              <span class="process-story__number commercial-index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-            </p>
+            <p class="process-story__label">{step.label}</p>
             <h3>{step.title}</h3>
             <p class="process-story__body">{step.body}</p>
           </div>
@@ -74,9 +71,12 @@ const { steps = [] } = Astro.props;
 
   <div class="container process-story__outro">
     <div class="process-story__surface">
-      <p>Made for the life you live.</p>
+      <div class="process-story__next">
+        <h3>See how it all comes together.</h3>
+        <p>From first conversation to fitting and aftercare.</p>
+      </div>
       <a class="process-story__link commercial-editorial-link" href="/process">
-        <span>See the full process</span><span aria-hidden="true">↗</span>
+        <span>See the full process</span><span aria-hidden="true">→</span>
       </a>
     </div>
   </div>
@@ -154,10 +154,6 @@ const { steps = [] } = Astro.props;
   }
   .process-story__copy { position: relative; padding: 1.75rem 0 0; }
   .process-story__label {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.75rem;
     margin-bottom: 1rem;
     color: var(--c-blue);
   }
@@ -188,20 +184,27 @@ const { steps = [] } = Astro.props;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 1rem 2.5rem;
+    gap: 0.75rem 2.5rem;
     width: fit-content;
     max-width: 100%;
-    padding: clamp(1.5rem, 3vw, 2.5rem);
+    padding: clamp(1rem, 1.75vw, 1.5rem) clamp(1rem, 2vw, 1.75rem);
     border-top: 3px solid var(--c-navy);
     background: var(--c-canvas-warm);
     overflow-wrap: anywhere;
   }
-  .process-story__surface > p {
+  .process-story__next { min-width: 0; }
+  .process-story__next h3 {
     font-family: var(--font-display);
-    font-size: clamp(1.65rem, 2.5vw, 2.25rem);
-    font-style: italic;
-    font-weight: 400;
+    font-size: clamp(1.4rem, 2.3vw, 1.85rem);
+    font-weight: 450;
+    line-height: 1.15;
     letter-spacing: -0.025em;
+    text-wrap: initial;
+  }
+  .process-story__next p {
+    margin-top: 0.5rem;
+    font-size: var(--fs-0);
+    line-height: 1.5;
   }
 
   .process-story__link span:last-child { font-size: 1.5rem; }
@@ -289,28 +292,24 @@ const { steps = [] } = Astro.props;
     }
 
   }
-  .process-story__node { position: absolute; left: -2rem; top: 2.2rem; width: 1rem; height: 3px; background: var(--c-blue-muted); box-shadow: 0 0 0 var(--commercial-marker-halo) var(--c-paper); transition: background var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out); }
-  .process-story__number { padding-left: 0.75rem; border-left: var(--commercial-rule); color: var(--c-blue); }
+  .process-story__node { position: absolute; left: -2rem; top: calc(1.75rem + var(--eyebrow-size) * 0.65 - 1.5px); width: 1rem; height: 3px; background: var(--c-blue-muted); box-shadow: 0 0 0 var(--commercial-marker-halo) var(--c-paper); transition: background var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out); }
   .motion-ready .process-story__node { background: var(--c-brand-200); }
   .process-story__chapter.is-complete .process-story__node,
   .process-story__chapter.is-current .process-story__node { background: var(--c-blue); }
   .process-story__chapter.is-current .process-story__node { transform: scale(1.25); }
-  .process-story__chapter.is-current .process-story__number { color: var(--c-ink); }
-  .process-story__chapter.is-seen .process-story__number,
   .process-story__chapter.is-seen h3,
   .process-story__chapter.is-seen .process-story__body { animation: motion-resolve var(--dur-narrative) var(--ease-out) both; }
   .process-story__chapter.is-seen h3 { animation-delay: 60ms; }
   .process-story__chapter.is-seen .process-story__body { animation-delay: 120ms; }
   @media (min-width: 48rem) {
-    .process-story__node { top: 1.45rem; }
+    .process-story__node { top: calc(1rem + var(--eyebrow-size) * 0.65 - 1.5px); }
   }
   @media (min-width: 68rem) and (min-height: 38rem) {
-    .process-story__node { left: calc(clamp(3rem, 6vw, 5.5rem) - 1.75rem); top: 2.45rem; }
+    .process-story__node { left: calc(clamp(3rem, 6vw, 5.5rem) - 1.75rem); top: calc(2rem + var(--eyebrow-size) * 0.65 - 1.5px); }
     .process-story__thread { left: calc(var(--container-pad) + (100% - 2 * var(--container-pad)) * 0.56 + clamp(3rem, 6vw, 5.5rem) - 1.25rem); }
   }
   @media (prefers-reduced-motion: reduce) {
     .process-story__node { transition: none; }
-    .process-story__chapter.is-seen .process-story__number,
     .process-story__chapter.is-seen h3,
     .process-story__chapter.is-seen .process-story__body { animation: none; }
   }

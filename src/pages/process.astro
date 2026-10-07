@@ -185,14 +185,11 @@ const faqs = [
       </header>
 
       <ol class="process-journey__list" data-motion-journey role="list">
-        {stages.map((stage, index) => (
+        {stages.map((stage) => (
           <li class="process-journey__stage" data-process-row>
             <span class="process-journey__rule" aria-hidden="true" data-process-rule></span>
             <div class="process-journey__heading">
-              <p class="process-journey__label">
-                {stage.label}
-                <span class="process-journey__number commercial-index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-              </p>
+              <p class="process-journey__label">{stage.label}</p>
               <h3>{stage.title}</h3>
               <div class="process-journey__photo" data-motion-image>
                 <Picture src={stage.image} alt={stage.alt} formats={["avif", "webp"]}
@@ -436,7 +433,7 @@ const faqs = [
   .process-journey__stage::before {
     content: "";
     position: absolute;
-    top: calc(var(--commercial-module-y) + 0.45rem);
+    top: calc(var(--commercial-module-y) + var(--eyebrow-size) * var(--eyebrow-line-height) / 2 - 1.5px);
     left: calc(-1 * var(--journey-inset) - 0.5rem);
     width: 1rem;
     height: 3px;
@@ -445,14 +442,10 @@ const faqs = [
   }
 
   .process-journey__stage:first-child::before {
-    top: 0.45rem;
+    top: calc(var(--eyebrow-size) * var(--eyebrow-line-height) / 2 - 1.5px);
   }
 
   .process-journey__label {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--space-3);
     margin-bottom: var(--space-3);
     color: var(--c-blue);
     font-size: var(--eyebrow-size);
@@ -683,21 +676,17 @@ const faqs = [
       border-right: 0;
     }
   }
-  .process-journey__number { padding-left: var(--space-3); border-left: var(--commercial-rule); color: var(--c-blue); }
   .process-journey__photo { margin-top: 1.75rem; aspect-ratio: 3 / 2; overflow: hidden; background: var(--c-canvas-warm); }
   .process-journey__photo :global(picture), .process-journey__photo :global(img) { display: block; width: 100%; height: 100%; object-fit: cover; }
   .process-journey__rule { position: absolute; right: 0; bottom: -1px; left: 0; height: 1px; background: var(--c-blue-muted); transform-origin: left; }
   .process-journey__stage:last-child .process-journey__rule { display: none; }
   .process-journey__stage.is-current::before, .process-journey__stage.is-complete::before { background: var(--c-blue); }
-  .process-journey__stage.is-current .process-journey__number { color: var(--c-ink); }
   .process-journey__stage.is-complete .process-journey__rule { background: var(--c-blue); }
-  .process-journey__stage.is-seen .process-journey__number,
   .process-journey__stage.is-seen h3,
   .process-journey__stage.is-seen .process-journey__stage-intro { animation: motion-resolve var(--dur-narrative) var(--ease-out) both; }
   .process-journey__stage.is-seen h3 { animation-delay: 60ms; }
   .process-journey__stage.is-seen .process-journey__stage-intro { animation-delay: 120ms; }
   @media (prefers-reduced-motion: reduce) {
-    .process-journey__stage.is-seen .process-journey__number,
     .process-journey__stage.is-seen h3,
     .process-journey__stage.is-seen .process-journey__stage-intro { animation: none; }
   }
